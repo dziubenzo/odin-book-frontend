@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 const darkTheme = {
   colours: {
-    background: '#0C0C0C',
-    primary: '#F2613F',
-    secondary: '#9B3922',
-    tertiary: '#481E14',
+    background: '#042426',
+    backgroundGradient:
+      'linear-gradient(9deg, rgba(4,36,38,1) 51%, rgba(249,115,0,1) 100%)',
+    primary: '#F97300',
+    secondary: '#E2DFD0',
+    tertiary: '#524C42',
   },
   fontSizes: {
     small: '0.8rem',
@@ -16,8 +18,7 @@ const darkTheme = {
     extraLarge: '2rem',
   },
   fonts: {
-    primary: '',
-    secondary: '',
+    primary: 'Sen, sans-serif',
   },
   mobile: '768px',
 };
