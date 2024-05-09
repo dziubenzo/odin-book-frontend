@@ -22,14 +22,14 @@ export const StyledWelcomePage = styled.main`
     }
   }
 
-  .welcome-page-buttons {
+  .welcome-page-btns {
     display: flex;
     justify-content: center;
     gap: 64px;
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    .welcome-page-buttons {
+    .welcome-page-btns {
       gap: 32px;
     }
   }
@@ -60,4 +60,79 @@ export const StyledButton = styled.button`
     width: 125px;
     font-size: ${(props) => props.theme.fontSizes.medium};
   }
+`;
+
+export const StyledModal = styled.dialog`
+  &[open] {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 350px;
+    background-color: ${(props) => props.theme.colours.background};
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.tertiary};
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+
+    &::backdrop {
+      backdrop-filter: blur(4px);
+    }
+  }
+
+  .text-top {
+    font-weight: 600;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    label {
+      font-size: ${(props) => props.theme.fontSizes.medium};
+      cursor: pointer;
+    }
+  }
+
+  .close-btn {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    height: 36px;
+    width: 36px;
+    cursor: pointer;
+    border-radius: 100%;
+  }
+
+  @media (hover: hover) {
+    .close-btn {
+      transition: background-color 0.1s ease-in;
+
+      &:hover {
+        background-color: ${(props) => props.theme.colours.tertiary};
+      }
+    }
+  }
+`;
+
+export const StyledSubmitButton = styled(StyledButton)`
+  width: 150px;
+  font-size: ${(props) => props.theme.fontSizes.medium};
+`;
+
+export const StyledInput = styled.input`
+  width: 80%;
+  background-color: ${(props) => props.theme.colours.tertiary};
+  font-size: ${(props) => props.theme.fontSizes.medium};
+  border: none;
+  outline: 2px solid ${(props) => props.theme.colours.background};
+  border-radius: 32px;
+  padding: 0.25em 0.5em;
 `;
