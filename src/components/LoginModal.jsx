@@ -14,7 +14,7 @@ function LoginModal({ loginModalRef }) {
   return (
     <StyledModal ref={loginModalRef}>
       <IoCloseOutline
-        className="close-btn"
+        className="close-modal-btn"
         onClick={() => loginModalRef.current.close()}
       />
       <form id="login-form" method="post" onSubmit={logIn}>

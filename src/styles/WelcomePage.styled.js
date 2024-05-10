@@ -101,7 +101,7 @@ export const StyledModal = styled.dialog`
     }
   }
 
-  .close-btn {
+  .close-modal-btn {
     position: absolute;
     right: 1em;
     top: 1em;
@@ -112,7 +112,7 @@ export const StyledModal = styled.dialog`
   }
 
   @media (hover: hover) {
-    .close-btn {
+    .close-modal-btn {
       transition: background-color 0.1s ease-in;
 
       &:hover {
@@ -134,4 +134,10 @@ export const StyledInput = styled.input`
   border: 2px solid ${(props) => props.theme.colours.background};
   border-radius: 32px;
   padding: 0.25em 0.5em;
+`;
+
+export const StyledSignupModal = styled(StyledModal)`
+  &[open] {
+    height: 450px;
+  }
 `;
