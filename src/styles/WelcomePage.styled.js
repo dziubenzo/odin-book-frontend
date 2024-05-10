@@ -131,8 +131,7 @@ export const StyledInput = styled.input`
   width: 80%;
   background-color: ${(props) => props.theme.colours.tertiary};
   font-size: ${(props) => props.theme.fontSizes.medium};
-  border: none;
-  outline: 2px solid ${(props) => props.theme.colours.background};
+  border: 2px solid ${(props) => props.theme.colours.background};
   border-radius: 32px;
   padding: 0.25em 0.5em;
 `;

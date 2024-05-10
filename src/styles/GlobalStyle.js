@@ -12,8 +12,8 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
 
     &:focus-visible {
-      border: none;
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
+      outline: none;
+      border: 2px solid ${(props) => props.theme.colours.secondary};
     }
   }
 
