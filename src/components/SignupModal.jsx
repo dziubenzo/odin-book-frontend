@@ -16,6 +16,7 @@ function SignupModal({ signupModalRef }) {
     <StyledSignupModal ref={signupModalRef}>
       <IoCloseOutline
         className="close-modal-btn"
+        title="Close"
         onClick={() => signupModalRef.current.close()}
       />
       <form id="signup-form" method="post" onSubmit={signUp}>
