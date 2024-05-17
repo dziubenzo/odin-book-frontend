@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { showModal, hideModal } from './animations';
 
 export const StyledWelcomePage = styled.main`
   display: flex;
@@ -63,22 +64,25 @@ export const StyledButton = styled.button`
 `;
 
 export const StyledModal = styled.dialog`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 350px;
+  background-color: ${(props) => props.theme.colours.background};
+  border: none;
+  outline: 2px solid ${(props) => props.theme.colours.tertiary};
+  border-radius: 32px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 36px;
+  animation: ${hideModal} 0.2s ease-in;
+
   &[open] {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 350px;
-    background-color: ${(props) => props.theme.colours.background};
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.tertiary};
-    border-radius: 32px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 36px;
+    animation: ${showModal} 0.2s ease-in;
 
     &::backdrop {
       backdrop-filter: blur(4px);
