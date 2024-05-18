@@ -74,10 +74,6 @@ export const StyledModal = styled.dialog`
   border: none;
   outline: 2px solid ${(props) => props.theme.colours.tertiary};
   border-radius: 32px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 36px;
   animation: ${hideModal} 0.2s ease-in;
 
   &[open] {
@@ -89,8 +85,14 @@ export const StyledModal = styled.dialog`
     }
   }
 
-  .text-top {
-    font-weight: 600;
+  .modal-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
   }
 
   form {

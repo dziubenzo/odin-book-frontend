@@ -13,38 +13,47 @@ function SignupModal({ signupModalRef }) {
   }
 
   return (
-    <StyledSignupModal ref={signupModalRef}>
-      <IoCloseOutline
-        className="close-modal-btn"
-        title="Close"
-        onClick={() => signupModalRef.current.close()}
-      />
-      <form id="signup-form" method="post" onSubmit={signUp}>
-        <label htmlFor="username-signup">Username</label>
-        <StyledInput
-          type="text"
-          id="username-signup"
-          name="username"
-          required
+    <StyledSignupModal
+      ref={signupModalRef}
+      onClick={(event) =>
+        event.target === signupModalRef.current
+          ? signupModalRef.current.close()
+          : undefined
+      }
+    >
+      <div className="modal-wrapper">
+        <IoCloseOutline
+          className="close-modal-btn"
+          title="Close"
+          onClick={() => signupModalRef.current.close()}
         />
-        <label htmlFor="password-signup">Password</label>
-        <StyledInput
-          type="password"
-          id="password-signup"
-          name="password"
-          required
-        />
-        <label htmlFor="confirm-password">Confirm Password</label>
-        <StyledInput
-          type="password"
-          id="confirm-password"
-          name="confirm_password"
-          required
-        />
-      </form>
-      <StyledSubmitButton type="submit" form="signup-form">
-        Sign Up
-      </StyledSubmitButton>
+        <form id="signup-form" method="post" onSubmit={signUp}>
+          <label htmlFor="username-signup">Username</label>
+          <StyledInput
+            type="text"
+            id="username-signup"
+            name="username"
+            required
+          />
+          <label htmlFor="password-signup">Password</label>
+          <StyledInput
+            type="password"
+            id="password-signup"
+            name="password"
+            required
+          />
+          <label htmlFor="confirm-password">Confirm Password</label>
+          <StyledInput
+            type="password"
+            id="confirm-password"
+            name="confirm_password"
+            required
+          />
+        </form>
+        <StyledSubmitButton type="submit" form="signup-form">
+          Sign Up
+        </StyledSubmitButton>
+      </div>
     </StyledSignupModal>
   );
 }

@@ -12,21 +12,30 @@ function LoginModal({ loginModalRef }) {
   }
 
   return (
-    <StyledModal ref={loginModalRef}>
-      <IoCloseOutline
-        className="close-modal-btn"
-        title="Close"
-        onClick={() => loginModalRef.current.close()}
-      />
-      <form id="login-form" method="post" onSubmit={logIn}>
-        <label htmlFor="username">Username</label>
-        <StyledInput type="text" id="username" name="username" required />
-        <label htmlFor="password">Password</label>
-        <StyledInput type="password" id="password" name="password" required />
-      </form>
-      <StyledSubmitButton type="submit" form="login-form">
-        Log In
-      </StyledSubmitButton>
+    <StyledModal
+      ref={loginModalRef}
+      onClick={(event) =>
+        event.target === loginModalRef.current
+          ? loginModalRef.current.close()
+          : undefined
+      }
+    >
+      <div className="modal-wrapper">
+        <IoCloseOutline
+          className="close-modal-btn"
+          title="Close"
+          onClick={() => loginModalRef.current.close()}
+        />
+        <form id="login-form" method="post" onSubmit={logIn}>
+          <label htmlFor="username">Username</label>
+          <StyledInput type="text" id="username" name="username" required />
+          <label htmlFor="password">Password</label>
+          <StyledInput type="password" id="password" name="password" required />
+        </form>
+        <StyledSubmitButton type="submit" form="login-form">
+          Log In
+        </StyledSubmitButton>
+      </div>
     </StyledModal>
   );
 }
