@@ -7,16 +7,6 @@ import SignupModal from '../components/SignupModal';
 
 function renderComponent() {
   const user = userEvent.setup();
-  render(
-    <Theme>
-      <SignupModal />
-    </Theme>,
-  );
-  return user;
-}
-
-test('clicking on the close modal icon should call a function that closes the Sign Up modal', async () => {
-  const user = userEvent.setup();
   const mockRef = {
     current: document.createElement('dialog'),
   };
@@ -26,9 +16,23 @@ test('clicking on the close modal icon should call a function that closes the Si
       <SignupModal signupModalRef={mockRef} />
     </Theme>,
   );
+  return user;
+}
+
+test('clicking on the close modal icon should call a function that closes the Sign Up modal', async () => {
+  const user = renderComponent();
 
   const closeIcon = screen.getByTitle('Close');
   await user.click(closeIcon);
+
+  expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1);
+});
+
+test('clicking outside the modal should call a function that closes the Sign Up modal', async () => {
+  const user = renderComponent();
+
+  const modal = screen.getByRole('dialog', { hidden: true });
+  await user.click(modal);
 
   expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1);
 });
