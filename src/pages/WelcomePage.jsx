@@ -4,11 +4,14 @@ import { StyledWelcomePage } from '../styles/WelcomePage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
 import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 function WelcomePage() {
   const loginModalRef = useRef(null);
   const signupModalRef = useRef(null);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <Theme>
@@ -27,8 +30,19 @@ function WelcomePage() {
             </StyledButton>
           </div>
         </div>
-        <LoginModal loginModalRef={loginModalRef} />
-        <SignupModal signupModalRef={signupModalRef} />
+        <LoginModal
+          loginModalRef={loginModalRef}
+          username={username}
+          setUsername={setUsername}
+          password={password}
+          setPassword={setPassword}
+        />
+        <SignupModal
+          signupModalRef={signupModalRef}
+          loginModalRef={loginModalRef}
+          setUsername={setUsername}
+          setPassword={setPassword}
+        />
       </StyledWelcomePage>
     </Theme>
   );

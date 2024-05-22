@@ -3,12 +3,16 @@ import { StyledModal } from '../styles/WelcomePage.styled';
 import { IoCloseOutline } from 'react-icons/io5';
 import { StyledSubmitButton, StyledInput } from '../styles/WelcomePage.styled';
 
-function LoginModal({ loginModalRef }) {
+function LoginModal({
+  loginModalRef,
+  username,
+  setUsername,
+  password,
+  setPassword,
+}) {
   function logIn(event) {
     event.preventDefault();
-    const formData = new FormData(event.target);
-    const username = formData.get('username');
-    const password = formData.get('password');
+    const user = { username, password };
   }
 
   return (
@@ -28,9 +32,23 @@ function LoginModal({ loginModalRef }) {
         />
         <form id="login-form" method="post" onSubmit={logIn}>
           <label htmlFor="username">Username</label>
-          <StyledInput type="text" id="username" name="username" required />
+          <StyledInput
+            type="text"
+            id="username"
+            name="username"
+            value={username}
+            onChange={(event) => setUsername(event.target)}
+            required
+          />
           <label htmlFor="password">Password</label>
-          <StyledInput type="password" id="password" name="password" required />
+          <StyledInput
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={(event) => setPassword(event.target)}
+            required
+          />
         </form>
         <StyledSubmitButton type="submit" form="login-form">
           Log In
@@ -42,6 +60,10 @@ function LoginModal({ loginModalRef }) {
 
 LoginModal.propTypes = {
   loginModalRef: PropTypes.any,
+  username: PropTypes.string,
+  setUsername: PropTypes.func,
+  password: PropTypes.string,
+  setPassword: PropTypes.func,
 };
 
 export default LoginModal;

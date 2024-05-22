@@ -117,6 +117,15 @@ export const StyledModal = styled.dialog`
     border-radius: 100%;
   }
 
+  .error-message {
+    position: absolute;
+    bottom: 2em;
+    text-align: center;
+    color: red;
+    padding: 0 0.5em;
+    font-size: ${(props) => props.theme.fontSizes.medium};
+  }
+
   @media (hover: hover) {
     .close-modal-btn {
       transition: background-color 0.1s ease-in;
