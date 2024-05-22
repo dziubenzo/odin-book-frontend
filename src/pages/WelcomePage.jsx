@@ -5,6 +5,7 @@ import { StyledButton } from '../styles/WelcomePage.styled';
 import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
 import { useRef, useState } from 'react';
+import { useCheckAuth } from '../hooks';
 
 function WelcomePage() {
   const loginModalRef = useRef(null);
@@ -12,6 +13,8 @@ function WelcomePage() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  useCheckAuth();
 
   return (
     <Theme>
