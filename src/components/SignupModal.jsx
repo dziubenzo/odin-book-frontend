@@ -1,15 +1,48 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { StyledSignupModal } from '../styles/WelcomePage.styled';
 import { IoCloseOutline } from 'react-icons/io5';
 import { StyledSubmitButton, StyledInput } from '../styles/WelcomePage.styled';
+import API_URL from '../API';
 
-function SignupModal({ signupModalRef }) {
-  function signUp(event) {
+function SignupModal({
+  signupModalRef,
+  loginModalRef,
+  setUsername,
+  setPassword,
+}) {
+  const [error, setError] = useState('');
+
+  async function signUp(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const username = formData.get('username');
-    const password = formData.get('password');
-    const confirmPassword = formData.get('confirm_password');
+    const newUser = {
+      username: formData.get('username'),
+      password: formData.get('password'),
+      confirm_password: formData.get('confirm_password'),
+    };
+    const res = await fetch(`${API_URL}/users`, {
+      method: 'POST',
+      body: JSON.stringify(newUser),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      setError(error);
+      return setTimeout(() => {
+        setError('');
+      }, 2000);
+    }
+    // Show Log In modal and pass Sign Up username and password to Log In modal
+    signupModalRef.current.close();
+    loginModalRef.current.showModal();
+    setUsername(newUser.username);
+    setPassword(newUser.password);
+    // Clear Sign Up modal form
+    event.target.reset();
+    return;
   }
 
   return (
@@ -50,9 +83,14 @@ function SignupModal({ signupModalRef }) {
             required
           />
         </form>
-        <StyledSubmitButton type="submit" form="signup-form">
+        <StyledSubmitButton
+          style={error ? { visibility: 'hidden' } : undefined}
+          type="submit"
+          form="signup-form"
+        >
           Sign Up
         </StyledSubmitButton>
+        {error && <p className="error-message">{error}</p>}
       </div>
     </StyledSignupModal>
   );
@@ -60,6 +98,9 @@ function SignupModal({ signupModalRef }) {
 
 SignupModal.propTypes = {
   signupModalRef: PropTypes.any,
+  loginModalRef: PropTypes.any,
+  setUsername: PropTypes.func,
+  setPassword: PropTypes.func,
 };
 
 export default SignupModal;
