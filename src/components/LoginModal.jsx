@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { StyledModal } from '../styles/WelcomePage.styled';
 import { IoCloseOutline } from 'react-icons/io5';
 import { StyledSubmitButton, StyledInput } from '../styles/WelcomePage.styled';
+import { useNavigate } from 'react-router-dom';
+import API_URL from '../API';
+import Cookies from 'js-cookie';
 
 function LoginModal({
   loginModalRef,
@@ -10,15 +14,36 @@ function LoginModal({
   password,
   setPassword,
 }) {
-  function logIn(event) {
+  const navigate = useNavigate();
+  const [error, setError] = useState('');
+
+  async function logIn(event) {
     event.preventDefault();
     const user = { username, password };
+    const res = await fetch(`${API_URL}/users/login`, {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!res.ok) {
+      const error = await res.json();
+      setError(error);
+      return setTimeout(() => {
+        setError('');
+      }, 2000);
+    }
+    // Create a cookie with API-signed JWT
+    const token = await res.json();
+    Cookies.set('jwt', token, { expires: 3, secure: true });
+    navigate('/home');
   }
 
   return (
     <StyledModal
       ref={loginModalRef}
-      onClick={(event) =>
+      onMouseDown={(event) =>
         event.target === loginModalRef.current
           ? loginModalRef.current.close()
           : undefined
@@ -36,8 +61,10 @@ function LoginModal({
             type="text"
             id="username"
             name="username"
+            minLength={3}
+            maxLength={16}
             value={username}
-            onChange={(event) => setUsername(event.target)}
+            onChange={(event) => setUsername(event.target.value)}
             required
           />
           <label htmlFor="password">Password</label>
@@ -45,14 +72,21 @@ function LoginModal({
             type="password"
             id="password"
             name="password"
+            minLength={3}
+            maxLength={16}
             value={password}
-            onChange={(event) => setPassword(event.target)}
+            onChange={(event) => setPassword(event.target.value)}
             required
           />
         </form>
-        <StyledSubmitButton type="submit" form="login-form">
+        <StyledSubmitButton
+          style={error ? { visibility: 'hidden' } : undefined}
+          type="submit"
+          form="login-form"
+        >
           Log In
         </StyledSubmitButton>
+        {error && <p className="error-message">{error}</p>}
       </div>
     </StyledModal>
   );

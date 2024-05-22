@@ -48,7 +48,7 @@ function SignupModal({
   return (
     <StyledSignupModal
       ref={signupModalRef}
-      onClick={(event) =>
+      onMouseDown={(event) =>
         event.target === signupModalRef.current
           ? signupModalRef.current.close()
           : undefined
@@ -66,6 +66,8 @@ function SignupModal({
             type="text"
             id="username-signup"
             name="username"
+            minLength={3}
+            maxLength={16}
             required
           />
           <label htmlFor="password-signup">Password</label>
@@ -73,6 +75,8 @@ function SignupModal({
             type="password"
             id="password-signup"
             name="password"
+            minLength={3}
+            maxLength={16}
             required
           />
           <label htmlFor="confirm-password">Confirm Password</label>
@@ -80,6 +84,8 @@ function SignupModal({
             type="password"
             id="confirm-password"
             name="confirm_password"
+            minLength={3}
+            maxLength={16}
             required
           />
         </form>
