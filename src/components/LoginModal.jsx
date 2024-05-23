@@ -20,7 +20,11 @@ function LoginModal({
 
   async function logIn(event) {
     event.preventDefault();
-    const user = { username, password };
+    const formData = new FormData(event.target);
+    const user = {
+      username: formData.get('username'),
+      password: formData.get('password'),
+    };
     setIsLoggingIn(true);
     const res = await fetch(`${API_URL}/users/login`, {
       method: 'POST',
