@@ -16,10 +16,12 @@ function LoginModal({
 }) {
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   async function logIn(event) {
     event.preventDefault();
     const user = { username, password };
+    setIsLoggingIn(true);
     const res = await fetch(`${API_URL}/users/login`, {
       method: 'POST',
       body: JSON.stringify(user),
@@ -29,6 +31,7 @@ function LoginModal({
     });
     if (!res.ok) {
       const error = await res.json();
+      setIsLoggingIn(false);
       setError(error);
       return setTimeout(() => {
         setError('');
@@ -36,6 +39,7 @@ function LoginModal({
     }
     // Create a cookie with API-signed JWT
     const token = await res.json();
+    setIsLoggingIn(false);
     Cookies.set('jwt', token, { expires: 3, secure: true });
     navigate('/home');
   }
@@ -84,7 +88,7 @@ function LoginModal({
           type="submit"
           form="login-form"
         >
-          Log In
+          {isLoggingIn ? 'Logging In...' : 'Log In'}
         </StyledSubmitButton>
         {error && <p className="error-message">{error}</p>}
       </div>

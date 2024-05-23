@@ -11,6 +11,7 @@ function SignupModal({
   setUsername,
   setPassword,
 }) {
+  const [isSigningUp, setIsSigningUp] = useState(false);
   const [error, setError] = useState('');
 
   async function signUp(event) {
@@ -21,6 +22,7 @@ function SignupModal({
       password: formData.get('password'),
       confirm_password: formData.get('confirm_password'),
     };
+    setIsSigningUp(true);
     const res = await fetch(`${API_URL}/users`, {
       method: 'POST',
       body: JSON.stringify(newUser),
@@ -30,12 +32,14 @@ function SignupModal({
     });
     if (!res.ok) {
       const error = await res.json();
+      setIsSigningUp(false);
       setError(error);
       return setTimeout(() => {
         setError('');
       }, 2000);
     }
     // Show Log In modal and pass Sign Up username and password to Log In modal
+    setIsSigningUp(false);
     signupModalRef.current.close();
     loginModalRef.current.showModal();
     setUsername(newUser.username);
@@ -94,7 +98,7 @@ function SignupModal({
           type="submit"
           form="signup-form"
         >
-          Sign Up
+          {isSigningUp ? 'Signing Up...' : 'Sign Up'}
         </StyledSubmitButton>
         {error && <p className="error-message">{error}</p>}
       </div>

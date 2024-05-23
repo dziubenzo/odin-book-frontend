@@ -138,7 +138,7 @@ export const StyledModal = styled.dialog`
 `;
 
 export const StyledSubmitButton = styled(StyledButton)`
-  width: 150px;
+  width: 160px;
   font-size: ${(props) => props.theme.fontSizes.medium};
 `;
 
