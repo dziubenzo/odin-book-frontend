@@ -2,6 +2,8 @@
 
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
+
 import Theme from '../components/Theme';
 import LoginModal from '../components/LoginModal';
 
@@ -12,9 +14,15 @@ function renderComponent() {
   };
   HTMLDialogElement.prototype.close = vi.fn();
   render(
-    <Theme>
-      <LoginModal loginModalRef={mockRef} />
-    </Theme>,
+    <BrowserRouter>
+      <Theme>
+        <LoginModal
+          loginModalRef={mockRef}
+          setUsername={vi.fn()}
+          setPassword={vi.fn()}
+        />
+      </Theme>
+    </BrowserRouter>,
   );
   return user;
 }

@@ -2,6 +2,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+
 import Theme from '../components/Theme';
 import SignupModal from '../components/SignupModal';
 
@@ -62,7 +63,7 @@ test('Confirm Password field should accept input', async () => {
 
   const confirmPasswordField = screen.getByLabelText(/confirm password/i);
   await user.click(confirmPasswordField);
-  await user.keyboard('myconfirmpassword');
+  await user.keyboard('confirmpassword');
 
-  expect(confirmPasswordField.value).toBe('myconfirmpassword');
+  expect(confirmPasswordField.value).toBe('confirmpassword');
 });
