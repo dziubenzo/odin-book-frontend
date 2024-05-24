@@ -1,12 +1,25 @@
 import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
+  padding-top: 1em;
+
   * {
     color: ${(props) => props.theme.colours.secondary};
   }
 
+  *:focus-visible {
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.secondary};
+  }
+
   hr {
     margin: 0.75em 0;
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    hr {
+      margin: 0.5em 0;
+    }
   }
 `;
 
@@ -44,6 +57,24 @@ export const StyledTopHeaderBar = styled.div`
         border-radius: 32px;
         background-color: ${(props) => props.theme.colours.tertiary};
       }
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    gap: 8px;
+
+    a {
+      font-size: ${(props) => props.theme.fontSizes.small};
+    }
+
+    svg {
+      height: 22px;
+      width: 22px;
+    }
+
+    .link {
+      flex-direction: column;
+      padding: 0;
     }
   }
 `;

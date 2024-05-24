@@ -2,6 +2,7 @@ import { StyledTopHeaderBar } from '../styles/Header.styled';
 import { NavLink } from 'react-router-dom';
 import { RiGlobalLine, RiUserStarLine } from 'react-icons/ri';
 import { AiOutlineLike, AiOutlineUser } from 'react-icons/ai';
+import { TbCategoryPlus } from 'react-icons/tb';
 
 function TopHeaderBar() {
   return (
@@ -9,6 +10,10 @@ function TopHeaderBar() {
       <div className="link">
         <RiGlobalLine />
         <NavLink to={'/posts'}>ALL</NavLink>
+      </div>
+      <div className="link">
+        <TbCategoryPlus />
+        <NavLink to={'/posts/categories'}>CATEGORIES</NavLink>
       </div>
       <div className="link">
         <RiUserStarLine />
@@ -20,7 +25,7 @@ function TopHeaderBar() {
       </div>
       <div className="link">
         <AiOutlineUser />
-        <NavLink to={'/posts/mine'}>MINE</NavLink>
+        <NavLink to={'/posts/by-you'}>YOURS</NavLink>
       </div>
     </StyledTopHeaderBar>
   );

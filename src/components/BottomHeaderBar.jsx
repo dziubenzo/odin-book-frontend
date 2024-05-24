@@ -8,11 +8,11 @@ function BottomHeaderBar() {
     <StyledBottomHeaderBar>
       <div className="link">
         <BiCategoryAlt />
-        <NavLink to={'/categories'}>CATEGORIES</NavLink>
+        <NavLink to={'/categories'}>ALL CATEGORIES</NavLink>
       </div>
       <div className="link">
         <PiUsersFour />
-        <NavLink to={'/users'}>USERS</NavLink>
+        <NavLink to={'/users'}>ALL USERS</NavLink>
       </div>
     </StyledBottomHeaderBar>
   );
