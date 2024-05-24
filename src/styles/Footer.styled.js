@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const StyledFooter = styled.footer`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  place-items: center;
   width: 100%;
   column-gap: 16px;
   padding-bottom: 1em;
@@ -62,5 +63,23 @@ export const StyledFooterCentre = styled.div`
     fill: white;
     height: 48px;
     width: 48px;
+  }
+`;
+
+export const StyledFooterRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .avatar {
+    border: 2px solid ${(props) => props.theme.colours.primary};
+    padding: 1em;
+    border-radius: 50%;
+  }
+
+  .username {
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    font-weight: 600;
   }
 `;
