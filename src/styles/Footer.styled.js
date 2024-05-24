@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
 export const StyledFooter = styled.footer`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
+  column-gap: 16px;
   padding-bottom: 1em;
 
   *:focus-visible {
@@ -11,11 +15,11 @@ export const StyledFooter = styled.footer`
 
 export const StyledFooterLeft = styled.div`
   display: flex;
-  flex-direction: column;
 
   .link {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 8px;
     text-align: center;
@@ -40,5 +44,23 @@ export const StyledFooterLeft = styled.div`
         background-color: ${(props) => props.theme.colours.tertiary};
       }
     }
+  }
+`;
+
+export const StyledFooterCentre = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .dev-name {
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    font-weight: 600;
+  }
+
+  svg {
+    fill: white;
+    height: 48px;
+    width: 48px;
   }
 `;
