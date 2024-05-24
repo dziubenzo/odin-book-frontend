@@ -45,7 +45,7 @@ function LoginModal({
     const token = await res.json();
     setIsLoggingIn(false);
     Cookies.set('jwt', token, { expires: 3, secure: true });
-    navigate('/home');
+    navigate('/posts');
   }
 
   return (

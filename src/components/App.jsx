@@ -9,7 +9,7 @@ import GlobalStyle from '../styles/GlobalStyle';
 
 function App({ children }) {
   const [user, setUser] = useAuthUser();
-  
+
   return (
     <Theme>
       <GlobalStyle />
@@ -17,7 +17,7 @@ function App({ children }) {
         <>
           <Header />
           <Outlet context={[user, setUser]} />
-          <Footer />
+          <Footer user={user} />
         </>
       )}
       {children}

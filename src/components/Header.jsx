@@ -1,9 +1,15 @@
-import PropTypes from 'prop-types';
+import { StyledHeader } from '../styles/Header.styled';
+import HeaderTopBar from './HeaderTopBar';
+import HeaderBottomBar from './HeaderBottomBar';
 
 function Header() {
-  return <div>Header</div>;
+  return (
+    <StyledHeader>
+      <HeaderTopBar />
+      <hr />
+      <HeaderBottomBar />
+    </StyledHeader>
+  );
 }
-
-Header.propTypes = {};
 
 export default Header;

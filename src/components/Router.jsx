@@ -12,7 +12,7 @@ function Router() {
       errorElement: <ErrorPage />,
     },
     {
-      path: '/home',
+      path: '/posts',
       element: <App />,
       errorElement: (
         <App>

@@ -23,24 +23,9 @@ export const StyledHeader = styled.header`
   }
 `;
 
-export const StyledTopHeaderBar = styled.div`
+export const StyledHeaderTopBar = styled.div`
   display: flex;
   gap: 32px;
-
-  a {
-    font-size: ${(props) => props.theme.fontSizes.medium};
-    text-decoration-color: ${(props) => props.theme.colours.primary};
-    text-underline-offset: 0.2em;
-
-    &.active {
-      font-weight: 600;
-    }
-  }
-
-  svg {
-    height: 26px;
-    width: 26px;
-  }
 
   .link {
     display: flex;
@@ -49,6 +34,22 @@ export const StyledTopHeaderBar = styled.div`
     text-align: center;
     padding: 0.5em;
     cursor: pointer;
+  }
+
+  a {
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    text-decoration: none;
+
+    &.active {
+      p {
+        font-weight: 600;
+      }
+    }
+  }
+
+  svg {
+    height: 26px;
+    width: 26px;
   }
 
   @media (hover: hover) {
@@ -79,6 +80,6 @@ export const StyledTopHeaderBar = styled.div`
   }
 `;
 
-export const StyledBottomHeaderBar = styled(StyledTopHeaderBar)`
+export const StyledHeaderBottomBar = styled(StyledHeaderTopBar)`
   justify-content: space-around;
 `;

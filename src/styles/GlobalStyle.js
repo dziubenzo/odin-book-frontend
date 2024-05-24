@@ -17,8 +17,18 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  #root {
+  body {
+    display: flex;
+    justify-content: center;
     background: ${(props) => props.theme.colours.backgroundGradient};
+  }
+
+  #root {
+    display: grid;
+    grid-template-rows: min-content auto min-content;
+    place-items: center;
+    min-height: 100svh;
+    max-width: 1200px;
     padding: 0 1em;
   }
 `;

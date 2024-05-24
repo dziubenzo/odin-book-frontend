@@ -47,7 +47,7 @@ export const useCheckAuth = () => {
       if (!res.ok) {
         return;
       }
-      return navigate('/home');
+      return navigate('/posts');
     }
     checkAuth();
   }, []);
