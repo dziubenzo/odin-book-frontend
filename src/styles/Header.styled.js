@@ -24,7 +24,9 @@ export const StyledHeader = styled.header`
 `;
 
 export const StyledHeaderTopBar = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
   gap: 32px;
 
   .link {
@@ -81,5 +83,5 @@ export const StyledHeaderTopBar = styled.div`
 `;
 
 export const StyledHeaderBottomBar = styled(StyledHeaderTopBar)`
-  justify-content: space-around;
+  grid-template-columns: repeat(2, 1fr);
 `;

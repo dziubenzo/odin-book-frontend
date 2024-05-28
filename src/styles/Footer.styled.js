@@ -12,6 +12,10 @@ export const StyledFooter = styled.footer`
     border: none;
     outline: 2px solid ${(props) => props.theme.colours.secondary};
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    column-gap: 8px;
+  }
 `;
 
 export const StyledFooterLeft = styled.div`
@@ -46,6 +50,12 @@ export const StyledFooterLeft = styled.div`
       }
     }
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    a {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+    }
+  }
 `;
 
 export const StyledFooterCentre = styled.div`
@@ -64,6 +74,17 @@ export const StyledFooterCentre = styled.div`
     height: 48px;
     width: 48px;
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .dev-name {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+    }
+  }
+
+  svg {
+    height: 36px;
+    width: 36px;
+  }
 `;
 
 export const StyledFooterRight = styled.div`
@@ -71,15 +92,27 @@ export const StyledFooterRight = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 8px;
 
   .avatar {
     border: 2px solid ${(props) => props.theme.colours.primary};
-    padding: 1em;
+    padding: 0.75em;
     border-radius: 50%;
   }
 
   .username {
     font-size: ${(props) => props.theme.fontSizes.medium};
     font-weight: 600;
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .avatar {
+      font-size: ${(props) => props.theme.fontSizes.small};
+      padding: 1em;
+    }
+
+    .username {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+    }
   }
 `;
