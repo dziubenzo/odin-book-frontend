@@ -7,6 +7,8 @@ const darkTheme = {
     backgroundGradient:
       'linear-gradient(9deg, rgba(4,36,38,1) 51%, rgba(249,115,0,1) 100%)',
     primary: '#F97300',
+    primaryLighter: '#ffa352',
+    primaryDarker: '#d46300',
     secondary: '#E2DFD0',
     tertiary: '#524C42',
   },

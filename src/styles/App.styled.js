@@ -12,6 +12,10 @@ export const StyledError = styled.div`
   justify-content: center;
   text-align: center;
 
+  h1 {
+    color: ${(props) => props.theme.colours.primary};
+  }
+
   svg {
     height: 64px;
     width: 64px;
@@ -29,4 +33,8 @@ export const StyledLoading = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+
+  h1 {
+    color: ${(props) => props.theme.colours.primary};
+  }
 `;
