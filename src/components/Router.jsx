@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
-import HomePage from '../pages/HomePage';
+import AllPostsPage from '../pages/AllPostsPage';
 import ErrorPage from '../pages/ErrorPage';
 import WelcomePage from '../pages/WelcomePage';
 
@@ -22,7 +22,7 @@ function Router() {
       children: [
         {
           path: '',
-          element: <HomePage />,
+          element: <AllPostsPage />,
         },
       ],
     },

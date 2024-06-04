@@ -54,3 +54,31 @@ export const useCheckAuth = (setShowPage) => {
     checkAuth();
   }, []);
 };
+
+// Fetch All Posts page data
+export const useFetchAllPosts = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(`${API_URL}/posts/`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Cookies.get('jwt')}`,
+        },
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        return setError(error);
+      }
+      const allPosts = await res.json();
+      setData(allPosts);
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
+  return [data, loading, error];
+};
