@@ -31,8 +31,9 @@ export const useAuthUser = () => {
 };
 
 // Check user authentication (Welcome Page)
-// Redirect to /home if auth successful
-export const useCheckAuth = () => {
+// Show Welcome Page if auth unsuccessful
+// Redirect to /posts if auth successful
+export const useCheckAuth = (setShowPage) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ export const useCheckAuth = () => {
         },
       });
       if (!res.ok) {
+        setShowPage(true);
         return;
       }
       return navigate('/posts');
