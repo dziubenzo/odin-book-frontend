@@ -21,3 +21,12 @@ export const StyledError = styled.div`
     margin-top: 2em;
   }
 `;
+
+export const StyledLoading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
