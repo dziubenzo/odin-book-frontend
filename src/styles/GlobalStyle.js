@@ -32,6 +32,10 @@ const GlobalStyle = createGlobalStyle`
     max-width: 1200px;
     padding: 0 1em;
     background: inherit;
+
+    @media (max-width: ${(props) => props.theme.mobile}) {
+      padding: 0 0.5em;
+    }
   }
 `;
 

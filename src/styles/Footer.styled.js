@@ -7,6 +7,7 @@ export const StyledFooter = styled.footer`
   width: 100%;
   column-gap: 16px;
   padding-bottom: 1em;
+  padding-top: 0.5em;
   position: sticky;
   bottom: 0;
   background: inherit;
@@ -18,6 +19,7 @@ export const StyledFooter = styled.footer`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     column-gap: 8px;
+    padding-bottom: 0.5em;
   }
 `;
 

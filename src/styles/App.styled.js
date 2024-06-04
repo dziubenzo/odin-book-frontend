@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-export const StyledHeader = styled.header``;
-
-export const StyledFooter = styled.footer``;
-
 export const StyledError = styled.div`
   display: flex;
   flex-direction: column;

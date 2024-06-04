@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
+  width: 100%;
   padding-top: 1em;
   position: sticky;
   top: 0;
@@ -20,6 +21,7 @@ export const StyledHeader = styled.header`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
+    padding-top: 0.5em;
     hr {
       margin: 0.5em 0;
     }
@@ -86,5 +88,6 @@ export const StyledHeaderTopBar = styled.div`
 `;
 
 export const StyledHeaderBottomBar = styled(StyledHeaderTopBar)`
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  padding-bottom: 0.5em;
 `;
