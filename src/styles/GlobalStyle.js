@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     justify-content: center;
     background: ${(props) => props.theme.colours.backgroundGradient};
+    background-attachment: fixed;
   }
 
   #root {
@@ -30,6 +31,7 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100svh;
     max-width: 1200px;
     padding: 0 1em;
+    background: inherit;
   }
 `;
 

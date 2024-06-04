@@ -2,6 +2,9 @@ import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
   padding-top: 1em;
+  position: sticky;
+  top: 0;
+  background: inherit;
 
   * {
     color: ${(props) => props.theme.colours.secondary};

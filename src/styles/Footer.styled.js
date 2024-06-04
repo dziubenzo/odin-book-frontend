@@ -7,6 +7,9 @@ export const StyledFooter = styled.footer`
   width: 100%;
   column-gap: 16px;
   padding-bottom: 1em;
+  position: sticky;
+  bottom: 0;
+  background: inherit;
 
   *:focus-visible {
     border: none;
