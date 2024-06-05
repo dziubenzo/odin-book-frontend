@@ -57,7 +57,7 @@ export const useCheckAuth = (setShowPage) => {
 
 // Fetch All Posts page data
 export const useFetchAllPosts = () => {
-  const [data, setData] = useState(null);
+  const [posts, setPosts] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -74,11 +74,11 @@ export const useFetchAllPosts = () => {
         return setError(error);
       }
       const allPosts = await res.json();
-      setData(allPosts);
+      setPosts(allPosts);
       setLoading(false);
     }
     fetchData();
   }, []);
 
-  return [data, loading, error];
+  return [posts, setPosts, loading, error];
 };

@@ -1,18 +1,30 @@
 import { useOutletContext } from 'react-router-dom';
 import { StyledAllPostsPage } from '../styles/AllPostsPage.styled';
 import { useFetchAllPosts } from '../hooks';
+import Post from '../components/Post';
+import Error from '../components/Error';
+import Loading from '../components/Loading';
 
 function AllPostsPage() {
   const [user, setUser] = useOutletContext();
-  const [data, loading, error] = useFetchAllPosts();
+  const [posts, setPosts, loading, error] = useFetchAllPosts();
+
+  function renderPosts() {
+    return posts.map((post) => {
+      return <Post key={post._id} post={post} user={user} />;
+    });
+  }
 
   return (
     <StyledAllPostsPage>
-      {loading && <h1>Loading Posts...</h1>}
-      {error && (
-        <h1>Error while fetching the data. Refresh the page to try again.</h1>
+      {loading && <Loading message="All Posts" />}
+      {error && <Error errorMessage={error} />}
+      {posts && (
+        <>
+          <h1>Feed - All Posts</h1>
+          {renderPosts()}
+        </>
       )}
-      {data && <h1>Home Page</h1>}
     </StyledAllPostsPage>
   );
 }
