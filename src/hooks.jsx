@@ -1,5 +1,6 @@
 import API_URL from './API';
 import { useState, useEffect } from 'react';
+import { useImmer } from 'use-immer';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
@@ -57,7 +58,7 @@ export const useCheckAuth = (setShowPage) => {
 
 // Fetch All Posts page data
 export const useFetchAllPosts = () => {
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useImmer(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -80,5 +81,5 @@ export const useFetchAllPosts = () => {
     fetchData();
   }, []);
 
-  return [posts, setPosts, loading, error];
+  return [posts, setPosts, loading, error, setError];
 };
