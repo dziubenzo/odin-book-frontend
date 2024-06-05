@@ -44,23 +44,27 @@ export const StyledPostLikes = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 6px;
 
-  .like-icon {
-    height: 32px;
-    width: 32px;
+  .like-icon,
+  .dislike-icon {
+    height: 24px;
+    width: 24px;
 
-    &.liked {
+    &.liked,
+    &.disliked {
       fill: ${(props) => props.theme.colours.secondary};
     }
   }
 
   .likes-count {
     font-size: ${(props) => props.theme.fontSizes.extraLarge};
+    width: 4ch;
+    text-align: center;
   }
 
   @media (hover: hover) {
-    .like-icon-wrapper {
+    .like-icon-wrapper,
+    .dislike-icon-wrapper {
       padding: 0.5em 0.6em;
       cursor: pointer;
 
@@ -72,15 +76,8 @@ export const StyledPostLikes = styled.div`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-
-    .likes-icon {
-      height: 24px;
-      width: 24px;
-    }
+    flex-direction: column;
+    gap: 6px;
 
     .likes-count {
       font-size: ${(props) => props.theme.fontSizes.large};
@@ -165,11 +162,11 @@ export const StyledPostBody = styled.div`
         text-decoration: revert;
         color: ${(props) => props.theme.colours.secondary};
         text-underline-offset: 4px;
-        font-size: 0.85em;
+        font-size: 0.9em;
       }
 
       .post-date {
-        font-size: 0.85em;
+        font-size: 0.9em;
       }
     }
   }

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { FaArrowUp } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { StyledPostLikes } from '../styles/AllPostsPage.styled';
 
 function PostLikes({ post, user }) {
-  const { likes } = post;
+  const { likes, dislikes } = post;
 
   return (
     <StyledPostLikes>
@@ -12,7 +12,16 @@ function PostLikes({ post, user }) {
           className={likes.includes(user._id) ? 'like-icon liked' : 'like-icon'}
         />
       </div>
-      <p className="likes-count">{likes.length}</p>
+      <p className="likes-count">{likes.length - dislikes.length}</p>
+      <div className="dislike-icon-wrapper">
+        <FaArrowDown
+          className={
+            dislikes.includes(user._id)
+              ? 'dislike-icon disliked'
+              : 'dislike-icon'
+          }
+        />
+      </div>
     </StyledPostLikes>
   );
 }
