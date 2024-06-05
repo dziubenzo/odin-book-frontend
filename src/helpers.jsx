@@ -2,6 +2,7 @@ import API_URL from './API';
 import Cookies from 'js-cookie';
 
 // Like post
+// Handle two cases (post either liked already or not liked)
 export const likePost = async (
   post,
   userID,
@@ -10,7 +11,7 @@ export const likePost = async (
   setError,
   setPosts,
 ) => {
-  if (inProgress || post.likes.includes(userID)) {
+  if (inProgress) {
     return;
   }
   setInProgress(true);
@@ -31,6 +32,13 @@ export const likePost = async (
   }
   setPosts((draft) => {
     const [post] = draft.filter((post) => post.slug === postSlug);
+    // Post already liked
+    if (post.likes.includes(userID)) {
+      const likeIndex = post.likes.indexOf(userID);
+      post.likes.splice(likeIndex, 1);
+      return;
+    }
+    // Post not liked
     post.likes.push(userID);
 
     const dislikeIndex = post.dislikes.indexOf(userID);
@@ -42,6 +50,7 @@ export const likePost = async (
 };
 
 // Dislike post
+// Handle two cases (post either disliked already or not disliked)
 export const dislikePost = async (
   post,
   userID,
@@ -50,7 +59,7 @@ export const dislikePost = async (
   setError,
   setPosts,
 ) => {
-  if (inProgress || post.dislikes.includes(userID)) {
+  if (inProgress) {
     return;
   }
   setInProgress(true);
@@ -71,6 +80,13 @@ export const dislikePost = async (
   }
   setPosts((draft) => {
     const [post] = draft.filter((post) => post.slug === postSlug);
+    // Post already disliked
+    if (post.dislikes.includes(userID)) {
+      const dislikeIndex = post.dislikes.indexOf(userID);
+      post.dislikes.splice(dislikeIndex, 1);
+      return;
+    }
+    // Post not disliked
     post.dislikes.push(userID);
 
     const likeIndex = post.likes.indexOf(userID);
