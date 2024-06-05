@@ -5,7 +5,7 @@ import Post from '../components/Post';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import { useState } from 'react';
-import { likePost } from '../helpers';
+import { dislikePost, likePost } from '../helpers';
 
 function AllPostsPage() {
   const [user] = useOutletContext();
@@ -37,7 +37,16 @@ function AllPostsPage() {
     );
   }
 
-  async function handleDislikeClick(post) {}
+  async function handleDislikeClick(post) {
+    await dislikePost(
+      post,
+      user._id,
+      inProgress,
+      setInProgress,
+      setError,
+      setPosts,
+    );
+  }
 
   return (
     <StyledAllPostsPage>
