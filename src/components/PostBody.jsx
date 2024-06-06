@@ -30,9 +30,12 @@ function PostBody({ post }) {
           {category.name}
         </Link>
         <LuDot />
-        <span className="post-comments">
-          {comments.length} <FaRegCommentAlt />
-        </span>
+        <div className="post-comments">
+          <p className="comments-count" data-testid="comments-count">
+            {comments.length}
+          </p>
+          <FaRegCommentAlt />
+        </div>
       </div>
     </StyledPostBody>
   );

@@ -6,8 +6,9 @@ import { userEvent } from '@testing-library/user-event';
 import PostLikes from '../components/PostLikes';
 import PostBody from '../components/PostBody';
 import Theme from '../components/Theme';
+import { BrowserRouter } from 'react-router-dom';
 
-import { post1, superUser, user1 } from './mocks';
+import { post1, post3, superUser, user1 } from './mocks';
 
 function renderPostLikes(loggedInUser) {
   const likeFn = vi.fn();
@@ -26,6 +27,16 @@ function renderPostLikes(loggedInUser) {
   );
 
   return { likeFn, dislikeFn, user };
+}
+
+function renderPostBody(post) {
+  render(
+    <BrowserRouter>
+      <Theme>
+        <PostBody post={post} />
+      </Theme>
+    </BrowserRouter>,
+  );
 }
 
 describe('PostLikes', () => {
@@ -95,5 +106,52 @@ describe('PostLikes', () => {
     const downArrow = screen.getByTestId('down-arrow');
 
     expect(downArrow).toHaveClass(/disliked/i);
+  });
+});
+
+describe('PostBody', () => {
+  it('should render a correct link to the post details page', () => {
+    renderPostBody(post1);
+
+    const postDetailsLink = screen.getByRole('link', {
+      name: /post 1 post 1 content/i,
+    });
+
+    expect(postDetailsLink).toHaveAttribute('href', `/posts/${post1.slug}`);
+  });
+
+  it('should render a correct link to the post author page', () => {
+    renderPostBody(post1);
+
+    const postAuthorLink = screen.getByRole('link', {
+      name: new RegExp(post1.author.username, 'i'),
+    });
+
+    expect(postAuthorLink).toHaveAttribute(
+      'href',
+      `/users/${post1.author.username}`,
+    );
+  });
+
+  it('should render a correct link to the post category page', () => {
+    renderPostBody(post1);
+
+    const postCategoryLink = screen.getByRole('link', {
+      name: new RegExp(post1.category.name, 'i'),
+    });
+
+    expect(postCategoryLink).toHaveAttribute(
+      'href',
+      `/categories/${post1.category.slug}`,
+    );
+  });
+
+  it('should render a correct comments count', () => {
+    const comments = post3.comments.length;
+    renderPostBody(post3);
+
+    const commentsCount = screen.getByTestId('comments-count');
+
+    expect(commentsCount.textContent).toBe(comments.toString());
   });
 });

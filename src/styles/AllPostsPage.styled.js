@@ -122,9 +122,10 @@ export const StyledPostBody = styled.div`
       display: flex;
       align-items: center;
       gap: 8px;
-      color: ${(props) => props.theme.colours.primaryLighter};
 
+      p,
       svg {
+        color: ${(props) => props.theme.colours.primaryLighter};
         fill: ${(props) => props.theme.colours.primaryLighter};
       }
     }

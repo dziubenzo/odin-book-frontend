@@ -69,6 +69,6 @@ export const post3 = {
   created_at: Date.now(),
   likes: [],
   dislikes: ['1', '2', '3', '4', '5'],
-  comments: [],
+  comments: ['A', 'B', 'C', 'D'],
   slug: 'post-3',
 };
