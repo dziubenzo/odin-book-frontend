@@ -7,7 +7,7 @@ import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
 
 import { mockFetch } from './fetchMock';
-import { post1, post2, post3, user } from './mocks';
+import { post1, post2, post3, superUser } from './mocks';
 
 function renderComponent() {
   // Mock useOutletContext hook only
@@ -15,7 +15,7 @@ function renderComponent() {
     const actual = await importOriginal();
     return {
       ...actual,
-      useOutletContext: () => [user],
+      useOutletContext: () => [superUser],
     };
   });
 

@@ -1,13 +1,24 @@
-export const user = {
-  username: 'testuser',
+/* 
+Users
+*/
+
+export const superUser = {
+  _id: '0',
+  username: 'superUser',
 };
+
+export const user1 = {
+  _id: '1',
+  username: 'user1',
+};
+
+/* 
+Posts
+*/
 
 export const post1 = {
   _id: '1',
-  author: {
-    _id: '1',
-    username: 'user1',
-  },
+  author: user1,
   title: 'Post 1',
   content: 'Post 1 Content',
   category: {

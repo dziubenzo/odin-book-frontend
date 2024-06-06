@@ -7,14 +7,22 @@ function PostLikes({ post, user, handleLikeClick, handleDislikeClick }) {
 
   return (
     <StyledPostLikes>
-      <div className="like-icon-wrapper" onClick={() => handleLikeClick(post)}>
+      <div
+        className="like-icon-wrapper"
+        title="Like Post"
+        onClick={() => handleLikeClick(post)}
+      >
         <FaArrowUp
           className={likes.includes(user._id) ? 'like-icon liked' : 'like-icon'}
+          data-testid="up-arrow"
         />
       </div>
-      <p className="likes-count">{likes.length - dislikes.length}</p>
+      <p className="likes-count" data-testid="likes-count">
+        {likes.length - dislikes.length}
+      </p>
       <div
         className="dislike-icon-wrapper"
+        title="Dislike Post"
         onClick={() => handleDislikeClick(post)}
       >
         <FaArrowDown
@@ -23,6 +31,7 @@ function PostLikes({ post, user, handleLikeClick, handleDislikeClick }) {
               ? 'dislike-icon disliked'
               : 'dislike-icon'
           }
+          data-testid="down-arrow"
         />
       </div>
     </StyledPostLikes>
