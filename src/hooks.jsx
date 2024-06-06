@@ -84,3 +84,32 @@ export const useFetchAllPosts = () => {
 
   return [posts, setPosts, loading, error, setError];
 };
+
+// Fetch Post Details page data
+export const useFetchPostDetails = (slug) => {
+  const [post, setPost] = useImmer(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch(`${API_URL}/posts/${slug}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${Cookies.get('jwt')}`,
+        },
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        setLoading(false);
+        return setError(error);
+      }
+      const post = await res.json();
+      setPost(post);
+      setLoading(false);
+    }
+    fetchData();
+  }, [slug]);
+
+  return [post, setPost, loading, error, setError];
+};
