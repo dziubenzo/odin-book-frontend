@@ -72,6 +72,7 @@ export const useFetchAllPosts = () => {
       });
       if (!res.ok) {
         const error = await res.json();
+        setLoading(false);
         return setError(error);
       }
       const allPosts = await res.json();
