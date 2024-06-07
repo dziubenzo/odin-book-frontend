@@ -29,6 +29,7 @@ const GlobalStyle = createGlobalStyle`
     grid-template-rows: min-content auto min-content;
     place-items: center;
     min-height: 100svh;
+    width: 100%;
     max-width: 1200px;
     padding: 0 1em;
     background: inherit;

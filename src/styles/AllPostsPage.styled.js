@@ -108,38 +108,10 @@ export const StyledPostBody = styled.div`
     overflow: hidden;
   }
 
-  .post-info {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.9rem;
-
-    .post-date {
-      color: ${(props) => props.theme.colours.primaryDarker};
-    }
-
-    .post-comments {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      p,
-      svg {
-        color: ${(props) => props.theme.colours.primaryLighter};
-        fill: ${(props) => props.theme.colours.primaryLighter};
-      }
-    }
-  }
-
   @media (hover: hover) {
     &:hover {
       border-radius: 16px;
       background-color: ${(props) => props.theme.colours.tertiary};
-
-      .category-link:hover,
-      .user-link:hover {
-        color: ${(props) => props.theme.colours.secondary};
-      }
     }
   }
 
@@ -153,22 +125,52 @@ export const StyledPostBody = styled.div`
     .post-content {
       font-size: 0.9em;
     }
+  }
+`;
 
-    .post-info {
-      text-align: center;
-      font-size: ${(props) => props.theme.fontSizes.small};
+export const StyledPostInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9rem;
 
-      .category-link,
-      .user-link {
-        text-decoration: revert;
-        color: ${(props) => props.theme.colours.secondary};
-        text-underline-offset: 4px;
-        font-size: 0.9em;
-      }
+  .post-date {
+    color: ${(props) => props.theme.colours.primaryDarker};
+  }
 
-      .post-date {
-        font-size: 0.9em;
-      }
+  .post-comments {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    p,
+    svg {
+      color: ${(props) => props.theme.colours.primaryLighter};
+      fill: ${(props) => props.theme.colours.primaryLighter};
+    }
+  }
+
+  @media (hover: hover) {
+    .category-link:hover,
+    .user-link:hover {
+      color: ${(props) => props.theme.colours.secondary};
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    text-align: center;
+    font-size: ${(props) => props.theme.fontSizes.small};
+
+    .category-link,
+    .user-link {
+      text-decoration: revert;
+      color: ${(props) => props.theme.colours.secondary};
+      text-underline-offset: 4px;
+      font-size: 0.9em;
+    }
+
+    .post-date {
+      font-size: 0.9em;
     }
   }
 `;
