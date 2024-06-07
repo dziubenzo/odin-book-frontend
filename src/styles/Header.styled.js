@@ -22,6 +22,7 @@ export const StyledHeader = styled.header`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     padding-top: 0.5em;
+    
     hr {
       margin: 0.5em 0;
     }

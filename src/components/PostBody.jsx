@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PostInfo from './PostInfo';
 
 import { StyledPostBody } from '../styles/AllPostsPage.styled';
+import { StyledPostInfo } from '../styles/AllPostsPage.styled';
 
 function PostBody({ post }) {
   const { slug, title, content } = post;
@@ -13,7 +14,7 @@ function PostBody({ post }) {
         <p className="post-title">{title}</p>
         <p className="post-content">{content}</p>
       </Link>
-      <PostInfo post={post} />
+      <PostInfo post={post} StyledComponent={StyledPostInfo} />
     </StyledPostBody>
   );
 }

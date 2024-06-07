@@ -4,13 +4,11 @@ import { FaRegCommentAlt } from 'react-icons/fa';
 import { LuDot } from 'react-icons/lu';
 import { format, formatDistanceToNow } from 'date-fns';
 
-import { StyledPostInfo } from '../styles/AllPostsPage.styled';
-
-function PostInfo({ post }) {
+function PostInfo({ post, StyledComponent }) {
   const { author, created_at, category, comments } = post;
 
   return (
-    <StyledPostInfo>
+    <StyledComponent>
       <Link to={`/users/${author.username}`} className="user-link">
         {author.username}
       </Link>
@@ -32,11 +30,12 @@ function PostInfo({ post }) {
         </p>
         <FaRegCommentAlt />
       </div>
-    </StyledPostInfo>
+    </StyledComponent>
   );
 }
 
 PostInfo.propTypes = {
+  StyledComponent: PropTypes.object,
   post: PropTypes.object,
 };
 

@@ -30,12 +30,12 @@ const GlobalStyle = createGlobalStyle`
     place-items: center;
     min-height: 100svh;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1000px;
     padding: 0 1em;
     background: inherit;
 
     @media (max-width: ${(props) => props.theme.mobile}) {
-      padding: 0 0.5em;
+      padding: 0 1em;
     }
   }
 `;
