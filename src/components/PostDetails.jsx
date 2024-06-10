@@ -8,7 +8,12 @@ import PostInfo from './PostInfo';
 import { IoChevronBack } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 
-function PostDetails({ post, user, handleLikeClick, handleDislikeClick }) {
+function PostDetails({
+  post,
+  user,
+  handlePostLikeClick,
+  handlePostDislikeClick,
+}) {
   const navigate = useNavigate();
 
   return (
@@ -22,8 +27,8 @@ function PostDetails({ post, user, handleLikeClick, handleDislikeClick }) {
           <PostLikes
             post={post}
             user={user}
-            handleLikeClick={handleLikeClick}
-            handleDislikeClick={handleDislikeClick}
+            handlePostLikeClick={handlePostLikeClick}
+            handlePostDislikeClick={handlePostDislikeClick}
           />
         </div>
         <p className="post-content">{post.content}</p>
@@ -37,8 +42,8 @@ function PostDetails({ post, user, handleLikeClick, handleDislikeClick }) {
 PostDetails.propTypes = {
   post: PropTypes.object,
   user: PropTypes.object,
-  handleLikeClick: PropTypes.func,
-  handleDislikeClick: PropTypes.func,
+  handlePostLikeClick: PropTypes.func,
+  handlePostDislikeClick: PropTypes.func,
 };
 
 export default PostDetails;

@@ -3,6 +3,7 @@ import App from './App';
 import AllPostsPage from '../pages/AllPostsPage';
 import ErrorPage from '../pages/ErrorPage';
 import WelcomePage from '../pages/WelcomePage';
+import PostDetailsPage from '../pages/PostDetailsPage';
 
 function Router() {
   const router = createBrowserRouter([
@@ -23,6 +24,10 @@ function Router() {
         {
           path: '',
           element: <AllPostsPage />,
+        },
+        {
+          path: ':slug',
+          element: <PostDetailsPage />,
         },
       ],
     },

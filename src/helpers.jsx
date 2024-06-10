@@ -96,3 +96,95 @@ export const dislikePost = async (
   });
   return setInProgress(false);
 };
+
+// Like post (Post Details page)
+// Handle two cases (post either liked already or not liked)
+export const likeSinglePost = async (
+  post,
+  userID,
+  inProgress,
+  setInProgress,
+  setError,
+  setPost,
+) => {
+  if (inProgress) {
+    return;
+  }
+  setInProgress(true);
+  const res = await fetch(`${API_URL}/posts/${post.slug}/like`, {
+    method: 'PUT',
+    body: JSON.stringify({ user: userID }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setError(error);
+    setPost(null);
+    return setInProgress(false);
+  }
+  setPost((draft) => {
+    // Post already liked
+    if (draft.likes.includes(userID)) {
+      const likeIndex = draft.likes.indexOf(userID);
+      draft.likes.splice(likeIndex, 1);
+      return;
+    }
+    // Post not liked
+    draft.likes.push(userID);
+
+    const dislikeIndex = draft.dislikes.indexOf(userID);
+    if (dislikeIndex !== -1) {
+      draft.dislikes.splice(dislikeIndex, 1);
+    }
+  });
+  return setInProgress(false);
+};
+
+// Dislike post (Post Details page)
+// Handle two cases (post either disliked already or not disliked)
+export const dislikeSinglePost = async (
+  post,
+  userID,
+  inProgress,
+  setInProgress,
+  setError,
+  setPost,
+) => {
+  if (inProgress) {
+    return;
+  }
+  setInProgress(true);
+  const res = await fetch(`${API_URL}/posts/${post.slug}/dislike`, {
+    method: 'PUT',
+    body: JSON.stringify({ user: userID }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setError(error);
+    setPost(null);
+    return setInProgress(false);
+  }
+  setPost((draft) => {
+    // Post already disliked
+    if (draft.dislikes.includes(userID)) {
+      const dislikeIndex = draft.dislikes.indexOf(userID);
+      draft.dislikes.splice(dislikeIndex, 1);
+      return;
+    }
+    // Post not disliked
+    draft.dislikes.push(userID);
+
+    const likeIndex = draft.likes.indexOf(userID);
+    if (likeIndex !== -1) {
+      draft.likes.splice(likeIndex, 1);
+    }
+  });
+  return setInProgress(false);
+};

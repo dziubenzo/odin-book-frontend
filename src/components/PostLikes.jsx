@@ -2,7 +2,12 @@ import PropTypes from 'prop-types';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { StyledPostLikes } from '../styles/AllPostsPage.styled';
 
-function PostLikes({ post, user, handleLikeClick, handleDislikeClick }) {
+function PostLikes({
+  post,
+  user,
+  handlePostLikeClick,
+  handlePostDislikeClick,
+}) {
   const { likes, dislikes } = post;
 
   return (
@@ -10,7 +15,7 @@ function PostLikes({ post, user, handleLikeClick, handleDislikeClick }) {
       <div
         className="like-icon-wrapper"
         title="Like Post"
-        onClick={() => handleLikeClick(post)}
+        onClick={() => handlePostLikeClick(post)}
       >
         <FaArrowUp
           className={likes.includes(user._id) ? 'like-icon liked' : 'like-icon'}
@@ -23,7 +28,7 @@ function PostLikes({ post, user, handleLikeClick, handleDislikeClick }) {
       <div
         className="dislike-icon-wrapper"
         title="Dislike Post"
-        onClick={() => handleDislikeClick(post)}
+        onClick={() => handlePostDislikeClick(post)}
       >
         <FaArrowDown
           className={
@@ -41,8 +46,8 @@ function PostLikes({ post, user, handleLikeClick, handleDislikeClick }) {
 PostLikes.propTypes = {
   post: PropTypes.object,
   user: PropTypes.object,
-  handleLikeClick: PropTypes.func,
-  handleDislikeClick: PropTypes.func,
+  handlePostLikeClick: PropTypes.func,
+  handlePostDislikeClick: PropTypes.func,
 };
 
 export default PostLikes;
