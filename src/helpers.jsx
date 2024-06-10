@@ -188,3 +188,109 @@ export const dislikeSinglePost = async (
   });
   return setInProgress(false);
 };
+
+// Like comment
+// Handle two cases (comment either liked already or not liked)
+export const likeComment = async (
+  post,
+  commentID,
+  userID,
+  inProgress,
+  setInProgress,
+  setError,
+  setPost,
+) => {
+  if (inProgress) {
+    return;
+  }
+  setInProgress(true);
+  const res = await fetch(
+    `${API_URL}/posts/${post.slug}/comments/${commentID}/like`,
+    {
+      method: 'PUT',
+      body: JSON.stringify({ user: userID }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Cookies.get('jwt')}`,
+      },
+    },
+  );
+  if (!res.ok) {
+    const error = await res.json();
+    setError(error);
+    setPost(null);
+    return setInProgress(false);
+  }
+  setPost((draft) => {
+    const [comment] = draft.comments.filter(
+      (comment) => comment._id === commentID,
+    );
+    // Comment already liked
+    if (comment.likes.includes(userID)) {
+      const likeIndex = comment.likes.indexOf(userID);
+      comment.likes.splice(likeIndex, 1);
+      return;
+    }
+    // Comment not liked
+    comment.likes.push(userID);
+
+    const dislikeIndex = comment.dislikes.indexOf(userID);
+    if (dislikeIndex !== -1) {
+      comment.dislikes.splice(dislikeIndex, 1);
+    }
+  });
+  return setInProgress(false);
+};
+
+// Dislike comment
+// Handle two cases (comment either disliked already or not disliked)
+export const dislikeComment = async (
+  post,
+  commentID,
+  userID,
+  inProgress,
+  setInProgress,
+  setError,
+  setPost,
+) => {
+  if (inProgress) {
+    return;
+  }
+  setInProgress(true);
+  const res = await fetch(
+    `${API_URL}/posts/${post.slug}/comments/${commentID}/dislike`,
+    {
+      method: 'PUT',
+      body: JSON.stringify({ user: userID }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Cookies.get('jwt')}`,
+      },
+    },
+  );
+  if (!res.ok) {
+    const error = await res.json();
+    setError(error);
+    setPost(null);
+    return setInProgress(false);
+  }
+  setPost((draft) => {
+    const [comment] = draft.comments.filter(
+      (comment) => comment._id === commentID,
+    );
+    // Comment already disliked
+    if (comment.dislikes.includes(userID)) {
+      const dislikeIndex = comment.dislikes.indexOf(userID);
+      comment.dislikes.splice(dislikeIndex, 1);
+      return;
+    }
+    // Comment not disliked
+    comment.dislikes.push(userID);
+
+    const likeIndex = comment.likes.indexOf(userID);
+    if (likeIndex !== -1) {
+      comment.likes.splice(likeIndex, 1);
+    }
+  });
+  return setInProgress(false);
+};

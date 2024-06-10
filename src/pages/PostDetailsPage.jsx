@@ -5,7 +5,12 @@ import Loading from '../components/Loading';
 import Error from '../components/Error';
 import PostDetails from '../components/PostDetails';
 import Comments from '../components/Comments';
-import { dislikeSinglePost, likeSinglePost } from '../helpers';
+import {
+  dislikeComment,
+  dislikeSinglePost,
+  likeComment,
+  likeSinglePost,
+} from '../helpers';
 import { useState } from 'react';
 
 function PostDetailsPage() {
@@ -37,6 +42,30 @@ function PostDetailsPage() {
     );
   }
 
+  async function handleCommentLikeClick(commentID) {
+    await likeComment(
+      post,
+      commentID,
+      user._id,
+      inProgress,
+      setInProgress,
+      setError,
+      setPost,
+    );
+  }
+
+  async function handleCommentDislikeClick(commentID) {
+    await dislikeComment(
+      post,
+      commentID,
+      user._id,
+      inProgress,
+      setInProgress,
+      setError,
+      setPost,
+    );
+  }
+
   return (
     <StyledPostDetailsPage>
       {loading && <Loading message="Post" />}
@@ -49,7 +78,11 @@ function PostDetailsPage() {
             handlePostLikeClick={handlePostLikeClick}
             handlePostDislikeClick={handlePostDislikeClick}
           />
-          <Comments comments={post.comments} />
+          <Comments
+            comments={post.comments}
+            handleCommentLikeClick={handleCommentLikeClick}
+            handleCommentDislikeClick={handleCommentDislikeClick}
+          />
         </>
       )}
     </StyledPostDetailsPage>
