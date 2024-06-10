@@ -79,7 +79,7 @@ function PostDetailsPage() {
             handlePostLikeClick={handlePostLikeClick}
             handlePostDislikeClick={handlePostDislikeClick}
           />
-          <CommentInput />
+          <CommentInput user={user} post={post} setPost={setPost} />
           <Comments
             comments={post.comments}
             handleCommentLikeClick={handleCommentLikeClick}

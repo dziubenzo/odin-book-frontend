@@ -1,68 +1,61 @@
 import PropTypes from 'prop-types';
-import {
-  StyledCommentInput,
-  StyledSubmitButton,
-} from '../styles/PostDetailsPage.styled';
+import { StyledCommentInput } from '../styles/PostDetailsPage.styled';
 import { useRef, useState } from 'react';
+import { createComment } from '../helpers';
+import { MAX_COMMENT_LENGTH } from '../helpers';
+import CommentInputTop from './CommentInputTop';
+import CommentInputBottom from './CommentInputBottom';
 
-function CommentInput() {
-  const MAX_COMMENT_LENGTH = 320;
+function CommentInput({ user, post, setPost }) {
   const commentFieldRef = useRef(null);
+
   const [content, setContent] = useState('');
   const [contentLength, setContentLength] = useState(MAX_COMMENT_LENGTH);
+  const [commentError, setCommentError] = useState('');
+  const [inProgress, setInProgress] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Prevent Enter from inserting a br tag
-  function disableEnter(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
-  }
-
-  function handleCommentFieldInput(event) {
-    // Prevent the field from going above MAX_COMMENT_LENGTH
-    if (event.currentTarget.textContent.length > MAX_COMMENT_LENGTH) {
-      return (event.currentTarget.textContent = content);
-    }
-    setContent(event.currentTarget.textContent);
-    setContentLength(
-      MAX_COMMENT_LENGTH - event.currentTarget.textContent.length,
+  async function handleSubmitCommentClick() {
+    await createComment(
+      user._id,
+      post,
+      content,
+      inProgress,
+      commentFieldRef,
+      setCommentError,
+      setInProgress,
+      setIsSubmitted,
+      setContent,
+      setContentLength,
+      setPost,
     );
   }
 
   return (
     <StyledCommentInput>
       <h3>New Comment</h3>
-      <div className="top-section">
-        <div className="avatar">
-          <div className="avatar-placeholder"></div>
-        </div>
-        <p
-          ref={commentFieldRef}
-          className="comment-input-field"
-          contentEditable
-          onKeyDown={disableEnter}
-          onInput={handleCommentFieldInput}
-        ></p>
-        <p
-          className={
-            contentLength > 317 || contentLength < 5
-              ? 'comment-length warning'
-              : 'comment-length'
-          }
-        >
-          {contentLength}
-        </p>
-      </div>
-      <div className="bottom-section">
-        <StyledSubmitButton>Submit</StyledSubmitButton>
-        <hr />
-      </div>
+      <CommentInputTop
+        commentFieldRef={commentFieldRef}
+        content={content}
+        contentLength={contentLength}
+        setContent={setContent}
+        setContentLength={setContentLength}
+      />
+      <CommentInputBottom
+        handleSubmitCommentClick={handleSubmitCommentClick}
+        inProgress={inProgress}
+        isSubmitted={isSubmitted}
+        commentError={commentError}
+      />
+      <hr />
     </StyledCommentInput>
   );
 }
 
 CommentInput.propTypes = {
   user: PropTypes.object,
+  post: PropTypes.object,
+  setPost: PropTypes.func,
 };
 
 export default CommentInput;

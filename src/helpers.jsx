@@ -1,6 +1,17 @@
 import API_URL from './API';
 import Cookies from 'js-cookie';
 
+/* 
+Constants
+*/
+
+export const MIN_COMMENT_LENGTH = 3;
+export const MAX_COMMENT_LENGTH = 320;
+
+/* 
+Functions
+*/
+
 // Like post
 // Handle two cases (post either liked already or not liked)
 export const likePost = async (
@@ -292,5 +303,58 @@ export const dislikeComment = async (
       comment.likes.splice(likeIndex, 1);
     }
   });
+  return setInProgress(false);
+};
+
+// Create post comment
+export const createComment = async (
+  userID,
+  post,
+  content,
+  inProgress,
+  commentFieldRef,
+  setCommentError,
+  setInProgress,
+  setIsSubmitted,
+  setContent,
+  setContentLength,
+  setPost,
+) => {
+  if (inProgress) {
+    return;
+  }
+  if (content.trim().length <= 2) {
+    setCommentError('Comment is too short');
+    setTimeout(() => {
+      setCommentError('');
+    }, 2000);
+    return;
+  }
+  setInProgress(true);
+  const res = await fetch(`${API_URL}/posts/${post.slug}/comments`, {
+    method: 'POST',
+    body: JSON.stringify({ author: userID, content }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setCommentError(error);
+    setTimeout(() => {
+      setCommentError('');
+    }, 2000);
+    return setInProgress(false);
+  }
+  const updatedPost = await res.json();
+  setPost(updatedPost);
+  setIsSubmitted(true);
+  setTimeout(() => {
+    setIsSubmitted(false);
+  }, 2000);
+  commentFieldRef.current.textContent = '';
+  setContent('');
+  setContentLength(MAX_COMMENT_LENGTH);
   return setInProgress(false);
 };

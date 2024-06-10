@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const StyledError = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   gap: 16px;
   align-items: center;
@@ -24,6 +25,7 @@ export const StyledError = styled.div`
 
 export const StyledLoading = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
   gap: 48px;
   align-items: center;

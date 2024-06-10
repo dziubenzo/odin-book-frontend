@@ -3,11 +3,17 @@ import { StyledPostInfo } from './AllPostsPage.styled';
 import { StyledButton } from './WelcomePage.styled';
 
 export const StyledPostDetailsPage = styled.main`
-  display: grid;
+  display: flex;
+  flex-direction: column;
   align-content: start;
   height: 100%;
   width: 100%;
   padding: 4em 0;
+
+  *:focus-visible {
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.secondary};
+  }
 
   hr {
     margin: 1.5em 0;
@@ -198,47 +204,71 @@ export const StyledCommentInput = styled.div`
   flex-direction: column;
   gap: 24px;
 
-  .top-section {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-
-    .avatar-placeholder {
-      height: 36px;
-      width: 36px;
-      border: 2px solid ${(props) => props.theme.colours.primary};
-      border-radius: 50%;
-    }
-
-    .comment-input-field {
-      width: 100%;
-      height: auto;
-      outline: 1px solid ${(props) => props.theme.colours.primary};
-      border-radius: 8px;
-      padding: 0.5em;
-      word-break: break-all;
-
-      &:focus-visible {
-        outline: 2px solid ${(props) => props.theme.colours.primary};
-        border: none;
-      }
-    }
-
-    .comment-length {
-      width: 4ch;
-      text-align: center;
-
-      &.warning {
-        color: ${(props) => props.theme.colours.lightRed};
-      }
-    }
+  hr {
+    margin-top: 0.25em;
   }
 `;
 
 export const StyledSubmitButton = styled(StyledButton)`
   height: 40px;
-  width: 100px;
+  width: 125px;
   padding: 0.25em;
   font-size: ${(props) => props.theme.fontSizes.standard};
   background: transparent;
+`;
+
+export const StyledCommentInputTop = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  .avatar-placeholder {
+    height: 36px;
+    width: 36px;
+    border: 2px solid ${(props) => props.theme.colours.primary};
+    border-radius: 50%;
+  }
+
+  .comment-input-field {
+    width: 100%;
+    height: auto;
+    outline: 1px solid ${(props) => props.theme.colours.primary};
+    border-radius: 8px;
+    padding: 0.5em;
+    word-break: break-all;
+
+    &:focus-visible {
+      outline: 2px solid ${(props) => props.theme.colours.primary};
+      border: none;
+    }
+  }
+
+  .comment-length {
+    width: 4ch;
+    text-align: center;
+
+    &.warning {
+      color: ${(props) => props.theme.colours.lightRed};
+    }
+  }
+`;
+
+export const StyledCommentInputBottom = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  .error-message-wrapper {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    color: ${(props) => props.theme.colours.lightRed};
+    text-align: center;
+
+    svg,
+    .error-message {
+      color: ${(props) => props.theme.colours.lightRed};
+      fill: ${(props) => props.theme.colours.lightRed};
+    }
+  }
 `;
