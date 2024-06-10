@@ -72,3 +72,61 @@ export const post3 = {
   comments: ['A', 'B', 'C', 'D'],
   slug: 'post-3',
 };
+
+/* 
+Detailed post
+*/
+
+export const detailedPost1 = {
+  _id: '3',
+  author: {
+    _id: '1',
+    username: 'user1',
+  },
+  title: 'Post 1 Detailed',
+  content: 'Post 1 Detailed Content',
+  category: {
+    _id: 1,
+    name: 'category1',
+    slug: 'category1',
+  },
+  created_at: Date.now(),
+  likes: ['1'],
+  dislikes: ['0'],
+  comments: [
+    {
+      _id: '1',
+      author: {
+        _id: '1',
+        username: 'user1',
+      },
+      created_at: Date.now(),
+      content: 'Comment Content 1',
+      likes: ['1'],
+      dislikes: [],
+    },
+    {
+      _id: '2',
+      author: {
+        _id: '1',
+        username: 'user1',
+      },
+      created_at: Date.now(),
+      content: 'Comment Content 2',
+      likes: ['0'],
+      dislikes: [],
+    },
+    {
+      _id: '3',
+      author: {
+        _id: '0',
+        username: 'superUser',
+      },
+      created_at: Date.now(),
+      content: 'Comment Content 3',
+      likes: [],
+      dislikes: ['0', '1'],
+    },
+  ],
+  slug: 'post-3',
+};

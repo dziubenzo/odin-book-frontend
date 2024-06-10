@@ -20,8 +20,8 @@ function renderPostLikes(loggedInUser) {
       <PostLikes
         post={post1}
         user={loggedInUser}
-        handleLikeClick={likeFn}
-        handleDislikeClick={dislikeFn}
+        handlePostLikeClick={likeFn}
+        handlePostDislikeClick={dislikeFn}
       />
     </Theme>,
   );
