@@ -11,6 +11,7 @@ const darkTheme = {
     primaryDarker: '#d46300',
     secondary: '#E2DFD0',
     tertiary: '#524C42',
+    lightRed: `#f84242`,
   },
   fontSizes: {
     small: '0.8rem',

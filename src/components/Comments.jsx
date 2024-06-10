@@ -20,7 +20,12 @@ function Comments({
     });
   }
 
-  return <StyledComments>{renderComments()}</StyledComments>;
+  return (
+    <StyledComments>
+      <h3>Comments ({comments.length})</h3>
+      {renderComments()}
+    </StyledComments>
+  );
 }
 
 Comments.propTypes = {

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { StyledPostInfo } from './AllPostsPage.styled';
+import { StyledButton } from './WelcomePage.styled';
 
 export const StyledPostDetailsPage = styled.main`
   display: grid;
@@ -9,7 +10,7 @@ export const StyledPostDetailsPage = styled.main`
   padding: 4em 0;
 
   hr {
-    margin: 1em 0;
+    margin: 1.5em 0;
     width: 100%;
   }
 
@@ -92,6 +93,10 @@ export const StyledComments = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  h3 {
+    margin-bottom: 0.5em;
+  }
 `;
 
 export const StyledComment = styled.div`
@@ -186,4 +191,54 @@ export const StyledCommentLikes = styled.div`
     flex-direction: column;
     gap: revert;
   }
+`;
+
+export const StyledCommentInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .top-section {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+
+    .avatar-placeholder {
+      height: 36px;
+      width: 36px;
+      border: 2px solid ${(props) => props.theme.colours.primary};
+      border-radius: 50%;
+    }
+
+    .comment-input-field {
+      width: 100%;
+      height: auto;
+      outline: 1px solid ${(props) => props.theme.colours.primary};
+      border-radius: 8px;
+      padding: 0.5em;
+      word-break: break-all;
+
+      &:focus-visible {
+        outline: 2px solid ${(props) => props.theme.colours.primary};
+        border: none;
+      }
+    }
+
+    .comment-length {
+      width: 4ch;
+      text-align: center;
+
+      &.warning {
+        color: ${(props) => props.theme.colours.lightRed};
+      }
+    }
+  }
+`;
+
+export const StyledSubmitButton = styled(StyledButton)`
+  height: 40px;
+  width: 100px;
+  padding: 0.25em;
+  font-size: ${(props) => props.theme.fontSizes.standard};
+  background: transparent;
 `;

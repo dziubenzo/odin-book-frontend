@@ -12,6 +12,7 @@ import {
   likeSinglePost,
 } from '../helpers';
 import { useState } from 'react';
+import CommentInput from '../components/CommentInput';
 
 function PostDetailsPage() {
   const { slug } = useParams();
@@ -78,6 +79,7 @@ function PostDetailsPage() {
             handlePostLikeClick={handlePostLikeClick}
             handlePostDislikeClick={handlePostDislikeClick}
           />
+          <CommentInput />
           <Comments
             comments={post.comments}
             handleCommentLikeClick={handleCommentLikeClick}
