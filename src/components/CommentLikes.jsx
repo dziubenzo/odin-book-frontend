@@ -15,6 +15,7 @@ function CommentLikes({
       <div
         className="like-icon-wrapper"
         onClick={() => handleCommentLikeClick(_id)}
+        title="Like Comment"
       >
         <FaArrowUp
           className={likes.includes(user._id) ? 'like-icon liked' : 'like-icon'}
@@ -25,6 +26,7 @@ function CommentLikes({
       <div
         className="dislike-icon-wrapper"
         onClick={() => handleCommentDislikeClick(_id)}
+        title="Dislike Comment"
       >
         <FaArrowDown
           className={

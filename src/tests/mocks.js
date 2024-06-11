@@ -103,7 +103,7 @@ export const detailedPost1 = {
       created_at: Date.now(),
       content: 'Comment Content 1',
       likes: ['1'],
-      dislikes: [],
+      dislikes: ['0', '5', '7'],
     },
     {
       _id: '2',
