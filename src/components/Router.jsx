@@ -4,6 +4,7 @@ import AllPostsPage from '../pages/AllPostsPage';
 import ErrorPage from '../pages/ErrorPage';
 import WelcomePage from '../pages/WelcomePage';
 import PostDetailsPage from '../pages/PostDetailsPage';
+import ProfilePage from '../pages/ProfilePage';
 
 function Router() {
   const router = createBrowserRouter([
@@ -28,6 +29,21 @@ function Router() {
         {
           path: ':slug',
           element: <PostDetailsPage />,
+        },
+      ],
+    },
+    {
+      path: '/profile',
+      element: <App />,
+      errorElement: (
+        <App>
+          <ErrorPage />
+        </App>
+      ),
+      children: [
+        {
+          path: '',
+          element: <ProfilePage />,
         },
       ],
     },
