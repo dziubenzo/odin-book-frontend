@@ -130,3 +130,6 @@ export const detailedPost1 = {
   ],
   slug: 'post-3',
 };
+
+export const longComment =
+  'I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment...';

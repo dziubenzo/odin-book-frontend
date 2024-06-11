@@ -36,6 +36,7 @@ function CommentInputTop({
         ref={commentFieldRef}
         className="comment-input-field"
         contentEditable
+        data-testid='comment-input-field'
         onKeyDown={disableEnter}
         onInput={handleCommentFieldInput}
       ></p>
