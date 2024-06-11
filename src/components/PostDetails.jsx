@@ -18,7 +18,11 @@ function PostDetails({
 
   return (
     <StyledPostDetails>
-      <div className="return-icon-wrapper" onClick={() => navigate('/posts')}>
+      <div
+        className="return-icon-wrapper"
+        data-testid="return-icon"
+        onClick={() => navigate('/posts')}
+      >
         <IoChevronBack />
       </div>
       <div className="post-body">
