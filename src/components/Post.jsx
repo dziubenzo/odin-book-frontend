@@ -3,14 +3,14 @@ import { StyledPost } from '../styles/AllPostsPage.styled';
 import PostLikes from './PostLikes';
 import PostBody from './PostBody';
 
-function Post({ post, user, handleLikeClick, handleDislikeClick }) {
+function Post({ post, user, handlePostLikeClick, handlePostDislikeClick }) {
   return (
     <StyledPost>
       <PostLikes
         post={post}
         user={user}
-        handleLikeClick={handleLikeClick}
-        handleDislikeClick={handleDislikeClick}
+        handlePostLikeClick={handlePostLikeClick}
+        handlePostDislikeClick={handlePostDislikeClick}
       />
       <PostBody post={post} />
     </StyledPost>
@@ -20,8 +20,8 @@ function Post({ post, user, handleLikeClick, handleDislikeClick }) {
 Post.propTypes = {
   post: PropTypes.object,
   user: PropTypes.object,
-  handleLikeClick: PropTypes.func,
-  handleDislikeClick: PropTypes.func,
+  handlePostLikeClick: PropTypes.func,
+  handlePostDislikeClick: PropTypes.func,
 };
 
 export default Post;

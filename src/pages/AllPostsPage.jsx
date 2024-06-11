@@ -19,8 +19,8 @@ function AllPostsPage() {
           key={post._id}
           post={post}
           user={user}
-          handleLikeClick={handleLikeClick}
-          handleDislikeClick={handleDislikeClick}
+          handlePostLikeClick={handleLikeClick}
+          handlePostDislikeClick={handleDislikeClick}
         />
       );
     });
