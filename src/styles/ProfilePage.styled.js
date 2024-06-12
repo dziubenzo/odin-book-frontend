@@ -132,7 +132,6 @@ export const StyledAvatarUploader = styled.div`
         width: 75px;
         aspect-ratio: 1/1;
         border-radius: 50%;
-        outline: 3px solid ${(props) => props.theme.colours.primary};
         align-self: center;
       }
     }
@@ -209,14 +208,20 @@ export const StyledBioInput = styled.div`
     }
   }
 
-  .update-profile-button {
-    height: max-content;
-    width: max-content;
-    font-size: ${(props) => props.theme.fontSizes.standard};
-    outline: none;
+  .update-profile-wrapper {
+    display: flex;
+    gap: 16px;
+    align-items: center;
 
-    &:focus-visible {
-      border: 2px solid ${(props) => props.theme.colours.secondary};
+    .update-profile-button {
+      height: max-content;
+      width: max-content;
+      font-size: ${(props) => props.theme.fontSizes.standard};
+      outline: none;
+
+      &:focus-visible {
+        border: 2px solid ${(props) => props.theme.colours.secondary};
+      }
     }
   }
 `;

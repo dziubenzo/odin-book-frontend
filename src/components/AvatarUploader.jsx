@@ -33,7 +33,7 @@ function AvatarUploader({
             type="file"
             id="avatar"
             name="avatar"
-            accept="image/png, image/jpeg"
+            accept="image/*"
             onChange={uploadAvatar}
           />
         </div>

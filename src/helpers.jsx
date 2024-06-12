@@ -369,3 +369,65 @@ export const createComment = async (
   setContentLength(MAX_COMMENT_LENGTH);
   return setInProgress(false);
 };
+
+// Update user profile (bio and/or avatar)
+export const updateUserProfile = async (
+  user,
+  inProgress,
+  bio,
+  selectedAvatar,
+  uploadedAvatar,
+  setInProgress,
+  setFeedback,
+  setUser,
+  setSelectedAvatar,
+  setUploadedAvatar,
+  setUploadedAvatarPreview,
+) => {
+  if (inProgress) {
+    return;
+  }
+  if ((!bio || bio.trim() === user.bio) && !selectedAvatar && !uploadedAvatar) {
+    setFeedback('Change something first!');
+    setTimeout(() => {
+      setFeedback('');
+    }, 2000);
+    return;
+  }
+  setInProgress(true);
+  const data = new FormData();
+  if (bio) {
+    data.append('bio', bio);
+  }
+  if (selectedAvatar) {
+    data.append('avatar', selectedAvatar);
+  }
+  if (uploadedAvatar) {
+    data.append('uploaded_avatar', uploadedAvatar);
+  }
+  const res = await fetch(`${API_URL}/users/${user.username}/update`, {
+    method: 'PUT',
+    body: data,
+    headers: {
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setFeedback(error);
+    setTimeout(() => {
+      setFeedback('');
+    }, 2000);
+    return setInProgress(false);
+  }
+  const updatedUser = await res.json();
+  setUser(updatedUser);
+  setFeedback('Profile updated successfully!');
+  setTimeout(() => {
+    setFeedback('');
+  }, 2000);
+  setSelectedAvatar('');
+  setUploadedAvatar('');
+  setUploadedAvatarPreview('');
+  return setInProgress(false);
+};
