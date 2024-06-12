@@ -6,6 +6,7 @@ export const StyledHeader = styled.header`
   position: sticky;
   top: 0;
   background: inherit;
+  z-index: 1;
 
   * {
     color: ${(props) => props.theme.colours.secondary};
