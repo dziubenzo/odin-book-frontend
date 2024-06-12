@@ -13,119 +13,107 @@ export const StyledProfilePage = styled.main`
     border: none;
     outline: 2px solid ${(props) => props.theme.colours.secondary};
   }
+`;
 
-  .user-info {
-    position: relative;
+export const StyledUserInfo = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+
+  .top-line {
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 8px;
+    align-items: center;
+    gap: 24px;
 
-    .top-line {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-
-      .user-avatar {
-        width: 100px;
-      }
+    .user-avatar {
+      width: 100px;
     }
+  }
 
-    a {
-      text-decoration: none;
-      color: ${(props) => props.theme.colours.secondary};
-    }
+  a {
+    text-decoration: none;
+    color: ${(props) => props.theme.colours.secondary};
+  }
 
-    span {
-      font-weight: 700;
-    }
+  span {
+    font-weight: 700;
+  }
 
+  .previous-page-link {
+    position: absolute;
+    top: 1em;
+    right: 0;
+    text-align: center;
+  }
+
+  @media (hover: hover) {
     .previous-page-link {
-      position: absolute;
-      top: 1em;
-      right: 0;
-      text-align: center;
+      padding: 0.2em 0.4em;
+
+      &:hover {
+        border-radius: 8px;
+        background-color: ${(props) => props.theme.colours.tertiary};
+      }
     }
   }
 
-  .bio {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .previous-page-link {
+      top: -2em;
+      text-decoration: revert;
+      text-underline-offset: 0.3em;
+    }
+  }
+`;
 
-    label {
-      font-size: ${(props) => props.theme.fontSizes.large};
+export const StyledDefaultAvatars = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .default-avatars-images {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+    img {
+      width: 75px;
+      aspect-ratio: 1/1;
       cursor: pointer;
-    }
+      outline: 2px solid ${(props) => props.theme.colours.secondary};
+      border-radius: 50%;
 
-    textarea {
-      background: transparent;
-      resize: vertical;
-      border: none;
-      outline: 2px solid ${(props) => props.theme.colours.primary};
-      border-radius: 16px;
-      padding: 0.75em;
-      font-size: ${(props) => props.theme.fontSizes.medium};
-
-      &:focus-visible {
-        outline: 2px solid ${(props) => props.theme.colours.secondary};
-      }
-
-      &::placeholder {
-        color: ${(props) => props.theme.colours.secondary};
-        opacity: 75%;
-      }
-    }
-  }
-
-  .default-avatars {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-
-    .default-avatars-images {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      justify-content: space-evenly;
-
-      img {
-        width: 75px;
-        aspect-ratio: 1/1;
-        cursor: pointer;
-        outline: 2px solid ${(props) => props.theme.colours.secondary};
+      &.selected {
+        outline: 3px solid ${(props) => props.theme.colours.primary};
         border-radius: 50%;
-
-        &.selected {
-          outline: 3px solid ${(props) => props.theme.colours.primary};
-          border-radius: 50%;
-        }
       }
     }
   }
+`;
 
-  .avatar-uploader {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+export const StyledAvatarUploader = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
-    .avatar-picker {
-      outline: 2px solid ${(props) => props.theme.colours.primary};
-      padding: 1em;
-      border-radius: 16px;
-      cursor: pointer;
-      font-weight: 600;
+  .avatar-picker {
+    outline: 2px solid ${(props) => props.theme.colours.primary};
+    padding: 1em;
+    border-radius: 16px;
+    font-weight: 600;
+    cursor: pointer;
 
-      &:focus-visible {
-        border: none;
-        outline: 2px solid ${(props) => props.theme.colours.secondary};
-      }
+    &:focus-visible {
+      border: none;
+      outline: 2px solid ${(props) => props.theme.colours.secondary};
     }
+  }
 
-    input {
-      display: none;
-    }
+  input {
+    display: none;
   }
 
   .avatar-preview {
@@ -150,29 +138,18 @@ export const StyledProfilePage = styled.main`
     }
 
     .clear-avatar-button {
+      height: max-content;
+      width: max-content;
+      font-size: ${(props) => props.theme.fontSizes.standard};
       align-self: center;
-    }
-  }
 
-  .clear-avatar-button,
-  .update-profile-button {
-    height: max-content;
-    width: max-content;
-    font-size: ${(props) => props.theme.fontSizes.standard};
+      &:focus-visible {
+        border: 2px solid ${(props) => props.theme.colours.secondary};
+      }
+    }
   }
 
   @media (hover: hover) {
-    .user-info {
-      .previous-page-link {
-        padding: 0.2em 0.4em;
-
-        &:hover {
-          border-radius: 8px;
-          background-color: ${(props) => props.theme.colours.tertiary};
-        }
-      }
-    }
-
     .avatar-uploader {
       .avatar-picker {
         transition:
@@ -188,14 +165,6 @@ export const StyledProfilePage = styled.main`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    .user-info {
-      .previous-page-link {
-        top: -2em;
-        text-decoration: revert;
-        text-underline-offset: 0.3em;
-      }
-    }
-
     .avatar-preview {
       width: 100%;
       display: grid;
@@ -206,6 +175,48 @@ export const StyledProfilePage = styled.main`
         width: 150px;
         justify-self: center;
       }
+    }
+  }
+`;
+
+export const StyledBioInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  label {
+    font-size: ${(props) => props.theme.fontSizes.large};
+    cursor: pointer;
+  }
+
+  textarea {
+    background: transparent;
+    resize: vertical;
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.primary};
+    border-radius: 16px;
+    padding: 0.75em;
+    font-size: ${(props) => props.theme.fontSizes.medium};
+
+    &:focus-visible {
+      outline: 2px solid ${(props) => props.theme.colours.secondary};
+    }
+
+    &::placeholder {
+      color: ${(props) => props.theme.colours.secondary};
+      opacity: 75%;
+    }
+  }
+
+  .update-profile-button {
+    height: max-content;
+    width: max-content;
+    font-size: ${(props) => props.theme.fontSizes.standard};
+    outline: none;
+
+    &:focus-visible {
+      border: 2px solid ${(props) => props.theme.colours.secondary};
     }
   }
 `;
