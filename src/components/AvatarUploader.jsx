@@ -11,6 +11,11 @@ function AvatarUploader({
 }) {
   function uploadAvatar(event) {
     if (event.target.files[0]) {
+      // Make sure the file attached is an image
+      // On Linux, you can attach anything despite the accept attribute being set
+      if (!event.target.files[0].type.includes('image')) {
+        return;
+      }
       setUploadedAvatar(event.target.files[0]);
       setUploadedAvatarPreview(URL.createObjectURL(event.target.files[0]));
       setSelectedAvatar('');
