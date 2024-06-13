@@ -36,3 +36,11 @@ export const StyledLoading = styled.div`
     color: ${(props) => props.theme.colours.primary};
   }
 `;
+
+export const StyledAvatar = styled.div`
+  display: flex;
+
+  img {
+    height: ${(props) => props.$size || 50}px;
+  }
+`;
