@@ -26,10 +26,6 @@ export const StyledUserInfo = styled.div`
     display: flex;
     align-items: center;
     gap: 24px;
-
-    .user-avatar {
-      width: 100px;
-    }
   }
 
   a {
@@ -64,6 +60,14 @@ export const StyledUserInfo = styled.div`
       top: -2em;
       text-decoration: revert;
       text-underline-offset: 0.3em;
+    }
+
+    .top-line {
+      a {
+        text-decoration: revert;
+        text-underline-offset: 0.2em;
+        text-decoration-color: ${(props) => props.theme.colours.primary};
+      }
     }
   }
 `;

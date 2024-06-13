@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
 import { StyledCommentInputTop } from '../styles/PostDetailsPage.styled';
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../helpers';
+import Avatar from './Avatar';
 
 function CommentInputTop({
+  user,
   commentFieldRef,
   content,
   contentLength,
@@ -29,14 +31,12 @@ function CommentInputTop({
 
   return (
     <StyledCommentInputTop>
-      <div className="avatar">
-        <div className="avatar-placeholder"></div>
-      </div>
+      <Avatar user={user} size={36} />
       <p
         ref={commentFieldRef}
         className="comment-input-field"
         contentEditable
-        data-testid='comment-input-field'
+        data-testid="comment-input-field"
         onKeyDown={disableEnter}
         onInput={handleCommentFieldInput}
       ></p>
@@ -55,6 +55,7 @@ function CommentInputTop({
 }
 
 CommentInputTop.propTypes = {
+  user: PropTypes.object,
   commentFieldRef: PropTypes.object,
   content: PropTypes.string,
   contentLength: PropTypes.number,

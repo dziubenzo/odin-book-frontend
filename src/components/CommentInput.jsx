@@ -35,6 +35,7 @@ function CommentInput({ user, post, setPost }) {
     <StyledCommentInput>
       <h3>New Comment</h3>
       <CommentInputTop
+        user={user}
         commentFieldRef={commentFieldRef}
         content={content}
         contentLength={contentLength}

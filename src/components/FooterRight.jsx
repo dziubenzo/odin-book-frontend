@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import { StyledFooterRight } from '../styles/Footer.styled';
+import Avatar from './Avatar';
 
 function FooterRight({ user }) {
   return (
     <StyledFooterRight>
-      <div className="avatar">IMG</div>
-      <p className='username'>{user.username}</p>
+      <Avatar user={user} size={50} />
+      <p className="username">{user.username}</p>
     </StyledFooterRight>
   );
 }

@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { StyledComment } from '../styles/PostDetailsPage.styled';
 import { useOutletContext } from 'react-router-dom';
-import CommentAvatar from './CommentAvatar';
 import CommentBody from './CommentBody';
 import CommentLikes from './CommentLikes';
+import Avatar from './Avatar';
 
 function Comment({
   comment,
@@ -14,7 +14,7 @@ function Comment({
 
   return (
     <StyledComment>
-      <CommentAvatar avatar={comment.avatar} />
+      <Avatar user={comment.author} size={36} />
       <CommentBody comment={comment} />
       <CommentLikes
         comment={comment}

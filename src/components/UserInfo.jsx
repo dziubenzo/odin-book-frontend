@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { StyledUserInfo } from '../styles/ProfilePage.styled';
+import Avatar from './Avatar';
 
 function UserInfo({ user }) {
   return (
     <StyledUserInfo>
       <div className="top-line">
-        {user.avatar && <img className="user-avatar" src={user.avatar} />}
+        <Avatar user={user} size={100} />
         <h1>
           <Link to={`/users/${user.username}`}>{user.username}</Link>
         </h1>

@@ -119,15 +119,6 @@ export const StyledComment = styled.div`
   }
 `;
 
-export const StyledCommentAvatar = styled.div`
-  .avatar-placeholder {
-    height: 36px;
-    width: 36px;
-    border: 2px solid ${(props) => props.theme.colours.primary};
-    border-radius: 50%;
-  }
-`;
-
 export const StyledCommentBody = styled.div`
   display: flex;
   flex-direction: column;

@@ -97,13 +97,7 @@ export const StyledFooterRight = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px;
-
-  .avatar {
-    border: 2px solid ${(props) => props.theme.colours.primary};
-    padding: 0.75em;
-    border-radius: 50%;
-  }
+  gap: 4px;
 
   .username {
     font-size: ${(props) => props.theme.fontSizes.medium};
@@ -111,11 +105,6 @@ export const StyledFooterRight = styled.div`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    .avatar {
-      font-size: ${(props) => props.theme.fontSizes.small};
-      padding: 1em;
-    }
-
     .username {
       font-size: ${(props) => props.theme.fontSizes.standard};
     }
