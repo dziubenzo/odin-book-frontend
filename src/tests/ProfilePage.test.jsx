@@ -8,9 +8,9 @@ import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
 import { userEvent } from '@testing-library/user-event';
 
+import { longBio, user2 } from './mocks';
+import { MAX_BIO_LENGTH, defaultAvatars } from '../helpers';
 import { mockFetch } from './fetchMock';
-import { user2 } from './mocks';
-import { defaultAvatars } from '../helpers';
 
 function renderProfilePage() {
   // Mock useOutletContext and useParams hooks
@@ -142,5 +142,121 @@ describe('AvatarUploader', () => {
 
     expect(chooseAvatarHeading).toBeInTheDocument();
     expect(avatarPreviewHeading).not.toBeInTheDocument();
+  });
+});
+
+describe('BioInput', () => {
+  it('should render a label that indicates the number of available characters', () => {
+    renderProfilePage();
+    const expectedChars = MAX_BIO_LENGTH - user2.bio.length;
+
+    const bioLabel = screen.getByText(
+      new RegExp(`${expectedChars} characters`),
+    );
+
+    expect(bioLabel).toBeInTheDocument();
+  });
+
+  it('should render an Update Profile button', () => {
+    renderProfilePage();
+
+    const updateProfileButton = screen.getByRole('button', { name: /update/i });
+
+    expect(updateProfileButton).toBeInTheDocument();
+  });
+
+  it('should render a label that indicates the number of available characters', () => {
+    renderProfilePage();
+    const expectedChars = MAX_BIO_LENGTH - user2.bio.length;
+
+    const bioLabel = screen.getByText(
+      new RegExp(`${expectedChars} characters`),
+    );
+
+    expect(bioLabel).toBeInTheDocument();
+  });
+
+  it('should show the correct number of available characters if the bio textbox is empty', async () => {
+    const user = renderProfilePage();
+
+    const bioTextbox = screen.getByRole('textbox');
+    await user.clear(bioTextbox);
+
+    const bioLabel = screen.getByText(
+      new RegExp(`${MAX_BIO_LENGTH} characters`),
+    );
+
+    expect(bioLabel).toBeInTheDocument();
+  });
+
+  it('should have a textbox that shows the current user bio', () => {
+    renderProfilePage();
+
+    const bioTextbox = screen.getByRole('textbox');
+
+    expect(bioTextbox.value).toBe(user2.bio);
+  });
+
+  it('should have a textbox that accepts input', async () => {
+    const user = renderProfilePage();
+    const input = 'Apple pies are tasty!';
+
+    const bioTextbox = screen.getByRole('textbox');
+    await user.clear(bioTextbox);
+    await user.type(bioTextbox, input);
+
+    expect(bioTextbox.value).toBe(input);
+  });
+
+  it('should have a textbox that respects MAX_BIO_LENGTH', async () => {
+    const user = renderProfilePage();
+
+    const bioTextbox = screen.getByRole('textbox');
+    await user.clear(bioTextbox);
+    await user.type(bioTextbox, longBio);
+
+    expect(bioTextbox.value.length).toBe(MAX_BIO_LENGTH);
+  });
+
+  it('should show an error message if the Update Profile button is clicked with no changes introduced', async () => {
+    const user = renderProfilePage();
+
+    const updateProfileButton = screen.getByRole('button', { name: /update/i });
+    await user.click(updateProfileButton);
+    const errorMessage = screen.getByText(/first/i);
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should show an error message if something goes wrong with updating the profile', async () => {
+    const user = renderProfilePage();
+    const error = 'Something went wrong!';
+    mockFetch(error, false);
+
+    const bioTextbox = screen.getByRole('textbox');
+    await user.clear(bioTextbox);
+    await user.type(bioTextbox, 'I like mountains!');
+
+    const updateProfileButton = screen.getByRole('button', { name: /update/i });
+    await user.click(updateProfileButton);
+    const errorMessage = screen.getByText(new RegExp(error));
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should show a feedback message if the profile is updated successfully', async () => {
+    const user = renderProfilePage();
+    const updatedBio = 'I like oceans, and hills!';
+    mockFetch({ ...user2, bio: updatedBio }, true);
+
+    const bioTextbox = screen.getByRole('textbox');
+    await user.clear(bioTextbox);
+    await user.type(bioTextbox, updatedBio);
+
+    const updateProfileButton = screen.getByRole('button', { name: /update/i });
+    await user.click(updateProfileButton);
+    const errorMessage = screen.getByText(/successfully/i);
+
+    expect(errorMessage).toBeInTheDocument();
   });
 });
