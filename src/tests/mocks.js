@@ -16,6 +16,8 @@ export const user2 = {
   _id: '2',
   username: 'user2',
   avatar: 'https://www.example.com/super_avatar.png',
+  bio: 'Bio Bio Bio Yo Yo Yo!',
+  registered_at: Date.now(),
 };
 
 /* 
