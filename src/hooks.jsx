@@ -56,15 +56,15 @@ export const useCheckAuth = (setShowPage) => {
   }, []);
 };
 
-// Fetch All Posts page data
-export const useFetchAllPosts = () => {
-  const [posts, setPosts] = useImmer(null);
+// Fetch page data
+export const useFetchPageData = (endpoint) => {
+  const [data, setData] = useImmer(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch(`${API_URL}/posts/`, {
+      const res = await fetch(endpoint, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${Cookies.get('jwt')}`,
@@ -75,41 +75,12 @@ export const useFetchAllPosts = () => {
         setLoading(false);
         return setError(error);
       }
-      const allPosts = await res.json();
-      setPosts(allPosts);
+      const data = await res.json();
+      setData(data);
       setLoading(false);
     }
     fetchData();
   }, []);
 
-  return [posts, setPosts, loading, error, setError];
-};
-
-// Fetch Post Details page data
-export const useFetchPostDetails = (slug) => {
-  const [post, setPost] = useImmer(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch(`${API_URL}/posts/${slug}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${Cookies.get('jwt')}`,
-        },
-      });
-      if (!res.ok) {
-        const error = await res.json();
-        setLoading(false);
-        return setError(error);
-      }
-      const post = await res.json();
-      setPost(post);
-      setLoading(false);
-    }
-    fetchData();
-  }, [slug]);
-
-  return [post, setPost, loading, error, setError];
+  return { data, setData, loading, error, setError };
 };

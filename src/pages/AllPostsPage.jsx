@@ -1,6 +1,7 @@
+import API_URL from '../API';
 import { useOutletContext } from 'react-router-dom';
 import { StyledAllPostsPage } from '../styles/AllPostsPage.styled';
-import { useFetchAllPosts } from '../hooks';
+import { useFetchPageData } from '../hooks';
 import Post from '../components/Post';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
@@ -9,7 +10,13 @@ import { dislikePost, likePost } from '../helpers';
 
 function AllPostsPage() {
   const [user] = useOutletContext();
-  const [posts, setPosts, loading, error, setError] = useFetchAllPosts();
+  const {
+    data: posts,
+    setData: setPosts,
+    loading,
+    error,
+    setError,
+  } = useFetchPageData(`${API_URL}/posts/`);
   const [inProgress, setInProgress] = useState(false);
 
   function renderPosts() {

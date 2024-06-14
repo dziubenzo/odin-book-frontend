@@ -1,6 +1,7 @@
+import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledPostDetailsPage } from '../styles/PostDetailsPage.styled';
-import { useFetchPostDetails } from '../hooks';
+import { useFetchPageData } from '../hooks';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import PostDetails from '../components/PostDetails';
@@ -17,7 +18,13 @@ import CommentInput from '../components/CommentInput';
 function PostDetailsPage() {
   const { slug } = useParams();
   const [user] = useOutletContext();
-  const [post, setPost, loading, error, setError] = useFetchPostDetails(slug);
+  const {
+    data: post,
+    setData: setPost,
+    loading,
+    error,
+    setError,
+  } = useFetchPageData(`${API_URL}/posts/${slug}`);
 
   const [inProgress, setInProgress] = useState(false);
 
