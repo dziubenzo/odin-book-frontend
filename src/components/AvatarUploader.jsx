@@ -39,6 +39,7 @@ function AvatarUploader({
             id="avatar"
             name="avatar"
             accept="image/*"
+            data-testid="avatar-picker"
             onChange={uploadAvatar}
           />
         </div>
@@ -47,7 +48,11 @@ function AvatarUploader({
         <div className="avatar-preview">
           <div className="avatar-preview-left-side">
             <h2>Avatar Preview</h2>
-            <img className="avatar-preview" src={uploadedAvatarPreview} />
+            <img
+              className="avatar-preview"
+              src={uploadedAvatarPreview}
+              data-testid="avatar-preview"
+            />
           </div>
           <StyledButton
             className="clear-avatar-button"
