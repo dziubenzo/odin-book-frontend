@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { mockFetch } from './fetchMock';
 import { user2 } from './mocks';
+import { defaultAvatars } from '../helpers';
 
 function renderProfilePage() {
   // Mock useOutletContext and useParams hooks
@@ -69,5 +70,17 @@ describe('PostInfo', () => {
     });
 
     expect(previousPageLink).toBeInTheDocument();
+  });
+});
+
+describe('DefaultAvatars', () => {
+  it('should render all default avatars', () => {
+    renderProfilePage();
+
+    const defaultAvatarImgs = screen.getAllByRole('img', {
+      name: /default avatar/i,
+    });
+
+    expect(defaultAvatarImgs).toHaveLength(defaultAvatars.length);
   });
 });
