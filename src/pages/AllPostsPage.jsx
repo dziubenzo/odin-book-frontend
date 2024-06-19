@@ -61,7 +61,7 @@ function AllPostsPage() {
       {error && <Error errorMessage={error} />}
       {posts && (
         <>
-          <h1>Feed - All Posts</h1>
+          <h1 className="top-header">Feed - All Posts</h1>
           {renderPosts()}
         </>
       )}

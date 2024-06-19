@@ -431,3 +431,40 @@ export const updateUserProfile = async (
   setUploadedAvatarPreview('');
   return setInProgress(false);
 };
+
+// Follow/unfollow a category
+export const followOrUnfollowCategory = async (
+  inProgress,
+  user,
+  categoryID,
+  setInProgress,
+  setError,
+  setUser,
+) => {
+  if (inProgress) {
+    return;
+  }
+  setInProgress(categoryID);
+  const res = await fetch(`${API_URL}/users/${user.username}/update_category`, {
+    method: 'PUT',
+    body: JSON.stringify({ category_id: categoryID }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setError(error);
+    return setInProgress(false);
+  }
+  setUser((draft) => {
+    if (draft.followed_categories.includes(categoryID)) {
+      const index = draft.followed_categories.indexOf(categoryID);
+      draft.followed_categories.splice(index, 1);
+    } else {
+      draft.followed_categories.push(categoryID);
+    }
+  });
+  return setInProgress(false);
+};

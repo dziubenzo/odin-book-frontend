@@ -6,7 +6,7 @@ export const StyledAllPostsPage = styled.main`
   gap: 4px;
   margin: 2em 0;
 
-  h1 {
+  .top-header {
     color: ${(props) => props.theme.colours.secondary};
     text-align: center;
     margin-bottom: 1em;

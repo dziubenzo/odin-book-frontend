@@ -12,6 +12,7 @@ export const StyledAllCategoriesPage = styled.main`
 
   .top-header {
     color: ${(props) => props.theme.colours.secondary};
+    margin-bottom: 0.5em;
   }
 `;
 
@@ -26,7 +27,7 @@ export const StyledCategory = styled.div`
   }
 
   .follow-button {
-    width: fit-content;
+    width: 150px;
     height: fit-content;
     font-size: ${(props) => props.theme.fontSizes.standard};
     padding: 0.75em;
@@ -34,9 +35,11 @@ export const StyledCategory = styled.div`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    gap: 16px;
+    gap: 12px;
 
     .follow-button {
+      min-width: 80px;
+      font-size: ${(props) => props.theme.fontSizes.small};
       padding: 0.5em;
     }
   }

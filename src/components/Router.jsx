@@ -5,6 +5,7 @@ import ErrorPage from '../pages/ErrorPage';
 import WelcomePage from '../pages/WelcomePage';
 import PostDetailsPage from '../pages/PostDetailsPage';
 import ProfilePage from '../pages/ProfilePage';
+import AllCategoriesPage from '../pages/AllCategoriesPage';
 
 function Router() {
   const router = createBrowserRouter([
@@ -44,6 +45,21 @@ function Router() {
         {
           path: '',
           element: <ProfilePage />,
+        },
+      ],
+    },
+    {
+      path: '/categories',
+      element: <App />,
+      errorElement: (
+        <App>
+          <ErrorPage />
+        </App>
+      ),
+      children: [
+        {
+          path: '',
+          element: <AllCategoriesPage />,
         },
       ],
     },

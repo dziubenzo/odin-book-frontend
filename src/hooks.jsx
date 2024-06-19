@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 // Set user state if auth successful
 export const useAuthUser = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState('');
+  const [user, setUser] = useImmer('');
 
   useEffect(() => {
     async function authUser() {
