@@ -10,9 +10,56 @@ export const StyledAllCategoriesPage = styled.main`
   padding: 2em 0;
   gap: 16px;
 
+  *:focus-visible {
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.secondary};
+  }
+
   .top-header {
     color: ${(props) => props.theme.colours.secondary};
     margin-bottom: 0.5em;
+  }
+
+  .new-category-link-wrapper {
+    position: sticky;
+    bottom: 125px;
+    align-self: flex-end;
+    border-radius: 16px;
+    background-color: ${(props) => props.theme.colours.primary};
+
+    .new-category-link {
+      display: flex;
+      align-items: center;
+      color: ${(props) => props.theme.colours.background};
+      font-size: ${(props) => props.theme.fontSizes.large};
+      font-weight: 600;
+      text-decoration: none;
+
+      svg {
+        fill: ${(props) => props.theme.colours.background};
+        stroke: ${(props) => props.theme.colours.background};
+        height: 48px;
+        width: 48px;
+        padding: 0.5em;
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    .new-category-link-wrapper {
+      transition:
+        color,
+        background-color 0.15s ease-in;
+
+      &:hover {
+        background-color: ${(props) => props.theme.colours.secondary};
+      }
+    }
+    .new-category-link-wrapper {
+      .new-category-link:hover {
+        color: ${(props) => props.theme.colours.secondary};
+      }
+    }
   }
 `;
 
