@@ -21,6 +21,18 @@ export const user2 = {
 };
 
 /* 
+Categories
+*/
+
+export const category1 = {
+  name: 'Category 1',
+  icon: 'https://www.example.com/super_icon.png',
+  description: 'Category 1 description',
+  created_at: Date.now(),
+  slug: 'category-1',
+};
+
+/* 
 Posts
 */
 

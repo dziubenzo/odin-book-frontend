@@ -14,7 +14,7 @@ function Comment({
 
   return (
     <StyledComment>
-      <Avatar user={comment.author} size={36} />
+      <Avatar object={comment.author} size={36} />
       <CommentBody comment={comment} />
       <CommentLikes
         comment={comment}

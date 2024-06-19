@@ -5,7 +5,7 @@ import Avatar from './Avatar';
 function FooterRight({ user }) {
   return (
     <StyledFooterRight>
-      <Avatar user={user} size={50} />
+      <Avatar object={user} size={50} />
       <p className="username">{user.username}</p>
     </StyledFooterRight>
   );

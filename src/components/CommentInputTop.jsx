@@ -31,7 +31,7 @@ function CommentInputTop({
 
   return (
     <StyledCommentInputTop>
-      <Avatar user={user} size={36} />
+      <Avatar object={user} size={36} />
       <p
         ref={commentFieldRef}
         className="comment-input-field"

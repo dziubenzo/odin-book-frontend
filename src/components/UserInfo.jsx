@@ -8,7 +8,7 @@ function UserInfo({ user }) {
   return (
     <StyledUserInfo>
       <div className="top-line">
-        <Avatar user={user} size={100} />
+        <Avatar object={user} size={100} />
         <h1>
           <Link to={`/users/${user.username}`}>{user.username}</Link>
         </h1>
