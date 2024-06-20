@@ -33,7 +33,7 @@ Category.propTypes = {
   user: PropTypes.object,
   category: PropTypes.object,
   handleCategoryButtonClick: PropTypes.func,
-  inProgress: PropTypes.bool || PropTypes.string,
+  inProgress: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 export default Category;

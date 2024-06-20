@@ -458,13 +458,7 @@ export const followOrUnfollowCategory = async (
     setError(error);
     return setInProgress(false);
   }
-  setUser((draft) => {
-    if (draft.followed_categories.includes(categoryID)) {
-      const index = draft.followed_categories.indexOf(categoryID);
-      draft.followed_categories.splice(index, 1);
-    } else {
-      draft.followed_categories.push(categoryID);
-    }
-  });
+  const updatedUser = await res.json();
+  setUser(updatedUser);
   return setInProgress(false);
 };
