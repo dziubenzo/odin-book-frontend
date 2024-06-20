@@ -18,6 +18,13 @@ export const user2 = {
   avatar: 'https://www.example.com/super_avatar.png',
   bio: 'Bio Bio Bio Yo Yo Yo!',
   registered_at: Date.now(),
+  followed_categories: [],
+};
+
+export const user3 = {
+  _id: '3',
+  username: 'user3',
+  followed_categories: [1],
 };
 
 /* 
@@ -25,11 +32,20 @@ Categories
 */
 
 export const category1 = {
+  _id: 1,
   name: 'Category 1',
   icon: 'https://www.example.com/super_icon.png',
   description: 'Category 1 description',
   created_at: Date.now(),
   slug: 'category-1',
+};
+
+export const category2 = {
+  ...category1,
+  _id: 2,
+  name: 'Category 2',
+  description: 'Category 2 description',
+  slug: 'category-2',
 };
 
 /* 

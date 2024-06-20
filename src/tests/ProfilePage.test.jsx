@@ -13,7 +13,7 @@ import { MAX_BIO_LENGTH, defaultAvatars } from '../helpers';
 import { mockFetch } from './fetchMock';
 
 function renderProfilePage() {
-  // Mock useOutletContext and useParams hooks
+  // Mock useOutletContext
   vi.mock('react-router-dom', async (importOriginal) => {
     const actual = await importOriginal();
     return {
