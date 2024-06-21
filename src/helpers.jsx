@@ -8,6 +8,11 @@ Constants
 export const MIN_COMMENT_LENGTH = 3;
 export const MAX_COMMENT_LENGTH = 320;
 export const MAX_BIO_LENGTH = 160;
+export const MIN_CATEGORY_NAME_LENGTH = 3;
+export const MAX_CATEGORY_NAME_LENGTH = 32;
+export const MIN_CATEGORY_DESCRIPTION_LENGTH = 3;
+export const MAX_CATEGORY_DESCRIPTION_LENGTH = 320;
+
 export const defaultAvatars = [
   'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/b0heqsns8cpkyjzm1bsd.png',
   'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/dfmwqquwvyavf4v31wcg.png',
@@ -18,6 +23,9 @@ export const defaultAvatars = [
   'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/kvvaddcwsv0at8xdkunu.png',
   'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111758/odin_book/avatars/default/akap5kaki53sgmkhqekz.png',
 ];
+
+export const defaultCategoryIcon =
+  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1716979473/odin_book/category_icons/cnngnuxrgf0kqkl8tnur.png';
 
 /* 
 Functions

@@ -6,6 +6,7 @@ import WelcomePage from '../pages/WelcomePage';
 import PostDetailsPage from '../pages/PostDetailsPage';
 import ProfilePage from '../pages/ProfilePage';
 import AllCategoriesPage from '../pages/AllCategoriesPage';
+import NewCategoryPage from '../pages/NewCategoryPage';
 
 function Router() {
   const router = createBrowserRouter([
@@ -60,6 +61,10 @@ function Router() {
         {
           path: '',
           element: <AllCategoriesPage />,
+        },
+        {
+          path: 'new',
+          element: <NewCategoryPage />,
         },
       ],
     },
