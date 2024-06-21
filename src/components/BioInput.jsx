@@ -14,7 +14,13 @@ function BioInput({
 }) {
   return (
     <StyledBioInput>
-      <label htmlFor="bio">Bio ({bioLength} characters left)</label>
+      <label htmlFor="bio">
+        Bio (
+        {bioLength !== 1
+          ? `${bioLength} characters `
+          : `${bioLength} character `}
+        left):
+      </label>
       <textarea
         id="bio"
         name="bio"

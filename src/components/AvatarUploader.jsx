@@ -3,6 +3,7 @@ import { StyledAvatarUploader } from '../styles/ProfilePage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
 
 function AvatarUploader({
+  type = 'Avatar',
   uploadedAvatar,
   uploadedAvatarPreview,
   setUploadedAvatar,
@@ -32,7 +33,7 @@ function AvatarUploader({
       {!uploadedAvatar && (
         <div className="avatar-uploader">
           <label className="avatar-picker" htmlFor="avatar" tabIndex={0}>
-            Upload Your Own Avatar
+            Upload Your Own {type}
           </label>
           <input
             type="file"
@@ -47,7 +48,7 @@ function AvatarUploader({
       {uploadedAvatar && (
         <div className="avatar-preview">
           <div className="avatar-preview-left-side">
-            <h2>Avatar Preview</h2>
+            <h2>{type} Preview</h2>
             <img
               className="avatar-preview"
               src={uploadedAvatarPreview}
@@ -58,7 +59,7 @@ function AvatarUploader({
             className="clear-avatar-button"
             onClick={clearUploadedAvatar}
           >
-            Clear Uploaded Avatar
+            Clear Uploaded {type}
           </StyledButton>
         </div>
       )}
@@ -67,6 +68,7 @@ function AvatarUploader({
 }
 
 AvatarUploader.propTypes = {
+  type: PropTypes.string,
   uploadedAvatar: PropTypes.any,
   uploadedAvatarPreview: PropTypes.any,
   setUploadedAvatar: PropTypes.func,
