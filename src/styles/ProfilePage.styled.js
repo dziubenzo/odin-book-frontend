@@ -122,8 +122,7 @@ export const StyledAvatarUploader = styled.div`
 
   .avatar-preview {
     display: flex;
-    justify-content: center;
-    width: max-content;
+    width: 100%;
     gap: 32px;
 
     .avatar-preview-left-side {
@@ -131,6 +130,11 @@ export const StyledAvatarUploader = styled.div`
       flex-direction: column;
       justify-content: center;
       gap: 16px;
+
+      .avatar-preview-heading {
+        text-align: center;
+        width: max-content;
+      }
 
       img {
         width: 75px;
@@ -140,14 +144,19 @@ export const StyledAvatarUploader = styled.div`
       }
     }
 
-    .clear-avatar-button {
-      height: max-content;
-      width: max-content;
-      font-size: ${(props) => props.theme.fontSizes.standard};
-      align-self: center;
+    .clear-avatar-button-wrapper {
+      display: flex;
+      justify-content: center;
+      text-align: center;
 
-      &:focus-visible {
-        border: 2px solid ${(props) => props.theme.colours.secondary};
+      .clear-avatar-button {
+        height: max-content;
+        font-size: ${(props) => props.theme.fontSizes.standard};
+        align-self: center;
+
+        &:focus-visible {
+          border: 2px solid ${(props) => props.theme.colours.secondary};
+        }
       }
     }
   }
@@ -168,14 +177,14 @@ export const StyledAvatarUploader = styled.div`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
+    width: 100%;
+
     .avatar-preview {
-      width: 100%;
       display: grid;
       grid-template-columns: max-content 1fr;
       gap: 16px;
 
       .clear-avatar-button {
-        width: 150px;
         justify-self: center;
       }
     }
@@ -216,6 +225,7 @@ export const StyledBioInput = styled.div`
     display: flex;
     gap: 16px;
     align-items: center;
+    margin-top: 1em;
 
     .update-profile-button {
       height: max-content;
@@ -225,6 +235,15 @@ export const StyledBioInput = styled.div`
 
       &:focus-visible {
         border: 2px solid ${(props) => props.theme.colours.secondary};
+      }
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .update-profile-wrapper {
+      .update-profile-button {
+        font-size: ${(props) => props.theme.fontSizes.medium};
+        width: 100%;
       }
     }
   }

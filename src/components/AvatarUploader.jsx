@@ -48,19 +48,21 @@ function AvatarUploader({
       {uploadedAvatar && (
         <div className="avatar-preview">
           <div className="avatar-preview-left-side">
-            <h2>{type} Preview</h2>
+            <h2 className="avatar-preview-heading">{type} Preview</h2>
             <img
               className="avatar-preview"
               src={uploadedAvatarPreview}
               data-testid="avatar-preview"
             />
           </div>
-          <StyledButton
-            className="clear-avatar-button"
-            onClick={clearUploadedAvatar}
-          >
-            Clear Uploaded {type}
-          </StyledButton>
+          <div className="clear-avatar-button-wrapper">
+            <StyledButton
+              className="clear-avatar-button"
+              onClick={clearUploadedAvatar}
+            >
+              Clear Uploaded {type}
+            </StyledButton>
+          </div>
         </div>
       )}
     </StyledAvatarUploader>
