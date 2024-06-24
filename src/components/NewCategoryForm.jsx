@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyledNewCategoryInputs } from '../styles/NewCategoryPage.styled';
+import { StyledNewCategoryForm } from '../styles/NewCategoryPage.styled';
 import {
   MIN_CATEGORY_NAME_LENGTH,
   MIN_CATEGORY_DESCRIPTION_LENGTH,
@@ -7,16 +7,17 @@ import {
   MAX_CATEGORY_NAME_LENGTH,
 } from '../helpers';
 
-function NewCategoryInputs({
+function NewCategoryForm({
   nameLength,
   descriptionLength,
   setName,
   setNameLength,
   setDescription,
   setDescriptionLength,
+  onSubmit,
 }) {
   return (
-    <StyledNewCategoryInputs>
+    <StyledNewCategoryForm id="new-category-form" onSubmit={onSubmit}>
       <h1 className="top-header">New Category</h1>
       <label htmlFor="name">
         Name (
@@ -32,6 +33,7 @@ function NewCategoryInputs({
         placeholder="Name"
         minLength={MIN_CATEGORY_NAME_LENGTH}
         maxLength={MAX_CATEGORY_NAME_LENGTH}
+        required
         onChange={(event) => {
           setName(event.target.value);
           setNameLength(MAX_CATEGORY_NAME_LENGTH - event.target.value.length);
@@ -48,9 +50,10 @@ function NewCategoryInputs({
         id="description"
         name="description"
         placeholder="Description"
+        rows={6}
         minLength={MIN_CATEGORY_DESCRIPTION_LENGTH}
         maxLength={MAX_CATEGORY_DESCRIPTION_LENGTH}
-        rows={6}
+        required
         onInput={(event) => {
           setDescription(event.target.value);
           setDescriptionLength(
@@ -58,17 +61,18 @@ function NewCategoryInputs({
           );
         }}
       />
-    </StyledNewCategoryInputs>
+    </StyledNewCategoryForm>
   );
 }
 
-NewCategoryInputs.propTypes = {
+NewCategoryForm.propTypes = {
   nameLength: PropTypes.number,
   descriptionLength: PropTypes.number,
   setName: PropTypes.func,
   setNameLength: PropTypes.func,
   setDescription: PropTypes.func,
   setDescriptionLength: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
-export default NewCategoryInputs;
+export default NewCategoryForm;

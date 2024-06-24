@@ -1,5 +1,6 @@
 import API_URL from './API';
 import Cookies from 'js-cookie';
+import slugify from 'slugify';
 
 /* 
 Constants
@@ -468,5 +469,48 @@ export const followOrUnfollowCategory = async (
   }
   const updatedUser = await res.json();
   setUser(updatedUser);
+  return setInProgress(false);
+};
+
+// Create new category
+export const createNewCategory = async (
+  inProgress,
+  name,
+  description,
+  uploadedIcon,
+  setInProgress,
+  setError,
+  setCategoryCreated,
+  navigate,
+) => {
+  if (inProgress) {
+    return;
+  }
+  setInProgress(true);
+  const data = new FormData();
+  data.append('name', name);
+  data.append('description', description);
+  if (uploadedIcon) {
+    data.append('uploaded_icon', uploadedIcon);
+  }
+  const res = await fetch(`${API_URL}/categories`, {
+    method: 'POST',
+    body: data,
+    headers: {
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setError(error);
+    setTimeout(() => {
+      setError('');
+    }, 2000);
+    return setInProgress(false);
+  }
+  setCategoryCreated(true);
+  setTimeout(() => {
+    navigate(`/categories/${slugify(name, { lower: true })}`);
+  }, 2000);
   return setInProgress(false);
 };

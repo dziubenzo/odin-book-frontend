@@ -42,7 +42,35 @@ export const StyledNewCategoryPage = styled.main`
     }
   }
 
+  .error-message-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    p,
+    svg {
+      fill: red;
+      color: red;
+    }
+  }
+
+  .success-message-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+    p {
+      font-size: ${(props) => props.theme.fontSizes.large};
+      text-align: center;
+    }
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
+    padding: 2em 0.1em;
+
     .icon-wrapper {
       width: 100%;
       gap: 16px;
@@ -55,19 +83,19 @@ export const StyledNewCategoryPage = styled.main`
           text-align: center;
         }
       }
+    }
 
-      .avatar-uploader-wrapper {
-        width: 100%;
+    .avatar-uploader-wrapper {
+      width: 100%;
 
-        .avatar-uploader {
-          display: flex;
-          justify-content: center;
-          text-align: center;
+      .avatar-uploader {
+        display: flex;
+        justify-content: center;
+        text-align: center;
 
-          .avatar-picker {
-            padding: 0.75em;
-            width: 75%;
-          }
+        .avatar-picker {
+          padding: 0.75em;
+          width: 75%;
         }
       }
     }
@@ -79,7 +107,7 @@ export const StyledNewCategoryPage = styled.main`
   }
 `;
 
-export const StyledNewCategoryInputs = styled.div`
+export const StyledNewCategoryForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;

@@ -4,12 +4,17 @@ import { useState } from 'react';
 import {
   MAX_CATEGORY_DESCRIPTION_LENGTH,
   MAX_CATEGORY_NAME_LENGTH,
+  createNewCategory,
   defaultCategoryIcon,
 } from '../helpers';
 import { StyledButton } from '../styles/WelcomePage.styled';
-import NewCategoryInputs from '../components/NewCategoryInputs';
+import NewCategoryForm from '../components/NewCategoryForm';
+import { useNavigate } from 'react-router-dom';
+import { MdOutlineErrorOutline } from 'react-icons/md';
 
 function NewCategoryPage() {
+  const navigate = useNavigate();
+
   const [uploadedIcon, setUploadedIcon] = useState('');
   const [uploadedIconPreview, setUploadedIconPreview] = useState('');
   const [name, setName] = useState('');
@@ -18,16 +23,44 @@ function NewCategoryPage() {
   const [descriptionLength, setDescriptionLength] = useState(
     MAX_CATEGORY_DESCRIPTION_LENGTH,
   );
+  const [inProgress, setInProgress] = useState(false);
+  const [error, setError] = useState('');
+  const [categoryCreated, setCategoryCreated] = useState(false);
+
+  async function handleCreateCategoryClick(event) {
+    event.preventDefault();
+    await createNewCategory(
+      inProgress,
+      name,
+      description,
+      uploadedIcon,
+      setInProgress,
+      setError,
+      setCategoryCreated,
+      navigate,
+    );
+  }
+
+  if (categoryCreated)
+    return (
+      <StyledNewCategoryPage>
+        <div className="success-message-wrapper">
+          <p>New category created successfully!</p>
+          <p>Redirecting to the new category page...</p>
+        </div>
+      </StyledNewCategoryPage>
+    );
 
   return (
     <StyledNewCategoryPage>
-      <NewCategoryInputs
+      <NewCategoryForm
         nameLength={nameLength}
         descriptionLength={descriptionLength}
         setName={setName}
         setNameLength={setNameLength}
         setDescription={setDescription}
         setDescriptionLength={setDescriptionLength}
+        onSubmit={handleCreateCategoryClick}
       />
       <div className="icon-wrapper">
         {!uploadedIcon && (
@@ -49,9 +82,19 @@ function NewCategoryPage() {
           />
         </div>
       </div>
-      <StyledButton className="create-category-button">
-        Create Category
+      <StyledButton
+        type="submit"
+        form="new-category-form"
+        className="create-category-button"
+      >
+        {inProgress ? 'Creating New Category...' : 'Create Category'}
       </StyledButton>
+      {error && (
+        <div className="error-message-wrapper">
+          <MdOutlineErrorOutline />
+          <p>{error}</p>
+        </div>
+      )}
     </StyledNewCategoryPage>
   );
 }
