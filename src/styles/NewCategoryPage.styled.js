@@ -8,37 +8,6 @@ export const StyledNewCategoryPage = styled.main`
   padding: 2em 0;
   gap: 16px;
 
-  .top-header {
-    color: ${(props) => props.theme.colours.secondary};
-    margin-bottom: 0.5em;
-  }
-
-  input[id='name'],
-  textarea[id='description'] {
-    width: 100%;
-    background: transparent;
-    resize: vertical;
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.primary};
-    border-radius: 16px;
-    padding: 0.75em;
-    font-size: ${(props) => props.theme.fontSizes.medium};
-
-    &:focus-visible {
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
-    }
-
-    &::placeholder {
-      color: ${(props) => props.theme.colours.secondary};
-      opacity: 75%;
-    }
-  }
-
-  & > label {
-    font-size: ${(props) => props.theme.fontSizes.medium};
-    cursor: pointer;
-  }
-
   .icon-wrapper {
     display: flex;
     width: 100%;
@@ -107,5 +76,42 @@ export const StyledNewCategoryPage = styled.main`
       width: 100%;
       font-size: ${(props) => props.theme.fontSizes.medium};
     }
+  }
+`;
+
+export const StyledNewCategoryInputs = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .top-header {
+    color: ${(props) => props.theme.colours.secondary};
+    margin-bottom: 0.5em;
+  }
+
+  input[id='name'],
+  textarea[id='description'] {
+    width: 100%;
+    background: transparent;
+    resize: vertical;
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.primary};
+    border-radius: 16px;
+    padding: 0.75em;
+    font-size: ${(props) => props.theme.fontSizes.medium};
+
+    &:focus-visible {
+      outline: 2px solid ${(props) => props.theme.colours.secondary};
+    }
+
+    &::placeholder {
+      color: ${(props) => props.theme.colours.secondary};
+      opacity: 75%;
+    }
+  }
+
+  & > label {
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    cursor: pointer;
   }
 `;
