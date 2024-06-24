@@ -66,7 +66,7 @@ function NewCategoryPage() {
       <div className="icon-wrapper">
         {!uploadedIcon && (
           <div className="default-icon-wrapper">
-            <h2>Default Icon</h2>
+            <h2 className='default-icon-heading'>Default Icon</h2>
             <img src={defaultCategoryIcon} alt="Default Category Icon" />
           </div>
         )}
