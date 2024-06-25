@@ -19,12 +19,15 @@ export const user2 = {
   bio: 'Bio Bio Bio Yo Yo Yo!',
   registered_at: Date.now(),
   followed_categories: [],
+  followed_users: [],
 };
 
 export const user3 = {
   _id: '3',
   username: 'user3',
-  followed_categories: [1],
+  avatar: 'https://www.example.com/super_avatar.png',
+  followed_categories: ['1'],
+  followed_users: ['2'],
 };
 
 /* 
@@ -32,7 +35,7 @@ Categories
 */
 
 export const category1 = {
-  _id: 1,
+  _id: '1',
   name: 'Category 1',
   icon: 'https://www.example.com/super_icon.png',
   description: 'Category 1 description',
@@ -42,7 +45,7 @@ export const category1 = {
 
 export const category2 = {
   ...category1,
-  _id: 2,
+  _id: '2',
   name: 'Category 2',
   description: 'Category 2 description',
   slug: 'category-2',
@@ -58,7 +61,7 @@ export const post1 = {
   title: 'Post 1',
   content: 'Post 1 Content',
   category: {
-    _id: 1,
+    _id: '1',
     name: 'category1',
     slug: 'category1',
   },
@@ -78,7 +81,7 @@ export const post2 = {
   title: 'Post 2',
   content: 'Post 2 Content',
   category: {
-    _id: 2,
+    _id: '2',
     name: 'category2',
     slug: 'category2',
   },
@@ -98,7 +101,7 @@ export const post3 = {
   title: 'Post 3',
   content: 'Post 3 Content',
   category: {
-    _id: 3,
+    _id: '3',
     name: 'category3',
     slug: 'category3',
   },
@@ -122,7 +125,7 @@ export const detailedPost1 = {
   title: 'Post 1 Detailed',
   content: 'Post 1 Detailed Content',
   category: {
-    _id: 1,
+    _id: '1',
     name: 'category1',
     slug: 'category1',
   },

@@ -204,6 +204,30 @@ describe('NewCategoryPage', () => {
     expect(clearButton).toBeInTheDocument();
   });
 
+  it('should not accept a file other than an image', async () => {
+    const user = renderNewCategoryPage();
+    const nonImageFile = new File(
+      ["I chew, you're tasty!"],
+      'another_nasty_virus.rar',
+      {
+        type: 'application/vnd.rar',
+      },
+    );
+
+    const fileInput = screen.getByTestId('avatar-picker');
+    await user.upload(fileInput, nonImageFile);
+
+    const defaultIconHeading = screen.queryByRole('heading', {
+      name: /default icon/i,
+    });
+    const iconPreviewHeading = screen.queryByRole('heading', {
+      name: /icon preview/i,
+    });
+
+    expect(defaultIconHeading).toBeInTheDocument();
+    expect(iconPreviewHeading).not.toBeInTheDocument();
+  });
+
   it('should render a Create Category Button', () => {
     renderNewCategoryPage();
 
