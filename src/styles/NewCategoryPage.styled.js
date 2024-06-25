@@ -5,7 +5,7 @@ export const StyledNewCategoryPage = styled.main`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  padding: 2em 0;
+  padding: 2em 0.1em;
   gap: 16px;
 
   .icon-wrapper {
@@ -69,8 +69,6 @@ export const StyledNewCategoryPage = styled.main`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    padding: 2em 0.1em;
-
     .icon-wrapper {
       width: 100%;
       gap: 16px;
