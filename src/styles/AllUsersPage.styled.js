@@ -23,6 +23,7 @@ export const StyledUser = styled.div`
   flex-direction: column;
   gap: 24px;
   align-items: center;
+  justify-content: center;
   outline: 2px solid ${(props) => props.theme.colours.tertiary};
   border-radius: 32px;
   padding: 1em;

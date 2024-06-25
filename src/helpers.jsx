@@ -514,3 +514,34 @@ export const createNewCategory = async (
   }, 2000);
   return setInProgress(false);
 };
+
+// Follow/unfollow a user
+export const followOrUnfollowUser = async (
+  inProgress,
+  user,
+  userID,
+  setInProgress,
+  setError,
+  setUser,
+) => {
+  if (inProgress) {
+    return;
+  }
+  setInProgress(userID);
+  const res = await fetch(`${API_URL}/users/${user.username}/update_user`, {
+    method: 'PUT',
+    body: JSON.stringify({ user_id: userID }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setError(error);
+    return setInProgress(false);
+  }
+  const updatedUser = await res.json();
+  setUser(updatedUser);
+  return setInProgress(false);
+};

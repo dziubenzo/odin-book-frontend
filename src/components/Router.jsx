@@ -7,6 +7,7 @@ import PostDetailsPage from '../pages/PostDetailsPage';
 import ProfilePage from '../pages/ProfilePage';
 import AllCategoriesPage from '../pages/AllCategoriesPage';
 import NewCategoryPage from '../pages/NewCategoryPage';
+import AllUsersPage from '../pages/AllUsersPage';
 
 function Router() {
   const router = createBrowserRouter([
@@ -65,6 +66,21 @@ function Router() {
         {
           path: 'new',
           element: <NewCategoryPage />,
+        },
+      ],
+    },
+    {
+      path: '/users',
+      element: <App />,
+      errorElement: (
+        <App>
+          <ErrorPage />
+        </App>
+      ),
+      children: [
+        {
+          path: '',
+          element: <AllUsersPage />,
         },
       ],
     },
