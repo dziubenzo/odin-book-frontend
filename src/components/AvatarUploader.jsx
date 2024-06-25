@@ -52,7 +52,7 @@ function AvatarUploader({
             <img
               className="avatar-preview"
               src={uploadedAvatarPreview}
-              data-testid="avatar-preview"
+              alt={`Uploaded ${type}`}
             />
           </div>
           <div className="clear-avatar-button-wrapper">

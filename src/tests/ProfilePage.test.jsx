@@ -93,12 +93,12 @@ describe('AvatarUploader', () => {
   it('should render a label that allows the user to upload their own avatar', () => {
     renderProfilePage();
 
-    const uploadAvatarLabel = screen.getByText(/upload your/i);
+    const uploadAvatarLabel = screen.getByText(/your own avatar/i);
 
     expect(uploadAvatarLabel).toBeInTheDocument();
   });
 
-  it('should remove the default avatars section and add the image preview section if an image is uploaded', async () => {
+  it('should remove the default avatars section and add the avatar preview section if an image is uploaded', async () => {
     const user = renderProfilePage();
     const imageFile = new File(['catimage!'], 'cat_image.png', {
       type: 'image/png',
@@ -115,12 +115,14 @@ describe('AvatarUploader', () => {
     const avatarPreviewHeading = screen.getByRole('heading', {
       name: /avatar preview/i,
     });
-    const avatarPreviewImg = screen.getByTestId('avatar-preview');
+    const uploadedAvatarImg = screen.getByRole('img', {
+      name: /uploaded avatar/i,
+    });
     const clearButton = screen.getByRole('button', { name: /clear/i });
 
     expect(defaultAvatarImgs).toHaveLength(0);
     expect(avatarPreviewHeading).toBeInTheDocument();
-    expect(avatarPreviewImg).toBeInTheDocument();
+    expect(uploadedAvatarImg).toBeInTheDocument();
     expect(clearButton).toBeInTheDocument();
   });
 
