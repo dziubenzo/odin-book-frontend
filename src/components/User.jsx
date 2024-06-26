@@ -1,36 +1,30 @@
 import PropTypes from 'prop-types';
 import Avatar from './Avatar';
 import { StyledUser } from '../styles/AllUsersPage.styled';
-import { StyledButton } from '../styles/WelcomePage.styled';
+import FollowUserButton from '../components/FollowUserButton';
 import { Link } from 'react-router-dom';
 
 function User({ loggedInUser, user, handleUserButtonClick, inProgress }) {
-  const {
-    _id: loggedInUserID,
-    username: loggedInUserUsername,
-    followed_users,
-  } = loggedInUser;
-  const { _id, username } = user;
+  const { _id: loggedInUserID, username: loggedInUserUsername } = loggedInUser;
+  const { _id: renderedUserID, username: renderedUserUsername } = user;
 
   return (
     <StyledUser>
-      <Link to={`/users/${username}`} className="user-link">
+      <Link to={`/users/${renderedUserUsername}`} className="user-link">
         <Avatar object={user} size={100} />
         <p className="username">
-          {loggedInUserUsername === username ? undefined : username}
+          {loggedInUserUsername === renderedUserUsername
+            ? undefined
+            : renderedUserUsername}
         </p>
       </Link>
-      {_id === loggedInUserID ? undefined : (
-        <StyledButton
-          className="follow-button"
-          onClick={() => handleUserButtonClick(_id)}
-        >
-          {inProgress === _id
-            ? 'Changing...'
-            : followed_users.includes(_id)
-              ? 'Unfollow'
-              : 'Follow'}
-        </StyledButton>
+      {renderedUserID === loggedInUserID ? undefined : (
+        <FollowUserButton
+          loggedInUser={loggedInUser}
+          renderedUser={user}
+          inProgress={inProgress}
+          handleUserButtonClick={handleUserButtonClick}
+        />
       )}
     </StyledUser>
   );
