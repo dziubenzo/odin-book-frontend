@@ -8,9 +8,10 @@ import { useFetchPageData } from '../hooks';
 import { useState } from 'react';
 import UserInfo from '../components/UserInfo';
 import UserStats from '../components/UserStats';
+import { followOrUnfollowUser } from '../helpers';
 
 function UserPage() {
-  const [user] = useOutletContext();
+  const [user, setUser] = useOutletContext();
   const { username } = useParams();
   const {
     data: renderedUser,
@@ -22,7 +23,25 @@ function UserPage() {
   const [inProgress, setInProgress] = useState(false);
 
   async function handleUserButtonClick(userID) {
-    return;
+    await followOrUnfollowUser(
+      inProgress,
+      user,
+      userID,
+      setInProgress,
+      setError,
+      setUser,
+    );
+    if (inProgress) {
+      return;
+    }
+    // Update the rendered user
+    setRenderedUser((draft) => {
+      if (user.followed_users.includes(renderedUser._id)) {
+        draft.followersCount--;
+        return;
+      }
+      draft.followersCount++;
+    });
   }
 
   return (
