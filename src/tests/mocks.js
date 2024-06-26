@@ -30,6 +30,40 @@ export const user3 = {
   followed_users: ['2'],
 };
 
+export const user4 = {
+  _id: '4',
+  username: 'user4',
+  bio: 'I have a bio, yo!',
+  registered_at: Date.now(),
+  avatar: 'https://www.example.com/super_avatar.png',
+  followed_categories: ['1'],
+  followed_users: ['2', '3'],
+  postsCount: 0,
+  postLikesCount: 0,
+  postDislikesCount: 0,
+  commentsCount: 0,
+  commentLikesCount: 0,
+  commentDislikesCount: 0,
+  followersCount: 0,
+};
+
+export const user5 = {
+  _id: '5',
+  username: 'user5',
+  bio: '',
+  registered_at: Date.now(),
+  avatar: 'https://www.example.com/super_avatar.png',
+  followed_categories: [],
+  followed_users: [],
+  postsCount: 999,
+  postLikesCount: 999,
+  postDislikesCount: 999,
+  commentsCount: 999,
+  commentLikesCount: 999,
+  commentDislikesCount: 999,
+  followersCount: 999,
+};
+
 /* 
 Categories
 */
@@ -178,3 +212,5 @@ export const longBio =
 
 export const longDescription =
   'I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description...';
+
+export const STATS_COUNT = 9;
