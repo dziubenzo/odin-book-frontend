@@ -8,6 +8,7 @@ import ProfilePage from '../pages/ProfilePage';
 import AllCategoriesPage from '../pages/AllCategoriesPage';
 import NewCategoryPage from '../pages/NewCategoryPage';
 import AllUsersPage from '../pages/AllUsersPage';
+import UserPage from '../pages/UserPage';
 
 function Router() {
   const router = createBrowserRouter([
@@ -81,6 +82,10 @@ function Router() {
         {
           path: '',
           element: <AllUsersPage />,
+        },
+        {
+          path: ':username',
+          element: <UserPage />,
         },
       ],
     },

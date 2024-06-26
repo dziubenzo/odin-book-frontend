@@ -8,6 +8,8 @@ export const StyledError = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  align-self: center;
+  justify-self: center;
 
   h1 {
     color: ${(props) => props.theme.colours.primary};
@@ -31,6 +33,8 @@ export const StyledLoading = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
+  align-self: center;
+  justify-self: center;
 
   h1 {
     color: ${(props) => props.theme.colours.primary};

@@ -22,7 +22,7 @@ export const StyledAllCategoriesPage = styled.main`
 
   .new-category-link-wrapper {
     position: sticky;
-    bottom: 125px;
+    bottom: 110px;
     align-self: flex-end;
     border-radius: 16px;
     background-color: ${(props) => props.theme.colours.primary};
