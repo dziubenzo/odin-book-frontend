@@ -13,6 +13,9 @@ export const MIN_CATEGORY_NAME_LENGTH = 3;
 export const MAX_CATEGORY_NAME_LENGTH = 32;
 export const MIN_CATEGORY_DESCRIPTION_LENGTH = 3;
 export const MAX_CATEGORY_DESCRIPTION_LENGTH = 320;
+export const MIN_POST_TITLE_LENGTH = 3;
+export const MAX_POST_TITLE_LENGTH = 64;
+export const MIN_POST_CONTENT_LENGTH = 8;
 
 export const defaultAvatars = [
   'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/b0heqsns8cpkyjzm1bsd.png',
@@ -543,5 +546,67 @@ export const followOrUnfollowUser = async (
   }
   const updatedUser = await res.json();
   setUser(updatedUser);
+  return setInProgress(false);
+};
+
+// Create post
+export const createPost = async (
+  inProgress,
+  userID,
+  title,
+  content,
+  category,
+  setInProgress,
+  setErrorMessage,
+  setPostPublished,
+  navigate,
+) => {
+  if (inProgress) {
+    return;
+  }
+  if (!category) {
+    setErrorMessage('Please choose category');
+    return setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+  }
+  if (title.length < MIN_POST_TITLE_LENGTH) {
+    setErrorMessage('Post title is too short');
+    return setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+  }
+  if (content.length < MIN_POST_CONTENT_LENGTH) {
+    setErrorMessage('Post content is too short');
+    return setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+  }
+  setInProgress(true);
+  const data = new FormData();
+  data.append('author', userID);
+  data.append('title', title);
+  data.append('content', content);
+  data.append('category', category);
+  const res = await fetch(`${API_URL}/posts`, {
+    method: 'POST',
+    body: data,
+    headers: {
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setErrorMessage(error);
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+    return setInProgress(false);
+  }
+  const newPost = await res.json();
+  setPostPublished(true);
+  setTimeout(() => {
+    navigate(`/posts/${newPost.slug}`);
+  }, 2000);
   return setInProgress(false);
 };

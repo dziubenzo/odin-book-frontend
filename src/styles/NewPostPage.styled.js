@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { MIN_POST_CONTENT_LENGTH } from '../helpers';
 
 export const StyledNewPostPage = styled.main`
   display: flex;
@@ -31,6 +32,41 @@ export const StyledNewPostPage = styled.main`
     border-radius: 16px;
     padding: 0.75em;
     font-size: ${(props) => props.theme.fontSizes.medium};
+
+    &.short-title {
+      color: ${(props) => props.theme.colours.lightRed};
+    }
+  }
+
+  .publish-post-wrapper {
+    margin-top: 1em;
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .error-message-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      p,
+      svg {
+        fill: ${(props) => props.theme.colours.lightRed};
+        color: ${(props) => props.theme.colours.lightRed};
+      }
+    }
+
+    .publish-post-button {
+      margin-left: auto;
+    }
+  }
+  
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .publish-post-wrapper {
+      .publish-post-button {
+        width: max-content;
+      }
+    }
   }
 `;
 
@@ -123,6 +159,10 @@ export const StyledEditor = styled.div`
     border: none;
     outline: 2px solid ${(props) => props.theme.colours.primary};
     word-break: break-all;
+    color: ${(props) =>
+      props.$contentLength < MIN_POST_CONTENT_LENGTH
+        ? props.theme.colours.lightRed
+        : 'inherit'};
 
     b {
       font-weight: 600;
