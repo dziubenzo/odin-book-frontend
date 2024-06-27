@@ -61,6 +61,29 @@ export const StyledPostDetails = styled.div`
 
     .post-content {
       line-height: 1.75;
+      word-break: break-all;
+
+      b {
+        font-weight: 600;
+      }
+
+      i {
+        font-style: italic;
+      }
+
+      ul,
+      ol {
+        list-style-position: inside;
+      }
+
+      a {
+        color: ${(props) => props.theme.colours.secondary};
+        text-underline-offset: 0.3em;
+      }
+
+      pre {
+        font-family: monospace;
+      }
     }
   }
 
@@ -91,7 +114,7 @@ export const StyledPostInfoPostDetails = styled(StyledPostInfo)`
   @media (max-width: ${(props) => props.theme.mobile}) {
     font-size: ${(props) => props.theme.fontSizes.standard};
     width: 100%;
-    justify-content: space-between;
+    justify-content: space-around;
   }
 `;
 

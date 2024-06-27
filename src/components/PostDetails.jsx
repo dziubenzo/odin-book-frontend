@@ -7,6 +7,7 @@ import PostLikes from './PostLikes';
 import PostInfo from './PostInfo';
 import { IoChevronBack } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import parse from 'html-react-parser';
 
 function PostDetails({
   post,
@@ -15,6 +16,7 @@ function PostDetails({
   handlePostDislikeClick,
 }) {
   const navigate = useNavigate();
+  const { title, content } = post;
 
   return (
     <StyledPostDetails>
@@ -27,7 +29,7 @@ function PostDetails({
       </div>
       <div className="post-body">
         <div className="post-top-bar">
-          <h2 className="post-title">{post.title}</h2>
+          <h2 className="post-title">{title}</h2>
           <PostLikes
             post={post}
             user={user}
@@ -35,7 +37,7 @@ function PostDetails({
             handlePostDislikeClick={handlePostDislikeClick}
           />
         </div>
-        <p className="post-content">{post.content}</p>
+        <div className="post-content">{parse(content)}</div>
       </div>
       <PostInfo post={post} StyledComponent={StyledPostInfoPostDetails} />
       <hr />

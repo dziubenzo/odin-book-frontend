@@ -106,6 +106,11 @@ export const StyledPostBody = styled.div`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font-size: ${(props) => props.theme.fontSizes.standard};
+
+    * {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+    }
   }
 
   @media (hover: hover) {
@@ -124,6 +129,10 @@ export const StyledPostBody = styled.div`
 
     .post-content {
       font-size: 0.9em;
+
+      * {
+        font-size: 0.9em;
+      }
     }
   }
 `;

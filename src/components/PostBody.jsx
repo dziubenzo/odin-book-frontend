@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import PostInfo from './PostInfo';
+import parse from 'html-react-parser';
 
 import { StyledPostBody } from '../styles/AllPostsPage.styled';
 import { StyledPostInfo } from '../styles/AllPostsPage.styled';
@@ -12,7 +13,7 @@ function PostBody({ post }) {
     <StyledPostBody>
       <Link to={`/posts/${slug}`}>
         <p className="post-title">{title}</p>
-        <p className="post-content">{content}</p>
+        <div className="post-content">{parse(content)}</div>
       </Link>
       <PostInfo post={post} StyledComponent={StyledPostInfo} />
     </StyledPostBody>
