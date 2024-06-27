@@ -62,6 +62,10 @@ export const StyledPostTypeSelector = styled.div`
       transform: scale(1.2);
     }
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    margin-left: 0.2em;
+  }
 `;
 
 export const StyledCategoryPicker = styled.div`
@@ -95,6 +99,15 @@ export const StyledCategoryPicker = styled.div`
       outline: 2px solid ${(props) => props.theme.colours.secondary};
     }
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    flex-direction: column;
+    align-items: revert;
+
+    label[for='followed-categories'] {
+      margin-left: revert;
+    }
+  }
 `;
 
 export const StyledEditor = styled.div`
@@ -106,8 +119,10 @@ export const StyledEditor = styled.div`
   }
 
   .rsw-ce {
+    min-height: 150px;
     border: none;
     outline: 2px solid ${(props) => props.theme.colours.primary};
+    word-break: break-all;
 
     b {
       font-weight: 600;
@@ -147,7 +162,8 @@ export const StyledEditor = styled.div`
         fill: ${(props) => props.theme.colours.background};
         stroke: ${(props) => props.theme.colours.background};
 
-        & > span {
+        & > span,
+        & > s {
           color: inherit;
           fill: inherit;
           stroke: inherit;
@@ -161,7 +177,8 @@ export const StyledEditor = styled.div`
       fill: ${(props) => props.theme.colours.background};
       stroke: ${(props) => props.theme.colours.background};
 
-      & > span {
+      & > span,
+      & > s {
         color: inherit;
         fill: inherit;
         stroke: inherit;
@@ -171,6 +188,7 @@ export const StyledEditor = styled.div`
     .rsw-separator {
       border: none;
       outline: 1px solid ${(props) => props.theme.colours.primary};
+      margin: 0;
     }
 
     .rsw-dd {
@@ -193,11 +211,27 @@ export const StyledEditor = styled.div`
         fill: ${(props) => props.theme.colours.background};
         stroke: ${(props) => props.theme.colours.background};
 
-        & > span {
+        & > span,
+        & > s {
           color: inherit;
           fill: inherit;
           stroke: inherit;
         }
+      }
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .rsw-toolbar {
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+
+      .rsw-btn {
+        font-size: ${(props) => props.theme.fontSizes.standard};
+      }
+
+      .rsw-separator {
+        display: none;
       }
     }
   }
