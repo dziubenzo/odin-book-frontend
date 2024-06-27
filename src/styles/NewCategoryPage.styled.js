@@ -49,22 +49,8 @@ export const StyledNewCategoryPage = styled.main`
 
     p,
     svg {
-      fill: red;
-      color: red;
-    }
-  }
-
-  .success-message-wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-
-    p {
-      font-size: ${(props) => props.theme.fontSizes.large};
-      text-align: center;
+      fill: ${(props) => props.theme.colours.lightRed};
+      color: ${(props) => props.theme.colours.lightRed};
     }
   }
 

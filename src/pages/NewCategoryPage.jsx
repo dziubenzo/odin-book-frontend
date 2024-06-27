@@ -11,6 +11,7 @@ import { StyledButton } from '../styles/WelcomePage.styled';
 import NewCategoryForm from '../components/NewCategoryForm';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineErrorOutline } from 'react-icons/md';
+import SuccessPage from './SuccessPage';
 
 function NewCategoryPage() {
   const navigate = useNavigate();
@@ -41,15 +42,7 @@ function NewCategoryPage() {
     );
   }
 
-  if (categoryCreated)
-    return (
-      <StyledNewCategoryPage>
-        <div className="success-message-wrapper">
-          <p>New category created successfully!</p>
-          <p>Redirecting to the new category page...</p>
-        </div>
-      </StyledNewCategoryPage>
-    );
+  if (categoryCreated) return <SuccessPage resourceCreated={'category'} />;
 
   return (
     <StyledNewCategoryPage>
