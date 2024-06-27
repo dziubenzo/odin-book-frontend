@@ -96,3 +96,109 @@ export const StyledCategoryPicker = styled.div`
     }
   }
 `;
+
+export const StyledEditor = styled.div`
+  margin-top: 1em;
+
+  .rsw-editor {
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.primary};
+  }
+
+  .rsw-ce {
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.primary};
+
+    b {
+      font-weight: 600;
+    }
+
+    i {
+      font-style: italic;
+    }
+
+    ul,
+    ol {
+      list-style-position: inside;
+    }
+
+    a {
+      color: ${(props) => props.theme.colours.secondary};
+      text-underline-offset: 0.3em;
+    }
+
+    pre {
+      font-family: monospace;
+    }
+  }
+
+  .rsw-toolbar {
+    background-color: ${(props) => props.theme.colours.background};
+
+    .rsw-btn {
+      color: ${(props) => props.theme.colours.primary};
+      fill: ${(props) => props.theme.colours.primary};
+      stroke: ${(props) => props.theme.colours.primary};
+      font-size: ${(props) => props.theme.fontSizes.medium};
+
+      &:hover {
+        background-color: ${(props) => props.theme.colours.primary};
+        color: ${(props) => props.theme.colours.background};
+        fill: ${(props) => props.theme.colours.background};
+        stroke: ${(props) => props.theme.colours.background};
+
+        & > span {
+          color: inherit;
+          fill: inherit;
+          stroke: inherit;
+        }
+      }
+    }
+
+    .rsw-btn[data-active='true'] {
+      background-color: ${(props) => props.theme.colours.primary};
+      color: ${(props) => props.theme.colours.background};
+      fill: ${(props) => props.theme.colours.background};
+      stroke: ${(props) => props.theme.colours.background};
+
+      & > span {
+        color: inherit;
+        fill: inherit;
+        stroke: inherit;
+      }
+    }
+
+    .rsw-separator {
+      border: none;
+      outline: 1px solid ${(props) => props.theme.colours.primary};
+    }
+
+    .rsw-dd {
+      background-color: ${(props) => props.theme.colours.background};
+      border: none;
+      border-radius: 4px;
+      font-size: ${(props) => props.theme.fontSizes.standard};
+      padding: 0.5em;
+      cursor: pointer;
+    }
+  }
+
+  @media (hover: hover) {
+    .rsw-toolbar {
+      background-color: ${(props) => props.theme.colours.background};
+
+      .rsw-btn:hover {
+        background-color: ${(props) => props.theme.colours.primary};
+        color: ${(props) => props.theme.colours.background};
+        fill: ${(props) => props.theme.colours.background};
+        stroke: ${(props) => props.theme.colours.background};
+
+        & > span {
+          color: inherit;
+          fill: inherit;
+          stroke: inherit;
+        }
+      }
+    }
+  }
+`;
