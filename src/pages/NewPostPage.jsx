@@ -10,7 +10,7 @@ import {
   createPost,
 } from '../helpers';
 import { useOutletContext, useNavigate } from 'react-router-dom';
-import { useFetchPageData } from '../hooks';
+import { useFetchPageData, usePreserveState } from '../hooks';
 import CategoryPicker from '../components/CategoryPicker';
 
 import { StyledButton } from '../styles/WelcomePage.styled';
@@ -35,6 +35,18 @@ function NewPostPage() {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
+
+  usePreserveState(
+    loading,
+    postType,
+    title,
+    category,
+    content,
+    setPostType,
+    setTitle,
+    setCategory,
+    setContent,
+  );
 
   async function handleSubmitButtonClick() {
     await createPost(
@@ -68,9 +80,14 @@ function NewPostPage() {
               title.length < MIN_POST_TITLE_LENGTH ? 'short-title' : undefined
             }
             maxLength={MAX_POST_TITLE_LENGTH}
+            defaultValue={title}
             onChange={(event) => setTitle(event.target.value)}
           />
-          <CategoryPicker categories={categories} setCategory={setCategory} />
+          <CategoryPicker
+            categories={categories}
+            category={category}
+            setCategory={setCategory}
+          />
           <PostTypeSelector postType={postType} setPostType={setPostType} />
           {postType === 'text' && (
             <TextEditor content={content} setContent={setContent} />

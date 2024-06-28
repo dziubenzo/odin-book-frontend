@@ -3,7 +3,7 @@ import { StyledCategoryPicker } from '../styles/NewPostPage.styled';
 import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
-function CategoryPicker({ categories, setCategory }) {
+function CategoryPicker({ categories, category, setCategory }) {
   const [user] = useOutletContext();
   const { followed_categories } = user;
   const [checkboxTicked, setCheckboxTicked] = useState(false);
@@ -34,6 +34,7 @@ function CategoryPicker({ categories, setCategory }) {
       <select
         name="category"
         id="category"
+        defaultValue={category}
         onChange={(event) => setCategory(event.target.value)}
       >
         <option key={'dummy'} value={''}>
@@ -54,6 +55,7 @@ function CategoryPicker({ categories, setCategory }) {
 
 CategoryPicker.propTypes = {
   categories: PropTypes.array,
+  category: PropTypes.string,
   setCategory: PropTypes.func,
 };
 

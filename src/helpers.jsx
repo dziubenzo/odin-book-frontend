@@ -605,6 +605,8 @@ export const createPost = async (
   }
   const newPost = await res.json();
   setPostPublished(true);
+  // Clear session storage
+  sessionStorage.clear();
   setTimeout(() => {
     navigate(`/posts/${newPost.slug}`);
   }, 2000);

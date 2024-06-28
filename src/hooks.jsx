@@ -84,3 +84,45 @@ export const useFetchPageData = (endpoint) => {
 
   return { data, setData, loading, error, setError };
 };
+
+// Show Leave Page dialog if any field is not empty
+// Save fields to session storage and retrieve them on page load
+export const usePreserveState = (
+  loading,
+  postType,
+  title,
+  category,
+  content,
+  setPostType,
+  setTitle,
+  setCategory,
+  setContent,
+) => {
+  useEffect(() => {
+    if (loading) {
+      setPostType(sessionStorage.getItem('postType') || postType);
+      setTitle(sessionStorage.getItem('title') || '');
+      setCategory(sessionStorage.getItem('category') || '');
+      setContent(sessionStorage.getItem('content') || '');
+    }
+
+    function triggerLeavePageDialog(event) {
+      event.preventDefault();
+      event.returnValue = true;
+    }
+
+    if (title || content || category) {
+      window.addEventListener('beforeunload', triggerLeavePageDialog);
+    }
+
+    return () => {
+      window.removeEventListener('beforeunload', triggerLeavePageDialog);
+      if (!loading) {
+        sessionStorage.setItem('postType', postType);
+        sessionStorage.setItem('title', title);
+        sessionStorage.setItem('category', category);
+        sessionStorage.setItem('content', content);
+      }
+    };
+  }, [postType, title, category, content]);
+};
