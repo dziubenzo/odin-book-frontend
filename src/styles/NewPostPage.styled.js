@@ -60,7 +60,7 @@ export const StyledNewPostPage = styled.main`
       margin-left: auto;
     }
   }
-  
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     .publish-post-wrapper {
       .publish-post-button {
@@ -71,6 +71,7 @@ export const StyledNewPostPage = styled.main`
 `;
 
 export const StyledPostTypeSelector = styled.div`
+  margin-top: 1em;
   display: flex;
 
   button {
@@ -159,17 +160,24 @@ export const StyledEditor = styled.div`
     border: none;
     outline: 2px solid ${(props) => props.theme.colours.primary};
     word-break: break-all;
+    line-height: 1.75;
     color: ${(props) =>
       props.$contentLength < MIN_POST_CONTENT_LENGTH
         ? props.theme.colours.lightRed
         : 'inherit'};
 
     b {
+      color: inherit;
       font-weight: 600;
     }
 
     i {
+      color: inherit;
       font-style: italic;
+    }
+
+    strike {
+      color: inherit;
     }
 
     ul,

@@ -61,14 +61,19 @@ export const StyledPostDetails = styled.div`
 
     .post-content {
       line-height: 1.75;
-      word-break: break-all;
 
       b {
+        color: inherit;
         font-weight: 600;
       }
 
       i {
+        color: inherit;
         font-style: italic;
+      }
+
+      strike {
+        color: inherit;
       }
 
       ul,

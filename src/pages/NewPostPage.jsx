@@ -16,6 +16,7 @@ import Editor from 'react-simple-wysiwyg';
 import { StyledButton } from '../styles/WelcomePage.styled';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import SuccessPage from './SuccessPage';
+import sanitize from 'sanitize-html';
 
 function NewPostPage() {
   const navigate = useNavigate();
@@ -49,6 +50,19 @@ function NewPostPage() {
     );
   }
 
+  // Remove almost all attributes of any pasted content to get rid of formatting
+  function handlePastedContent() {
+    setTimeout(() => {
+      const contentEditableDiv = document.querySelector("div[class='rsw-ce']");
+      const cleaned = sanitize(contentEditableDiv.innerHTML, {
+        allowedAttributes: {
+          a: ['href'],
+        },
+      });
+      setContent(cleaned);
+    }, 0);
+  }
+
   if (postPublished) return <SuccessPage resourceCreated={'post'} />;
 
   return (
@@ -76,6 +90,7 @@ function NewPostPage() {
               <Editor
                 value={content}
                 onChange={(event) => setContent(event.target.value)}
+                onPaste={handlePastedContent}
               />
             </StyledEditor>
           )}
