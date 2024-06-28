@@ -55,6 +55,20 @@ function NewPostPage() {
     setTimeout(() => {
       const contentEditableDiv = document.querySelector("div[class='rsw-ce']");
       const cleaned = sanitize(contentEditableDiv.innerHTML, {
+        allowedTags: [
+          'b',
+          'i',
+          'u',
+          'strike',
+          'ol',
+          'ul',
+          'li',
+          'a',
+          'div',
+          'h1',
+          'h2',
+          'pre',
+        ],
         allowedAttributes: {
           a: ['href'],
         },

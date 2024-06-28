@@ -23,12 +23,6 @@ function CommentInputTop({
     if (event.currentTarget.textContent.length > MAX_COMMENT_LENGTH) {
       return (event.currentTarget.textContent = content);
     }
-    // Remove /n from pasted content to prevent inserting new lines in the input
-    const sanitisedContent = event.currentTarget.textContent.replace(
-      /\s+/g,
-      ' ',
-    );
-    event.currentTarget.textContent = sanitisedContent;
     setContent(event.currentTarget.textContent);
     setContentLength(
       MAX_COMMENT_LENGTH - event.currentTarget.textContent.length,
@@ -41,10 +35,11 @@ function CommentInputTop({
       <p
         ref={commentFieldRef}
         className="comment-input-field"
-        contentEditable="plaintext-only"
+        contentEditable
         data-testid="comment-input-field"
         onKeyDown={disableEnter}
         onInput={handleCommentFieldInput}
+        onPaste={(event) => event.preventDefault()}
       ></p>
       <p
         className={
