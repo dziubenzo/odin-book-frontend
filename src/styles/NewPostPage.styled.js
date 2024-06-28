@@ -147,7 +147,7 @@ export const StyledCategoryPicker = styled.div`
   }
 `;
 
-export const StyledEditor = styled.div`
+export const StyledTextEditor = styled.div`
   margin-top: 1em;
 
   .rsw-editor {

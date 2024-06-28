@@ -1,7 +1,7 @@
 import API_URL from '../API';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
-import { StyledEditor, StyledNewPostPage } from '../styles/NewPostPage.styled';
+import { StyledNewPostPage } from '../styles/NewPostPage.styled';
 import PostTypeSelector from '../components/PostTypeSelector';
 import { useState } from 'react';
 import {
@@ -12,11 +12,11 @@ import {
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import { useFetchPageData } from '../hooks';
 import CategoryPicker from '../components/CategoryPicker';
-import Editor from 'react-simple-wysiwyg';
+
 import { StyledButton } from '../styles/WelcomePage.styled';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import SuccessPage from './SuccessPage';
-import sanitize from 'sanitize-html';
+import TextEditor from '../components/TextEditor';
 
 function NewPostPage() {
   const navigate = useNavigate();
@@ -50,33 +50,6 @@ function NewPostPage() {
     );
   }
 
-  // Remove almost all attributes of any pasted content to get rid of formatting
-  function handlePastedContent() {
-    setTimeout(() => {
-      const contentEditableDiv = document.querySelector("div[class='rsw-ce']");
-      const cleaned = sanitize(contentEditableDiv.innerHTML, {
-        allowedTags: [
-          'b',
-          'i',
-          'u',
-          'strike',
-          'ol',
-          'ul',
-          'li',
-          'a',
-          'div',
-          'h1',
-          'h2',
-          'pre',
-        ],
-        allowedAttributes: {
-          a: ['href'],
-        },
-      });
-      setContent(cleaned);
-    }, 0);
-  }
-
   if (postPublished) return <SuccessPage resourceCreated={'post'} />;
 
   return (
@@ -100,13 +73,7 @@ function NewPostPage() {
           <CategoryPicker categories={categories} setCategory={setCategory} />
           <PostTypeSelector postType={postType} setPostType={setPostType} />
           {postType === 'text' && (
-            <StyledEditor $contentLength={content.length}>
-              <Editor
-                value={content}
-                onChange={(event) => setContent(event.target.value)}
-                onPaste={handlePastedContent}
-              />
-            </StyledEditor>
+            <TextEditor content={content} setContent={setContent} />
           )}
           <div className="publish-post-wrapper">
             {errorMessage && (
