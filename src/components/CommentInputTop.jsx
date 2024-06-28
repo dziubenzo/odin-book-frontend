@@ -30,7 +30,7 @@ function CommentInputTop({
   }
 
   return (
-    <StyledCommentInputTop>
+    <StyledCommentInputTop $contentLength={content.length}>
       <Avatar object={user} size={36} />
       <p
         ref={commentFieldRef}

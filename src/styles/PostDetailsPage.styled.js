@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { StyledPostInfo } from './AllPostsPage.styled';
 import { StyledButton } from './WelcomePage.styled';
+import { MIN_COMMENT_LENGTH } from '../helpers';
 
 export const StyledPostDetailsPage = styled.main`
   display: flex;
@@ -255,6 +256,10 @@ export const StyledCommentInputTop = styled.div`
     border-radius: 8px;
     padding: 0.5em;
     word-break: break-all;
+    color: ${(props) =>
+      props.$contentLength < MIN_COMMENT_LENGTH
+        ? props.theme.colours.lightRed
+        : 'inherit'};
 
     &:focus-visible {
       outline: 2px solid ${(props) => props.theme.colours.primary};
