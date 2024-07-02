@@ -93,10 +93,12 @@ export const usePreserveState = (
   title,
   category,
   content,
+  imageURL,
   setPostType,
   setTitle,
   setCategory,
   setContent,
+  setImageURL,
 ) => {
   useEffect(() => {
     if (loading) {
@@ -104,6 +106,7 @@ export const usePreserveState = (
       setTitle(sessionStorage.getItem('title') || '');
       setCategory(sessionStorage.getItem('category') || '');
       setContent(sessionStorage.getItem('content') || '');
+      setImageURL(sessionStorage.getItem('imageURL') || '');
     }
 
     function triggerLeavePageDialog(event) {
@@ -111,7 +114,7 @@ export const usePreserveState = (
       event.returnValue = true;
     }
 
-    if (title || content || category) {
+    if (title || content || category || imageURL) {
       window.addEventListener('beforeunload', triggerLeavePageDialog);
     }
 
@@ -122,7 +125,8 @@ export const usePreserveState = (
         sessionStorage.setItem('title', title);
         sessionStorage.setItem('category', category);
         sessionStorage.setItem('content', content);
+        sessionStorage.setItem('imageURL', imageURL);
       }
     };
-  }, [postType, title, category, content]);
+  }, [postType, title, category, content, imageURL]);
 };

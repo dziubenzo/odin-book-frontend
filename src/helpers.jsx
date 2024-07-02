@@ -549,8 +549,8 @@ export const followOrUnfollowUser = async (
   return setInProgress(false);
 };
 
-// Create post
-export const createPost = async (
+// Create text post
+export const createTextPost = async (
   inProgress,
   userID,
   title,
@@ -561,20 +561,8 @@ export const createPost = async (
   setPostPublished,
   navigate,
 ) => {
-  if (inProgress) {
+  if (areCommonFieldsInvalid(inProgress, category, title, setErrorMessage)) {
     return;
-  }
-  if (!category) {
-    setErrorMessage('Please choose category');
-    return setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
-  }
-  if (title.length < MIN_POST_TITLE_LENGTH) {
-    setErrorMessage('Post title is too short');
-    return setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
   }
   if (content.length < MIN_POST_CONTENT_LENGTH) {
     setErrorMessage('Post content is too short');
@@ -586,9 +574,9 @@ export const createPost = async (
   const data = new FormData();
   data.append('author', userID);
   data.append('title', title);
-  data.append('content', content);
   data.append('category', category);
-  const res = await fetch(`${API_URL}/posts`, {
+  data.append('content', content);
+  const res = await fetch(`${API_URL}/posts/?type=text`, {
     method: 'POST',
     body: data,
     headers: {
@@ -611,4 +599,93 @@ export const createPost = async (
     navigate(`/posts/${newPost.slug}`);
   }, 2000);
   return setInProgress(false);
+};
+
+// Create image post
+export const createImagePost = async (
+  inProgress,
+  userID,
+  title,
+  imageURL,
+  category,
+  setInProgress,
+  setErrorMessage,
+  setPostPublished,
+  navigate,
+) => {
+  if (areCommonFieldsInvalid(inProgress, category, title, setErrorMessage)) {
+    return;
+  }
+  if (!imageURL || !isValidImageURL(imageURL)) {
+    setErrorMessage('Invalid image URL');
+    return setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+  }
+  setInProgress(true);
+  const data = new FormData();
+  data.append('author', userID);
+  data.append('title', title);
+  data.append('category', category);
+  data.append('content', imageURL);
+  const res = await fetch(`${API_URL}/posts/?type=image`, {
+    method: 'POST',
+    body: data,
+    headers: {
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setErrorMessage(error);
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+    return setInProgress(false);
+  }
+  const newPost = await res.json();
+  setPostPublished(true);
+  // Clear session storage
+  sessionStorage.clear();
+  setTimeout(() => {
+    navigate(`/posts/${newPost.slug}`);
+  }, 2000);
+  return setInProgress(false);
+};
+
+// Validate fields common to all post types
+const areCommonFieldsInvalid = (
+  inProgress,
+  category,
+  title,
+  setErrorMessage,
+) => {
+  if (inProgress) {
+    return true;
+  }
+  if (!category) {
+    setErrorMessage('Category is not chosen');
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+    return true;
+  }
+  if (title.length < MIN_POST_TITLE_LENGTH) {
+    setErrorMessage('Post title is too short');
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+    return true;
+  }
+  return false;
+};
+
+// Check if the URL provided is a valid image
+export const isValidImageURL = (string) => {
+  if (typeof string !== 'string') {
+    return false;
+  }
+  return !!string.match(
+    /(http(s?):)([/|.|\w|\s|-])*\.(?:avif|jpg|jpeg|gif|png|webp)/gi,
+  );
 };

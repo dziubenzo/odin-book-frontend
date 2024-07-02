@@ -7,7 +7,8 @@ import { useState } from 'react';
 import {
   MAX_POST_TITLE_LENGTH,
   MIN_POST_TITLE_LENGTH,
-  createPost,
+  createImagePost,
+  createTextPost,
 } from '../helpers';
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import { useFetchPageData, usePreserveState } from '../hooks';
@@ -17,6 +18,7 @@ import { StyledButton } from '../styles/WelcomePage.styled';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import SuccessPage from './SuccessPage';
 import TextEditor from '../components/TextEditor';
+import ImageEditor from '../components/ImageEditor';
 
 function NewPostPage() {
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ function NewPostPage() {
   const [title, setTitle] = useState('');
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
+  const [imageURL, setImageURL] = useState('');
 
   usePreserveState(
     loading,
@@ -42,24 +45,42 @@ function NewPostPage() {
     title,
     category,
     content,
+    imageURL,
     setPostType,
     setTitle,
     setCategory,
     setContent,
+    setImageURL,
   );
 
   async function handleSubmitButtonClick() {
-    await createPost(
-      inProgress,
-      user._id,
-      title,
-      content,
-      category,
-      setInProgress,
-      setErrorMessage,
-      setPostPublished,
-      navigate,
-    );
+    if (postType === 'text') {
+      await createTextPost(
+        inProgress,
+        user._id,
+        title,
+        content,
+        category,
+        setInProgress,
+        setErrorMessage,
+        setPostPublished,
+        navigate,
+      );
+    } else if (postType === 'image') {
+      await createImagePost(
+        inProgress,
+        user._id,
+        title,
+        imageURL,
+        category,
+        setInProgress,
+        setErrorMessage,
+        setPostPublished,
+        navigate,
+      );
+    } else if (postType === 'video') {
+      return;
+    }
   }
 
   if (postPublished) return <SuccessPage resourceCreated={'post'} />;
@@ -91,6 +112,9 @@ function NewPostPage() {
           <PostTypeSelector postType={postType} setPostType={setPostType} />
           {postType === 'text' && (
             <TextEditor content={content} setContent={setContent} />
+          )}
+          {postType === 'image' && (
+            <ImageEditor imageURL={imageURL} setImageURL={setImageURL} />
           )}
           <div className="publish-post-wrapper">
             {errorMessage && (
