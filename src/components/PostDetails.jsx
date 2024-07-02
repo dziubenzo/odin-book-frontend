@@ -18,6 +18,21 @@ function PostDetails({
   const navigate = useNavigate();
   const { title, content } = post;
 
+  // Wrap image post in <a> for the image to be opened in new tab on click
+  // Otherwise do not do nothing
+  function wrapPostContent() {
+    if (content.startsWith('<img')) {
+      const splitContent = content.split('"');
+      const imageSrc = splitContent[3];
+      return (
+        <a href={imageSrc} target="_blank" title="Open image in new tab">
+          {parse(content)}
+        </a>
+      );
+    }
+    return parse(content);
+  }
+
   return (
     <StyledPostDetails>
       <div
@@ -37,7 +52,7 @@ function PostDetails({
             handlePostDislikeClick={handlePostDislikeClick}
           />
         </div>
-        <div className="post-content">{parse(content)}</div>
+        <div className="post-content">{wrapPostContent()}</div>
       </div>
       <PostInfo post={post} StyledComponent={StyledPostInfoPostDetails} />
       <hr />
