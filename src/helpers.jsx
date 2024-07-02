@@ -592,9 +592,9 @@ export const createTextPost = async (
     return setInProgress(false);
   }
   const newPost = await res.json();
-  setPostPublished(true);
   // Clear session storage
   sessionStorage.clear();
+  setPostPublished(true);
   setTimeout(() => {
     navigate(`/posts/${newPost.slug}`);
   }, 2000);
@@ -607,6 +607,7 @@ export const createImagePost = async (
   userID,
   title,
   imageURL,
+  imageFile,
   category,
   setInProgress,
   setErrorMessage,
@@ -616,18 +617,31 @@ export const createImagePost = async (
   if (areCommonFieldsInvalid(inProgress, category, title, setErrorMessage)) {
     return;
   }
-  if (!imageURL || !isValidImageURL(imageURL)) {
-    setErrorMessage('Invalid image URL');
+  if (!imageURL && !imageFile) {
+    setErrorMessage('No image file provided');
     return setTimeout(() => {
       setErrorMessage('');
     }, 2000);
   }
-  setInProgress(true);
   const data = new FormData();
+  // Handle image URL and image file slightly differently
+  if (imageURL) {
+    if (!isValidImageURL(imageURL)) {
+      setErrorMessage('Invalid image URL');
+      return setTimeout(() => {
+        setErrorMessage('');
+      }, 2000);
+    }
+    data.append('content', imageURL);
+  }
+  if (imageFile) {
+    data.append('content', 'I am a file, leave me alone!');
+    data.append('uploaded_image', imageFile);
+  }
+  setInProgress(true);
   data.append('author', userID);
   data.append('title', title);
   data.append('category', category);
-  data.append('content', imageURL);
   const res = await fetch(`${API_URL}/posts/?type=image`, {
     method: 'POST',
     body: data,
@@ -644,9 +658,9 @@ export const createImagePost = async (
     return setInProgress(false);
   }
   const newPost = await res.json();
-  setPostPublished(true);
   // Clear session storage
   sessionStorage.clear();
+  setPostPublished(true);
   setTimeout(() => {
     navigate(`/posts/${newPost.slug}`);
   }, 2000);
@@ -663,15 +677,15 @@ const areCommonFieldsInvalid = (
   if (inProgress) {
     return true;
   }
-  if (!category) {
-    setErrorMessage('Category is not chosen');
+  if (title.length < MIN_POST_TITLE_LENGTH) {
+    setErrorMessage('Post title is too short');
     setTimeout(() => {
       setErrorMessage('');
     }, 2000);
     return true;
   }
-  if (title.length < MIN_POST_TITLE_LENGTH) {
-    setErrorMessage('Post title is too short');
+  if (!category) {
+    setErrorMessage('Category is not chosen');
     setTimeout(() => {
       setErrorMessage('');
     }, 2000);

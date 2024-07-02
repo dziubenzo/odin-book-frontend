@@ -73,6 +73,7 @@ function NewPostPage() {
         user._id,
         title,
         imageURL,
+        imageFile,
         category,
         setInProgress,
         setErrorMessage,
