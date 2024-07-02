@@ -38,6 +38,7 @@ function NewPostPage() {
   const [category, setCategory] = useState('');
   const [content, setContent] = useState('');
   const [imageURL, setImageURL] = useState('');
+  const [imageFile, setImageFile] = useState('');
 
   usePreserveState(
     loading,
@@ -114,7 +115,12 @@ function NewPostPage() {
             <TextEditor content={content} setContent={setContent} />
           )}
           {postType === 'image' && (
-            <ImageEditor imageURL={imageURL} setImageURL={setImageURL} />
+            <ImageEditor
+              imageURL={imageURL}
+              imageFile={imageFile}
+              setImageURL={setImageURL}
+              setImageFile={setImageFile}
+            />
           )}
           <div className="publish-post-wrapper">
             {errorMessage && (

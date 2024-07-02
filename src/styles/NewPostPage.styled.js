@@ -288,7 +288,7 @@ export const StyledTextEditor = styled.div`
 export const StyledImageEditor = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 48px;
   margin-top: 1em;
 
   .link-input-wrapper {
@@ -297,7 +297,7 @@ export const StyledImageEditor = styled.div`
     align-items: center;
 
     label {
-      width: max-content;
+      width: 135px;
     }
 
     input[type='url'] {
@@ -315,5 +315,63 @@ export const StyledImageEditor = styled.div`
       max-width: 100%;
       max-height: 600px;
     }
+  }
+`;
+
+export const StyledImageUploader = styled.div`
+  .image-uploader {
+    .image-picker {
+      outline: 2px solid ${(props) => props.theme.colours.primary};
+      font-size: ${(props) => props.theme.fontSizes.standard};
+      padding: 0.75em;
+      border-radius: 16px;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:focus-visible {
+        border: none;
+        outline: 2px solid ${(props) => props.theme.colours.secondary};
+      }
+    }
+
+    input {
+      display: none;
+    }
+  }
+
+  .clear-image-button-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    text-align: center;
+
+    .clear-image-button {
+      height: max-content;
+      width: max-content;
+      font-size: ${(props) => props.theme.fontSizes.standard};
+      align-self: center;
+
+      &:focus-visible {
+        border: 2px solid ${(props) => props.theme.colours.secondary};
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    .image-uploader {
+      .image-picker {
+        transition:
+          color,
+          background-color 0.15s ease-in;
+
+        &:hover {
+          color: ${(props) => props.theme.colours.background};
+          background-color: ${(props) => props.theme.colours.primary};
+        }
+      }
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    width: 100%;
   }
 `;
