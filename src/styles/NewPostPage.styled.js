@@ -316,6 +316,18 @@ export const StyledImageEditor = styled.div`
       max-height: 600px;
     }
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    gap: 32px;
+
+    .link-input-wrapper {
+      label {
+        font-size: ${(props) => props.theme.fontSizes.standard};
+        width: min-content;
+        text-align: center;
+      }
+    }
+  }
 `;
 
 export const StyledImageUploader = styled.div`
