@@ -90,6 +90,11 @@ export const StyledPostDetails = styled.div`
       pre {
         font-family: monospace;
       }
+
+      .post-image {
+        max-width: 100%;
+        max-height: 800px;
+      }
     }
   }
 

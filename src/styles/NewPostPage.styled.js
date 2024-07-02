@@ -284,3 +284,36 @@ export const StyledTextEditor = styled.div`
     }
   }
 `;
+
+export const StyledImageEditor = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 1em;
+
+  .link-input-wrapper {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+
+    label {
+      width: max-content;
+    }
+
+    input[type='url'] {
+      width: 100%;
+      font-size: ${(props) => props.theme.fontSizes.standard};
+    }
+  }
+
+  .image-preview-wrapper {
+    h2 {
+      margin-bottom: 1em;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 600px;
+    }
+  }
+`;

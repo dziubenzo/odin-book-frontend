@@ -108,6 +108,11 @@ export const StyledPostBody = styled.div`
     overflow: hidden;
     font-size: ${(props) => props.theme.fontSizes.standard};
 
+    .post-image {
+      max-width: 100%;
+      max-height: 600px;
+    }
+
     * {
       font-size: ${(props) => props.theme.fontSizes.standard};
     }
