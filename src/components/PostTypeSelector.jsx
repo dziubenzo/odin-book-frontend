@@ -3,7 +3,7 @@ import { StyledPostTypeSelector } from '../styles/NewPostPage.styled';
 
 function PostTypeSelector({ postType, setPostType }) {
   return (
-    <StyledPostTypeSelector>
+    <StyledPostTypeSelector data-testid={'post-type-selector'}>
       <button
         className={postType === 'text' ? 'selected left' : 'left'}
         onClick={() => setPostType('text')}

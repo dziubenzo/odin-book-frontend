@@ -36,6 +36,7 @@ function TextEditor({ content, setContent }) {
     <StyledTextEditor $contentLength={content.length}>
       <Editor
         value={content}
+        data-testid={'text-editor'}
         onChange={(event) => setContent(event.target.value)}
         onPaste={handlePastedContent}
       />

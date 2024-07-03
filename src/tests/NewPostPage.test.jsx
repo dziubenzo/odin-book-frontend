@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, describe, expect } from 'vitest';
 import { within } from '@testing-library/react';
 
 import NewPostPage from '../pages/NewPostPage';
-import Theme from '../components/Theme';
+import Theme, { darkTheme } from '../components/Theme';
 import { userEvent } from '@testing-library/user-event';
 import { category1, category2, longPostTitle, user3 } from './mocks';
 import { mockFetch } from './fetchMock';
@@ -72,6 +72,12 @@ describe('NewPostPage', () => {
 
     expect(newPostHeading).toBeInTheDocument();
   });
+});
+
+describe('PostTitleInput', () => {
+  beforeEach(() => {
+    mockFetch(categories, true);
+  });
 
   it('should render an input for post title', async () => {
     renderNewPostPage();
@@ -131,6 +137,12 @@ describe('NewPostPage', () => {
     await user.type(postTitleInput, longPostTitle);
 
     expect(postTitleInput.value.length).toBe(MAX_POST_TITLE_LENGTH);
+  });
+});
+
+describe('CategoryPicker', () => {
+  beforeEach(() => {
+    mockFetch(categories, true);
   });
 
   it('should render a category picker', async () => {
@@ -239,5 +251,163 @@ describe('NewPostPage', () => {
       await within(categoryPicker).findAllByRole('option');
 
     expect(categoryOptions.length).toBe(user3.followed_categories.length + 1);
+  });
+});
+
+describe('PostTypeSelector', () => {
+  beforeEach(() => {
+    mockFetch(categories, true);
+  });
+
+  it('should render three post type buttons', async () => {
+    renderNewPostPage();
+
+    const postTypeSelector = await screen.findByTestId('post-type-selector');
+    const postTypeButtons =
+      await within(postTypeSelector).findAllByRole('button');
+
+    expect(postTypeButtons.length).toBe(3);
+  });
+
+  it('should render a text post type button that is selected by default', async () => {
+    renderNewPostPage();
+
+    const textPostTypeButton = await screen.findByRole('button', {
+      name: /text/i,
+    });
+
+    expect(textPostTypeButton).toHaveClass('selected');
+  });
+
+  it('should render three post type buttons that change their selected status on click', async () => {
+    const { user } = renderNewPostPage();
+
+    const textPostTypeButton = await screen.findByRole('button', {
+      name: /text/i,
+    });
+    const imagePostTypeButton = await screen.findByRole('button', {
+      name: /image/i,
+    });
+    const videoPostTypeButton = await screen.findByRole('button', {
+      name: /video/i,
+    });
+    await user.click(imagePostTypeButton);
+
+    expect(textPostTypeButton).not.toHaveClass('selected');
+    expect(videoPostTypeButton).not.toHaveClass('selected');
+    expect(imagePostTypeButton).toHaveClass('selected');
+
+    await user.click(videoPostTypeButton);
+
+    expect(textPostTypeButton).not.toHaveClass('selected');
+    expect(imagePostTypeButton).not.toHaveClass('selected');
+    expect(videoPostTypeButton).toHaveClass('selected');
+  });
+
+  it('should render three post type buttons that retain their selected status if clicked again', async () => {
+    const { user } = renderNewPostPage();
+
+    const videoPostTypeButton = await screen.findByRole('button', {
+      name: /video/i,
+    });
+    await user.click(videoPostTypeButton);
+
+    expect(videoPostTypeButton).toHaveClass('selected');
+
+    await user.click(videoPostTypeButton);
+
+    expect(videoPostTypeButton).toHaveClass('selected');
+  });
+});
+
+describe('TextEditor', () => {
+  beforeEach(() => {
+    mockFetch(categories, true);
+  });
+
+  it('should render a text editor if the text post type is selected', async () => {
+    const { user } = renderNewPostPage();
+
+    const textPostTypeButton = await screen.findByRole('button', {
+      name: /text/i,
+    });
+    await user.click(textPostTypeButton);
+    const textEditor = await screen.findByTestId('text-editor');
+
+    expect(textEditor).toBeInTheDocument();
+  });
+
+  it('should render a text editor that shows text in a different colour if the input length is too short', async () => {
+    const { user } = renderNewPostPage();
+    const text = 'Sad';
+
+    const textEditor = await screen.findByTestId('text-editor');
+    await user.type(textEditor, text);
+
+    expect(textEditor).toHaveStyle({ color: darkTheme.colours.lightRed });
+    await user.clear(textEditor);
+  });
+
+  it('should render a text editor that shows text in normal colour if the input length is adequate', async () => {
+    const { user } = renderNewPostPage();
+    const text = 'I am a totally normal post content, nice to meet you!';
+
+    const textEditor = await screen.findByTestId('text-editor');
+    await user.type(textEditor, text);
+
+    expect(textEditor).not.toHaveStyle({ color: darkTheme.colours.lightRed });
+  });
+});
+
+describe('ImageEditor', () => {
+  beforeEach(() => {
+    mockFetch(categories, true);
+  });
+
+  it('should render an image URL input and an image selector if the image post type is selected', async () => {
+    const { user } = renderNewPostPage();
+
+    const imagePostTypeButton = await screen.findByRole('button', {
+      name: /image/i,
+    });
+    await user.click(imagePostTypeButton);
+
+    const imageURLInput = await screen.findByRole('textbox', {
+      name: /image url/i,
+    });
+    const imageSelector = await screen.findByText(/upload image from file/i);
+
+    expect(imageURLInput).toBeInTheDocument();
+    expect(imageSelector).toBeInTheDocument();
+  });
+
+  it('should not render an image preview and a heading for it by default', async () => {
+    renderNewPostPage();
+
+    // Wait for mockFetch to populate the page
+    // This allows me to use the queryBy query to check for the non-existence of something in proper setting
+    await waitFor(() => {}, { timeout: 0 });
+
+    const imagePreviewHeading = screen.queryByRole('heading', {
+      name: /image preview/i,
+    });
+    const imagePreview = screen.queryByRole('img', {
+      name: /image preview/i,
+    });
+
+    expect(imagePreviewHeading).not.toBeInTheDocument();
+    expect(imagePreview).not.toBeInTheDocument();
+  });
+
+  it('should render an image URL input that accepts input', async () => {
+    const { user } = renderNewPostPage();
+    const text = 'Super cool image!';
+
+    const imageURLInput = await screen.findByRole('textbox', {
+      name: /image url/i,
+    });
+    await user.type(imageURLInput, text);
+
+    expect(imageURLInput.value).toBe(text);
   });
 });

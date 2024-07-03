@@ -1,7 +1,7 @@
 import { ThemeProvider } from 'styled-components';
 import PropTypes from 'prop-types';
 
-const darkTheme = {
+export const darkTheme = {
   colours: {
     background: '#042426',
     backgroundGradient:
