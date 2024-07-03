@@ -58,7 +58,7 @@ function ImageUploader({
 }
 
 ImageUploader.propTypes = {
-  imageFile: PropTypes.object,
+  imageFile: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   setImageFile: PropTypes.func,
   setImageFilePreview: PropTypes.func,
   setImageURL: PropTypes.func,

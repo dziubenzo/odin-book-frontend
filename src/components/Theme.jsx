@@ -11,7 +11,8 @@ const darkTheme = {
     primaryDarker: '#d46300',
     secondary: '#E2DFD0',
     tertiary: '#524C42',
-    lightRed: `#f84242`,
+    lightRed: '#f84242',
+    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
   },
   fontSizes: {
     small: '0.8rem',

@@ -1,5 +1,8 @@
 import PropTypes from 'prop-types';
-import { StyledImageEditor } from '../styles/NewPostPage.styled';
+import {
+  StyledLinkInput,
+  StyledImageEditor,
+} from '../styles/NewPostPage.styled';
 import { isValidImageURL } from '../helpers';
 import ImageUploader from './ImageUploader';
 import { useState } from 'react';
@@ -10,7 +13,7 @@ function ImageEditor({ imageURL, imageFile, setImageURL, setImageFile }) {
   return (
     <StyledImageEditor>
       {!imageFile && (
-        <div className="link-input-wrapper">
+        <StyledLinkInput>
           <label htmlFor="image_url">Image URL:</label>
           <input
             type="url"
@@ -19,12 +22,15 @@ function ImageEditor({ imageURL, imageFile, setImageURL, setImageFile }) {
             title={
               'Supported file formats: .avif | .jpg | .jpeg | .gif | .png | .webp'
             }
+            placeholder={
+              'Supported file formats: .avif | .jpg | .jpeg | .gif | .png | .webp'
+            }
             onChange={(event) => {
               setImageURL(event.target.value);
             }}
             value={imageURL}
           />
-        </div>
+        </StyledLinkInput>
       )}
       <ImageUploader
         imageFile={imageFile}
@@ -44,7 +50,7 @@ function ImageEditor({ imageURL, imageFile, setImageURL, setImageFile }) {
 
 ImageEditor.propTypes = {
   imageURL: PropTypes.string,
-  imageFile: PropTypes.object,
+  imageFile: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   setImageURL: PropTypes.func,
   setImageFile: PropTypes.func,
 };

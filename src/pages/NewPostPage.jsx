@@ -19,6 +19,7 @@ import { MdOutlineErrorOutline } from 'react-icons/md';
 import SuccessPage from './SuccessPage';
 import TextEditor from '../components/TextEditor';
 import ImageEditor from '../components/ImageEditor';
+import VideoEditor from '../components/VideoEditor';
 
 function NewPostPage() {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ function NewPostPage() {
   const [content, setContent] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [imageFile, setImageFile] = useState('');
+  const [videoURL, setVideoURL] = useState('');
 
   usePreserveState(
     loading,
@@ -122,6 +124,9 @@ function NewPostPage() {
               setImageURL={setImageURL}
               setImageFile={setImageFile}
             />
+          )}
+          {postType === 'video' && (
+            <VideoEditor videoURL={videoURL} setVideoURL={setVideoURL} />
           )}
           <div className="publish-post-wrapper">
             {errorMessage && (

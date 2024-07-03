@@ -291,21 +291,6 @@ export const StyledImageEditor = styled.div`
   gap: 48px;
   margin-top: 1em;
 
-  .link-input-wrapper {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-
-    label {
-      width: 135px;
-    }
-
-    input[type='url'] {
-      width: 100%;
-      font-size: ${(props) => props.theme.fontSizes.standard};
-    }
-  }
-
   .image-preview-wrapper {
     h2 {
       margin-bottom: 1em;
@@ -319,13 +304,27 @@ export const StyledImageEditor = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     gap: 32px;
+  }
+`;
 
-    .link-input-wrapper {
-      label {
-        font-size: ${(props) => props.theme.fontSizes.standard};
-        width: min-content;
-        text-align: center;
-      }
+export const StyledLinkInput = styled.div`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  label {
+    width: 160px;
+  }
+
+  input[type='url'] {
+    width: 100%;
+    font-size: ${(props) => props.theme.fontSizes.standard};
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    label {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+      width: min-content;
     }
   }
 `;
@@ -385,5 +384,33 @@ export const StyledImageUploader = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     width: 100%;
+  }
+`;
+
+export const StyledVideoEditor = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  margin-top: 1em;
+
+  .video-preview-wrapper {
+    h2 {
+      margin-bottom: 1em;
+    }
+
+    iframe {
+      width: 80%;
+      aspect-ratio: 16/9;
+      border-radius: 16px;
+      box-shadow: ${(props) => props.theme.colours.boxShadow};
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .video-preview-wrapper {
+      iframe {
+        width: 100%;
+      }
+    }
   }
 `;
