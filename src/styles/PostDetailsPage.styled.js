@@ -94,6 +94,13 @@ export const StyledPostDetails = styled.div`
       .post-image {
         max-width: 100%;
         max-height: 800px;
+        border-radius: 16px;
+      }
+
+      .yt-video-player {
+        width: 100%;
+        aspect-ratio: 16/9;
+        border-radius: 16px;
       }
     }
   }
