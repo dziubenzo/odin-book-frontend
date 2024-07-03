@@ -213,4 +213,7 @@ export const longBio =
 export const longDescription =
   'I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description...';
 
+export const longPostTitle =
+  'I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title.';
+
 export const STATS_COUNT = 9;
