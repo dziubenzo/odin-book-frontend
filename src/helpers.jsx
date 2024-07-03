@@ -667,6 +667,58 @@ export const createImagePost = async (
   return setInProgress(false);
 };
 
+// Create video post
+export const createVideoPost = async (
+  inProgress,
+  userID,
+  title,
+  videoURL,
+  category,
+  setInProgress,
+  setErrorMessage,
+  setPostPublished,
+  navigate,
+) => {
+  if (areCommonFieldsInvalid(inProgress, category, title, setErrorMessage)) {
+    return;
+  }
+  if (!videoURL) {
+    setErrorMessage('No valid YouTube URL provided');
+    return setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+  }
+  setInProgress(true);
+  const data = new FormData();
+  data.append('author', userID);
+  data.append('title', title);
+  data.append('category', category);
+  data.append('content', videoURL);
+  const res = await fetch(`${API_URL}/posts/?type=video`, {
+    method: 'POST',
+    body: data,
+    headers: {
+      Authorization: `Bearer ${Cookies.get('jwt')}`,
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    setErrorMessage(error);
+    setTimeout(() => {
+      setErrorMessage('');
+    }, 2000);
+    return setInProgress(false);
+  }
+  const newPost = await res.json();
+  // Clear session storage
+  sessionStorage.clear();
+  setPostPublished(true);
+  setTimeout(() => {
+    navigate(`/posts/${newPost.slug}`);
+  }, 2000);
+  return setInProgress(false);
+};
+
 // Validate fields common to all post types
 const areCommonFieldsInvalid = (
   inProgress,

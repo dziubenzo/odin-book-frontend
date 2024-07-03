@@ -9,6 +9,7 @@ import {
   MIN_POST_TITLE_LENGTH,
   createImagePost,
   createTextPost,
+  createVideoPost,
 } from '../helpers';
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import { useFetchPageData, usePreserveState } from '../hooks';
@@ -83,7 +84,17 @@ function NewPostPage() {
         navigate,
       );
     } else if (postType === 'video') {
-      return;
+      await createVideoPost(
+        inProgress,
+        user._id,
+        title,
+        videoURL,
+        category,
+        setInProgress,
+        setErrorMessage,
+        setPostPublished,
+        navigate,
+      );
     }
   }
 
