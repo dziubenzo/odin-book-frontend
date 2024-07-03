@@ -94,11 +94,13 @@ export const usePreserveState = (
   category,
   content,
   imageURL,
+  videoURL,
   setPostType,
   setTitle,
   setCategory,
   setContent,
   setImageURL,
+  setVideoURL,
 ) => {
   useEffect(() => {
     if (loading) {
@@ -107,6 +109,7 @@ export const usePreserveState = (
       setCategory(sessionStorage.getItem('category') || '');
       setContent(sessionStorage.getItem('content') || '');
       setImageURL(sessionStorage.getItem('imageURL') || '');
+      setVideoURL(sessionStorage.getItem('videoURL') || '');
     }
 
     function triggerLeavePageDialog(event) {
@@ -114,7 +117,7 @@ export const usePreserveState = (
       event.returnValue = true;
     }
 
-    if (title || content || category || imageURL) {
+    if (title || content || category || imageURL || videoURL) {
       window.addEventListener('beforeunload', triggerLeavePageDialog);
     }
 
@@ -126,7 +129,8 @@ export const usePreserveState = (
         sessionStorage.setItem('category', category);
         sessionStorage.setItem('content', content);
         sessionStorage.setItem('imageURL', imageURL);
+        sessionStorage.setItem('videoURL', videoURL);
       }
     };
-  }, [postType, title, category, content, imageURL]);
+  }, [postType, title, category, content, imageURL, videoURL]);
 };

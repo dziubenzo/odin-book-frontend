@@ -347,11 +347,7 @@ export const createComment = async (
     return;
   }
   if (content.trim().length <= 2) {
-    setCommentError('Comment is too short');
-    setTimeout(() => {
-      setCommentError('');
-    }, 2000);
-    return;
+    return setTimedMessage('Comment is too short', setCommentError);
   }
   setInProgress(true);
   const res = await fetch(`${API_URL}/posts/${post.slug}/comments`, {
@@ -364,10 +360,7 @@ export const createComment = async (
   });
   if (!res.ok) {
     const error = await res.json();
-    setCommentError(error);
-    setTimeout(() => {
-      setCommentError('');
-    }, 2000);
+    setTimedMessage(error, setCommentError);
     return setInProgress(false);
   }
   const updatedPost = await res.json();
@@ -400,11 +393,7 @@ export const updateUserProfile = async (
     return;
   }
   if ((!bio || bio.trim() === user.bio) && !selectedAvatar && !uploadedAvatar) {
-    setFeedback('Change something first!');
-    setTimeout(() => {
-      setFeedback('');
-    }, 2000);
-    return;
+    return setTimedMessage('Change something first!', setFeedback);
   }
   setInProgress(true);
   const data = new FormData();
@@ -426,18 +415,12 @@ export const updateUserProfile = async (
   });
   if (!res.ok) {
     const error = await res.json();
-    setFeedback(error);
-    setTimeout(() => {
-      setFeedback('');
-    }, 2000);
+    setTimedMessage(error, setFeedback);
     return setInProgress(false);
   }
   const updatedUser = await res.json();
   setUser(updatedUser);
-  setFeedback('Profile updated successfully!');
-  setTimeout(() => {
-    setFeedback('');
-  }, 2000);
+  setTimedMessage('Profile updated successfully!', setFeedback);
   setSelectedAvatar('');
   setUploadedAvatar('');
   setUploadedAvatarPreview('');
@@ -505,10 +488,7 @@ export const createNewCategory = async (
   });
   if (!res.ok) {
     const error = await res.json();
-    setError(error);
-    setTimeout(() => {
-      setError('');
-    }, 2000);
+    setTimedMessage(error, setError);
     return setInProgress(false);
   }
   setCategoryCreated(true);
@@ -565,10 +545,7 @@ export const createTextPost = async (
     return;
   }
   if (content.length < MIN_POST_CONTENT_LENGTH) {
-    setErrorMessage('Post content is too short');
-    return setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
+    return setTimedMessage('Post content is too short', setErrorMessage);
   }
   setInProgress(true);
   const data = new FormData();
@@ -576,29 +553,14 @@ export const createTextPost = async (
   data.append('title', title);
   data.append('category', category);
   data.append('content', content);
-  const res = await fetch(`${API_URL}/posts/?type=text`, {
-    method: 'POST',
-    body: data,
-    headers: {
-      Authorization: `Bearer ${Cookies.get('jwt')}`,
-    },
-  });
-  if (!res.ok) {
-    const error = await res.json();
-    setErrorMessage(error);
-    setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
-    return setInProgress(false);
-  }
-  const newPost = await res.json();
-  // Clear session storage
-  sessionStorage.clear();
-  setPostPublished(true);
-  setTimeout(() => {
-    navigate(`/posts/${newPost.slug}`);
-  }, 2000);
-  return setInProgress(false);
+  await submitPost(
+    'text',
+    data,
+    setErrorMessage,
+    setInProgress,
+    setPostPublished,
+    navigate,
+  );
 };
 
 // Create image post
@@ -618,19 +580,13 @@ export const createImagePost = async (
     return;
   }
   if (!imageURL && !imageFile) {
-    setErrorMessage('No image file provided');
-    return setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
+    return setTimedMessage('No image file provided', setErrorMessage);
   }
   const data = new FormData();
   // Handle image URL and image file slightly differently
   if (imageURL) {
     if (!isValidImageURL(imageURL)) {
-      setErrorMessage('Invalid image URL');
-      return setTimeout(() => {
-        setErrorMessage('');
-      }, 2000);
+      return setTimedMessage('Invalid image URL', setErrorMessage);
     }
     data.append('content', imageURL);
   }
@@ -642,29 +598,14 @@ export const createImagePost = async (
   data.append('author', userID);
   data.append('title', title);
   data.append('category', category);
-  const res = await fetch(`${API_URL}/posts/?type=image`, {
-    method: 'POST',
-    body: data,
-    headers: {
-      Authorization: `Bearer ${Cookies.get('jwt')}`,
-    },
-  });
-  if (!res.ok) {
-    const error = await res.json();
-    setErrorMessage(error);
-    setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
-    return setInProgress(false);
-  }
-  const newPost = await res.json();
-  // Clear session storage
-  sessionStorage.clear();
-  setPostPublished(true);
-  setTimeout(() => {
-    navigate(`/posts/${newPost.slug}`);
-  }, 2000);
-  return setInProgress(false);
+  await submitPost(
+    'image',
+    data,
+    setErrorMessage,
+    setInProgress,
+    setPostPublished,
+    navigate,
+  );
 };
 
 // Create video post
@@ -683,10 +624,7 @@ export const createVideoPost = async (
     return;
   }
   if (!videoURL) {
-    setErrorMessage('No valid YouTube URL provided');
-    return setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
+    return setTimedMessage('No valid YouTube URL provided', setErrorMessage);
   }
   setInProgress(true);
   const data = new FormData();
@@ -694,7 +632,26 @@ export const createVideoPost = async (
   data.append('title', title);
   data.append('category', category);
   data.append('content', videoURL);
-  const res = await fetch(`${API_URL}/posts/?type=video`, {
+  await submitPost(
+    'video',
+    data,
+    setErrorMessage,
+    setInProgress,
+    setPostPublished,
+    navigate,
+  );
+};
+
+// Handle create post submission
+const submitPost = async (
+  type,
+  data,
+  setErrorMessage,
+  setInProgress,
+  setPostPublished,
+  navigate,
+) => {
+  const res = await fetch(`${API_URL}/posts/?type=${type}`, {
     method: 'POST',
     body: data,
     headers: {
@@ -703,18 +660,14 @@ export const createVideoPost = async (
   });
   if (!res.ok) {
     const error = await res.json();
-    setErrorMessage(error);
-    setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
+    setTimedMessage(error, setErrorMessage);
     return setInProgress(false);
   }
   const newPost = await res.json();
-  // Clear session storage
-  sessionStorage.clear();
   setPostPublished(true);
   setTimeout(() => {
     navigate(`/posts/${newPost.slug}`);
+    sessionStorage.clear();
   }, 2000);
   return setInProgress(false);
 };
@@ -730,17 +683,11 @@ const areCommonFieldsInvalid = (
     return true;
   }
   if (title.length < MIN_POST_TITLE_LENGTH) {
-    setErrorMessage('Post title is too short');
-    setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
+    setTimedMessage('Post title is too short', setErrorMessage);
     return true;
   }
   if (!category) {
-    setErrorMessage('Category is not chosen');
-    setTimeout(() => {
-      setErrorMessage('');
-    }, 2000);
+    setTimedMessage('Category is not chosen', setErrorMessage);
     return true;
   }
   return false;
@@ -754,4 +701,12 @@ export const isValidImageURL = (string) => {
   return !!string.match(
     /(http(s?):)([/|.|\w|\s|-])*\.(?:avif|jpg|jpeg|gif|png|webp)/gi,
   );
+};
+
+// Set feedback/error message and remove it after the time provided
+export const setTimedMessage = (message, setterFunction, time = 2000) => {
+  setterFunction(message);
+  return setTimeout(() => {
+    setterFunction('');
+  }, time);
 };

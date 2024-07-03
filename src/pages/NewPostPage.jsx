@@ -50,11 +50,13 @@ function NewPostPage() {
     category,
     content,
     imageURL,
+    videoURL,
     setPostType,
     setTitle,
     setCategory,
     setContent,
     setImageURL,
+    setVideoURL,
   );
 
   async function handleSubmitButtonClick() {
