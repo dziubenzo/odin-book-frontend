@@ -4,23 +4,16 @@ import Error from '../components/Error';
 import { StyledNewPostPage } from '../styles/NewPostPage.styled';
 import PostTypeSelector from '../components/PostTypeSelector';
 import { useState } from 'react';
-import {
-  MAX_POST_TITLE_LENGTH,
-  MIN_POST_TITLE_LENGTH,
-  createImagePost,
-  createTextPost,
-  createVideoPost,
-} from '../helpers';
+import { createImagePost, createTextPost, createVideoPost } from '../helpers';
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import { useFetchPageData, usePreserveState } from '../hooks';
+import PostTitleInput from '../components/PostTitleInput';
 import CategoryPicker from '../components/CategoryPicker';
-
-import { StyledButton } from '../styles/WelcomePage.styled';
-import { MdOutlineErrorOutline } from 'react-icons/md';
 import SuccessPage from './SuccessPage';
 import TextEditor from '../components/TextEditor';
 import ImageEditor from '../components/ImageEditor';
 import VideoEditor from '../components/VideoEditor';
+import PublishPostSection from '../components/PublishPostSection';
 
 function NewPostPage() {
   const navigate = useNavigate();
@@ -109,18 +102,7 @@ function NewPostPage() {
       {categories && (
         <>
           <h1 className="top-header">New Post</h1>
-          <label htmlFor="title">Post Title:</label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            className={
-              title.length < MIN_POST_TITLE_LENGTH ? 'short-title' : undefined
-            }
-            maxLength={MAX_POST_TITLE_LENGTH}
-            defaultValue={title}
-            onChange={(event) => setTitle(event.target.value)}
-          />
+          <PostTitleInput title={title} setTitle={setTitle} />
           <CategoryPicker
             categories={categories}
             category={category}
@@ -141,20 +123,11 @@ function NewPostPage() {
           {postType === 'video' && (
             <VideoEditor videoURL={videoURL} setVideoURL={setVideoURL} />
           )}
-          <div className="publish-post-wrapper">
-            {errorMessage && (
-              <div className="error-message-wrapper">
-                <MdOutlineErrorOutline />
-                <p>{errorMessage}</p>
-              </div>
-            )}
-            <StyledButton
-              className="publish-post-button"
-              onClick={handleSubmitButtonClick}
-            >
-              {inProgress ? 'Publishing...' : 'Publish'}
-            </StyledButton>
-          </div>
+          <PublishPostSection
+            errorMessage={errorMessage}
+            inProgress={inProgress}
+            handleSubmitButtonClick={handleSubmitButtonClick}
+          />
         </>
       )}
     </StyledNewPostPage>

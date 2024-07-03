@@ -19,6 +19,12 @@ export const StyledNewPostPage = styled.main`
     color: ${(props) => props.theme.colours.secondary};
     margin-bottom: 0.5em;
   }
+`;
+
+export const StyledPostTitleInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
   label {
     font-size: ${(props) => props.theme.fontSizes.medium};
@@ -35,37 +41,6 @@ export const StyledNewPostPage = styled.main`
 
     &.short-title {
       color: ${(props) => props.theme.colours.lightRed};
-    }
-  }
-
-  .publish-post-wrapper {
-    margin-top: 1em;
-    display: flex;
-    align-items: center;
-    width: 100%;
-
-    .error-message-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      p,
-      svg {
-        fill: ${(props) => props.theme.colours.lightRed};
-        color: ${(props) => props.theme.colours.lightRed};
-      }
-    }
-
-    .publish-post-button {
-      margin-left: auto;
-    }
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    .publish-post-wrapper {
-      .publish-post-button {
-        width: max-content;
-      }
     }
   }
 `;
@@ -117,6 +92,11 @@ export const StyledCategoryPicker = styled.div`
     border-radius: 4px;
     font-size: ${(props) => props.theme.fontSizes.standard};
     padding: 0.5em;
+    cursor: pointer;
+  }
+
+  label {
+    font-size: ${(props) => props.theme.fontSizes.medium};
     cursor: pointer;
   }
 
@@ -314,9 +294,16 @@ export const StyledLinkInput = styled.div`
 
   label {
     width: 160px;
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    cursor: pointer;
   }
 
-  input[type='url'] {
+  input {
+    background: transparent;
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.primary};
+    border-radius: 16px;
+    padding: 0.75em;
     width: 100%;
     font-size: ${(props) => props.theme.fontSizes.standard};
   }
@@ -411,6 +398,35 @@ export const StyledVideoEditor = styled.div`
       iframe {
         width: 100%;
       }
+    }
+  }
+`;
+
+export const StyledPublishPostSection = styled.div`
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .error-message-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    p,
+    svg {
+      fill: ${(props) => props.theme.colours.lightRed};
+      color: ${(props) => props.theme.colours.lightRed};
+    }
+  }
+
+  .publish-post-button {
+    margin-left: auto;
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .publish-post-button {
+      width: max-content;
     }
   }
 `;
