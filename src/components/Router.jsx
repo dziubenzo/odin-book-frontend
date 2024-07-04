@@ -32,6 +32,39 @@ function Router() {
           element: <PostsPage />,
         },
         {
+          path: 'categories',
+          element: (
+            <PostsPage
+              fetchQuery="?filter=categories"
+              pageType="Posts By Followed Categories"
+            />
+          ),
+        },
+        {
+          path: 'following',
+          element: (
+            <PostsPage
+              fetchQuery="?filter=following"
+              pageType="Posts By Followed Users"
+            />
+          ),
+        },
+        {
+          path: 'liked',
+          element: (
+            <PostsPage
+              fetchQuery="?filter=liked"
+              pageType="Posts Liked By You"
+            />
+          ),
+        },
+        {
+          path: 'by-you',
+          element: (
+            <PostsPage fetchQuery="?filter=yours" pageType="Your Posts" />
+          ),
+        },
+        {
           path: 'create',
           element: <NewPostPage />,
         },

@@ -64,6 +64,9 @@ export const useFetchPageData = (endpoint) => {
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
+      setData(null);
+      setError(null);
       const res = await fetch(endpoint, {
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +83,7 @@ export const useFetchPageData = (endpoint) => {
       setLoading(false);
     }
     fetchData();
-  }, []);
+  }, [endpoint]);
 
   return { data, setData, loading, error, setError };
 };
