@@ -204,6 +204,10 @@ export const detailedPost1 = {
   slug: 'post-3',
 };
 
+/* 
+Miscellaneous
+*/
+
 export const longComment =
   'I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment...';
 
@@ -217,3 +221,10 @@ export const longPostTitle =
   'I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title.';
 
 export const STATS_COUNT = 9;
+
+export const goodImageURL = 'https://www.example.com/cool_image.gif';
+export const badImageURL = 'https://www.example.com/virus.exe';
+
+export const goodYouTubeLink = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+export const goodYouTubeLinkID = 'dQw4w9WgXcQ';
+export const badYouTubeLink = 'https://www.example.com/watch?v=dQw4w94444234';
