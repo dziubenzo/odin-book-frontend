@@ -6,6 +6,7 @@ import { useFetchPageData } from '../hooks';
 import Post from '../components/Post';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
+import NoPostsSection from '../components/NoPostsSection';
 import { useState } from 'react';
 import { dislikePost, likePost } from '../helpers';
 
@@ -63,6 +64,7 @@ function PostsPage({ fetchQuery = '', pageType = 'All Posts' }) {
       {posts && (
         <>
           <h1 className="top-header">Feed - {pageType}</h1>
+          {posts?.length === 0 && <NoPostsSection />}
           {renderPosts()}
         </>
       )}

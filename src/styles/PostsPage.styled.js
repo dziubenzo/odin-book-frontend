@@ -1,10 +1,15 @@
 import styled from 'styled-components';
+import { walkingCrab } from './animations';
 
 export const StyledPostsPage = styled.main`
+  position: relative;
   width: 100%;
-  display: grid;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 2em 0;
   gap: 4px;
-  margin: 2em 0;
 
   .top-header {
     color: ${(props) => props.theme.colours.secondary};
@@ -192,6 +197,37 @@ export const StyledPostInfo = styled.div`
 
     .post-date {
       font-size: 0.9em;
+    }
+  }
+`;
+
+export const StyledNoPostsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+
+  .no-posts-crab {
+    height: 256px;
+    width: 256px;
+  }
+
+  @media (hover: hover) {
+    .no-posts-crab:hover {
+      animation: ${walkingCrab} 0.2s linear infinite alternate;
+      cursor: help;
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .no-posts-crab {
+      height: 50%;
+      width: 50%;
     }
   }
 `;

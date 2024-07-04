@@ -23,3 +23,12 @@ to {
   opacity: 0;
   transform: translate(100%, -50%) scale(0);
 }`;
+
+export const walkingCrab = keyframes`
+from {
+  transform: rotate(-5deg);
+}
+
+to {
+  transform: rotate(5deg);
+}`;
