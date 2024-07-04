@@ -28,6 +28,14 @@ function CategoryPicker({ categories, category, setCategory }) {
     });
   }
 
+  function handleFollowedCategoriesCheck() {
+    setCheckboxTicked(!checkboxTicked);
+    // Make sure to clear the category state if the previously selected category is not followed by the user
+    if (!followed_categories.includes(category)) {
+      setCategory('');
+    }
+  }
+
   return (
     <StyledCategoryPicker>
       <label htmlFor="category">Category:</label>
@@ -47,7 +55,7 @@ function CategoryPicker({ categories, category, setCategory }) {
         type="checkbox"
         name="followed-categories"
         id="followed-categories"
-        onChange={() => setCheckboxTicked(!checkboxTicked)}
+        onChange={handleFollowedCategoriesCheck}
       />
     </StyledCategoryPicker>
   );
