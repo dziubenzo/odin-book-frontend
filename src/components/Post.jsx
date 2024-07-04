@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyledPost } from '../styles/AllPostsPage.styled';
+import { StyledPost } from '../styles/PostsPage.styled';
 import PostLikes from './PostLikes';
 import PostBody from './PostBody';
 

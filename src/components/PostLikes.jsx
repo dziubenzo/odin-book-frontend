@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import { StyledPostLikes } from '../styles/AllPostsPage.styled';
+import { StyledPostLikes } from '../styles/PostsPage.styled';
 
 function PostLikes({
   post,

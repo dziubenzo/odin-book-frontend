@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
-import AllPostsPage from '../pages/AllPostsPage';
+import PostsPage from '../pages/PostsPage';
 import ErrorPage from '../pages/ErrorPage';
 import WelcomePage from '../pages/WelcomePage';
 import PostDetailsPage from '../pages/PostDetailsPage';
@@ -29,7 +29,7 @@ function Router() {
       children: [
         {
           path: '',
-          element: <AllPostsPage />,
+          element: <PostsPage />,
         },
         {
           path: 'create',

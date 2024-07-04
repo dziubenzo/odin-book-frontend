@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledAllPostsPage = styled.main`
+export const StyledPostsPage = styled.main`
   width: 100%;
   display: grid;
   gap: 4px;

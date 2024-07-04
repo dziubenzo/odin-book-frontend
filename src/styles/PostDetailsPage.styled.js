@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { StyledPostInfo } from './AllPostsPage.styled';
+import { StyledPostInfo } from './PostsPage.styled';
 import { StyledButton } from './WelcomePage.styled';
 import { MIN_COMMENT_LENGTH } from '../helpers';
 

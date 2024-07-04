@@ -2,7 +2,7 @@
 
 import { render, screen } from '@testing-library/react';
 
-import AllPostsPage from '../pages/AllPostsPage';
+import PostsPage from '../pages/PostsPage';
 import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ function renderComponent() {
   render(
     <BrowserRouter>
       <Theme>
-        <AllPostsPage />
+        <PostsPage />
       </Theme>
     </BrowserRouter>,
   );

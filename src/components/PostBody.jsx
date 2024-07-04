@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import PostInfo from './PostInfo';
 import parse from 'html-react-parser';
 
-import { StyledPostBody } from '../styles/AllPostsPage.styled';
-import { StyledPostInfo } from '../styles/AllPostsPage.styled';
+import { StyledPostBody, StyledPostInfo } from '../styles/PostsPage.styled';
 
 function PostBody({ post }) {
   const { slug, title, content } = post;
