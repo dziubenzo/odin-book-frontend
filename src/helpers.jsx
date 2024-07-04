@@ -31,6 +31,14 @@ export const defaultAvatars = [
 export const defaultCategoryIcon =
   'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1719224975/odin_book/category_icons/default/yx1nunw6khsgatgbqczt.png';
 
+export const allowedImageFormats = [
+  'image/avif',
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/gif',
+];
+
 /* 
 Functions
 */

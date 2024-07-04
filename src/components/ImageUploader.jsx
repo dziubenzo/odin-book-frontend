@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { StyledImageUploader } from '../styles/NewPostPage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
+import { allowedImageFormats } from '../helpers';
 
 function ImageUploader({
   imageFile,
@@ -10,9 +11,9 @@ function ImageUploader({
 }) {
   function uploadImage(event) {
     if (event.target.files[0]) {
-      // Make sure the file attached is an image
+      // Make sure the file attached is an image in the allowed format
       // On Linux, you can attach anything despite the accept attribute being set
-      if (!event.target.files[0].type.includes('image')) {
+      if (!allowedImageFormats.includes(event.target.files[0].type)) {
         return;
       }
       setImageFile(event.target.files[0]);
