@@ -306,6 +306,10 @@ export const StyledLinkInput = styled.div`
     padding: 0.75em;
     width: 100%;
     font-size: ${(props) => props.theme.fontSizes.standard};
+
+    &.invalid-link {
+      color: ${(props) => props.theme.colours.lightRed};
+    }
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {

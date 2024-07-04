@@ -17,6 +17,7 @@ function ImageEditor({ imageURL, imageFile, setImageURL, setImageFile }) {
           <label htmlFor="image_url">Image URL:</label>
           <input
             type="url"
+            className={!isValidImageURL(imageURL) ? 'invalid-link' : undefined}
             name="image_url"
             id="image_url"
             title={

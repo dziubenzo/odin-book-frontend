@@ -34,6 +34,7 @@ function VideoEditor({ videoURL, setVideoURL }) {
         <label htmlFor="video_url">YouTube URL:</label>
         <input
           type="url"
+          className={!videoURL ? 'invalid-link' : undefined}
           name="video_url"
           id="video_url"
           placeholder={'Only YouTube videos are supported'}
