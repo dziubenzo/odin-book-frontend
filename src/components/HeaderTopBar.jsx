@@ -7,7 +7,7 @@ import { TbCategoryPlus } from 'react-icons/tb';
 function HeaderTopBar() {
   return (
     <StyledHeaderTopBar>
-      <NavLink to={'/posts'} className="link">
+      <NavLink to={'/posts'} className="link" end>
         <RiGlobalLine />
         <p>ALL</p>
       </NavLink>

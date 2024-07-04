@@ -15,6 +15,22 @@ const GlobalStyle = createGlobalStyle`
       outline: none;
       border: 2px solid ${(props) => props.theme.colours.secondary};
     }
+
+    // Use different scrollbar-related properties depending on browser support
+    @supports (scrollbar-width: auto) {
+      scrollbar-color: ${(props) => props.theme.colours.primary} ${(props) => props.theme.colours.background};
+      scrollbar-width: auto;
+    }
+
+    @supports selector(::-webkit-scrollbar) {
+      &::-webkit-scrollbar-thumb {
+        background: ${(props) => props.theme.colours.primary}
+    }
+
+    &::-webkit-scrollbar-track {
+        background: ${(props) => props.theme.colours.background}
+    }
+    }
   }
 
   body {
@@ -22,6 +38,7 @@ const GlobalStyle = createGlobalStyle`
     justify-content: center;
     background: ${(props) => props.theme.colours.backgroundGradient};
     background-attachment: fixed;
+    overflow-y: scroll;
   }
 
   #root {
