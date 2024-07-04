@@ -20,8 +20,10 @@ import {
 } from './mocks';
 import { mockFetch } from './fetchMock';
 import { MAX_POST_TITLE_LENGTH } from '../helpers';
+import PublishPostSection from '../components/PublishPostSection';
 
 const navigateFn = vi.fn();
+const publishPostFn = vi.fn();
 const categories = [category1, category2];
 
 function renderNewPostPage() {
@@ -40,6 +42,22 @@ function renderNewPostPage() {
   render(
     <Theme>
       <NewPostPage />
+    </Theme>,
+  );
+
+  return { user };
+}
+
+function renderPublishPostSection(error, inProgress) {
+  const user = userEvent.setup();
+
+  render(
+    <Theme>
+      <PublishPostSection
+        errorMessage={error}
+        inProgress={inProgress}
+        handleSubmitButtonClick={publishPostFn}
+      />
     </Theme>,
   );
 
@@ -669,5 +687,195 @@ describe('VideoEditor', () => {
     expect(videoPreviewHeading).not.toBeInTheDocument();
     expect(videoPlayer).not.toBeInTheDocument();
     expect(youTubeURLInput).toHaveClass('invalid-link');
+  });
+});
+
+describe('PublishPostSection', () => {
+  it('should render a Publish button', () => {
+    renderPublishPostSection(null, false);
+
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+
+    expect(publishButton).toBeInTheDocument();
+  });
+
+  it('should render an error message if there is an error', () => {
+    const error = 'Some bad error';
+    renderPublishPostSection(error, false);
+
+    const errorMessage = screen.getByText(new RegExp(error));
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it("should render a Publish button that says 'Publish' if no post is being created", () => {
+    renderPublishPostSection(null, false);
+
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+
+    expect(publishButton.textContent).toMatch(/publish/i);
+  });
+
+  it("should render a Publish button that says 'Publishing' if a post is being created", () => {
+    renderPublishPostSection(null, true);
+
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+
+    expect(publishButton.textContent).toMatch(/publishing/i);
+  });
+
+  it('should render a Publish button that calls a create post function if clicked', async () => {
+    const { user } = renderPublishPostSection(null, false);
+
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+    await user.click(publishButton);
+
+    expect(publishPostFn).toHaveBeenCalledOnce();
+  });
+});
+
+// Test order matters a lot (sadly)
+describe('PublishPostSection - Errors', () => {
+  beforeEach(() => {
+    mockFetch(categories, true);
+  });
+
+  it('should render an error message if the post title is too short', async () => {
+    const { user } = renderNewPostPage();
+
+    const textPostTypeButton = await screen.findByRole('button', {
+      name: /text/i,
+    });
+    await user.click(textPostTypeButton);
+
+    const postTitleInput = await screen.findByRole('textbox', {
+      name: /post title/i,
+    });
+    const categoryPicker = await screen.findByRole('combobox', {
+      name: /category/i,
+    });
+    const category1Option = await screen.findByRole('option', {
+      name: new RegExp(category1.name, 'i'),
+    });
+    const textEditor = await screen.findByTestId('text-editor');
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+
+    await user.clear(postTitleInput);
+    await user.clear(textEditor);
+    await user.type(postTitleInput, ':)');
+    await user.selectOptions(categoryPicker, category1Option);
+    await user.type(textEditor, 'Some very fancy post content');
+    await user.click(publishButton);
+
+    const errorMessage = await screen.findByText(/post title is/i);
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should render an error message if the category is not selected', async () => {
+    const { user } = renderNewPostPage();
+
+    const postTitleInput = await screen.findByRole('textbox', {
+      name: /post title/i,
+    });
+    const categoryPicker = await screen.findByRole('combobox', {
+      name: /category/i,
+    });
+    const emptyCategoryOption = await screen.findByRole('option', {
+      name: /choose category/i,
+    });
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+
+    await user.clear(postTitleInput);
+    await user.type(postTitleInput, 'Normal title, yay!');
+    await user.selectOptions(categoryPicker, emptyCategoryOption);
+    await user.click(publishButton);
+
+    const errorMessage = await screen.findByText(/category is/i);
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should render an error message if the post content is too short (text post type)', async () => {
+    const { user } = renderNewPostPage();
+
+    const categoryPicker = await screen.findByRole('combobox', {
+      name: /category/i,
+    });
+    const category1Option = await screen.findByRole('option', {
+      name: new RegExp(category1.name, 'i'),
+    });
+    const textEditor = await screen.findByTestId('text-editor');
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+
+    await user.clear(textEditor);
+    await user.selectOptions(categoryPicker, category1Option);
+    await user.click(publishButton);
+
+    const errorMessage = await screen.findByText(/post content is/i);
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should render an error message if the image URL is incorrect (image post type)', async () => {
+    const { user } = renderNewPostPage();
+
+    const imagePostTypeButton = await screen.findByRole('button', {
+      name: /image/i,
+    });
+    await user.click(imagePostTypeButton);
+
+    const imageURLInput = await screen.findByRole('textbox', {
+      name: /image url/i,
+    });
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+
+    await user.clear(imageURLInput);
+    await user.type(imageURLInput, 'Can I be a valid link, please?');
+    await user.click(publishButton);
+
+    const errorMessage = await screen.findByText(/invalid image/i);
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should render an error message if the YouTube URL is incorrect (video post type)', async () => {
+    const { user } = renderNewPostPage();
+
+    const videoPostTypeButton = await screen.findByRole('button', {
+      name: /video/i,
+    });
+    await user.click(videoPostTypeButton);
+
+    const youTubeURLInput = await screen.findByRole('textbox', {
+      name: /youtube url/i,
+    });
+    const publishButton = screen.getByRole('button', {
+      name: /publish/i,
+    });
+
+    await user.clear(youTubeURLInput);
+    await user.type(youTubeURLInput, 'I am a YT link, for real!');
+    await user.click(publishButton);
+
+    const errorMessage = await screen.findByText(/invalid youtube/i);
+
+    expect(errorMessage).toBeInTheDocument();
   });
 });

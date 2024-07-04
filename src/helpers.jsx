@@ -632,7 +632,7 @@ export const createVideoPost = async (
     return;
   }
   if (!videoURL) {
-    return setTimedMessage('No valid YouTube URL provided', setErrorMessage);
+    return setTimedMessage('Invalid YouTube URL', setErrorMessage);
   }
   setInProgress(true);
   const data = new FormData();
