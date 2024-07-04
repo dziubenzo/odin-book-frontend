@@ -59,15 +59,10 @@ function PostsPage({ fetchQuery = '', pageType = 'All Posts' }) {
 
   return (
     <StyledPostsPage>
+      {!error && <h1 className="top-header">Feed - {pageType}</h1>}
       {loading && <Loading message={pageType} />}
       {error && <Error errorMessage={error} />}
-      {posts && (
-        <>
-          <h1 className="top-header">Feed - {pageType}</h1>
-          {posts?.length === 0 && <NoPostsSection />}
-          {renderPosts()}
-        </>
-      )}
+      {posts && <>{posts?.length === 0 ? <NoPostsSection /> : renderPosts()}</>}
     </StyledPostsPage>
   );
 }

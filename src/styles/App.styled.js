@@ -23,6 +23,12 @@ export const StyledError = styled.div`
   p {
     margin-top: 2em;
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    h1 {
+      font-size: ${(props) => props.theme.fontSizes.large};
+    }
+  }
 `;
 
 export const StyledLoading = styled.div`
@@ -36,8 +42,10 @@ export const StyledLoading = styled.div`
   align-self: center;
   justify-self: center;
 
-  h1 {
-    color: ${(props) => props.theme.colours.primary};
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    h1 {
+      font-size: ${(props) => props.theme.fontSizes.large};
+    }
   }
 `;
 

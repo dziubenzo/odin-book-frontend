@@ -8,8 +8,8 @@ export const StyledPostsPage = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  gap: 16px;
   padding: 2em 0;
-  gap: 4px;
 
   .top-header {
     color: ${(props) => props.theme.colours.secondary};
@@ -18,10 +18,9 @@ export const StyledPostsPage = styled.main`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    gap: 16px;
-
-    h1 {
+    .top-header {
       margin-bottom: 0.25em;
+      font-size: ${(props) => props.theme.fontSizes.large};
     }
   }
 `;
@@ -228,6 +227,10 @@ export const StyledNoPostsSection = styled.div`
     .no-posts-crab {
       height: 50%;
       width: 50%;
+    }
+
+    h1 {
+      font-size: ${(props) => props.theme.fontSizes.large};
     }
   }
 `;
