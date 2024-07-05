@@ -61,7 +61,10 @@ function Router() {
         {
           path: 'by-you',
           element: (
-            <PostsPage fetchQuery="?filter=yours" pageDescription="Your Posts" />
+            <PostsPage
+              fetchQuery="?filter=yours"
+              pageDescription="Your Posts"
+            />
           ),
         },
         {
@@ -105,6 +108,15 @@ function Router() {
         {
           path: 'new',
           element: <NewCategoryPage />,
+        },
+        {
+          path: ':slug',
+          element: (
+            <PostsPage
+              fetchQuery="?category="
+              pageDescription="Category"
+            ></PostsPage>
+          ),
         },
       ],
     },
