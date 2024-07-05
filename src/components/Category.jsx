@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import { StyledCategory } from '../styles/AllCategoriesPage.styled';
 import Avatar from './Avatar';
-import { StyledButton } from '../styles/WelcomePage.styled';
 import { Link } from 'react-router-dom';
 import CategoryBody from './CategoryBody';
+import FollowCategoryButton from './FollowCategoryButton';
 
 function Category({ user, category, handleCategoryButtonClick, inProgress }) {
-  const { followed_categories } = user;
-  const { _id, slug } = category;
+  const { slug } = category;
 
   return (
     <StyledCategory>
@@ -15,16 +14,12 @@ function Category({ user, category, handleCategoryButtonClick, inProgress }) {
         <Avatar object={category} size={50} isCategory={true} />
       </Link>
       <CategoryBody category={category} />
-      <StyledButton
-        className="follow-button"
-        onClick={() => handleCategoryButtonClick(_id)}
-      >
-        {inProgress === _id
-          ? 'Changing...'
-          : followed_categories.includes(_id)
-            ? 'Unfollow'
-            : 'Follow'}
-      </StyledButton>
+      <FollowCategoryButton
+        loggedInUser={user}
+        category={category}
+        inProgress={inProgress}
+        handleCategoryButtonClick={handleCategoryButtonClick}
+      />
     </StyledCategory>
   );
 }

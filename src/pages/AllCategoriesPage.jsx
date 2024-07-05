@@ -13,7 +13,6 @@ function AllCategoriesPage() {
   const [user, setUser] = useOutletContext();
   const {
     data: categories,
-    setData: setCategories,
     loading,
     error,
     setError,
