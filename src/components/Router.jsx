@@ -36,7 +36,7 @@ function Router() {
           element: (
             <PostsPage
               fetchQuery="?filter=categories"
-              pageType="Posts By Followed Categories"
+              pageDescription="Posts By Followed Categories"
             />
           ),
         },
@@ -45,7 +45,7 @@ function Router() {
           element: (
             <PostsPage
               fetchQuery="?filter=following"
-              pageType="Posts By Followed Users"
+              pageDescription="Posts By Followed Users"
             />
           ),
         },
@@ -54,14 +54,14 @@ function Router() {
           element: (
             <PostsPage
               fetchQuery="?filter=liked"
-              pageType="Posts Liked By You"
+              pageDescription="Posts Liked By You"
             />
           ),
         },
         {
           path: 'by-you',
           element: (
-            <PostsPage fetchQuery="?filter=yours" pageType="Your Posts" />
+            <PostsPage fetchQuery="?filter=yours" pageDescription="Your Posts" />
           ),
         },
         {

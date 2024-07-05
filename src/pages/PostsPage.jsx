@@ -10,7 +10,7 @@ import NoPostsSection from '../components/NoPostsSection';
 import { useState } from 'react';
 import { dislikePost, likePost } from '../helpers';
 
-function PostsPage({ fetchQuery = '', pageType = 'All Posts' }) {
+function PostsPage({ fetchQuery = '', pageDescription = 'All Posts' }) {
   const [user] = useOutletContext();
   const {
     data: posts,
@@ -59,8 +59,8 @@ function PostsPage({ fetchQuery = '', pageType = 'All Posts' }) {
 
   return (
     <StyledPostsPage>
-      {!error && <h1 className="top-header">Feed - {pageType}</h1>}
-      {loading && <Loading message={pageType} />}
+      {!error && <h1 className="top-header">Feed - {pageDescription}</h1>}
+      {loading && <Loading message={pageDescription} />}
       {error && <Error errorMessage={error} />}
       {posts && <>{posts?.length === 0 ? <NoPostsSection /> : renderPosts()}</>}
     </StyledPostsPage>
@@ -69,7 +69,7 @@ function PostsPage({ fetchQuery = '', pageType = 'All Posts' }) {
 
 PostsPage.propTypes = {
   fetchQuery: PropTypes.string,
-  pageType: PropTypes.string,
+  pageDescription: PropTypes.string,
 };
 
 export default PostsPage;

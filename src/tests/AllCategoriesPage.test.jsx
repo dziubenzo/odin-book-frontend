@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 import { render, screen } from '@testing-library/react';
+import { describe, expect } from 'vitest';
 
 import AllCategoriesPage from '../pages/AllCategoriesPage';
 import Category from '../components/Category';
@@ -10,7 +11,6 @@ import { userEvent } from '@testing-library/user-event';
 
 import { mockFetch } from './fetchMock';
 import { user2, category1, category2, user3 } from './mocks';
-import { describe, expect } from 'vitest';
 
 const categories = [category1, category2];
 
