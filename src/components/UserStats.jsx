@@ -5,7 +5,7 @@ import { FaUsers, FaRegCommentAlt } from 'react-icons/fa';
 import { MdOutlineCategory } from 'react-icons/md';
 import { LuLink } from 'react-icons/lu';
 import { BiCommentAdd, BiCommentMinus } from 'react-icons/bi';
-import UserStat from './UserStat';
+import Stat from './Stat';
 
 function UserStats({ user }) {
   const {
@@ -24,47 +24,43 @@ function UserStats({ user }) {
     <StyledUserStats>
       <h1 className="user-stats-heading">User Stats</h1>
       <div className="user-stats-wrapper">
-        <UserStat
+        <Stat
           IconComponent={TbUserStar}
           description={'Following'}
           count={followed_users.length}
         />
-        <UserStat
+        <Stat
           IconComponent={FaUsers}
           description={'Followers'}
           count={followersCount}
         />
-        <UserStat
+        <Stat
           IconComponent={MdOutlineCategory}
           description={'Followed Categories'}
           count={followed_categories.length}
         />
-        <UserStat
-          IconComponent={LuLink}
-          description={'Posts'}
-          count={postsCount}
-        />
-        <UserStat
+        <Stat IconComponent={LuLink} description={'Posts'} count={postsCount} />
+        <Stat
           IconComponent={TbFileLike}
           description={'Post Likes'}
           count={postLikesCount}
         />
-        <UserStat
+        <Stat
           IconComponent={TbFileDislike}
           description={'Post Dislikes'}
           count={postDislikesCount}
         />
-        <UserStat
+        <Stat
           IconComponent={FaRegCommentAlt}
           description={'Comments'}
           count={commentsCount}
         />
-        <UserStat
+        <Stat
           IconComponent={BiCommentAdd}
           description={'Comment Likes'}
           count={commentLikesCount}
         />
-        <UserStat
+        <Stat
           IconComponent={BiCommentMinus}
           description={'Comment Dislikes'}
           count={commentDislikesCount}

@@ -49,34 +49,34 @@ export const StyledUserStats = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     place-items: center;
     row-gap: 32px;
-
-    & > div {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-
-      .stat-title {
-        font-size: ${(props) => props.theme.fontSizes.medium};
-        text-align: center;
-      }
-
-      .count {
-        font-size: ${(props) => props.theme.fontSizes.extraLarge};
-      }
-
-      svg {
-        height: 36px;
-        width: 36px;
-      }
-    }
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     .user-stats-wrapper {
       grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
     }
+  }
+`;
+
+export const StyledStat = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  .stat-title {
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    text-align: center;
+  }
+
+  .count {
+    font-size: ${(props) => props.theme.fontSizes.extraLarge};
+  }
+
+  svg {
+    height: 36px;
+    width: 36px;
   }
 `;

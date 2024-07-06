@@ -1,19 +1,20 @@
 import PropTypes from 'prop-types';
+import { StyledStat } from '../styles/UserPage.styled';
 
-function UserStat({ IconComponent, description, count }) {
+function Stat({ IconComponent, description, count }) {
   return (
-    <div>
+    <StyledStat>
       <IconComponent title={`${description} Icon`} />
       <p className="stat-title">{description}</p>
       <p className="count">{count}</p>
-    </div>
+    </StyledStat>
   );
 }
 
-UserStat.propTypes = {
+Stat.propTypes = {
   IconComponent: PropTypes.elementType,
   description: PropTypes.string,
   count: PropTypes.number,
 };
 
-export default UserStat;
+export default Stat;
