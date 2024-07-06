@@ -4,28 +4,28 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
 import { useFetchPageData } from '../hooks';
 import { useRef, useState } from 'react';
-import FollowCategoryButton from './FollowCategoryButton';
 import ResourceDetailsTop from './ResourceDetailsTop';
-import CategoryStats from './CategoryStats';
-import { followOrUnfollowCategory } from '../helpers';
+import UserStats from './UserStats';
+import FollowUserButton from './FollowUserButton';
+import { followOrUnfollowUser } from '../helpers';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 
-function CategoryDetails({ loadingPosts }) {
+function UserDetails({ loadingPosts }) {
   const [user, setUser] = useOutletContext();
-  const { slug } = useParams();
-  const { data: category, setData: setCategory } = useFetchPageData(
-    `${API_URL}/categories/${slug}`,
+  const { username } = useParams();
+  const { data: renderedUser, setData: setRenderedUser } = useFetchPageData(
+    `${API_URL}/users/${username}`,
   );
   const errorMessageRef = useRef(null);
 
   const [errorMessage, setErrorMessage] = useState('');
   const [inProgress, setInProgress] = useState(false);
 
-  async function handleCategoryButtonClick(categoryID) {
-    await followOrUnfollowCategory(
+  async function handleUserButtonClick(renderedUserID) {
+    await followOrUnfollowUser(
       inProgress,
       user,
-      categoryID,
+      renderedUserID,
       setInProgress,
       setErrorMessage,
       setUser,
@@ -43,9 +43,9 @@ function CategoryDetails({ loadingPosts }) {
     if (inProgress) {
       return;
     }
-    // Update category followers
-    setCategory((draft) => {
-      if (user.followed_categories.includes(categoryID)) {
+    // Update rendered user's followers
+    setRenderedUser((draft) => {
+      if (user.followed_users.includes(renderedUserID)) {
         draft.followersCount--;
         return;
       }
@@ -53,35 +53,37 @@ function CategoryDetails({ loadingPosts }) {
     });
   }
 
-  if (category && !loadingPosts) {
-    const { description } = category;
+  if (renderedUser && !loadingPosts) {
+    const { bio } = renderedUser;
 
     return (
       <StyledResourceDetails>
-        <ResourceDetailsTop resourceType="category" object={category} />
-        <p className="description">{description}</p>
+        <ResourceDetailsTop resourceType="user" object={renderedUser} />
+        <p className="bio">{bio ? bio : 'No bio to show.'}</p>
         {errorMessage && (
           <div className="error-message-wrapper">
             <MdOutlineErrorOutline />
             <p ref={errorMessageRef}>{errorMessage}</p>
           </div>
         )}
-        <CategoryStats category={category} />
-        <div className="mystery-wrapper">
-          <FollowCategoryButton
-            loggedInUser={user}
-            category={category}
-            inProgress={inProgress}
-            handleCategoryButtonClick={handleCategoryButtonClick}
-          />
-        </div>
+        <UserStats user={renderedUser} />
+        {renderedUser._id === user._id ? undefined : (
+          <div className="mystery-wrapper">
+            <FollowUserButton
+              loggedInUser={user}
+              renderedUser={renderedUser}
+              inProgress={inProgress}
+              handleUserButtonClick={handleUserButtonClick}
+            />
+          </div>
+        )}
       </StyledResourceDetails>
     );
   }
 }
 
-CategoryDetails.propTypes = {
+UserDetails.propTypes = {
   loadingPosts: PropTypes.bool,
 };
 
-export default CategoryDetails;
+export default UserDetails;

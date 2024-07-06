@@ -235,13 +235,14 @@ export const StyledNoPostsSection = styled.div`
   }
 `;
 
-export const StyledCategoryDetails = styled.div`
+export const StyledResourceDetails = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
   margin: 2em 0.5em;
 
-  .description {
+  .description,
+  .bio {
     font-style: italic;
     font-size: ${(props) => props.theme.fontSizes.medium};
     text-align: center;
@@ -289,7 +290,7 @@ export const StyledCategoryDetails = styled.div`
   }
 `;
 
-export const StyledCategoryDetailsTop = styled.div`
+export const StyledResourceDetailsTop = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
@@ -300,7 +301,7 @@ export const StyledCategoryDetailsTop = styled.div`
     text-align: center;
   }
 
-  .creation-date-wrapper {
+  .date-wrapper {
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -324,7 +325,7 @@ export const StyledCategoryDetailsTop = styled.div`
       font-size: ${(props) => props.theme.fontSizes.medium};
     }
 
-    .creation-date-wrapper {
+    .date-wrapper {
       gap: 0;
     }
   }
@@ -338,22 +339,57 @@ export const StyledCategoryStats = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     grid-template-columns: repeat(2, minmax(125px, 1fr));
+  }
+`;
 
-    div {
-      gap: 4px;
+export const StyledUserStats = styled.div`
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  place-items: center;
+  row-gap: 32px;
 
-      svg {
-        height: 24px;
-        width: 24px;
-      }
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+  }
+`;
 
-      .stat-title {
-        font-size: ${(props) => props.theme.fontSizes.standard};
-      }
+export const StyledStat = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
 
-      .count {
-        font-size: ${(props) => props.theme.fontSizes.large};
-      }
+  .stat-title {
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    text-align: center;
+  }
+
+  .count {
+    font-size: ${(props) => props.theme.fontSizes.extraLarge};
+  }
+
+  svg {
+    height: 36px;
+    width: 36px;
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    gap: 4px;
+
+    .stat-title {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+    }
+
+    .count {
+      font-size: ${(props) => props.theme.fontSizes.large};
+    }
+
+    svg {
+      height: 24px;
+      width: 24px;
     }
   }
 `;

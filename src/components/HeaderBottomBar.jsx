@@ -8,7 +8,7 @@ import { MdOutlineCreate } from "react-icons/md";
 function HeaderBottomBar() {
   return (
     <StyledHeaderBottomBar>
-      <NavLink to={'/categories'} className="link">
+      <NavLink to={'/categories'} className="link" end>
         <BiCategoryAlt />
         <p>ALL CATEGORIES</p>
       </NavLink>
@@ -16,7 +16,7 @@ function HeaderBottomBar() {
         <MdOutlineCreate />
         <p>CREATE POST</p>
       </NavLink>
-      <NavLink to={'/users'} className="link">
+      <NavLink to={'/users'} className="link" end>
         <PiUsersFour />
         <p>ALL USERS</p>
       </NavLink>

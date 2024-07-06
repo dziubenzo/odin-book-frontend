@@ -6,21 +6,26 @@ import { useFetchPageData } from '../hooks';
 import Post from '../components/Post';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
+import CategoryDetails from '../components/CategoryDetails';
+import UserDetails from '../components/UserDetails';
 import NoPostsSection from '../components/NoPostsSection';
 import { useState } from 'react';
 import { dislikePost, likePost } from '../helpers';
-import CategoryDetails from '../components/CategoryDetails';
 
 function PostsPage({
   fetchQuery = '',
   pageDescription = 'All Posts',
   isCategoryPage = false,
+  isUserPage = false,
 }) {
   const [user] = useOutletContext();
-  // Get the category to retrieve from the URL parameter
-  const { slug } = useParams();
+  // Get the category/user to retrieve from the URL parameter
+  const { slug, username } = useParams();
   if (slug) {
     fetchQuery += slug;
+  }
+  if (username) {
+    fetchQuery += username;
   }
   const {
     data: posts,
@@ -70,6 +75,7 @@ function PostsPage({
   return (
     <StyledPostsPage>
       {isCategoryPage && <CategoryDetails loadingPosts={loading} />}
+      {isUserPage && <UserDetails loadingPosts={loading} />}
       {!error && <h1 className="top-header">Feed - {pageDescription}</h1>}
       {loading && <Loading message={pageDescription} />}
       {error && <Error errorMessage={error} />}
@@ -82,6 +88,7 @@ PostsPage.propTypes = {
   fetchQuery: PropTypes.string,
   pageDescription: PropTypes.string,
   isCategoryPage: PropTypes.bool,
+  isUserPage: PropTypes.bool,
 };
 
 export default PostsPage;

@@ -8,7 +8,6 @@ import ProfilePage from '../pages/ProfilePage';
 import AllCategoriesPage from '../pages/AllCategoriesPage';
 import NewCategoryPage from '../pages/NewCategoryPage';
 import AllUsersPage from '../pages/AllUsersPage';
-import UserPage from '../pages/UserPage';
 import NewPostPage from '../pages/NewPostPage';
 
 function Router() {
@@ -136,7 +135,13 @@ function Router() {
         },
         {
           path: ':username',
-          element: <UserPage />,
+          element: (
+            <PostsPage
+              fetchQuery="?user="
+              pageDescription="User"
+              isUserPage={true}
+            />
+          ),
         },
       ],
     },

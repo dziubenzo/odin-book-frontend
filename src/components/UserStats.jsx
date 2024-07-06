@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyledUserStats } from '../styles/UserPage.styled';
+import { StyledUserStats } from '../styles/PostsPage.styled';
 import { TbUserStar, TbFileLike, TbFileDislike } from 'react-icons/tb';
 import { FaUsers, FaRegCommentAlt } from 'react-icons/fa';
 import { MdOutlineCategory } from 'react-icons/md';
@@ -22,50 +22,47 @@ function UserStats({ user }) {
 
   return (
     <StyledUserStats>
-      <h1 className="user-stats-heading">User Stats</h1>
-      <div className="user-stats-wrapper">
-        <Stat
-          IconComponent={TbUserStar}
-          description={'Following'}
-          count={followed_users.length}
-        />
-        <Stat
-          IconComponent={FaUsers}
-          description={'Followers'}
-          count={followersCount}
-        />
-        <Stat
-          IconComponent={MdOutlineCategory}
-          description={'Followed Categories'}
-          count={followed_categories.length}
-        />
-        <Stat IconComponent={LuLink} description={'Posts'} count={postsCount} />
-        <Stat
-          IconComponent={TbFileLike}
-          description={'Post Likes'}
-          count={postLikesCount}
-        />
-        <Stat
-          IconComponent={TbFileDislike}
-          description={'Post Dislikes'}
-          count={postDislikesCount}
-        />
-        <Stat
-          IconComponent={FaRegCommentAlt}
-          description={'Comments'}
-          count={commentsCount}
-        />
-        <Stat
-          IconComponent={BiCommentAdd}
-          description={'Comment Likes'}
-          count={commentLikesCount}
-        />
-        <Stat
-          IconComponent={BiCommentMinus}
-          description={'Comment Dislikes'}
-          count={commentDislikesCount}
-        />
-      </div>
+      <Stat
+        IconComponent={TbUserStar}
+        description={'Following'}
+        count={followed_users.length}
+      />
+      <Stat
+        IconComponent={FaUsers}
+        description={'Followers'}
+        count={followersCount}
+      />
+      <Stat
+        IconComponent={MdOutlineCategory}
+        description={'Followed Categories'}
+        count={followed_categories.length}
+      />
+      <Stat IconComponent={LuLink} description={'Posts'} count={postsCount} />
+      <Stat
+        IconComponent={TbFileLike}
+        description={'Post Likes'}
+        count={postLikesCount}
+      />
+      <Stat
+        IconComponent={TbFileDislike}
+        description={'Post Dislikes'}
+        count={postDislikesCount}
+      />
+      <Stat
+        IconComponent={FaRegCommentAlt}
+        description={'Comments'}
+        count={commentsCount}
+      />
+      <Stat
+        IconComponent={BiCommentAdd}
+        description={'Comment Likes'}
+        count={commentLikesCount}
+      />
+      <Stat
+        IconComponent={BiCommentMinus}
+        description={'Comment Dislikes'}
+        count={commentDislikesCount}
+      />
     </StyledUserStats>
   );
 }

@@ -26,6 +26,12 @@ export const StyledUserInfo = styled.div`
     display: flex;
     align-items: center;
     gap: 24px;
+
+    .username {
+      a {
+        font-weight: 700;
+      }
+    }
   }
 
   a {

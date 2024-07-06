@@ -9,7 +9,7 @@ function UserInfo({ user }) {
     <StyledUserInfo>
       <div className="top-line">
         <Avatar object={user} size={100} />
-        <h1>
+        <h1 className='username'>
           <Link to={`/users/${user.username}`}>{user.username}</Link>
         </h1>
       </div>

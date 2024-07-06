@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { StyledStat } from '../styles/UserPage.styled';
+import { StyledStat } from '../styles/PostsPage.styled';
 
 function Stat({ IconComponent, description, count }) {
   return (
