@@ -5,19 +5,19 @@ import { LuLink } from 'react-icons/lu';
 import { FaUsers } from 'react-icons/fa';
 
 function CategoryStats({ category }) {
-  const { categoryPosts, categoryFollowers } = category;
+  const { postsCount, followersCount } = category;
 
   return (
     <StyledCategoryStats>
       <Stat
         IconComponent={LuLink}
         description={'Posts'}
-        count={categoryPosts}
+        count={postsCount}
       />
       <Stat
         IconComponent={FaUsers}
         description={'Followers'}
-        count={categoryFollowers}
+        count={followersCount}
       />
     </StyledCategoryStats>
   );

@@ -115,7 +115,8 @@ function Router() {
             <PostsPage
               fetchQuery="?category="
               pageDescription="Category"
-            ></PostsPage>
+              isCategoryPage={true}
+            />
           ),
         },
       ],

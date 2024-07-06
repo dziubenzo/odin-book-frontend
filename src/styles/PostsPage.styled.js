@@ -234,3 +234,126 @@ export const StyledNoPostsSection = styled.div`
     }
   }
 `;
+
+export const StyledCategoryDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 2em 0.5em;
+
+  .description {
+    font-style: italic;
+    font-size: ${(props) => props.theme.fontSizes.medium};
+    text-align: center;
+    line-height: 1.75;
+  }
+
+  .error-message-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: center;
+
+    p,
+    svg {
+      fill: ${(props) => props.theme.colours.lightRed};
+      color: ${(props) => props.theme.colours.lightRed};
+    }
+  }
+
+  // This makes it as if the position: fixed element is fixed relative to its parent rather than relative to the viewport, so no JS calculations are required
+  // https://moshfeu.github.io/position-fixed-relative-to-parent/
+  .mystery-wrapper {
+    position: absolute;
+    right: 0;
+    width: calc(150px + 0.5em); // width of the element plus parent margin
+
+    .follow-button {
+      position: fixed;
+      bottom: 110px;
+      width: 150px;
+      height: fit-content;
+      font-size: ${(props) => props.theme.fontSizes.standard};
+      padding: 0.75em;
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    gap: 16px;
+    margin: 0em 0.5em 1em 0.5em;
+
+    .description {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+      line-height: 1.5;
+    }
+  }
+`;
+
+export const StyledCategoryDetailsTop = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  .name {
+    color: ${(props) => props.theme.colours.secondary};
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .creation-date-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    margin-left: auto;
+
+    span {
+      color: ${(props) => props.theme.colours.secondary};
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    gap: 16px;
+
+    img {
+      height: 50px;
+      width: 50px;
+    }
+
+    .name {
+      font-size: ${(props) => props.theme.fontSizes.medium};
+    }
+
+    .creation-date-wrapper {
+      gap: 0;
+    }
+  }
+`;
+
+export const StyledCategoryStats = styled.div`
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  place-items: center;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    grid-template-columns: repeat(2, minmax(125px, 1fr));
+
+    div {
+      gap: 4px;
+
+      svg {
+        height: 24px;
+        width: 24px;
+      }
+
+      .stat-title {
+        font-size: ${(props) => props.theme.fontSizes.standard};
+      }
+
+      .count {
+        font-size: ${(props) => props.theme.fontSizes.large};
+      }
+    }
+  }
+`;

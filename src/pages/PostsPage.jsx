@@ -9,18 +9,18 @@ import Loading from '../components/Loading';
 import NoPostsSection from '../components/NoPostsSection';
 import { useState } from 'react';
 import { dislikePost, likePost } from '../helpers';
+import CategoryDetails from '../components/CategoryDetails';
 
 function PostsPage({
   fetchQuery = '',
   pageDescription = 'All Posts',
-  children,
+  isCategoryPage = false,
 }) {
   const [user] = useOutletContext();
   // Get the category to retrieve from the URL parameter
   const { slug } = useParams();
   if (slug) {
     fetchQuery += slug;
-    // pageDescription = `${pageDescription} (${slug})`;
   }
   const {
     data: posts,
@@ -69,7 +69,7 @@ function PostsPage({
 
   return (
     <StyledPostsPage>
-      {children}
+      {isCategoryPage && <CategoryDetails loadingPosts={loading} />}
       {!error && <h1 className="top-header">Feed - {pageDescription}</h1>}
       {loading && <Loading message={pageDescription} />}
       {error && <Error errorMessage={error} />}
@@ -81,7 +81,7 @@ function PostsPage({
 PostsPage.propTypes = {
   fetchQuery: PropTypes.string,
   pageDescription: PropTypes.string,
-  children: PropTypes.element,
+  isCategoryPage: PropTypes.bool,
 };
 
 export default PostsPage;
