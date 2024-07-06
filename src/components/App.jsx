@@ -17,10 +17,10 @@ function App({ children }) {
         <>
           <Header />
           <Outlet context={[user, setUser]} />
+          {children}
           <Footer user={user} />
         </>
       )}
-      {children}
     </Theme>
   );
 }

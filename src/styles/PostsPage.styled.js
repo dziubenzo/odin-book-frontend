@@ -211,6 +211,13 @@ export const StyledNoPostsSection = styled.div`
   transform: translate(-50%, -50%);
   width: 100%;
 
+  &.position-normal {
+    position: revert;
+    left: revert;
+    top: revert;
+    transform: revert;
+  }
+
   .no-posts-crab {
     height: 256px;
     width: 256px;
@@ -225,8 +232,8 @@ export const StyledNoPostsSection = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     .no-posts-crab {
-      height: 50%;
-      width: 50%;
+      height: 50vw;
+      width: 50vw;
     }
 
     h1 {
@@ -351,6 +358,7 @@ export const StyledUserStats = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+    row-gap: 16px;
   }
 `;
 

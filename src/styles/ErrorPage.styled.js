@@ -7,11 +7,9 @@ export const StyledErrorPage = styled.main`
   justify-content: center;
   gap: 24px;
   text-align: center;
-  min-height: 100vh;
+  height: 100%;
 
   a {
-    position: absolute;
-    bottom: 4em;
     text-decoration: none;
     font-size: ${(props) => props.theme.fontSizes.standard};
   }

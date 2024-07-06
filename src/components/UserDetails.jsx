@@ -13,9 +13,11 @@ import { MdOutlineErrorOutline } from 'react-icons/md';
 function UserDetails({ loadingPosts }) {
   const [user, setUser] = useOutletContext();
   const { username } = useParams();
-  const { data: renderedUser, setData: setRenderedUser } = useFetchPageData(
-    `${API_URL}/users/${username}`,
-  );
+  const {
+    data: renderedUser,
+    setData: setRenderedUser,
+    error,
+  } = useFetchPageData(`${API_URL}/users/${username}`);
   const errorMessageRef = useRef(null);
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -52,6 +54,9 @@ function UserDetails({ loadingPosts }) {
       draft.followersCount++;
     });
   }
+
+  // Throw the entire app if there is a fetching error
+  if (error) throw new Error(error);
 
   if (renderedUser && !loadingPosts) {
     const { bio } = renderedUser;

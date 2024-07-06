@@ -13,9 +13,11 @@ import { MdOutlineErrorOutline } from 'react-icons/md';
 function CategoryDetails({ loadingPosts }) {
   const [user, setUser] = useOutletContext();
   const { slug } = useParams();
-  const { data: category, setData: setCategory } = useFetchPageData(
-    `${API_URL}/categories/${slug}`,
-  );
+  const {
+    data: category,
+    setData: setCategory,
+    error,
+  } = useFetchPageData(`${API_URL}/categories/${slug}`);
   const errorMessageRef = useRef(null);
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -52,6 +54,9 @@ function CategoryDetails({ loadingPosts }) {
       draft.followersCount++;
     });
   }
+
+  // Throw the entire app if there is a fetching error
+  if (error) throw new Error(error);
 
   if (category && !loadingPosts) {
     const { description } = category;

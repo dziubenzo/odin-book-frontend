@@ -79,7 +79,18 @@ function PostsPage({
       {!error && <h1 className="top-header">Feed - {pageDescription}</h1>}
       {loading && <Loading message={pageDescription} />}
       {error && <Error errorMessage={error} />}
-      {posts && <>{posts?.length === 0 ? <NoPostsSection /> : renderPosts()}</>}
+      {posts && (
+        <>
+          {posts?.length === 0 ? (
+            <NoPostsSection
+              isCategoryPage={isCategoryPage}
+              isUserPage={isUserPage}
+            />
+          ) : (
+            renderPosts()
+          )}
+        </>
+      )}
     </StyledPostsPage>
   );
 }
