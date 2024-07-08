@@ -10,6 +10,8 @@ import Loading from '../components/Loading';
 import CategoryDetails from '../components/CategoryDetails';
 import UserDetails from '../components/UserDetails';
 import NoPostsSection from '../components/NoPostsSection';
+import LoadingInfiniteScroll from '../components/LoadingInfiniteScroll';
+import EndInfiniteScroll from '../components/EndInfiniteScroll';
 import { useState } from 'react';
 import {
   dislikePost,
@@ -122,6 +124,8 @@ function PostsPage({
               dataLength={posts.length}
               next={handleInfiniteScroll}
               hasMore={hasMore}
+              loader={<LoadingInfiniteScroll />}
+              endMessage={<EndInfiniteScroll />}
             >
               {renderPosts()}
             </InfiniteScroll>

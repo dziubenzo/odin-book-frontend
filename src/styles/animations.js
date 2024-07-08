@@ -32,3 +32,11 @@ from {
 to {
   transform: rotate(5deg);
 }`;
+
+export const breathing = keyframes`
+from {
+  transform: scale(1.0);
+}
+to {
+  transform: scale(1.2);
+}`;

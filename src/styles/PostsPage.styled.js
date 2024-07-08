@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { walkingCrab } from './animations';
+import { walkingCrab, breathing } from './animations';
 
 export const StyledPostsPage = styled.main`
   position: relative;
@@ -227,7 +227,6 @@ export const StyledNoPostsSection = styled.div`
   @media (hover: hover) {
     .no-posts-crab:hover {
       animation: ${walkingCrab} 0.2s linear infinite alternate;
-      cursor: help;
     }
   }
 
@@ -400,6 +399,19 @@ export const StyledStat = styled.div`
       height: 24px;
       width: 24px;
     }
+  }
+`;
+
+export const StyledLoadingInfiniteScroll = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2em;
+  margin-bottom: 1em;
+
+  svg {
+    width: 64px;
+    height: 64px;
+    animation: ${breathing} 0.3s ease-out infinite alternate;
   }
 `;
 
