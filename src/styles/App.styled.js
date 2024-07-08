@@ -42,6 +42,13 @@ export const StyledLoading = styled.div`
   align-self: center;
   justify-self: center;
 
+  &.whole-page {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     h1 {
       font-size: ${(props) => props.theme.fontSizes.large};

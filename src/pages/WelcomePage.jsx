@@ -4,7 +4,8 @@ import { StyledWelcomePage } from '../styles/WelcomePage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
 import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
-import { useRef, useState } from 'react';
+import Loading from '../components/Loading';
+import { useEffect, useRef, useState } from 'react';
 import { useCheckAuth } from '../hooks';
 
 function WelcomePage() {
@@ -14,8 +15,19 @@ function WelcomePage() {
   const [showPage, setShowPage] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showLoading, setShowLoading] = useState(false);
 
   useCheckAuth(setShowPage);
+
+  // Show the loading screen after a delay to prevent an empty page when the server is waking up from sleep
+  useEffect(() => {
+    const timeoutID = setTimeout(() => {
+      setShowLoading(true);
+    }, 1000);
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  }, []);
 
   return (
     <Theme>
@@ -53,6 +65,7 @@ function WelcomePage() {
             />
           </>
         )}
+        {showLoading && !showPage && <Loading />}
       </StyledWelcomePage>
     </Theme>
   );
