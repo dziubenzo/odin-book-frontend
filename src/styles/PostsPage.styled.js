@@ -11,6 +11,13 @@ export const StyledPostsPage = styled.main`
   gap: 16px;
   padding: 2em 0;
 
+  .posts-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
   .top-header {
     color: ${(props) => props.theme.colours.secondary};
     text-align: center;

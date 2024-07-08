@@ -126,6 +126,7 @@ function PostsPage({
               hasMore={hasMore}
               loader={<LoadingInfiniteScroll />}
               endMessage={<EndInfiniteScroll />}
+              className='posts-wrapper'
             >
               {renderPosts()}
             </InfiniteScroll>
