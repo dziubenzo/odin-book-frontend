@@ -3,19 +3,24 @@ import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
 import { useFetchPageData } from '../hooks';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import FollowCategoryButton from './FollowCategoryButton';
 import ResourceDetailsTop from './ResourceDetailsTop';
 import CategoryStats from './CategoryStats';
 import { followOrUnfollowCategory } from '../helpers';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 
-function CategoryDetails({ loadingPosts, setResourceError }) {
+function CategoryDetails({
+  loadingPosts,
+  setResourceError,
+  setLoadingResource,
+}) {
   const [user, setUser] = useOutletContext();
   const { slug } = useParams();
   const {
     data: category,
     setData: setCategory,
+    loading,
     error,
   } = useFetchPageData(`${API_URL}/categories/${slug}`);
   const errorMessageRef = useRef(null);
@@ -55,8 +60,16 @@ function CategoryDetails({ loadingPosts, setResourceError }) {
     });
   }
 
-  // Pass the error to the parent component so that the entire page throws an error
-  if (error) setResourceError(error);
+  useEffect(() => {
+    // Pass the error to the parent component so that the entire page throws an error
+    if (error) {
+      setResourceError(error);
+    }
+    if (!loading) {
+      setLoadingResource(false);
+    }
+  }, [loading, error]);
+
 
   if (category && !loadingPosts) {
     const { description } = category;
@@ -88,6 +101,7 @@ function CategoryDetails({ loadingPosts, setResourceError }) {
 CategoryDetails.propTypes = {
   loadingPosts: PropTypes.bool,
   setResourceError: PropTypes.func,
+  setLoadingResource: PropTypes.func,
 };
 
 export default CategoryDetails;

@@ -36,6 +36,7 @@ function PostsPage({
   } = useFetchPageData(`${API_URL}/posts/${fetchQuery}`);
   const [inProgress, setInProgress] = useState(false);
   const [resourceError, setResourceError] = useState(false);
+  const [loadingResource, setLoadingResource] = useState(false);
 
   function renderPosts() {
     return posts.map((post) => {
@@ -86,17 +87,19 @@ function PostsPage({
         <CategoryDetails
           loadingPosts={loading}
           setResourceError={setResourceError}
+          setLoadingResource={setLoadingResource}
         />
       )}
       {isUserPage && (
         <UserDetails
           loadingPosts={loading}
           setResourceError={setResourceError}
+          setLoadingResource={setLoadingResource}
         />
       )}
       {!error && <h1 className="top-header">Feed - {pageDescription}</h1>}
       {loading && <Loading message={pageDescription} />}
-      {posts && (
+      {posts && !loadingResource && (
         <>
           {posts?.length === 0 ? (
             <NoPostsSection

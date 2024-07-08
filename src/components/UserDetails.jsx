@@ -3,19 +3,24 @@ import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
 import { useFetchPageData } from '../hooks';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ResourceDetailsTop from './ResourceDetailsTop';
 import UserStats from './UserStats';
 import FollowUserButton from './FollowUserButton';
 import { followOrUnfollowUser } from '../helpers';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 
-function UserDetails({ loadingPosts, setResourceError }) {
+function UserDetails({
+  loadingPosts,
+  setResourceError,
+  setLoadingResource,
+}) {
   const [user, setUser] = useOutletContext();
   const { username } = useParams();
   const {
     data: renderedUser,
     setData: setRenderedUser,
+    loading,
     error,
   } = useFetchPageData(`${API_URL}/users/${username}`);
   const errorMessageRef = useRef(null);
@@ -55,8 +60,15 @@ function UserDetails({ loadingPosts, setResourceError }) {
     });
   }
 
-  // Pass the error to the parent component so that the entire page throws an error
-  if (error) setResourceError(error);
+  useEffect(() => {
+    // Pass the error to the parent component so that the entire page throws an error
+    if (error) {
+      setResourceError(error);
+    }
+    if (!loading) {
+      setLoadingResource(false);
+    }
+  }, [loading, error]);
 
   if (renderedUser && !loadingPosts) {
     const { bio } = renderedUser;
@@ -90,6 +102,7 @@ function UserDetails({ loadingPosts, setResourceError }) {
 UserDetails.propTypes = {
   loadingPosts: PropTypes.bool,
   setResourceError: PropTypes.func,
+  setLoadingResource: PropTypes.func,
 };
 
 export default UserDetails;
