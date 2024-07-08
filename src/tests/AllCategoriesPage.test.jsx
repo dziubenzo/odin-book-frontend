@@ -5,6 +5,7 @@ import { describe, expect } from 'vitest';
 
 import AllCategoriesPage from '../pages/AllCategoriesPage';
 import Category from '../components/Category';
+import FollowCategoryButton from '../components/FollowCategoryButton';
 import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
 import { userEvent } from '@testing-library/user-event';
@@ -33,15 +34,30 @@ function renderAllCategoriesPage() {
   );
 }
 
-function renderCategory(loggedInUser, inProgress) {
+function renderCategory() {
+  render(
+    <BrowserRouter>
+      <Theme>
+        <Category
+          user={user2}
+          category={category1}
+          handleCategoryButtonClick={vi.fn()}
+          inProgress={false}
+        />
+      </Theme>
+    </BrowserRouter>,
+  );
+}
+
+function renderFollowCategoryButton(loggedInUser, inProgress) {
   const mockFollowCategory = vi.fn();
   const user = userEvent.setup();
 
   render(
     <BrowserRouter>
       <Theme>
-        <Category
-          user={loggedInUser}
+        <FollowCategoryButton
+          loggedInUser={loggedInUser}
           category={category1}
           handleCategoryButtonClick={mockFollowCategory}
           inProgress={inProgress}
@@ -110,7 +126,7 @@ describe('AllCategoriesPage', () => {
 
 describe('Category', () => {
   it('should render a category icon that links to the category page', () => {
-    renderCategory(user2, false);
+    renderCategory();
 
     const categoryIconLink = screen.getByRole('link', { name: /icon for/i });
 
@@ -122,7 +138,7 @@ describe('Category', () => {
   });
 
   it('should render a category name that links to the category page', () => {
-    renderCategory(user2, false);
+    renderCategory();
 
     const categoryNameLink = screen.getByRole('link', {
       name: category1.name,
@@ -136,7 +152,7 @@ describe('Category', () => {
   });
 
   it('should render a category description', () => {
-    renderCategory(user2, false);
+    renderCategory();
 
     const categoryDescription = screen.getByText(
       new RegExp(category1.description),
@@ -144,9 +160,14 @@ describe('Category', () => {
 
     expect(categoryDescription).toBeInTheDocument();
   });
+});
 
+describe('FollowCategoryButton', () => {
   it('should render a Follow/Unfollow button, which calls a follow/unfollow function with category ID if clicked', async () => {
-    const { mockFollowCategory, user } = renderCategory(user2, false);
+    const { mockFollowCategory, user } = renderFollowCategoryButton(
+      user2,
+      false,
+    );
 
     const followButton = screen.getByRole('button');
 
@@ -159,7 +180,7 @@ describe('Category', () => {
   });
 
   it('should render a Follow button description if the category is not followed by the user', () => {
-    renderCategory(user2, false);
+    renderFollowCategoryButton(user2, false);
 
     const followButton = screen.getByRole('button');
 
@@ -167,7 +188,7 @@ describe('Category', () => {
   });
 
   it('should render an Unfollow button description if the category is followed by the user', () => {
-    renderCategory(user3, false);
+    renderFollowCategoryButton(user3, false);
 
     const followButton = screen.getByRole('button');
 
@@ -175,7 +196,7 @@ describe('Category', () => {
   });
 
   it('should render a Changing button description if the category is being followed/unfollowed by the user', () => {
-    renderCategory(user2, category1._id);
+    renderFollowCategoryButton(user2, category1._id);
 
     const followButton = screen.getByRole('button');
 
