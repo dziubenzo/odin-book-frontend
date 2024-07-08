@@ -10,7 +10,7 @@ import CategoryStats from './CategoryStats';
 import { followOrUnfollowCategory } from '../helpers';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 
-function CategoryDetails({ loadingPosts }) {
+function CategoryDetails({ loadingPosts, setResourceError }) {
   const [user, setUser] = useOutletContext();
   const { slug } = useParams();
   const {
@@ -55,8 +55,8 @@ function CategoryDetails({ loadingPosts }) {
     });
   }
 
-  // Throw the entire app if there is a fetching error
-  if (error) throw new Error(error);
+  // Pass the error to the parent component so that the entire page throws an error
+  if (error) setResourceError(error);
 
   if (category && !loadingPosts) {
     const { description } = category;
@@ -87,6 +87,7 @@ function CategoryDetails({ loadingPosts }) {
 
 CategoryDetails.propTypes = {
   loadingPosts: PropTypes.bool,
+  setResourceError: PropTypes.func,
 };
 
 export default CategoryDetails;

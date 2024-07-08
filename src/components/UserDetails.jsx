@@ -10,7 +10,7 @@ import FollowUserButton from './FollowUserButton';
 import { followOrUnfollowUser } from '../helpers';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 
-function UserDetails({ loadingPosts }) {
+function UserDetails({ loadingPosts, setResourceError }) {
   const [user, setUser] = useOutletContext();
   const { username } = useParams();
   const {
@@ -55,8 +55,8 @@ function UserDetails({ loadingPosts }) {
     });
   }
 
-  // Throw the entire app if there is a fetching error
-  if (error) throw new Error(error);
+  // Pass the error to the parent component so that the entire page throws an error
+  if (error) setResourceError(error);
 
   if (renderedUser && !loadingPosts) {
     const { bio } = renderedUser;
@@ -89,6 +89,7 @@ function UserDetails({ loadingPosts }) {
 
 UserDetails.propTypes = {
   loadingPosts: PropTypes.bool,
+  setResourceError: PropTypes.func,
 };
 
 export default UserDetails;
