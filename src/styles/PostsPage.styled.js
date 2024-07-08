@@ -402,3 +402,17 @@ export const StyledStat = styled.div`
     }
   }
 `;
+
+export const StyledEndInfiniteScroll = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  gap: 8px;
+
+  svg {
+    width: 128px;
+    height: 128px;
+  }
+`;
