@@ -8,6 +8,7 @@ import PostLikes from '../components/PostLikes';
 import PostBody from '../components/PostBody';
 import CategoryDetails from '../components/CategoryDetails';
 import UserDetails from '../components/UserDetails';
+import Stat from '../components/Stat';
 import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
 import { userEvent } from '@testing-library/user-event';
@@ -26,6 +27,7 @@ import {
   user5,
   USER_STATS_COUNT,
 } from './mocks';
+import { DiAndroid } from 'react-icons/di';
 
 function renderPostsPage(pageDescription) {
   // Mock useOutletContext hook only
@@ -137,6 +139,19 @@ function renderUserDetails(loadingPosts = false) {
   );
 
   return { setResourceErrorMock, setLoadingResourceMock };
+}
+
+function renderStat() {
+  const description = 'Two Cubed';
+  const count = 8;
+
+  render(
+    <Theme>
+      <Stat IconComponent={DiAndroid} description={description} count={count} />
+    </Theme>,
+  );
+
+  return { description, count };
 }
 
 describe('PostsPage', () => {
@@ -532,7 +547,7 @@ describe('UserDetails', () => {
     expect(noBioMessage).toBeInTheDocument();
   });
 
-  it('should render category stats of CATEGORY_STATS_COUNT length', async () => {
+  it('should render user stats of USER_STATS_COUNT length', async () => {
     mockFetch(user5, true);
     renderUserDetails();
 
@@ -558,5 +573,31 @@ describe('UserDetails', () => {
     const followButton = screen.queryByRole('button');
 
     expect(followButton).not.toBeInTheDocument();
+  });
+});
+
+describe('Stat', () => {
+  it('should render an icon with the correct title', () => {
+    const { description } = renderStat();
+
+    const icon = screen.getByTitle(new RegExp(`${description} icon`, 'i'));
+
+    expect(icon).toBeInTheDocument();
+  });
+
+  it('should render a user stat description', () => {
+    const { description: descriptionProp } = renderStat();
+
+    const description = screen.getByText(descriptionProp);
+
+    expect(description).toBeInTheDocument();
+  });
+
+  it('should render a user stat count', () => {
+    const { count: countProp } = renderStat();
+
+    const count = screen.getByText(countProp);
+
+    expect(count).toBeInTheDocument();
   });
 });
