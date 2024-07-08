@@ -16,6 +16,7 @@ export const MAX_CATEGORY_DESCRIPTION_LENGTH = 320;
 export const MIN_POST_TITLE_LENGTH = 3;
 export const MAX_POST_TITLE_LENGTH = 64;
 export const MIN_POST_CONTENT_LENGTH = 8;
+export const POSTS_PER_FETCH = 5;
 
 export const defaultAvatars = [
   'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/b0heqsns8cpkyjzm1bsd.png',
@@ -717,4 +718,31 @@ export const setTimedMessage = (message, setterFunction, time = 2000) => {
   return setTimeout(() => {
     setterFunction('');
   }, time);
+};
+
+// Fetch more posts (infinite scroll)
+export const fetchMorePosts = async (
+  endpoint,
+  limit,
+  skip,
+  setPosts,
+  setHasMore,
+) => {
+  const res = await fetch(
+    endpoint +
+      (endpoint[endpoint.length - 1] === '/'
+        ? `?limit=${limit}&skip=${skip}`
+        : `&limit=${limit}&skip=${skip}`),
+
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${Cookies.get('jwt')}`,
+      },
+    },
+  );
+  const morePosts = await res.json();
+  setPosts((previousPosts) => [...previousPosts, ...morePosts]);
+  morePosts.length > 0 ? setHasMore(true) : setHasMore(false);
+  return;
 };

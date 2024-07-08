@@ -88,6 +88,46 @@ export const useFetchPageData = (endpoint) => {
   return { data, setData, loading, error, setError };
 };
 
+// Fetch initial posts (infinite scroll)
+export const useFetchPosts = (endpoint, limit) => {
+  const [posts, setPosts] = useImmer(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      setLoading(true);
+      setPosts(null);
+      setError(null);
+      setHasMore(true);
+      const res = await fetch(
+        endpoint +
+          (endpoint[endpoint.length - 1] === '/'
+            ? `?limit=${limit}`
+            : `&limit=${limit}`),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('jwt')}`,
+          },
+        },
+      );
+      if (!res.ok) {
+        const error = await res.json();
+        setLoading(false);
+        return setError(error);
+      }
+      const posts = await res.json();
+      setPosts(posts);
+      setLoading(false);
+    }
+    fetchPosts();
+  }, [endpoint]);
+
+  return { posts, setPosts, loading, error, setError, hasMore, setHasMore };
+};
+
 // Show Leave Page dialog if any field is not empty
 // Save fields to session storage and retrieve them on page load
 export const usePreserveState = (

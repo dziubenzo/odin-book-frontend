@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledPostsPage } from '../styles/PostsPage.styled';
-import { useFetchPageData } from '../hooks';
+import { useFetchPosts } from '../hooks';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Post from '../components/Post';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
@@ -10,7 +11,12 @@ import CategoryDetails from '../components/CategoryDetails';
 import UserDetails from '../components/UserDetails';
 import NoPostsSection from '../components/NoPostsSection';
 import { useState } from 'react';
-import { dislikePost, likePost } from '../helpers';
+import {
+  dislikePost,
+  fetchMorePosts,
+  likePost,
+  POSTS_PER_FETCH,
+} from '../helpers';
 
 function PostsPage({
   fetchQuery = '',
@@ -27,13 +33,8 @@ function PostsPage({
   if (username) {
     fetchQuery += username;
   }
-  const {
-    data: posts,
-    setData: setPosts,
-    loading,
-    error,
-    setError,
-  } = useFetchPageData(`${API_URL}/posts/${fetchQuery}`);
+  const { posts, setPosts, loading, error, setError, hasMore, setHasMore } =
+    useFetchPosts(`${API_URL}/posts/${fetchQuery}`, POSTS_PER_FETCH);
   const [inProgress, setInProgress] = useState(false);
   const [resourceError, setResourceError] = useState(false);
   const [loadingResource, setLoadingResource] = useState(false);
@@ -74,6 +75,16 @@ function PostsPage({
     );
   }
 
+  async function handleInfiniteScroll() {
+    await fetchMorePosts(
+      `${API_URL}/posts/${fetchQuery}`,
+      POSTS_PER_FETCH,
+      posts.length,
+      setPosts,
+      setHasMore,
+    );
+  }
+
   if (error || resourceError)
     return (
       <StyledPostsPage>
@@ -107,7 +118,13 @@ function PostsPage({
               isUserPage={isUserPage}
             />
           ) : (
-            renderPosts()
+            <InfiniteScroll
+              dataLength={posts.length}
+              next={handleInfiniteScroll}
+              hasMore={hasMore}
+            >
+              {renderPosts()}
+            </InfiniteScroll>
           )}
         </>
       )}
