@@ -216,6 +216,7 @@ export const StyledNoPostsSection = styled.div`
     left: revert;
     top: revert;
     transform: revert;
+    margin-bottom: 2em;
   }
 
   .no-posts-crab {

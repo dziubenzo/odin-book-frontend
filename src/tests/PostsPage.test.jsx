@@ -7,6 +7,7 @@ import PostsPage from '../pages/PostsPage';
 import PostLikes from '../components/PostLikes';
 import PostBody from '../components/PostBody';
 import CategoryDetails from '../components/CategoryDetails';
+import UserDetails from '../components/UserDetails';
 import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
 import { userEvent } from '@testing-library/user-event';
@@ -20,7 +21,10 @@ import {
   post3,
   superUser,
   user1,
+  user2,
   user4,
+  user5,
+  USER_STATS_COUNT,
 } from './mocks';
 
 function renderPostsPage(pageDescription) {
@@ -92,6 +96,38 @@ function renderCategoryDetails(loadingPosts = false) {
     <BrowserRouter>
       <Theme>
         <CategoryDetails
+          loadingPosts={loadingPosts}
+          setResourceError={setResourceErrorMock}
+          setLoadingResource={setLoadingResourceMock}
+        />
+      </Theme>
+    </BrowserRouter>,
+  );
+
+  return { setResourceErrorMock, setLoadingResourceMock };
+}
+
+function renderUserDetails(loadingPosts = false) {
+  const setResourceErrorMock = vi.fn();
+  const setLoadingResourceMock = vi.fn();
+  // Mock useParams and useOutletContext
+  vi.mock('react-router-dom', async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useParams: () => {
+        return {
+          username: user4.username,
+        };
+      },
+      useOutletContext: () => [user4],
+    };
+  });
+
+  render(
+    <BrowserRouter>
+      <Theme>
+        <UserDetails
           loadingPosts={loadingPosts}
           setResourceError={setResourceErrorMock}
           setLoadingResource={setLoadingResourceMock}
@@ -386,5 +422,141 @@ describe('CategoryDetails', () => {
     const statIcons = await screen.findAllByTitle(/icon/i);
 
     expect(statIcons).toHaveLength(CATEGORY_STATS_COUNT);
+  });
+
+  it('should render a Follow/Unfollow category button', async () => {
+    mockFetch(category1, true);
+    renderCategoryDetails();
+
+    const followButton = await screen.findByRole('button');
+
+    expect(followButton).toBeInTheDocument();
+  });
+});
+
+describe('UserDetails', () => {
+  it('should not render and should call the resourceError setter function with the error as the argument if fetching a user fails', async () => {
+    const error = 'Error while fetching a user';
+    mockFetch(error, false);
+    const { setResourceErrorMock } = renderUserDetails();
+
+    // Wait for mockFetch to populate the page
+    // This allows me to use the queryBy query to check for the non-existence of something in proper setting
+    await waitFor(() => {}, { timeout: 0 });
+    const iconImg = screen.queryByRole('img', { name: /icon for the/i });
+
+    expect(iconImg).not.toBeInTheDocument();
+    expect(setResourceErrorMock).toHaveBeenCalled();
+    expect(setResourceErrorMock).toHaveBeenCalledWith(error);
+  });
+
+  it('should not render anything while fetching', async () => {
+    mockFetch({}, true);
+    renderUserDetails();
+
+    const loadingMessage = screen.queryByRole('heading', {
+      name: /loading/i,
+    });
+
+    expect(loadingMessage).not.toBeInTheDocument();
+  });
+
+  it('should not render anything while posts are still being fetched', async () => {
+    mockFetch({}, true);
+    renderUserDetails(true);
+
+    await waitFor(() => {}, { timeout: 0 });
+    const loadingMessage = screen.queryByRole('heading', {
+      name: /loading/i,
+    });
+
+    expect(loadingMessage).not.toBeInTheDocument();
+  });
+
+  it('should call the loadingResource setter function with false as the argument if fetching a user is successful', async () => {
+    mockFetch(user5, true);
+    const { setLoadingResourceMock } = renderUserDetails();
+
+    await waitFor(() => {}, { timeout: 0 });
+
+    expect(setLoadingResourceMock).toHaveBeenCalled();
+    expect(setLoadingResourceMock).toHaveBeenCalledWith(false);
+  });
+
+  it("should render a user's avatar", async () => {
+    mockFetch(user5, true);
+    renderUserDetails();
+
+    const avatarImg = await screen.findByRole('img', { name: /avatar/i });
+
+    expect(avatarImg).toBeInTheDocument();
+  });
+
+  it("should render a user's username heading", async () => {
+    mockFetch(user5, true);
+    renderUserDetails();
+
+    const usernameHeading = await screen.findByRole('heading');
+
+    expect(usernameHeading).toBeInTheDocument();
+    expect(usernameHeading.textContent).toMatch(
+      new RegExp(user5.username),
+      'i',
+    );
+  });
+
+  it("should render a 'member since' paragraph", async () => {
+    mockFetch(user5, true);
+    renderUserDetails();
+
+    const memberSincePara = await screen.findByText(/member since/i);
+
+    expect(memberSincePara).toBeInTheDocument();
+  });
+
+  it("should render a user's bio if the user has set their bio", async () => {
+    mockFetch(user2, true);
+    renderUserDetails();
+
+    const userBio = await screen.findByText(new RegExp(user2.bio), 'i');
+
+    expect(userBio).toBeInTheDocument();
+  });
+
+  it('should render a no bio message if the user has not set their bio', async () => {
+    mockFetch(user5, true);
+    renderUserDetails();
+
+    const noBioMessage = await screen.findByText(/no bio/i);
+
+    expect(noBioMessage).toBeInTheDocument();
+  });
+
+  it('should render category stats of CATEGORY_STATS_COUNT length', async () => {
+    mockFetch(user5, true);
+    renderUserDetails();
+
+    const statIcons = await screen.findAllByTitle(/icon/i);
+
+    expect(statIcons).toHaveLength(USER_STATS_COUNT);
+  });
+
+  it('should render a Follow/Unfollow user button', async () => {
+    mockFetch(user5, true);
+    renderUserDetails();
+
+    const followButton = await screen.findByRole('button');
+
+    expect(followButton).toBeInTheDocument();
+  });
+
+  it('should not render a Follow/Unfollow user button if the logged in user is the rendered user', async () => {
+    mockFetch(user4, true);
+    renderUserDetails();
+
+    await waitFor(() => {}, { timeout: 0 });
+    const followButton = screen.queryByRole('button');
+
+    expect(followButton).not.toBeInTheDocument();
   });
 });
