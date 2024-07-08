@@ -1,17 +1,27 @@
 /* eslint-disable no-undef */
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect } from 'vitest';
 
 import PostsPage from '../pages/PostsPage';
 import PostLikes from '../components/PostLikes';
 import PostBody from '../components/PostBody';
+import CategoryDetails from '../components/CategoryDetails';
 import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
 import { userEvent } from '@testing-library/user-event';
 
 import { mockFetch } from './fetchMock';
-import { post1, post2, post3, superUser, user1 } from './mocks';
+import {
+  category1,
+  CATEGORY_STATS_COUNT,
+  post1,
+  post2,
+  post3,
+  superUser,
+  user1,
+  user4,
+} from './mocks';
 
 function renderPostsPage(pageDescription) {
   // Mock useOutletContext hook only
@@ -59,6 +69,38 @@ function renderPostBody(post) {
       </Theme>
     </BrowserRouter>,
   );
+}
+
+function renderCategoryDetails(loadingPosts = false) {
+  const setResourceErrorMock = vi.fn();
+  const setLoadingResourceMock = vi.fn();
+  // Mock useParams and useOutletContext
+  vi.mock('react-router-dom', async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useParams: () => {
+        return {
+          slug: category1.slug,
+        };
+      },
+      useOutletContext: () => [user4],
+    };
+  });
+
+  render(
+    <BrowserRouter>
+      <Theme>
+        <CategoryDetails
+          loadingPosts={loadingPosts}
+          setResourceError={setResourceErrorMock}
+          setLoadingResource={setLoadingResourceMock}
+        />
+      </Theme>
+    </BrowserRouter>,
+  );
+
+  return { setResourceErrorMock, setLoadingResourceMock };
 }
 
 describe('PostsPage', () => {
@@ -242,5 +284,107 @@ describe('PostBody', () => {
     const commentsCount = screen.getByTestId('comments-count');
 
     expect(commentsCount.textContent).toBe(comments.toString());
+  });
+});
+
+describe('CategoryDetails', () => {
+  it('should not render and should call the resourceError setter function with the error as the argument if fetching a category fails', async () => {
+    const error = 'Error while fetching a category';
+    mockFetch(error, false);
+    const { setResourceErrorMock } = renderCategoryDetails();
+
+    // Wait for mockFetch to populate the page
+    // This allows me to use the queryBy query to check for the non-existence of something in proper setting
+    await waitFor(() => {}, { timeout: 0 });
+    const iconImg = screen.queryByRole('img', { name: /icon for the/i });
+
+    expect(iconImg).not.toBeInTheDocument();
+    expect(setResourceErrorMock).toHaveBeenCalled();
+    expect(setResourceErrorMock).toHaveBeenCalledWith(error);
+  });
+
+  it('should not render anything while fetching', async () => {
+    mockFetch({}, true);
+    renderCategoryDetails();
+
+    const loadingMessage = screen.queryByRole('heading', {
+      name: /loading/i,
+    });
+
+    expect(loadingMessage).not.toBeInTheDocument();
+  });
+
+  it('should not render anything while posts are still being fetched', async () => {
+    mockFetch({}, true);
+    renderCategoryDetails(true);
+
+    await waitFor(() => {}, { timeout: 0 });
+    const loadingMessage = screen.queryByRole('heading', {
+      name: /loading/i,
+    });
+
+    expect(loadingMessage).not.toBeInTheDocument();
+  });
+
+  it('should call the loadingResource setter function with false as the argument if fetching a category is successful', async () => {
+    mockFetch(category1, true);
+    const { setLoadingResourceMock } = renderCategoryDetails();
+
+    await waitFor(() => {}, { timeout: 0 });
+
+    expect(setLoadingResourceMock).toHaveBeenCalled();
+    expect(setLoadingResourceMock).toHaveBeenCalledWith(false);
+  });
+
+  it('should render a category icon', async () => {
+    mockFetch(category1, true);
+    renderCategoryDetails();
+
+    const iconImg = await screen.findByRole('img', { name: /icon for the/i });
+
+    expect(iconImg).toBeInTheDocument();
+  });
+
+  it('should render a category name heading', async () => {
+    mockFetch(category1, true);
+    renderCategoryDetails();
+
+    const categoryNameHeading = await screen.findByRole('heading');
+
+    expect(categoryNameHeading).toBeInTheDocument();
+    expect(categoryNameHeading.textContent).toMatch(
+      new RegExp(category1.name),
+      'i',
+    );
+  });
+
+  it("should render a 'created' paragraph", async () => {
+    mockFetch(category1, true);
+    renderCategoryDetails();
+
+    const createdPara = await screen.findByText(/created/i);
+
+    expect(createdPara).toBeInTheDocument();
+  });
+
+  it('should render a category description', async () => {
+    mockFetch(category1, true);
+    renderCategoryDetails();
+
+    const categoryDescription = await screen.findByText(
+      new RegExp(category1.description),
+      'i',
+    );
+
+    expect(categoryDescription).toBeInTheDocument();
+  });
+
+  it('should render category stats of CATEGORY_STATS_COUNT length', async () => {
+    mockFetch(category1, true);
+    renderCategoryDetails();
+
+    const statIcons = await screen.findAllByTitle(/icon/i);
+
+    expect(statIcons).toHaveLength(CATEGORY_STATS_COUNT);
   });
 });

@@ -75,6 +75,8 @@ export const category1 = {
   description: 'Category 1 description',
   created_at: Date.now(),
   slug: 'category-1',
+  postsCount: 99,
+  followersCount: 99,
 };
 
 export const category2 = {
@@ -220,7 +222,8 @@ export const longDescription =
 export const longPostTitle =
   'I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title. I am a very long post title.';
 
-export const STATS_COUNT = 9;
+export const USER_STATS_COUNT = 9;
+export const CATEGORY_STATS_COUNT = 2;
 
 export const goodImageURL = 'https://www.example.com/cool_image.gif';
 export const badImageURL = 'https://www.example.com/virus.exe';
