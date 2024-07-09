@@ -1,9 +1,10 @@
+import API_URL from '../API';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { StyledSignupModal } from '../styles/WelcomePage.styled';
 import { IoCloseOutline } from 'react-icons/io5';
 import { StyledSubmitButton, StyledInput } from '../styles/WelcomePage.styled';
-import API_URL from '../API';
+import { setTimedMessage } from '../helpers';
 
 function SignupModal({
   signupModalRef,
@@ -33,10 +34,7 @@ function SignupModal({
     if (!res.ok) {
       const error = await res.json();
       setIsSigningUp(false);
-      setError(error);
-      return setTimeout(() => {
-        setError('');
-      }, 2000);
+      return setTimedMessage(error, setError);
     }
     // Show Log In modal and pass Sign Up username and password to Log In modal
     setIsSigningUp(false);

@@ -26,6 +26,7 @@ export const StyledWelcomePage = styled.main`
   .welcome-page-btns {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 64px;
   }
 
@@ -46,6 +47,10 @@ export const StyledButton = styled.button`
   border-radius: 32px;
   cursor: pointer;
 
+  &.log-in-as-guest-btn {
+    font-size: ${(props) => props.theme.fontSizes.medium};
+  }
+
   @media (hover: hover) {
     &:hover {
       transition:
@@ -59,6 +64,10 @@ export const StyledButton = styled.button`
   @media (max-width: ${(props) => props.theme.mobile}) {
     width: 125px;
     font-size: ${(props) => props.theme.fontSizes.medium};
+
+    &.log-in-as-guest-btn {
+      width: 200px;
+    }
   }
 `;
 

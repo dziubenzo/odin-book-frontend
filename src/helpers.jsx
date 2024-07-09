@@ -45,6 +45,30 @@ export const allowedImageFormats = [
 Functions
 */
 
+// Log in as guest
+export const logInAsGuest = async (setIsLoggingIn, navigate) => {
+  const guestUser = {
+    username: 'test',
+    password: 'test',
+  };
+  setIsLoggingIn(true);
+  const res = await fetch(`${API_URL}/users/login`, {
+    method: 'POST',
+    body: JSON.stringify(guestUser),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  if (!res.ok) {
+    return setIsLoggingIn(false);
+  }
+  // Create a cookie with API-signed JWT
+  const token = await res.json();
+  setIsLoggingIn(false);
+  Cookies.set('jwt', token, { expires: 3, secure: true });
+  navigate('/posts');
+};
+
 // Like post
 // Handle two cases (post either liked already or not liked)
 export const likePost = async (

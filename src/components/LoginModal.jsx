@@ -1,11 +1,12 @@
+import API_URL from '../API';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { StyledModal } from '../styles/WelcomePage.styled';
 import { IoCloseOutline } from 'react-icons/io5';
 import { StyledSubmitButton, StyledInput } from '../styles/WelcomePage.styled';
 import { useNavigate } from 'react-router-dom';
-import API_URL from '../API';
 import Cookies from 'js-cookie';
+import { setTimedMessage } from '../helpers';
 
 function LoginModal({
   loginModalRef,
@@ -36,10 +37,7 @@ function LoginModal({
     if (!res.ok) {
       const error = await res.json();
       setIsLoggingIn(false);
-      setError(error);
-      return setTimeout(() => {
-        setError('');
-      }, 2000);
+      return setTimedMessage(error, setError);
     }
     // Create a cookie with API-signed JWT
     const token = await res.json();

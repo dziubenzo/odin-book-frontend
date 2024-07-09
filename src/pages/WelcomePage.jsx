@@ -7,15 +7,19 @@ import SignupModal from '../components/SignupModal';
 import Loading from '../components/Loading';
 import { useEffect, useRef, useState } from 'react';
 import { useCheckAuth } from '../hooks';
+import { logInAsGuest } from '../helpers';
+import { useNavigate } from 'react-router-dom';
 
 function WelcomePage() {
   const loginModalRef = useRef(null);
   const signupModalRef = useRef(null);
+  const navigate = useNavigate();
 
-  const [showPage, setShowPage] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPage, setShowPage] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useCheckAuth(setShowPage);
 
@@ -28,6 +32,10 @@ function WelcomePage() {
       clearTimeout(timeoutID);
     };
   }, []);
+
+  async function handleLogInAsGuestClick() {
+    await logInAsGuest(setIsLoggingIn, navigate);
+  }
 
   return (
     <Theme>
@@ -47,6 +55,12 @@ function WelcomePage() {
                   onClick={() => signupModalRef.current.showModal()}
                 >
                   Sign Up
+                </StyledButton>
+                <StyledButton
+                  className="log-in-as-guest-btn"
+                  onClick={handleLogInAsGuestClick}
+                >
+                  {isLoggingIn ? 'Logging In...' : 'Log In As Guest'}
                 </StyledButton>
               </div>
             </div>
