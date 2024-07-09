@@ -177,3 +177,24 @@ export const usePreserveState = (
     };
   }, [postType, title, category, content, imageURL, videoURL]);
 };
+
+// Shrink the header on reaching the specified scroll value
+// Restore to default if the scroll value is smaller than the specified value
+export const useShrinkHeader = () => {
+  const [isSmaller, setIsSmaller] = useState(false);
+
+  useEffect(() => {
+    const adjustHeader = () => {
+      if (document.documentElement.scrollTop > 200) {
+        return setIsSmaller(true);
+      }
+      setIsSmaller(false);
+    };
+    window.addEventListener('scroll', adjustHeader);
+    return () => {
+      window.removeEventListener('scroll', adjustHeader);
+    };
+  }, []);
+
+  return isSmaller;
+};

@@ -2,11 +2,26 @@ import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
   width: 100%;
-  padding-top: 1em;
+  padding-top: 0.5em;
   position: sticky;
   top: 0;
   background: inherit;
   z-index: 1;
+  transition: 0.3s;
+
+  &.smaller {
+    hr {
+      margin: 0.1em 0;
+    }
+
+    nav {
+      gap: 0px;
+    }
+
+    p {
+      display: none;
+    }
+  }
 
   * {
     color: ${(props) => props.theme.colours.secondary};
@@ -18,23 +33,39 @@ export const StyledHeader = styled.header`
   }
 
   hr {
-    margin: 0.75em 0;
+    margin: 0.5em 0;
+    transition: 0.3s;
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     padding-top: 0.5em;
-    
+
     hr {
       margin: 0.5em 0;
+    }
+
+    nav {
+      gap: 0px;
+    }
+
+    p {
+      display: none;
+    }
+
+    &.smaller {
+      hr {
+        margin: 0.5em 0;
+      }
     }
   }
 `;
 
-export const StyledHeaderTopBar = styled.div`
+export const StyledHeaderTopBar = styled.nav`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   justify-items: center;
   gap: 32px;
+  transition: 0.3s;
 
   .link {
     display: flex;
@@ -77,13 +108,7 @@ export const StyledHeaderTopBar = styled.div`
       font-size: ${(props) => props.theme.fontSizes.small};
     }
 
-    svg {
-      height: 22px;
-      width: 22px;
-    }
-
     .link {
-      flex-direction: column;
       padding: 0;
     }
   }
