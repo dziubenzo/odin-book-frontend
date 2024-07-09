@@ -26,7 +26,7 @@ function PostsPage({
   isCategoryPage = false,
   isUserPage = false,
 }) {
-  const [user] = useOutletContext();
+  const { user } = useOutletContext();
   // Get the category/user to retrieve from the URL parameter
   const { slug, username } = useParams();
   if (slug) {
@@ -126,7 +126,7 @@ function PostsPage({
               hasMore={hasMore}
               loader={<LoadingInfiniteScroll />}
               endMessage={<EndInfiniteScroll />}
-              className='posts-wrapper'
+              className="posts-wrapper"
             >
               {renderPosts()}
             </InfiniteScroll>

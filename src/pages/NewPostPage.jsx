@@ -17,7 +17,7 @@ import PublishPostSection from '../components/PublishPostSection';
 
 function NewPostPage() {
   const navigate = useNavigate();
-  const [user] = useOutletContext();
+  const { user } = useOutletContext();
   const {
     data: categories,
     loading,

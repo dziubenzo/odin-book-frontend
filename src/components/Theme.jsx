@@ -1,5 +1,7 @@
 import { ThemeProvider } from 'styled-components';
 import PropTypes from 'prop-types';
+import { useThemeValue } from '../hooks';
+import { useEffect } from 'react';
 
 export const darkTheme = {
   colours: {
@@ -12,6 +14,7 @@ export const darkTheme = {
     secondary: '#E2DFD0',
     tertiary: '#524C42',
     lightRed: '#f84242',
+    gitHubLogo: 'white',
     boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
   },
   fontSizes: {
@@ -27,10 +30,35 @@ export const darkTheme = {
   mobile: '768px',
 };
 
-export default function Theme({ children }) {
-  return <ThemeProvider theme={darkTheme}>{children}</ThemeProvider>;
+export const lightTheme = {
+  ...darkTheme,
+  colours: {
+    background: '#EEEEEE',
+    backgroundGradient: 'linear-gradient(9deg, #EEEEEE 51%, #686D76 100%)',
+    primary: '#686D76',
+    primaryLighter: '#a0a6b2',
+    primaryDarker: '#645d5d',
+    secondary: '#373A40',
+    tertiary: '#b7b7b7',
+    lightRed: '#f84242',
+    gitHubLogo: 'black',
+    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+  },
+};
+
+export default function Theme({ theme, children }) {
+  if (!theme) {
+    theme = localStorage.getItem('theme') || 'dark';
+  }
+  return (
+    <ThemeProvider theme={theme !== 'light' ? darkTheme : lightTheme}>
+      {children}
+    </ThemeProvider>
+  );
 }
 
 Theme.propTypes = {
+  theme: PropTypes.string,
+  setTheme: PropTypes.func,
   children: PropTypes.node,
 };

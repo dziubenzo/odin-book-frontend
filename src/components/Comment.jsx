@@ -10,7 +10,7 @@ function Comment({
   handleCommentLikeClick,
   handleCommentDislikeClick,
 }) {
-  const [user] = useOutletContext();
+  const { user } = useOutletContext();
 
   return (
     <StyledComment>

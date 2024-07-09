@@ -74,7 +74,7 @@ export const StyledFooterCentre = styled.div`
   }
 
   svg {
-    fill: white;
+    fill: ${(props) => props.theme.colours.gitHubLogo};
     height: 48px;
     width: 48px;
   }

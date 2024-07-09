@@ -6,9 +6,10 @@ import UserInfo from '../components/UserInfo';
 import AvatarUploader from '../components/AvatarUploader';
 import DefaultAvatars from '../components/DefaultAvatars';
 import BioInput from '../components/BioInput';
+import ThemeSwitch from '../components/ThemeSwitch';
 
 export default function ProfilePage() {
-  const [user, setUser] = useOutletContext();
+  const { user, setUser } = useOutletContext();
   const [bio, setBio] = useState(user.bio);
   const [bioLength, setBioLength] = useState(MAX_BIO_LENGTH - user.bio.length);
   const [selectedAvatar, setSelectedAvatar] = useState('');
@@ -57,6 +58,7 @@ export default function ProfilePage() {
         inProgress={inProgress}
         feedback={feedback}
       />
+      <ThemeSwitch />
     </StyledProfilePage>
   );
 }

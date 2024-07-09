@@ -15,7 +15,7 @@ function CategoryDetails({
   setResourceError,
   setLoadingResource,
 }) {
-  const [user, setUser] = useOutletContext();
+  const { user, setUser } = useOutletContext();
   const { slug } = useParams();
   const {
     data: category,
@@ -69,7 +69,6 @@ function CategoryDetails({
       setLoadingResource(false);
     }
   }, [loading, error]);
-
 
   if (category && !loadingPosts) {
     const { description } = category;

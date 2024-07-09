@@ -281,7 +281,7 @@ export const StyledResourceDetails = styled.div`
   .mystery-wrapper {
     position: absolute;
     right: 0;
-    width: calc(150px + 0.5em); // width of the element plus parent margin
+    width: calc(150px); // width of the element
 
     .follow-button {
       position: fixed;

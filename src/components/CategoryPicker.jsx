@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 function CategoryPicker({ categories, category, setCategory }) {
-  const [user] = useOutletContext();
+  const { user } = useOutletContext();
   const { followed_categories } = user;
   const [checkboxTicked, setCheckboxTicked] = useState(false);
 

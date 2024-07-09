@@ -28,7 +28,7 @@ export const useAuthUser = () => {
     authUser();
   }, []);
 
-  return [user, setUser];
+  return { user, setUser };
 };
 
 // Check user authentication (Welcome Page)
@@ -185,7 +185,7 @@ export const useShrinkHeader = () => {
 
   useEffect(() => {
     const adjustHeader = () => {
-      if (document.documentElement.scrollTop > 200) {
+      if (document.documentElement.scrollTop > 100) {
         return setIsSmaller(true);
       }
       setIsSmaller(false);
@@ -197,4 +197,16 @@ export const useShrinkHeader = () => {
   }, []);
 
   return isSmaller;
+};
+
+// Save the initial theme value (dark) to the local storage
+// Otherwise read the theme value from the local storage
+export const useThemeValue = (setTheme) => {
+  useEffect(() => {
+    if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', 'dark');
+      return setTheme('dark');
+    }
+    setTheme(localStorage.getItem('theme'));
+  }, []);
 };

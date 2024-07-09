@@ -17,7 +17,7 @@ import CommentInput from '../components/CommentInput';
 
 function PostDetailsPage() {
   const { slug } = useParams();
-  const [user] = useOutletContext();
+  const { user } = useOutletContext();
   const {
     data: post,
     setData: setPost,

@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { followOrUnfollowUser } from '../helpers';
 
 function AllUsersPage() {
-  const [user, setUser] = useOutletContext();
+  const { user, setUser } = useOutletContext();
   const {
     data: users,
     loading,

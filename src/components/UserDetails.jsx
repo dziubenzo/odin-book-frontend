@@ -10,12 +10,8 @@ import FollowUserButton from './FollowUserButton';
 import { followOrUnfollowUser } from '../helpers';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 
-function UserDetails({
-  loadingPosts,
-  setResourceError,
-  setLoadingResource,
-}) {
-  const [user, setUser] = useOutletContext();
+function UserDetails({ loadingPosts, setResourceError, setLoadingResource }) {
+  const { user, setUser } = useOutletContext();
   const { username } = useParams();
   const {
     data: renderedUser,

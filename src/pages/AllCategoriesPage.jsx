@@ -10,7 +10,7 @@ import { followOrUnfollowCategory } from '../helpers';
 import { IoCreateOutline } from 'react-icons/io5';
 
 function AllCategoriesPage() {
-  const [user, setUser] = useOutletContext();
+  const { user, setUser } = useOutletContext();
   const {
     data: categories,
     loading,

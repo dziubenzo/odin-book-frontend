@@ -3,22 +3,26 @@ import { Outlet } from 'react-router-dom';
 import Footer from './Footer';
 import Header from './Header';
 import Loading from './Loading';
-import { useAuthUser } from '../hooks';
+import { useAuthUser, useThemeValue } from '../hooks';
 
 import Theme from './Theme';
 import GlobalStyle from '../styles/GlobalStyle';
+import { useState } from 'react';
 
 function App({ children }) {
-  const [user, setUser] = useAuthUser();
+  const [theme, setTheme] = useState('');
+
+  const { user, setUser } = useAuthUser();
+  useThemeValue(setTheme);
 
   return (
-    <Theme>
+    <Theme theme={theme} setTheme={setTheme}>
       <GlobalStyle />
       {!user && <Loading isWholePage={true} />}
       {user && (
         <>
           <Header />
-          <Outlet context={[user, setUser]} />
+          <Outlet context={{ user, setUser, theme, setTheme }} />
           {children}
           <Footer user={user} />
         </>

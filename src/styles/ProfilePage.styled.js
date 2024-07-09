@@ -6,7 +6,7 @@ export const StyledProfilePage = styled.main`
   align-items: start;
   height: 100%;
   width: 100%;
-  padding: 4em 0.5em 2em 0;
+  padding: 4em 0.5em 2em 0.5em;
   gap: 64px;
 
   *:focus-visible {
@@ -251,6 +251,10 @@ export const StyledBioInput = styled.div`
         font-size: ${(props) => props.theme.fontSizes.medium};
         width: 100%;
       }
+    }
+
+    textarea {
+      font-size: ${(props) => props.theme.fontSizes.standard};
     }
   }
 `;
