@@ -210,3 +210,24 @@ export const useThemeValue = (setTheme) => {
     setTheme(localStorage.getItem('theme'));
   }, []);
 };
+
+// Pass the error to the parent component so that the entire page throws an error
+// Ensure that the fetch of a resource and the fetch of posts are in sync
+export const useSyncWithParent = (
+  error,
+  loading,
+  setResourceError,
+  setLoadingResource,
+) => {
+  useEffect(() => {
+    if (error) {
+      setResourceError(error);
+    }
+    if (loading) {
+      setLoadingResource(true);
+    }
+    if (!loading) {
+      setLoadingResource(false);
+    }
+  }, [loading, error]);
+};

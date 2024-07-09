@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
-import { useFetchPageData } from '../hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useFetchPageData, useSyncWithParent } from '../hooks';
+import { useRef, useState } from 'react';
 import ResourceDetailsTop from './ResourceDetailsTop';
 import UserStats from './UserStats';
 import FollowUserButton from './FollowUserButton';
@@ -56,15 +56,7 @@ function UserDetails({ loadingPosts, setResourceError, setLoadingResource }) {
     });
   }
 
-  useEffect(() => {
-    // Pass the error to the parent component so that the entire page throws an error
-    if (error) {
-      setResourceError(error);
-    }
-    if (!loading) {
-      setLoadingResource(false);
-    }
-  }, [loading, error]);
+  useSyncWithParent(error, loading, setResourceError, setLoadingResource);
 
   if (renderedUser && !loadingPosts) {
     const { bio } = renderedUser;

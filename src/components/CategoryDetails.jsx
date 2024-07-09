@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
-import { useFetchPageData } from '../hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useFetchPageData, useSyncWithParent } from '../hooks';
+import { useRef, useState } from 'react';
 import FollowCategoryButton from './FollowCategoryButton';
 import ResourceDetailsTop from './ResourceDetailsTop';
 import CategoryStats from './CategoryStats';
@@ -60,15 +60,7 @@ function CategoryDetails({
     });
   }
 
-  useEffect(() => {
-    // Pass the error to the parent component so that the entire page throws an error
-    if (error) {
-      setResourceError(error);
-    }
-    if (!loading) {
-      setLoadingResource(false);
-    }
-  }, [loading, error]);
+  useSyncWithParent(error, loading, setResourceError, setLoadingResource);
 
   if (category && !loadingPosts) {
     const { description } = category;
