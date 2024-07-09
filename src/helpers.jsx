@@ -676,8 +676,11 @@ const submitPost = async (
   setPostPublished(true);
   setTimeout(() => {
     navigate(`/posts/${newPost.slug}`);
-    sessionStorage.clear();
   }, 2000);
+  // Clear the session storage only after navigating to the new post page
+  setTimeout(() => {
+    sessionStorage.clear();
+  }, 4000);
   return setInProgress(false);
 };
 
