@@ -6,7 +6,7 @@ export const StyledProfilePage = styled.main`
   align-items: start;
   height: 100%;
   width: 100%;
-  padding: 4em 0.5em;
+  padding: 4em 0.5em 2em 0;
   gap: 64px;
 
   *:focus-visible {
@@ -251,6 +251,28 @@ export const StyledBioInput = styled.div`
         font-size: ${(props) => props.theme.fontSizes.medium};
         width: 100%;
       }
+    }
+  }
+`;
+
+export const StyledThemeSwitch = styled.div`
+  display: flex;
+  height: 64px;
+  width: 64px;
+  cursor: pointer;
+  position: sticky;
+  bottom: 110px;
+  margin-left: auto;
+
+  svg {
+    height: 64px;
+    width: 64px;
+    fill: ${(props) => props.theme.colours.primary};
+  }
+
+  @media (hover: hover) {
+    svg:hover {
+      fill: ${(props) => props.theme.colours.secondary};
     }
   }
 `;
