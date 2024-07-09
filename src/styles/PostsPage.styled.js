@@ -261,6 +261,7 @@ export const StyledResourceDetails = styled.div`
     font-size: ${(props) => props.theme.fontSizes.medium};
     text-align: center;
     line-height: 1.75;
+    margin: 2em 0;
   }
 
   .error-message-wrapper {

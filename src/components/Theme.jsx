@@ -1,7 +1,5 @@
 import { ThemeProvider } from 'styled-components';
 import PropTypes from 'prop-types';
-import { useThemeValue } from '../hooks';
-import { useEffect } from 'react';
 
 export const darkTheme = {
   colours: {

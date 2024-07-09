@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useImmer } from 'use-immer';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { SHRINK_HEADER_SCROLL_VALUE } from './helpers';
 
 // Authenticate user based on JWT stored in a cookie
 // Set user state if auth successful
@@ -185,7 +186,7 @@ export const useShrinkHeader = () => {
 
   useEffect(() => {
     const adjustHeader = () => {
-      if (document.documentElement.scrollTop > 100) {
+      if (document.documentElement.scrollTop > SHRINK_HEADER_SCROLL_VALUE) {
         return setIsSmaller(true);
       }
       setIsSmaller(false);

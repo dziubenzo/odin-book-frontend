@@ -21,7 +21,7 @@ export const StyledNewCategoryPage = styled.main`
 
       img {
         align-self: center;
-        width: 75px;
+        width: 100px;
       }
     }
 

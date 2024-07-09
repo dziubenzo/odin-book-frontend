@@ -85,19 +85,20 @@ export const StyledDefaultAvatars = styled.div`
 
   .default-avatars-images {
     display: flex;
-    gap: 24px;
+    gap: 20px;
     flex-wrap: wrap;
     justify-content: space-evenly;
 
     img {
-      width: 75px;
+      width: 100px;
       aspect-ratio: 1/1;
       cursor: pointer;
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
       border-radius: 50%;
 
       &.selected {
-        outline: 3px solid ${(props) => props.theme.colours.primary};
+        outline: 5px double ${(props) => props.theme.colours.secondary};
+        outline-offset: -1px;
+        box-shadow: ${(props) => props.theme.colours.boxShadow};
         border-radius: 50%;
       }
     }
@@ -143,7 +144,7 @@ export const StyledAvatarUploader = styled.div`
       }
 
       img {
-        width: 75px;
+        width: 100px;
         aspect-ratio: 1/1;
         border-radius: 50%;
         align-self: center;
