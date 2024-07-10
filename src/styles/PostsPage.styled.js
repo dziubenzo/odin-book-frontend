@@ -436,3 +436,41 @@ export const StyledEndInfiniteScroll = styled.div`
     height: 128px;
   }
 `;
+
+export const StyledPostSorter = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+
+  .sort-buttons {
+    display: flex;
+    gap: 8px;
+
+    button {
+      background-color: ${(props) => props.theme.colours.primary};
+      color: ${(props) => props.theme.colours.background};
+      border: none;
+      padding: 0.5em;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &.selected {
+        background-color: ${(props) => props.theme.colours.background};
+        color: ${(props) => props.theme.colours.primary};
+      }
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    justify-content: center;
+
+    .sort-buttons {
+      gap: 12px;
+    }
+
+    p {
+      display: none;
+    }
+  }
+`;
