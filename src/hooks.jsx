@@ -232,3 +232,47 @@ export const useSyncWithParent = (
     }
   }, [loading, error]);
 };
+
+// Sort posts
+export const useSortPosts = (posts, setPosts) => {
+  const [sortBy, setSortBy] = useState('newest');
+
+  useEffect(() => {
+    if (posts) {
+      switch (sortBy) {
+        case 'newest':
+          // Pass a new array to the setter function to ensure rerender
+          setPosts(
+            posts.toSorted(
+              (a, b) => new Date(b.created_at) - new Date(a.created_at),
+            ),
+          );
+          break;
+        case 'oldest':
+          setPosts(
+            posts.toSorted(
+              (a, b) => new Date(a.created_at) - new Date(b.created_at),
+            ),
+          );
+          break;
+        case 'likes':
+          setPosts(
+            posts.toSorted(
+              (a, b) =>
+                b.likes.length -
+                b.dislikes.length -
+                (a.likes.length - a.dislikes.length),
+            ),
+          );
+          break;
+        case 'comments':
+          setPosts(
+            posts.toSorted((a, b) => b.comments.length - a.comments.length),
+          );
+          break;
+      }
+    }
+  }, [sortBy, posts?.length]);
+
+  return { sortBy, setSortBy };
+};

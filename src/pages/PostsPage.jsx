@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledPostsPage } from '../styles/PostsPage.styled';
-import { useFetchPosts } from '../hooks';
+import { useFetchPosts, useSortPosts } from '../hooks';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Post from '../components/Post';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import CategoryDetails from '../components/CategoryDetails';
 import UserDetails from '../components/UserDetails';
+import PostsSorter from '../components/PostsSorter';
 import NoPostsSection from '../components/NoPostsSection';
 import LoadingInfiniteScroll from '../components/LoadingInfiniteScroll';
 import EndInfiniteScroll from '../components/EndInfiniteScroll';
@@ -40,6 +41,8 @@ function PostsPage({
   const [inProgress, setInProgress] = useState(false);
   const [resourceError, setResourceError] = useState(false);
   const [loadingResource, setLoadingResource] = useState(false);
+
+  const { sortBy, setSortBy } = useSortPosts(posts, setPosts);
 
   function renderPosts() {
     return posts.map((post) => {
@@ -120,16 +123,19 @@ function PostsPage({
               isUserPage={isUserPage}
             />
           ) : (
-            <InfiniteScroll
-              dataLength={posts.length}
-              next={handleInfiniteScroll}
-              hasMore={hasMore}
-              loader={<LoadingInfiniteScroll />}
-              endMessage={<EndInfiniteScroll />}
-              className="posts-wrapper"
-            >
-              {renderPosts()}
-            </InfiniteScroll>
+            <>
+              <PostsSorter sortBy={sortBy} setSortBy={setSortBy} />
+              <InfiniteScroll
+                dataLength={posts.length}
+                next={handleInfiniteScroll}
+                hasMore={hasMore}
+                loader={<LoadingInfiniteScroll />}
+                endMessage={<EndInfiniteScroll />}
+                className="posts-wrapper"
+              >
+                {renderPosts()}
+              </InfiniteScroll>
+            </>
           )}
         </>
       )}
