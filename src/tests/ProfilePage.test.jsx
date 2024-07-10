@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect } from 'vitest';
 
 import ProfilePage from '../pages/ProfilePage';
+import ThemeSwitch from '../components/ThemeSwitch';
 import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
 import { userEvent } from '@testing-library/user-event';
@@ -11,6 +12,8 @@ import { userEvent } from '@testing-library/user-event';
 import { longBio, user2 } from './mocks';
 import { MAX_BIO_LENGTH, defaultAvatars } from '../helpers';
 import { mockFetch } from './fetchMock';
+
+const mockSetTheme = vi.fn();
 
 function renderProfilePage() {
   // Mock useOutletContext
@@ -37,6 +40,35 @@ function renderProfilePage() {
   );
 
   return user;
+}
+
+function renderThemeSwitch() {
+  // Mock useOutletContext
+  vi.mock('react-router-dom', async (importOriginal) => {
+    const actual = await importOriginal();
+    return {
+      ...actual,
+      useOutletContext: () => {
+        return {
+          user: user2,
+          setUser: vi.fn(),
+          theme: 'dark',
+          setTheme: mockSetTheme,
+        };
+      },
+    };
+  });
+  const user = userEvent.setup();
+
+  render(
+    <BrowserRouter>
+      <Theme>
+        <ThemeSwitch />
+      </Theme>
+    </BrowserRouter>,
+  );
+
+  return { user, mockSetTheme };
 }
 
 describe('PostInfo', () => {
@@ -265,5 +297,32 @@ describe('BioInput', () => {
     const errorMessage = screen.getByText(/successfully/i);
 
     expect(errorMessage).toBeInTheDocument();
+  });
+});
+
+describe('ThemeSwitch', () => {
+  it('should render a theme switch icon', () => {
+    renderThemeSwitch();
+
+    const themeSwitchIcon = screen.getByTestId('theme-switch');
+
+    expect(themeSwitchIcon).toBeInTheDocument();
+  });
+
+  it("should render a theme switch icon that has a 'Switch to Light Mode' title if the current theme is the dark theme", () => {
+    renderThemeSwitch();
+
+    const themeSwitchIcon = screen.getByTestId('theme-switch');
+
+    expect(themeSwitchIcon.title).toMatch(/switch to light mode/i);
+  });
+
+  it('should render a theme switch icon that calls a function to change the theme on click', async () => {
+    const { user, mockSetTheme } = renderThemeSwitch();
+
+    const themeSwitchIcon = screen.getByTestId('theme-switch');
+    await user.click(themeSwitchIcon);
+
+    expect(mockSetTheme).toHaveBeenCalled();
   });
 });

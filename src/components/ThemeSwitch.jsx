@@ -19,6 +19,7 @@ function ThemeSwitch() {
       onClick={handleThemeSwitchClick}
       title={theme !== 'light' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       tabIndex={0}
+      data-testid="theme-switch"
     >
       {theme !== 'light' ? <MdLightMode /> : <MdDarkMode />}
     </StyledThemeSwitch>
