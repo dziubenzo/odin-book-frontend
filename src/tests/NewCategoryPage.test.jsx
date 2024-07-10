@@ -7,7 +7,9 @@ import NewCategoryPage from '../pages/NewCategoryPage';
 import Theme from '../components/Theme';
 import { userEvent } from '@testing-library/user-event';
 import {
+  MIN_CATEGORY_NAME_LENGTH,
   MAX_CATEGORY_NAME_LENGTH,
+  MIN_CATEGORY_DESCRIPTION_LENGTH,
   MAX_CATEGORY_DESCRIPTION_LENGTH,
 } from '../helpers';
 import { longDescription } from './mocks';
@@ -73,6 +75,36 @@ describe('NewCategoryForm', () => {
     expect(nameInput.value.length).toBe(MAX_CATEGORY_NAME_LENGTH);
   });
 
+  it('should render a name input that has different text colour if the number of characters is less than MIN_CATEGORY_NAME_LENGTH', async () => {
+    const user = renderNewCategoryPage();
+    const shortInput = '!!';
+
+    const nameInput = screen.getByRole('textbox', {
+      name: /name/i,
+    });
+    await user.clear(nameInput);
+    await user.type(nameInput, shortInput);
+
+    expect(nameInput.value.length).toBeLessThan(MIN_CATEGORY_NAME_LENGTH);
+    expect(nameInput).toHaveClass('short-warning');
+  });
+
+  it('should render a name input that has normal text colour if the number of characters is at least MIN_CATEGORY_NAME_LENGTH', async () => {
+    const user = renderNewCategoryPage();
+    const normalInput = 'Super Cool Category Name';
+
+    const nameInput = screen.getByRole('textbox', {
+      name: /name/i,
+    });
+    await user.clear(nameInput);
+    await user.type(nameInput, normalInput);
+
+    expect(nameInput.value.length).toBeGreaterThanOrEqual(
+      MIN_CATEGORY_NAME_LENGTH,
+    );
+    expect(nameInput).not.toHaveClass('short-warning');
+  });
+
   it('should render a name label that shows the correct number of characters left', async () => {
     const user = renderNewCategoryPage();
     const input = 'Four';
@@ -118,6 +150,38 @@ describe('NewCategoryForm', () => {
     expect(descriptionTextbox.value.length).toBe(
       MAX_CATEGORY_DESCRIPTION_LENGTH,
     );
+  });
+
+  it('should render a description textbox that has different text colour if the number of characters is less than MIN_CATEGORY_DESCRIPTION_LENGTH', async () => {
+    const user = renderNewCategoryPage();
+    const shortInput = ':)';
+
+    const descriptionTextbox = screen.getByRole('textbox', {
+      name: /description/i,
+    });
+    await user.clear(descriptionTextbox);
+    await user.type(descriptionTextbox, shortInput);
+
+    expect(descriptionTextbox.value.length).toBeLessThan(
+      MIN_CATEGORY_DESCRIPTION_LENGTH,
+    );
+    expect(descriptionTextbox).toHaveClass('short-warning');
+  });
+
+  it('should render a name input that has normal text colour if the number of characters is at least MIN_CATEGORY_NAME_LENGTH', async () => {
+    const user = renderNewCategoryPage();
+    const normalInput = 'Totally normal category description';
+
+    const descriptionTextbox = screen.getByRole('textbox', {
+      name: /description/i,
+    });
+    await user.clear(descriptionTextbox);
+    await user.type(descriptionTextbox, normalInput);
+
+    expect(descriptionTextbox.value.length).toBeGreaterThanOrEqual(
+      MIN_CATEGORY_DESCRIPTION_LENGTH,
+    );
+    expect(descriptionTextbox).not.toHaveClass('short-warning');
   });
 
   it('should render a description label that shows the correct number of characters left', async () => {

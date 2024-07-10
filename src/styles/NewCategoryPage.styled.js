@@ -112,6 +112,10 @@ export const StyledNewCategoryForm = styled.form`
     padding: 0.75em;
     font-size: ${(props) => props.theme.fontSizes.medium};
 
+    &.short-warning {
+      color: ${(props) => props.theme.colours.lightRed};
+    }
+
     &:focus-visible {
       outline: 2px solid ${(props) => props.theme.colours.secondary};
     }

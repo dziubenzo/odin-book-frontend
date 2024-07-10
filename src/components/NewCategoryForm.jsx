@@ -30,6 +30,11 @@ function NewCategoryForm({
         type="text"
         id="name"
         name="name"
+        className={
+          MAX_CATEGORY_NAME_LENGTH - nameLength < MIN_CATEGORY_NAME_LENGTH
+            ? 'short-warning'
+            : undefined
+        }
         placeholder="Name"
         minLength={MIN_CATEGORY_NAME_LENGTH}
         maxLength={MAX_CATEGORY_NAME_LENGTH}
@@ -49,6 +54,12 @@ function NewCategoryForm({
       <textarea
         id="description"
         name="description"
+        className={
+          MAX_CATEGORY_DESCRIPTION_LENGTH - descriptionLength <
+          MIN_CATEGORY_DESCRIPTION_LENGTH
+            ? 'short-warning'
+            : undefined
+        }
         placeholder="Description"
         rows={6}
         minLength={MIN_CATEGORY_DESCRIPTION_LENGTH}
