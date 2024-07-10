@@ -35,7 +35,11 @@ function renderPostsPage(pageDescription) {
     const actual = await importOriginal();
     return {
       ...actual,
-      useOutletContext: () => [superUser],
+      useOutletContext: () => {
+        return {
+          user: superUser,
+        };
+      },
     };
   });
 
@@ -90,7 +94,11 @@ function renderCategoryDetails(loadingPosts = false) {
           slug: category1.slug,
         };
       },
-      useOutletContext: () => [user4],
+      useOutletContext: () => {
+        return {
+          user: user4,
+        };
+      },
     };
   });
 
@@ -122,7 +130,11 @@ function renderUserDetails(loadingPosts = false) {
           username: user4.username,
         };
       },
-      useOutletContext: () => [user4],
+      useOutletContext: () => {
+        return {
+          user: user4,
+        };
+      },
     };
   });
 

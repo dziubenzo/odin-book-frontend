@@ -18,7 +18,12 @@ function renderProfilePage() {
     const actual = await importOriginal();
     return {
       ...actual,
-      useOutletContext: () => [user2, vi.fn()],
+      useOutletContext: () => {
+        return {
+          user: user2,
+          setUser: vi.fn(),
+        };
+      },
     };
   });
   const user = userEvent.setup();

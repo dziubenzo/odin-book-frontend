@@ -21,7 +21,11 @@ function renderAllCategoriesPage() {
     const actual = await importOriginal();
     return {
       ...actual,
-      useOutletContext: () => [user2],
+      useOutletContext: () => {
+        return {
+          user: user2,
+        };
+      },
     };
   });
 

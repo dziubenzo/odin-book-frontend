@@ -67,22 +67,26 @@ function renderSignupModal() {
 }
 
 describe('WelcomePage', () => {
-  test('Log In and Sign Up buttons should be visible', async () => {
+  test('Log In, Sign Up and Log In As Guest buttons should be visible', async () => {
     renderWelcomePage();
 
-    const logInButton = await screen.findByRole('button', { name: /log in/i });
+    const logInButton = await screen.findByRole('button', { name: 'Log In' });
     const signUpButton = await screen.findByRole('button', {
       name: /sign up/i,
+    });
+    const logInAsGuestButton = await screen.findByRole('button', {
+      name: /log in as/i,
     });
 
     expect(logInButton).toBeInTheDocument();
     expect(signUpButton).toBeInTheDocument();
+    expect(logInAsGuestButton).toBeInTheDocument();
   });
 
   test('clicking on the Log In button should call a function that opens the Log In modal', async () => {
     const user = renderWelcomePage();
 
-    const logInButton = await screen.findByRole('button', { name: /log in/i });
+    const logInButton = await screen.findByRole('button', { name: 'Log In' });
     await user.click(logInButton);
 
     expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1);

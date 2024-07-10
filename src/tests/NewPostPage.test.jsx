@@ -35,7 +35,11 @@ function renderNewPostPage() {
     return {
       ...actual,
       useNavigate: () => navigateFn,
-      useOutletContext: () => [user3],
+      useOutletContext: () => {
+        return {
+          user: user3,
+        };
+      },
     };
   });
 

@@ -32,7 +32,11 @@ function renderPostDetailsPage() {
           slug: `${detailedPost1.slug}`,
         };
       },
-      useOutletContext: () => [superUser],
+      useOutletContext: () => {
+        return {
+          user: superUser,
+        };
+      },
       useNavigate: () => navigateFn,
     };
   });
