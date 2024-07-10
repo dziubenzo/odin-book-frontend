@@ -235,7 +235,9 @@ export const useSyncWithParent = (
 
 // Sort posts
 export const useSortPosts = (posts, setPosts) => {
-  const [sortBy, setSortBy] = useState('newest');
+  const [sortBy, setSortBy] = useState(
+    localStorage.getItem('sortBy') || 'newest',
+  );
 
   useEffect(() => {
     if (posts) {
@@ -272,6 +274,7 @@ export const useSortPosts = (posts, setPosts) => {
           break;
       }
     }
+    // Prevent an error if posts are yet to be fetched
   }, [sortBy, posts?.length]);
 
   return { sortBy, setSortBy };

@@ -4,6 +4,7 @@ import { StyledPostSorter } from '../styles/PostsPage.styled';
 function PostsSorter({ sortBy, setSortBy }) {
   function handleSortButtonClick(event) {
     setSortBy(event.target.textContent.toLowerCase());
+    localStorage.setItem('sortBy', event.target.textContent.toLowerCase());
   }
 
   return (
