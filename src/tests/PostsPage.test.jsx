@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 
 import { render, screen, waitFor } from '@testing-library/react';
-import { describe, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import PostsPage from '../pages/PostsPage';
 import PostLikes from '../components/PostLikes';
@@ -42,6 +42,7 @@ function renderPostsPage(pageDescription) {
       },
     };
   });
+  const user = userEvent.setup();
 
   render(
     <BrowserRouter>
@@ -50,6 +51,8 @@ function renderPostsPage(pageDescription) {
       </Theme>
     </BrowserRouter>,
   );
+
+  return user;
 }
 
 function renderPostLikes(loggedInUser) {
@@ -230,6 +233,73 @@ describe('PostsPage', () => {
     });
 
     expect(noPostsHeading).toBeInTheDocument();
+  });
+});
+
+describe('PostsSorter', () => {
+  it("should render a 'Sort By' paragraph", async () => {
+    mockFetch([post1], true);
+    renderPostsPage();
+
+    const sortByPara = await screen.findByText(/sort by/i);
+
+    expect(sortByPara).toBeInTheDocument();
+  });
+
+  it('should render a Newest sort button, which is selected by default', async () => {
+    mockFetch([post1], true);
+    renderPostsPage();
+
+    const newestButton = await screen.findByRole('button', { name: /newest/i });
+
+    expect(newestButton).toBeInTheDocument();
+    expect(newestButton).toHaveClass('selected');
+  });
+
+  it('should render an Oldest sort button, which is not selected', async () => {
+    mockFetch([post1], true);
+    renderPostsPage();
+
+    const oldestButton = await screen.findByRole('button', { name: /oldest/i });
+
+    expect(oldestButton).toBeInTheDocument();
+    expect(oldestButton).not.toHaveClass('selected');
+  });
+
+  it('should render a Likes sort button, which is not selected', async () => {
+    mockFetch([post1], true);
+    renderPostsPage();
+
+    const likesButton = await screen.findByRole('button', { name: /likes/i });
+
+    expect(likesButton).toBeInTheDocument();
+    expect(likesButton).not.toHaveClass('selected');
+  });
+
+  it('should render a Comments sort button, which is not selected', async () => {
+    mockFetch([post1], true);
+    renderPostsPage();
+
+    const commentsButton = await screen.findByRole('button', {
+      name: /comments/i,
+    });
+
+    expect(commentsButton).toBeInTheDocument();
+    expect(commentsButton).not.toHaveClass('selected');
+  });
+
+  it('should render a Comments sort button, which, if clicked, should become selected and should make the previous sort button deselected', async () => {
+    mockFetch([post1], true);
+    const user = renderPostsPage();
+
+    const newestButton = await screen.findByRole('button', { name: /newest/i });
+    const commentsButton = await screen.findByRole('button', {
+      name: /comments/i,
+    });
+    await user.click(commentsButton);
+
+    expect(commentsButton).toHaveClass('selected');
+    expect(newestButton).not.toHaveClass('selected');
   });
 });
 
