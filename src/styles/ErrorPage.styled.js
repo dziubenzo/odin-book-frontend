@@ -9,6 +9,10 @@ export const StyledErrorPage = styled.main`
   text-align: center;
   height: 100%;
 
+  &.whole-page {
+    height: 100vh;
+  }
+
   a {
     text-decoration: none;
     font-size: ${(props) => props.theme.fontSizes.standard};

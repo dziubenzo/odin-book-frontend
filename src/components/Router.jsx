@@ -15,7 +15,7 @@ function Router() {
     {
       path: '/',
       element: <WelcomePage />,
-      errorElement: <ErrorPage />,
+      errorElement: <ErrorPage isWholePage={true} />,
     },
     {
       path: '/posts',
