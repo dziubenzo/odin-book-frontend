@@ -1,19 +1,31 @@
 import PropTypes from 'prop-types';
 import { StyledAvatar } from '../styles/App.styled';
+import { Link } from 'react-router-dom';
 
 function Avatar({ object, size, isCategory = false }) {
-  if (isCategory)
+  if (isCategory) {
+    const { name, icon, slug } = object;
+
     return (
       <StyledAvatar $size={size}>
-        <img src={object.icon} alt={`Icon for the ${object.name} category`} />
+        <Link to={`/categories/${slug}`}>
+          <img src={icon} alt={`Icon for the ${name} category`} />
+        </Link>
       </StyledAvatar>
     );
+  }
 
-  return (
-    <StyledAvatar $size={size}>
-      <img src={object.avatar} alt={`${object.username}'s avatar`} />
-    </StyledAvatar>
-  );
+  if (!isCategory) {
+    const { username, avatar } = object;
+
+    return (
+      <StyledAvatar $size={size}>
+        <Link to={`/users/${username}`}>
+          <img src={avatar} alt={`${username}'s avatar`} />
+        </Link>
+      </StyledAvatar>
+    );
+  }
 }
 
 Avatar.propTypes = {

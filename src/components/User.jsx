@@ -10,8 +10,8 @@ function User({ loggedInUser, user, handleUserButtonClick, inProgress }) {
 
   return (
     <StyledUser>
+      <Avatar object={user} size={100} />
       <Link to={`/users/${renderedUserUsername}`} className="user-link">
-        <Avatar object={user} size={100} />
         <p className="username">
           {loggedInUserUsername === renderedUserUsername
             ? undefined

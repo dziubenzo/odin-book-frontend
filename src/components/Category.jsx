@@ -1,18 +1,13 @@
 import PropTypes from 'prop-types';
 import { StyledCategory } from '../styles/AllCategoriesPage.styled';
 import Avatar from './Avatar';
-import { Link } from 'react-router-dom';
 import CategoryBody from './CategoryBody';
 import FollowCategoryButton from './FollowCategoryButton';
 
 function Category({ user, category, handleCategoryButtonClick, inProgress }) {
-  const { slug } = category;
-
   return (
     <StyledCategory>
-      <Link to={`/categories/${slug}`}>
-        <Avatar object={category} size={50} isCategory={true} />
-      </Link>
+      <Avatar object={category} size={50} isCategory={true} />
       <CategoryBody category={category} />
       <FollowCategoryButton
         loggedInUser={user}
