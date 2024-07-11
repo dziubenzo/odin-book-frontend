@@ -4,7 +4,7 @@ import Loading from '../components/Loading';
 import Error from '../components/Error';
 import User from '../components/User';
 import { StyledAllUsersPage } from '../styles/AllUsersPage.styled';
-import { useFetchPageData } from '../hooks';
+import { useChangeTitle, useFetchPageData } from '../hooks';
 import { useState } from 'react';
 import { followOrUnfollowUser } from '../helpers';
 
@@ -17,6 +17,8 @@ function AllUsersPage() {
     setError,
   } = useFetchPageData(`${API_URL}/users`);
   const [inProgress, setInProgress] = useState(false);
+
+  useChangeTitle('All Users');
 
   function renderUsers() {
     return users.map((singleUser) => {

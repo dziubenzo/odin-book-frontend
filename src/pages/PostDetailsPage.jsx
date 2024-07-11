@@ -1,7 +1,7 @@
 import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledPostDetailsPage } from '../styles/PostDetailsPage.styled';
-import { useFetchPageData } from '../hooks';
+import { useChangeTitle, useFetchPageData } from '../hooks';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import PostDetails from '../components/PostDetails';
@@ -28,6 +28,8 @@ function PostDetailsPage() {
   } = useFetchPageData(`${API_URL}/posts/${slug}`);
 
   const [inProgress, setInProgress] = useState(false);
+
+  useChangeTitle('Post Details');
 
   async function handlePostLikeClick() {
     await likeSinglePost(

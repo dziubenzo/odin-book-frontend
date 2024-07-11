@@ -6,7 +6,7 @@ import PostTypeSelector from '../components/PostTypeSelector';
 import { useState } from 'react';
 import { createImagePost, createTextPost, createVideoPost } from '../helpers';
 import { useOutletContext, useNavigate } from 'react-router-dom';
-import { useFetchPageData, usePreserveState } from '../hooks';
+import { useChangeTitle, useFetchPageData, usePreserveState } from '../hooks';
 import PostTitleInput from '../components/PostTitleInput';
 import CategoryPicker from '../components/CategoryPicker';
 import SuccessPage from './SuccessPage';
@@ -51,6 +51,8 @@ function NewPostPage() {
     setImageURL,
     setVideoURL,
   );
+
+  useChangeTitle('New Post');
 
   async function handleSubmitButtonClick() {
     if (postType === 'text') {

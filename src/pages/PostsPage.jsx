@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import API_URL from '../API';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { StyledPostsPage } from '../styles/PostsPage.styled';
-import { useFetchPosts, useSortPosts } from '../hooks';
+import { useChangeTitle, useFetchPosts, useSortPosts } from '../hooks';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Post from '../components/Post';
 import Error from '../components/Error';
@@ -42,6 +42,7 @@ function PostsPage({
   const [resourceError, setResourceError] = useState(false);
   const [loadingResource, setLoadingResource] = useState(false);
 
+  useChangeTitle(pageDescription);
   const { sortBy, setSortBy } = useSortPosts(posts, setPosts);
 
   function renderPosts() {

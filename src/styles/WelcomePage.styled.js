@@ -16,10 +16,10 @@ export const StyledWelcomePage = styled.main`
 
     h1 {
       font-size: 4rem;
-    }
 
-    .app-name {
-      color: ${(props) => props.theme.colours.secondary};
+      .app-name {
+        color: ${(props) => props.theme.colours.secondary};
+      }
     }
   }
 

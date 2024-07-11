@@ -7,6 +7,7 @@ import AvatarUploader from '../components/AvatarUploader';
 import DefaultAvatars from '../components/DefaultAvatars';
 import BioInput from '../components/BioInput';
 import ThemeSwitch from '../components/ThemeSwitch';
+import { useChangeTitle } from '../hooks';
 
 export default function ProfilePage() {
   const { user, setUser } = useOutletContext();
@@ -17,6 +18,8 @@ export default function ProfilePage() {
   const [uploadedAvatarPreview, setUploadedAvatarPreview] = useState('');
   const [inProgress, setInProgress] = useState(false);
   const [feedback, setFeedback] = useState('');
+
+  useChangeTitle('My Profile');
 
   async function handleUpdateProfileClick() {
     await updateUserProfile(

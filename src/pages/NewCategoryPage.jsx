@@ -12,6 +12,7 @@ import NewCategoryForm from '../components/NewCategoryForm';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import SuccessPage from './SuccessPage';
+import { useChangeTitle } from '../hooks';
 
 function NewCategoryPage() {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ function NewCategoryPage() {
   const [inProgress, setInProgress] = useState(false);
   const [error, setError] = useState('');
   const [categoryCreated, setCategoryCreated] = useState(false);
+
+  useChangeTitle('New Category');
 
   async function handleCreateCategoryClick(event) {
     event.preventDefault();

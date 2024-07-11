@@ -1,7 +1,7 @@
 import API_URL from '../API';
 import { useOutletContext, Link } from 'react-router-dom';
 import { StyledAllCategoriesPage } from '../styles/AllCategoriesPage.styled';
-import { useFetchPageData } from '../hooks';
+import { useChangeTitle, useFetchPageData } from '../hooks';
 import { useState } from 'react';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
@@ -18,6 +18,8 @@ function AllCategoriesPage() {
     setError,
   } = useFetchPageData(`${API_URL}/categories`);
   const [inProgress, setInProgress] = useState(false);
+
+  useChangeTitle('All Categories');
 
   function renderCategories() {
     return categories.map((category) => {

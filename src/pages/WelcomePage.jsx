@@ -6,7 +6,7 @@ import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
 import Loading from '../components/Loading';
 import { useEffect, useRef, useState } from 'react';
-import { useCheckAuth } from '../hooks';
+import { useChangeTitle, useCheckAuth } from '../hooks';
 import { logInAsGuest } from '../helpers';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,6 +21,7 @@ function WelcomePage() {
   const [showLoading, setShowLoading] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
+  useChangeTitle('Welcome');
   useCheckAuth(setShowPage);
 
   // Show the loading screen after a delay to prevent an empty page when the server is waking up from sleep
@@ -45,7 +46,7 @@ function WelcomePage() {
           <>
             <div className="welcome-page-wrapper">
               <h1>
-                Welcome to <span className="app-name">APP NAME</span>
+                Welcome to <span className="app-name">AURORA</span>
               </h1>
               <div className="welcome-page-btns">
                 <StyledButton onClick={() => loginModalRef.current.showModal()}>

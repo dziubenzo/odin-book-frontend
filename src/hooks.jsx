@@ -1,9 +1,9 @@
 import API_URL from './API';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import { useImmer } from 'use-immer';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import { SHRINK_HEADER_SCROLL_VALUE } from './helpers';
+import Cookies from 'js-cookie';
 
 // Authenticate user based on JWT stored in a cookie
 // Set user state if auth successful
@@ -287,4 +287,11 @@ export const useSortPosts = (posts, setPosts) => {
   }, [sortBy, posts?.length]);
 
   return { sortBy, setSortBy };
+};
+
+// Change app title
+export const useChangeTitle = (title) => {
+  useLayoutEffect(() => {
+    document.title = `Aurora - ${title}`;
+  }, [title]);
 };

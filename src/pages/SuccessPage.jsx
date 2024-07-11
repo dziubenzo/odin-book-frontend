@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import { StyledSuccessPage } from '../styles/SuccessPage.styled';
 import { GrStatusGood } from 'react-icons/gr';
+import { useChangeTitle } from '../hooks';
 
 function SuccessPage({ resourceCreated }) {
+  useChangeTitle('Success');
+
   return (
     <StyledSuccessPage>
       <GrStatusGood />
