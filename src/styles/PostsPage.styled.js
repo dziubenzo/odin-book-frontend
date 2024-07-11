@@ -11,6 +11,11 @@ export const StyledPostsPage = styled.main`
   gap: 16px;
   padding: 2em 0;
 
+  *:focus-visible {
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.secondary};
+  }
+
   .posts-wrapper {
     display: flex;
     flex-direction: column;
@@ -38,11 +43,6 @@ export const StyledPost = styled.div`
 
   a {
     text-decoration: none;
-
-    &:focus-visible {
-      border: none;
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
-    }
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
@@ -58,12 +58,19 @@ export const StyledPostLikes = styled.div`
 
   .like-icon,
   .dislike-icon {
-    height: 24px;
-    width: 24px;
+    height: 46px;
+    width: 46px;
+    background: transparent;
+    border: none;
 
-    &.liked,
-    &.disliked {
-      fill: ${(props) => props.theme.colours.secondary};
+    svg {
+      width: 100%;
+      height: 100%;
+
+      &.liked,
+      &.disliked {
+        fill: ${(props) => props.theme.colours.secondary};
+      }
     }
   }
 
@@ -74,14 +81,15 @@ export const StyledPostLikes = styled.div`
   }
 
   @media (hover: hover) {
-    .like-icon-wrapper,
-    .dislike-icon-wrapper {
-      padding: 0.5em 0.6em;
+    .like-icon,
+    .dislike-icon {
+      transition: background-color 0.3s;
+      padding: 0.5em;
+      border-radius: 50%;
       cursor: pointer;
 
       &:hover {
         background-color: ${(props) => props.theme.colours.tertiary};
-        border-radius: 50%;
       }
     }
   }
@@ -89,6 +97,12 @@ export const StyledPostLikes = styled.div`
   @media (max-width: ${(props) => props.theme.mobile}) {
     flex-direction: column;
     gap: 6px;
+
+    .like-icon,
+    .dislike-icon {
+      height: 24px;
+      width: 24px;
+    }
 
     .likes-count {
       font-size: ${(props) => props.theme.fontSizes.large};
@@ -473,11 +487,6 @@ export const StyledPostSorter = styled.div`
       &.selected {
         background-color: ${(props) => props.theme.colours.background};
         color: ${(props) => props.theme.colours.primary};
-      }
-
-      &:focus-visible {
-        border: none;
-        outline: 2px solid ${(props) => props.theme.colours.secondary};
       }
     }
   }

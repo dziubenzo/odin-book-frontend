@@ -412,7 +412,7 @@ describe('CommentBody', () => {
 });
 
 describe('CommentLikes', () => {
-  it('should render the correct likes count', () => {
+  it('should render a correct likes count', () => {
     const { firstComment } = renderCommentLikes(superUser);
 
     const likesCount = screen.getByText(
@@ -422,11 +422,13 @@ describe('CommentLikes', () => {
     expect(likesCount).toBeInTheDocument();
   });
 
-  it('should call a function to like a comment when the up arrow wrapper is clicked', async () => {
+  it('should call a function to like a comment when the up arrow icon is clicked', async () => {
     const { user, likeFn } = renderCommentLikes(superUser);
 
-    const likeCommentDiv = screen.getByTitle('Like Comment');
-    await user.click(likeCommentDiv);
+    const likeCommentIcon = screen.getByRole('button', {
+      name: 'Like Comment Icon',
+    });
+    await user.click(likeCommentIcon);
 
     expect(likeFn).toHaveBeenCalledTimes(1);
   });
@@ -434,8 +436,10 @@ describe('CommentLikes', () => {
   it('should call a function to dislike a comment when the down arrow wrapper is clicked', async () => {
     const { user, dislikeFn } = renderCommentLikes(superUser);
 
-    const dislikeCommentDiv = screen.getByTitle(/dislike comment/i);
-    await user.click(dislikeCommentDiv);
+    const dislikeCommentIcon = screen.getByRole('button', {
+      name: /dislike comment icon/i,
+    });
+    await user.click(dislikeCommentIcon);
 
     expect(dislikeFn).toHaveBeenCalledTimes(1);
   });

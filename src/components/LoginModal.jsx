@@ -56,11 +56,14 @@ function LoginModal({
       }
     >
       <div className="modal-wrapper">
-        <IoCloseOutline
-          className="close-modal-btn"
+        <button
+          className="close-modal-icon"
+          aria-label="Close Modal Icon"
           title="Close"
           onClick={() => loginModalRef.current.close()}
-        />
+        >
+          <IoCloseOutline />
+        </button>
         <form id="login-form" method="post" onSubmit={logIn}>
           <label htmlFor="username">Username</label>
           <StyledInput

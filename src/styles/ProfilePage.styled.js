@@ -17,7 +17,6 @@ export const StyledProfilePage = styled.main`
   @media (max-width: ${(props) => props.theme.mobile}) {
     .theme-switch {
       width: 60px;
-      padding: 0;
     }
   }
 `;

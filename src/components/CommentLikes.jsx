@@ -12,31 +12,29 @@ function CommentLikes({
 
   return (
     <StyledCommentLikes>
-      <div
-        className="like-icon-wrapper"
+      <button
+        className="like-icon"
         onClick={() => handleCommentLikeClick(_id)}
+        aria-label="Like Comment Icon"
         title="Like Comment"
       >
         <FaArrowUp
-          className={likes.includes(user._id) ? 'like-icon liked' : 'like-icon'}
+          className={likes.includes(user._id) ? 'liked' : undefined}
           data-testid="up-arrow"
         />
-      </div>
+      </button>
       <span className="likes-count">{likes.length - dislikes.length}</span>
-      <div
-        className="dislike-icon-wrapper"
+      <button
+        className="dislike-icon"
         onClick={() => handleCommentDislikeClick(_id)}
+        aria-label="Dislike Comment Icon"
         title="Dislike Comment"
       >
         <FaArrowDown
-          className={
-            dislikes.includes(user._id)
-              ? 'dislike-icon disliked'
-              : 'dislike-icon'
-          }
+          className={dislikes.includes(user._id) ? 'disliked' : undefined}
           data-testid="down-arrow"
         />
-      </div>
+      </button>
     </StyledCommentLikes>
   );
 }

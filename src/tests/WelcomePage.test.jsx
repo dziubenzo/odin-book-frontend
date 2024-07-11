@@ -108,7 +108,10 @@ describe('LoginModal', () => {
   test('clicking on the close modal icon should call a function that closes the Log In modal', async () => {
     const user = renderLoginModal();
 
-    const closeIcon = screen.getByTitle('Close');
+    const closeIcon = screen.getByRole('button', {
+      name: /close modal icon/i,
+      hidden: true,
+    });
     await user.click(closeIcon);
 
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1);
@@ -147,7 +150,10 @@ describe('LoginModal', () => {
   test('Log In button should be visible on render', () => {
     renderLoginModal();
 
-    const logInButton = screen.getByRole('button', { hidden: true });
+    const logInButton = screen.getByRole('button', {
+      name: /log in/i,
+      hidden: true,
+    });
 
     expect(logInButton).not.toHaveStyle({ visibility: 'hidden' });
   });
@@ -156,7 +162,10 @@ describe('LoginModal', () => {
     const user = renderLoginModal();
     const fetchMock = mockFetch('I should not be called!', false);
 
-    const logInButton = screen.getByRole('button', { hidden: true });
+    const logInButton = screen.getByRole('button', {
+      name: /log in/i,
+      hidden: true,
+    });
     await user.click(logInButton);
 
     expect(fetchMock).not.toHaveBeenCalled();
@@ -171,7 +180,10 @@ describe('LoginModal', () => {
     usernameField.value = 'myusername';
     passwordField.value = 'mypassword';
 
-    const logInButton = screen.getByRole('button', { hidden: true });
+    const logInButton = screen.getByRole('button', {
+      name: /log in/i,
+      hidden: true,
+    });
     await user.click(logInButton);
     const errorMessage = await screen.findByText(/invalid username/i);
 
@@ -185,7 +197,10 @@ describe('SignupModal', () => {
   test('clicking on the close modal icon should call a function that closes the Sign Up modal', async () => {
     const user = renderSignupModal();
 
-    const closeIcon = screen.getByTitle('Close');
+    const closeIcon = screen.getByRole('button', {
+      name: /close modal icon/i,
+      hidden: true,
+    });
     await user.click(closeIcon);
 
     expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1);
@@ -233,7 +248,10 @@ describe('SignupModal', () => {
   test('Sign Up button should be visible on render', () => {
     renderSignupModal();
 
-    const signUpButton = screen.getByRole('button', { hidden: true });
+    const signUpButton = screen.getByRole('button', {
+      name: /sign up/i,
+      hidden: true,
+    });
 
     expect(signUpButton).not.toHaveStyle({ visibility: 'hidden' });
   });
@@ -242,7 +260,10 @@ describe('SignupModal', () => {
     const user = renderSignupModal();
     const fetchMock = mockFetch('I should not be called!', false);
 
-    const signUpButton = screen.getByRole('button', { hidden: true });
+    const signUpButton = screen.getByRole('button', {
+      name: /sign up/i,
+      hidden: true,
+    });
     await user.click(signUpButton);
 
     expect(fetchMock).not.toHaveBeenCalled();
@@ -259,7 +280,10 @@ describe('SignupModal', () => {
     passwordField.value = 'mypassword';
     confirmPasswordField.value = 'mypassword';
 
-    const signUpButton = screen.getByRole('button', { hidden: true });
+    const signUpButton = screen.getByRole('button', {
+      name: /sign up/i,
+      hidden: true,
+    });
     await user.click(signUpButton);
     const errorMessage = await screen.findByText(/invalid username/i);
 
@@ -282,7 +306,10 @@ describe('SignupModal', () => {
     passwordField.value = 'validpassword';
     confirmPasswordField.value = 'idonotmatter';
 
-    const signUpButton = screen.getByRole('button', { hidden: true });
+    const signUpButton = screen.getByRole('button', {
+      name: /sign up/i,
+      hidden: true,
+    });
     await user.click(signUpButton);
 
     expect(fetchMock).toHaveBeenCalledTimes(1);

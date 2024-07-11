@@ -12,33 +12,31 @@ function PostLikes({
 
   return (
     <StyledPostLikes>
-      <div
-        className="like-icon-wrapper"
+      <button
+        className="like-icon"
+        aria-label="Like Post Icon"
         title="Like Post"
         onClick={() => handlePostLikeClick(post)}
       >
         <FaArrowUp
-          className={likes.includes(user._id) ? 'like-icon liked' : 'like-icon'}
+          className={likes.includes(user._id) ? 'liked' : undefined}
           data-testid="up-arrow"
         />
-      </div>
+      </button>
       <p className="likes-count" data-testid="likes-count">
         {likes.length - dislikes.length}
       </p>
-      <div
-        className="dislike-icon-wrapper"
+      <button
+        className="dislike-icon"
+        aria-label="Dislike Post Icon"
         title="Dislike Post"
         onClick={() => handlePostDislikeClick(post)}
       >
         <FaArrowDown
-          className={
-            dislikes.includes(user._id)
-              ? 'dislike-icon disliked'
-              : 'dislike-icon'
-          }
+          className={dislikes.includes(user._id) ? 'disliked' : undefined}
           data-testid="down-arrow"
         />
-      </div>
+      </button>
     </StyledPostLikes>
   );
 }

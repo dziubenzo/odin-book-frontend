@@ -190,12 +190,19 @@ export const StyledCommentLikes = styled.div`
 
   .like-icon,
   .dislike-icon {
-    height: 18px;
-    width: 18px;
+    height: 32px;
+    width: 32px;
+    background: transparent;
+    border: none;
 
-    &.liked,
-    &.disliked {
-      fill: ${(props) => props.theme.colours.secondary};
+    svg {
+      width: 100%;
+      height: 100%;
+
+      &.liked,
+      &.disliked {
+        fill: ${(props) => props.theme.colours.secondary};
+      }
     }
   }
 
@@ -206,9 +213,10 @@ export const StyledCommentLikes = styled.div`
   }
 
   @media (hover: hover) {
-    .like-icon-wrapper,
-    .dislike-icon-wrapper {
-      padding: 0.2em 0.4em;
+    .like-icon,
+    .dislike-icon {
+      transition: background-color 0.3s;
+      padding: 0.5em;
       border-radius: 50%;
       cursor: pointer;
 
@@ -221,6 +229,12 @@ export const StyledCommentLikes = styled.div`
   @media (max-width: ${(props) => props.theme.mobile}) {
     flex-direction: column;
     gap: revert;
+
+    .like-icon,
+    .dislike-icon {
+      height: 24px;
+      width: 24px;
+    }
   }
 `;
 

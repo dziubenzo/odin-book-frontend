@@ -57,11 +57,14 @@ function SignupModal({
       }
     >
       <div className="modal-wrapper">
-        <IoCloseOutline
-          className="close-modal-btn"
+        <button
+          className="close-modal-icon"
+          aria-label="Close Modal Icon"
           title="Close"
           onClick={() => signupModalRef.current.close()}
-        />
+        >
+          <IoCloseOutline />
+        </button>
         <form id="signup-form" method="post" onSubmit={signUp}>
           <label htmlFor="username-signup">Username</label>
           <StyledInput

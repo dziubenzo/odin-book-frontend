@@ -312,7 +312,7 @@ describe('PostLikes', () => {
     expect(likesCount).toBeInTheDocument();
   });
 
-  it('should show correct likes count', () => {
+  it('should show a correct likes count', () => {
     const likes = post1.likes.length;
     const dislikes = post1.dislikes.length;
     renderPostLikes(superUser);
@@ -322,20 +322,24 @@ describe('PostLikes', () => {
     expect(likesCount.textContent).toBe((likes - dislikes).toString());
   });
 
-  it('should call a function to like a post when the up arrow wrapper is clicked', async () => {
+  it('should call a function to like a post when the up arrow icon is clicked', async () => {
     const { user, likeFn } = renderPostLikes(superUser);
 
-    const likePostDiv = screen.getByTitle('Like Post');
-    await user.click(likePostDiv);
+    const likePostIcon = screen.getByRole('button', {
+      name: 'Like Post Icon',
+    });
+    await user.click(likePostIcon);
 
     expect(likeFn).toHaveBeenCalledTimes(1);
   });
 
-  it('should call a function to dislike a post when the down arrow wrapper is clicked', async () => {
+  it('should call a function to dislike a post when the down arrow icon is clicked', async () => {
     const { user, dislikeFn } = renderPostLikes(superUser);
 
-    const dislikePostDiv = screen.getByTitle(/dislike post/i);
-    await user.click(dislikePostDiv);
+    const dislikePostIcon = screen.getByRole('button', {
+      name: /dislike post icon/i,
+    });
+    await user.click(dislikePostIcon);
 
     expect(dislikeFn).toHaveBeenCalledTimes(1);
   });

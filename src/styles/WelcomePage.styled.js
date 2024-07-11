@@ -115,14 +115,25 @@ export const StyledModal = styled.dialog`
     }
   }
 
-  .close-modal-btn {
+  .close-modal-icon {
     position: absolute;
     right: 1em;
     top: 1em;
     height: 36px;
     width: 36px;
-    cursor: pointer;
-    border-radius: 100%;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+
+    &:focus-visible {
+      border: none;
+      outline: 2px solid ${(props) => props.theme.colours.secondary};
+    }
+
+    svg {
+      height: 100%;
+      width: 100%;
+    }
   }
 
   .error-message {
@@ -135,8 +146,9 @@ export const StyledModal = styled.dialog`
   }
 
   @media (hover: hover) {
-    .close-modal-btn {
+    .close-modal-icon {
       transition: background-color 0.1s ease-in;
+      cursor: pointer;
 
       &:hover {
         background-color: ${(props) => props.theme.colours.tertiary};
