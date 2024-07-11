@@ -114,7 +114,7 @@ describe('UserInfo', () => {
     expect(heading).toBeInTheDocument();
   });
 
-  it('should render a link to the previous page page', () => {
+  it('should render a link to return to the previous page', () => {
     renderProfilePage();
 
     const previousPageLink = screen.getByRole('link', {
@@ -360,7 +360,9 @@ describe('ThemeSwitch', () => {
   it('should render a theme switch icon', () => {
     renderThemeSwitch();
 
-    const themeSwitchIcon = screen.getByTestId('theme-switch');
+    const themeSwitchIcon = screen.getByRole('button', {
+      name: /theme switch/i,
+    });
 
     expect(themeSwitchIcon).toBeInTheDocument();
   });
@@ -368,7 +370,9 @@ describe('ThemeSwitch', () => {
   it("should render a theme switch icon that has a 'Switch to Light Mode' title if the current theme is the dark theme", () => {
     renderThemeSwitch();
 
-    const themeSwitchIcon = screen.getByTestId('theme-switch');
+    const themeSwitchIcon = screen.getByRole('button', {
+      name: /theme switch/i,
+    });
 
     expect(themeSwitchIcon.title).toMatch(/switch to light mode/i);
   });
@@ -376,7 +380,9 @@ describe('ThemeSwitch', () => {
   it('should render a theme switch icon that calls a function to change the theme on click', async () => {
     const { user, mockSetTheme } = renderThemeSwitch();
 
-    const themeSwitchIcon = screen.getByTestId('theme-switch');
+    const themeSwitchIcon = screen.getByRole('button', {
+      name: /theme switch/i,
+    });
     await user.click(themeSwitchIcon);
 
     expect(mockSetTheme).toHaveBeenCalled();

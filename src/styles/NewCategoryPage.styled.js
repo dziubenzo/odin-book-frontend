@@ -130,4 +130,11 @@ export const StyledNewCategoryForm = styled.form`
     font-size: ${(props) => props.theme.fontSizes.medium};
     cursor: pointer;
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    input[id='name'],
+    textarea[id='description'] {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+    }
+  }
 `;

@@ -84,6 +84,11 @@ export const StyledCategory = styled.div`
   @media (max-width: ${(props) => props.theme.mobile}) {
     gap: 12px;
 
+    img {
+      width: 32px;
+      height: 32px;
+    }
+
     .follow-button {
       min-width: 80px;
       font-size: ${(props) => props.theme.fontSizes.small};

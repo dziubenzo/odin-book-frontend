@@ -14,6 +14,7 @@ import {
 } from '../helpers';
 import { useState } from 'react';
 import CommentInput from '../components/CommentInput';
+import ReturnIcon from '../components/ReturnIcon';
 
 function PostDetailsPage() {
   const { slug } = useParams();
@@ -92,6 +93,7 @@ function PostDetailsPage() {
             handleCommentLikeClick={handleCommentLikeClick}
             handleCommentDislikeClick={handleCommentDislikeClick}
           />
+          <ReturnIcon />
         </>
       )}
     </StyledPostDetailsPage>

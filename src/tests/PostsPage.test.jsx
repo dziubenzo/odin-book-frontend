@@ -384,17 +384,21 @@ describe('PostBody', () => {
     expect(postDetailsLink).toHaveAttribute('href', `/posts/${post1.slug}`);
   });
 
-  it('should render a correct link to the post author page', () => {
+  it('should render two links to the user page (avatar and username)', () => {
     renderPostBody(post1);
 
-    const postAuthorLink = screen.getByRole('link', {
+    const userLinks = screen.getAllByRole('link', {
       name: new RegExp(post1.author.username, 'i'),
     });
 
-    expect(postAuthorLink).toHaveAttribute(
-      'href',
-      `/users/${post1.author.username}`,
-    );
+    expect(userLinks).toHaveLength(2);
+
+    for (const userLink of userLinks) {
+      expect(userLink).toHaveAttribute(
+        'href',
+        `/users/${post1.author.username}`,
+      );
+    }
   });
 
   it('should render a correct link to the post category page', () => {

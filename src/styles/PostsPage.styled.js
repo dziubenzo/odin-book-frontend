@@ -100,6 +100,7 @@ export const StyledPostBody = styled.div`
   display: grid;
   gap: 8px;
   padding: 0.5em;
+  border-radius: 16px;
 
   a {
     display: grid;
@@ -137,8 +138,9 @@ export const StyledPostBody = styled.div`
   }
 
   @media (hover: hover) {
+    transition: background-color 0.3s;
+
     &:hover {
-      border-radius: 16px;
       background-color: ${(props) => props.theme.colours.tertiary};
     }
   }
@@ -166,6 +168,12 @@ export const StyledPostInfo = styled.div`
   gap: 4px;
   font-size: 0.9rem;
 
+  .post-author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
   .post-date {
     color: ${(props) => props.theme.colours.primaryDarker};
   }
@@ -192,6 +200,11 @@ export const StyledPostInfo = styled.div`
   @media (max-width: ${(props) => props.theme.mobile}) {
     text-align: center;
     font-size: ${(props) => props.theme.fontSizes.small};
+    justify-content: space-between;
+
+    .post-author {
+      gap: 4px;
+    }
 
     .category-link,
     .user-link {
@@ -298,9 +311,11 @@ export const StyledResourceDetails = styled.div`
     gap: 16px;
     margin: 0em 0.5em 1em 0.5em;
 
-    .description {
+    .description,
+    .bio {
       font-size: ${(props) => props.theme.fontSizes.standard};
       line-height: 1.5;
+      margin: 1em 0.5em;
     }
   }
 `;
@@ -458,6 +473,11 @@ export const StyledPostSorter = styled.div`
       &.selected {
         background-color: ${(props) => props.theme.colours.background};
         color: ${(props) => props.theme.colours.primary};
+      }
+
+      &:focus-visible {
+        border: none;
+        outline: 2px solid ${(props) => props.theme.colours.secondary};
       }
     }
   }

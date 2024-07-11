@@ -33,7 +33,7 @@ function CommentInput({ user, post, setPost }) {
 
   return (
     <StyledCommentInput>
-      <h3>New Comment</h3>
+      <h2>New Comment</h2>
       <CommentInputTop
         user={user}
         commentFieldRef={commentFieldRef}

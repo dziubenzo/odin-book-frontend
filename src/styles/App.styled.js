@@ -63,3 +63,40 @@ export const StyledAvatar = styled.div`
     height: ${(props) => props.$size || 50}px;
   }
 `;
+
+export const StyledStickyIcon = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  position: sticky;
+  bottom: 110px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+
+  *:focus-visible {
+    border: none;
+    outline: 2px solid ${(props) => props.theme.colours.secondary};
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (hover: hover) {
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: ${(props) => props.theme.colours.tertiary};
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    width: 50px;
+  }
+`;

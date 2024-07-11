@@ -43,6 +43,12 @@ export const StyledPostTitleInput = styled.div`
       color: ${(props) => props.theme.colours.lightRed};
     }
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    input {
+      font-size: ${(props) => props.theme.fontSizes.standard};
+    }
+  }
 `;
 
 export const StyledPostTypeSelector = styled.div`

@@ -13,6 +13,13 @@ export const StyledProfilePage = styled.main`
     border: none;
     outline: 2px solid ${(props) => props.theme.colours.secondary};
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .theme-switch {
+      width: 60px;
+      padding: 0;
+    }
+  }
 `;
 
 export const StyledUserInfo = styled.div`
@@ -273,28 +280,6 @@ export const StyledBioInput = styled.div`
 
     textarea {
       font-size: ${(props) => props.theme.fontSizes.standard};
-    }
-  }
-`;
-
-export const StyledThemeSwitch = styled.div`
-  display: flex;
-  height: 64px;
-  width: 64px;
-  cursor: pointer;
-  position: sticky;
-  bottom: 110px;
-  margin-left: auto;
-
-  svg {
-    height: 64px;
-    width: 64px;
-    fill: ${(props) => props.theme.colours.primary};
-  }
-
-  @media (hover: hover) {
-    svg:hover {
-      fill: ${(props) => props.theme.colours.secondary};
     }
   }
 `;

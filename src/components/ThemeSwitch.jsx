@@ -1,6 +1,6 @@
 import { MdLightMode, MdDarkMode } from 'react-icons/md';
-import { StyledThemeSwitch } from '../styles/ProfilePage.styled';
 import { useOutletContext } from 'react-router-dom';
+import { StyledStickyIcon } from '../styles/App.styled';
 
 function ThemeSwitch() {
   const { theme, setTheme } = useOutletContext();
@@ -15,14 +15,14 @@ function ThemeSwitch() {
   }
 
   return (
-    <StyledThemeSwitch
+    <StyledStickyIcon
       onClick={handleThemeSwitchClick}
+      aria-label="Theme Switch"
       title={theme !== 'light' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-      tabIndex={0}
-      data-testid="theme-switch"
+      className="theme-switch"
     >
       {theme !== 'light' ? <MdLightMode /> : <MdDarkMode />}
-    </StyledThemeSwitch>
+    </StyledStickyIcon>
   );
 }
 export default ThemeSwitch;

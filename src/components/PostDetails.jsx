@@ -5,8 +5,6 @@ import {
 } from '../styles/PostDetailsPage.styled';
 import PostLikes from './PostLikes';
 import PostInfo from './PostInfo';
-import { IoChevronBack } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
 import parse from 'html-react-parser';
 
 function PostDetails({
@@ -15,7 +13,6 @@ function PostDetails({
   handlePostLikeClick,
   handlePostDislikeClick,
 }) {
-  const navigate = useNavigate();
   const { title, content } = post;
 
   // Wrap image post in <a> for the image to be opened in new tab on click
@@ -35,13 +32,6 @@ function PostDetails({
 
   return (
     <StyledPostDetails>
-      <div
-        className="return-icon-wrapper"
-        data-testid="return-icon"
-        onClick={() => navigate('/posts')}
-      >
-        <IoChevronBack />
-      </div>
       <div className="post-body">
         <div className="post-top-bar">
           <h2 className="post-title">{title}</h2>

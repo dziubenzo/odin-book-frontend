@@ -3,7 +3,6 @@
 import { render, screen } from '@testing-library/react';
 
 import PostDetailsPage from '../pages/PostDetailsPage';
-import PostDetails from '../components/PostDetails';
 import CommentInput from '../components/CommentInput';
 import CommentInputBottom from '../components/CommentInputBottom';
 import Comments from '../components/Comments';
@@ -16,6 +15,7 @@ import { userEvent } from '@testing-library/user-event';
 import { mockFetch } from './fetchMock';
 import { detailedPost1, superUser, longComment, user1 } from './mocks';
 import { MAX_COMMENT_LENGTH } from '../helpers';
+import { expect } from 'vitest';
 
 const navigateFn = vi.fn();
 
@@ -40,6 +40,8 @@ function renderPostDetailsPage() {
       useNavigate: () => navigateFn,
     };
   });
+  const user = userEvent.setup();
+
   render(
     <BrowserRouter>
       <Theme>
@@ -47,25 +49,8 @@ function renderPostDetailsPage() {
       </Theme>
     </BrowserRouter>,
   );
-}
 
-function renderPostDetails() {
-  const user = userEvent.setup();
-
-  render(
-    <BrowserRouter>
-      <Theme>
-        <PostDetails
-          post={detailedPost1}
-          user={superUser}
-          handlePostLikeClick={vi.fn()}
-          handlePostDislikeClick={vi.fn()}
-        />
-      </Theme>
-    </BrowserRouter>,
-  );
-
-  return { user, navigateFn };
+  return user;
 }
 
 function renderCommentInput() {
@@ -200,7 +185,7 @@ describe('PostDetailsPage', () => {
     const newCommentHeading = await screen.findByRole('heading', {
       name: /new comment/i,
     });
-    const submitButton = await screen.findByRole('button');
+    const submitButton = screen.getByRole('button', { name: /submit/i });
 
     expect(newCommentHeading).toBeInTheDocument();
     expect(submitButton).toBeInTheDocument();
@@ -218,17 +203,29 @@ describe('PostDetailsPage', () => {
     expect(commentsHeading).toBeInTheDocument();
     expect(allComments).toHaveLength(detailedPost1.comments.length);
   });
-});
 
-describe('PostDetails', () => {
-  test("clicking the return icon should call a useNavigate hook function with the '/posts' argument", async () => {
-    const { user, navigateFn } = renderPostDetails();
+  it('should render a return icon', async () => {
+    mockFetch(detailedPost1, true);
+    renderPostDetailsPage();
 
-    const returnIconDiv = screen.getByTestId('return-icon');
-    await user.click(returnIconDiv);
+    const returnIcon = await screen.findByRole('button', {
+      name: /back to previous page/i,
+    });
 
-    expect(navigateFn).toHaveBeenCalledTimes(1);
-    expect(navigateFn).toHaveBeenCalledWith('/posts');
+    expect(returnIcon).toBeInTheDocument();
+  });
+
+  it('should render a return icon that calls a useNavigate function hook with -1 argument if clicked', async () => {
+    mockFetch(detailedPost1, true);
+    const user = renderPostDetailsPage();
+
+    const returnIcon = await screen.findByRole('button', {
+      name: /back to previous page/i,
+    });
+    await user.click(returnIcon);
+
+    expect(navigateFn).toHaveBeenCalled();
+    expect(navigateFn).toHaveBeenCalledWith(-1);
   });
 });
 
@@ -332,7 +329,7 @@ describe('CommentInputBottom', () => {
   it('should render a Submit button', () => {
     renderCommentInput();
 
-    const submitButton = screen.getByRole('button');
+    const submitButton = screen.getByRole('button', { name: /submit/i });
 
     expect(submitButton).toBeInTheDocument();
   });
@@ -342,7 +339,7 @@ describe('CommentInputBottom', () => {
     const user = userEvent.setup();
     renderCommentInputBottom(createCommentFn);
 
-    const submitButton = screen.getByRole('button');
+    const submitButton = screen.getByRole('button', { name: /submit/i });
     await user.click(submitButton);
 
     expect(createCommentFn).toHaveBeenCalledTimes(1);
@@ -351,7 +348,7 @@ describe('CommentInputBottom', () => {
   it("should change the description of the Submit button to 'Submitting...' if a new comment is being created", () => {
     renderCommentInputBottom(vi.fn(), true);
 
-    const submitButton = screen.getByRole('button');
+    const submitButton = screen.getByRole('button', { name: /submit/i });
 
     expect(submitButton.textContent).toBe('Submitting...');
   });
@@ -359,7 +356,7 @@ describe('CommentInputBottom', () => {
   it("should change the description of the Submit button to 'Submitted!' if a new comment has just been created", () => {
     renderCommentInputBottom(vi.fn(), false, true);
 
-    const submitButton = screen.getByRole('button');
+    const submitButton = screen.getByRole('button', { name: /submit/i });
 
     expect(submitButton.textContent).toBe('Submitted!');
   });

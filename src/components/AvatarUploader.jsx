@@ -33,7 +33,7 @@ function AvatarUploader({
       {!uploadedAvatar && (
         <div className="avatar-uploader">
           <label className="avatar-picker" htmlFor="avatar" tabIndex={0}>
-            Upload Your Own {type}
+            Or Upload Your Own {type}
           </label>
           <input
             type="file"

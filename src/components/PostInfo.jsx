@@ -3,15 +3,19 @@ import { Link } from 'react-router-dom';
 import { FaRegCommentAlt } from 'react-icons/fa';
 import { LuDot } from 'react-icons/lu';
 import { format, formatDistanceToNow } from 'date-fns';
+import Avatar from './Avatar';
 
 function PostInfo({ post, StyledComponent }) {
   const { author, created_at, category, comments } = post;
 
   return (
     <StyledComponent>
-      <Link to={`/users/${author.username}`} className="user-link">
-        {author.username}
-      </Link>
+      <div className="post-author">
+        <Avatar object={author} size={14.4} />
+        <Link to={`/users/${author.username}`} className="user-link">
+          {author.username}
+        </Link>
+      </div>
       <LuDot />
       <span
         className="post-date"

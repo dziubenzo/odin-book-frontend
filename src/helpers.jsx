@@ -771,6 +771,6 @@ export const fetchMorePosts = async (
   );
   const morePosts = await res.json();
   setPosts((previousPosts) => [...previousPosts, ...morePosts]);
-  morePosts.length > 0 ? setHasMore(true) : setHasMore(false);
+  morePosts.length === POSTS_PER_FETCH ? setHasMore(true) : setHasMore(false);
   return;
 };

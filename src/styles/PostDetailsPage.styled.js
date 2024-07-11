@@ -31,18 +31,6 @@ export const StyledPostDetails = styled.div`
   flex-direction: column;
   gap: 16px;
 
-  .return-icon-wrapper {
-    display: flex;
-    justify-content: center;
-    width: 50px;
-    align-self: center;
-
-    svg {
-      height: 32px;
-      width: 32px;
-    }
-  }
-
   .post-body {
     display: flex;
     flex-direction: column;
@@ -105,18 +93,6 @@ export const StyledPostDetails = styled.div`
     }
   }
 
-  @media (hover: hover) {
-    .return-icon-wrapper {
-      padding: 0.5em 0.6em;
-      cursor: pointer;
-
-      &:hover {
-        background-color: ${(props) => props.theme.colours.tertiary};
-        border-radius: 50%;
-      }
-    }
-  }
-
   @media (max-width: ${(props) => props.theme.mobile}) {
     .post-body {
       width: 100%;
@@ -125,12 +101,29 @@ export const StyledPostDetails = styled.div`
 `;
 
 export const StyledPostInfoPostDetails = styled(StyledPostInfo)`
+  font-size: ${(props) => props.theme.fontSizes.standard};
+
   a {
     text-decoration: none;
   }
 
+  .post-author {
+    gap: 8px;
+
+    div {
+      a {
+        width: 16px;
+        height: 16px;
+
+        img {
+          height: 16px;
+          width: 16px;
+        }
+      }
+    }
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
-    font-size: ${(props) => props.theme.fontSizes.standard};
     width: 100%;
     justify-content: space-around;
   }
