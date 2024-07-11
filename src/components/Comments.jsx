@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { StyledComments } from '../styles/PostDetailsPage.styled';
 import Comment from './Comment';
+import NoCommentsSection from './NoCommentsSection';
 
 function Comments({
   comments,
@@ -22,8 +23,9 @@ function Comments({
 
   return (
     <StyledComments>
-      <h3>Comments ({comments.length})</h3>
+      <h2>Comments ({comments.length})</h2>
       {renderComments()}
+      {comments.length === 0 && <NoCommentsSection />}
     </StyledComments>
   );
 }

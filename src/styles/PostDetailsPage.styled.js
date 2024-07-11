@@ -141,7 +141,7 @@ export const StyledComments = styled.div`
   flex-direction: column;
   gap: 8px;
 
-  h3 {
+  h2 {
     margin-bottom: 0.5em;
   }
 `;
@@ -306,5 +306,18 @@ export const StyledCommentInputBottom = styled.div`
       color: ${(props) => props.theme.colours.lightRed};
       fill: ${(props) => props.theme.colours.lightRed};
     }
+  }
+`;
+
+export const StyledNoCommentsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1em;
+  gap: 8px;
+
+  svg {
+    width: 128px;
+    height: 128px;
   }
 `;
