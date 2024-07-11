@@ -73,13 +73,15 @@ function renderCommentInput() {
   const user = userEvent.setup();
 
   render(
-    <Theme>
-      <CommentInput
-        user={superUser}
-        post={detailedPost1}
-        setPost={setPostMock}
-      />
-    </Theme>,
+    <BrowserRouter>
+      <Theme>
+        <CommentInput
+          user={superUser}
+          post={detailedPost1}
+          setPost={setPostMock}
+        />
+      </Theme>
+    </BrowserRouter>,
   );
 
   return { user };

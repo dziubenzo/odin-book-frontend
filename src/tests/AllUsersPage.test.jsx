@@ -139,13 +139,16 @@ describe('User', () => {
     expect(userUsername).toBeInTheDocument();
   });
 
-  it('should render a link to the user page', () => {
+  it('should render two links to the user page (avatar and username)', () => {
     renderUser(user2, user3, false);
 
-    const userLink = screen.getByRole('link');
+    const userLinks = screen.getAllByRole('link');
 
-    expect(userLink).toBeInTheDocument();
-    expect(userLink).toHaveAttribute('href', `/users/${user3.username}`);
+    expect(userLinks).toHaveLength(2);
+
+    for (const userLink of userLinks) {
+      expect(userLink).toHaveAttribute('href', `/users/${user3.username}`);
+    }
   });
 
   it("should only render logged in user's avatar and a link to the logged in user's profile if the rendered user is the logged in user", () => {

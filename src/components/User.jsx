@@ -11,13 +11,11 @@ function User({ loggedInUser, user, handleUserButtonClick, inProgress }) {
   return (
     <StyledUser>
       <Avatar object={user} size={100} />
-      <Link to={`/users/${renderedUserUsername}`} className="user-link">
-        <p className="username">
-          {loggedInUserUsername === renderedUserUsername
-            ? undefined
-            : renderedUserUsername}
-        </p>
-      </Link>
+      {loggedInUserUsername === renderedUserUsername ? undefined : (
+        <Link to={`/users/${renderedUserUsername}`} className="user-link">
+          <p className="username">{renderedUserUsername}</p>
+        </Link>
+      )}
       {renderedUserID === loggedInUserID ? undefined : (
         <FollowUserButton
           loggedInUser={loggedInUser}

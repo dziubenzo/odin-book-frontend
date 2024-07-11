@@ -71,8 +71,8 @@ function renderThemeSwitch() {
   return { user, mockSetTheme };
 }
 
-describe('PostInfo', () => {
-  it('should render an avatar', () => {
+describe('UserInfo', () => {
+  it("should render a user's avatar", () => {
     renderProfilePage();
 
     const avatarImg = screen.getByRole('img', {
@@ -82,15 +82,26 @@ describe('PostInfo', () => {
     expect(avatarImg).toBeInTheDocument();
   });
 
-  it('should render a link to the user page', () => {
+  it("should render a user's username", () => {
     renderProfilePage();
 
-    const userLink = screen.getByRole('link', {
+    const username = screen.getByText(new RegExp(user2.username), 'i');
+
+    expect(username).toBeInTheDocument();
+  });
+
+  it('should render two links to the user page (avatar and username)', () => {
+    renderProfilePage();
+
+    const userLinks = screen.getAllByRole('link', {
       name: /user2/i,
     });
 
-    expect(userLink).toBeInTheDocument();
-    expect(userLink).toHaveAttribute('href', `/users/${user2.username}`);
+    expect(userLinks).toHaveLength(2);
+
+    for (const userLink of userLinks) {
+      expect(userLink).toHaveAttribute('href', `/users/${user2.username}`);
+    }
   });
 
   it('should render a heading with the correct registration date', () => {

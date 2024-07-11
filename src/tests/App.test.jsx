@@ -16,17 +16,21 @@ import { category1, superUser, user2 } from './mocks';
 
 function renderAvatar(size) {
   render(
-    <Theme>
-      <Avatar object={user2} size={size} />
-    </Theme>,
+    <BrowserRouter>
+      <Theme>
+        <Avatar object={user2} size={size} />
+      </Theme>
+    </BrowserRouter>,
   );
 }
 
 function renderIcon() {
   render(
-    <Theme>
-      <Avatar object={category1} isCategory={true} />
-    </Theme>,
+    <BrowserRouter>
+      <Theme>
+        <Avatar object={category1} isCategory={true} />
+      </Theme>
+    </BrowserRouter>,
   );
 }
 
@@ -105,6 +109,14 @@ describe('Avatar', () => {
 
       expect(avatarImg).toHaveStyle({ height: '50px' });
     });
+
+    it('should render an avatar img that links to the user page', () => {
+      renderAvatar();
+
+      const userLink = screen.getByRole('link');
+
+      expect(userLink).toHaveAttribute('href', `/users/${user2.username}`);
+    });
   });
 
   describe('Category Icon', () => {
@@ -117,6 +129,17 @@ describe('Avatar', () => {
       expect(iconImg).toHaveAttribute(
         'alt',
         `Icon for the ${category1.name} category`,
+      );
+    });
+
+    it('should render an icon img that links to the category page', () => {
+      renderIcon();
+
+      const categoryLink = screen.getByRole('link');
+
+      expect(categoryLink).toHaveAttribute(
+        'href',
+        `/categories/${category1.slug}`,
       );
     });
   });
