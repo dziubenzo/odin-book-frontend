@@ -1,13 +1,23 @@
 import PropTypes from 'prop-types';
 import { StyledDefaultAvatars } from '../styles/ProfilePage.styled';
 import { defaultAvatars } from '../helpers';
+import { useOutletContext } from 'react-router-dom';
 
 function DefaultAvatars({ selectedAvatar, uploadedAvatar, setSelectedAvatar }) {
+  const { user } = useOutletContext();
+  const { avatar: currentUserAvatar } = user;
+
   function renderDefaultAvatars() {
     return defaultAvatars.map((avatarURL, index) => {
       return (
         <img
-          className={selectedAvatar === avatarURL ? 'selected' : undefined}
+          className={
+            selectedAvatar === avatarURL
+              ? 'selected'
+              : currentUserAvatar === avatarURL
+                ? 'current'
+                : undefined
+          }
           key={avatarURL}
           src={avatarURL}
           alt={`Default Avatar ${index + 1}`}

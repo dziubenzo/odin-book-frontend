@@ -124,6 +124,51 @@ describe('DefaultAvatars', () => {
 
     expect(defaultAvatarImgs).toHaveLength(defaultAvatars.length);
   });
+
+  it('should render default avatars that are not selected by default', () => {
+    renderProfilePage();
+
+    const defaultAvatarImgs = screen.getAllByRole('img', {
+      name: /default avatar/i,
+    });
+
+    for (const avatarImg of defaultAvatarImgs) {
+      expect(avatarImg).not.toHaveClass('selected');
+    }
+  });
+
+  it("should mark a default avatar as current if the user's avatar is one of the default avatars", () => {
+    renderProfilePage();
+
+    const currentDefaultAvatar = screen.getByRole('img', {
+      name: /default avatar 1/i,
+    });
+
+    expect(currentDefaultAvatar.src).toBe(user2.avatar);
+    expect(currentDefaultAvatar).toHaveClass('current');
+  });
+
+  it('should mark a default avatar as selected on click', async () => {
+    const user = renderProfilePage();
+
+    const defaultAvatar = screen.getByRole('img', {
+      name: /default avatar 2/i,
+    });
+    await user.click(defaultAvatar);
+
+    expect(defaultAvatar).toHaveClass('selected');
+  });
+
+  it("should mark the default avatar currently set as the user's avatar as selected on click as well", async () => {
+    const user = renderProfilePage();
+
+    const currentDefaultAvatar = screen.getByRole('img', {
+      name: /default avatar 1/i,
+    });
+    await user.click(currentDefaultAvatar);
+
+    expect(currentDefaultAvatar).toHaveClass('selected');
+  });
 });
 
 describe('AvatarUploader', () => {

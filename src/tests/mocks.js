@@ -1,3 +1,5 @@
+import { defaultAvatars } from '../helpers';
+
 /* 
 Users
 */
@@ -15,7 +17,7 @@ export const user1 = {
 export const user2 = {
   _id: '2',
   username: 'user2',
-  avatar: 'https://www.example.com/super_avatar.png',
+  avatar: defaultAvatars[0],
   bio: 'Bio Bio Bio Yo Yo Yo!',
   registered_at: Date.now(),
   followed_categories: [],

@@ -82,12 +82,12 @@ export const StyledDefaultAvatars = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
 
   .default-avatars-images {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    justify-items: start;
 
     img {
       width: 100px;
@@ -95,12 +95,29 @@ export const StyledDefaultAvatars = styled.div`
       cursor: pointer;
       border-radius: 50%;
 
-      &.selected {
-        outline: 5px double ${(props) => props.theme.colours.secondary};
+      &.selected,
+      &.current {
         outline-offset: -1px;
         box-shadow: ${(props) => props.theme.colours.boxShadow};
         border-radius: 50%;
       }
+
+      &.selected {
+        outline: 5px double ${(props) => props.theme.colours.secondary};
+      }
+
+      &.current {
+        outline: 3px solid ${(props) => props.theme.colours.primary};
+      }
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    .default-avatars-images {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
     }
   }
 `;

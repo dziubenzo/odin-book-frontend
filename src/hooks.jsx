@@ -126,7 +126,15 @@ export const useFetchPosts = (endpoint, limit) => {
     fetchPosts();
   }, [endpoint]);
 
-  return { posts, setPosts, loading, error, setError, hasMore, setHasMore };
+  return {
+    posts,
+    setPosts,
+    loading,
+    error,
+    setError,
+    hasMore,
+    setHasMore,
+  };
 };
 
 // Show Leave Page dialog if any field is not empty
@@ -275,6 +283,7 @@ export const useSortPosts = (posts, setPosts) => {
       }
     }
     // Prevent an error if posts are yet to be fetched
+    // Ensure that the sorting method is applied when infinite scrolling
   }, [sortBy, posts?.length]);
 
   return { sortBy, setSortBy };
