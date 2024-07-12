@@ -133,6 +133,7 @@ function PostsPage({
                 loader={<LoadingInfiniteScroll />}
                 endMessage={<EndInfiniteScroll />}
                 className="posts-wrapper"
+                style={{ overflow: 'hidden' }}
               >
                 {renderPosts()}
               </InfiniteScroll>

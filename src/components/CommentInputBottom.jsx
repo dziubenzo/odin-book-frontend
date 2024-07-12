@@ -14,7 +14,7 @@ function CommentInputBottom({
   return (
     <StyledCommentInputBottom>
       <StyledSubmitButton onClick={handleSubmitCommentClick}>
-        {inProgress ? 'Submitting...' : isSubmitted ? 'Submitted!' : 'Submit'}
+        {isSubmitted ? 'Submitted!' : inProgress ? 'Submitting...' : 'Submit'}
       </StyledSubmitButton>
       {commentError && (
         <>

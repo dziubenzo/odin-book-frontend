@@ -296,6 +296,8 @@ export const StyledBioInput = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     .update-profile-wrapper {
+      flex-direction: column;
+
       .update-profile-button {
         font-size: ${(props) => props.theme.fontSizes.medium};
         width: 100%;
@@ -303,6 +305,7 @@ export const StyledBioInput = styled.div`
     }
 
     textarea {
+      height: 230px;
       font-size: ${(props) => props.theme.fontSizes.standard};
     }
   }

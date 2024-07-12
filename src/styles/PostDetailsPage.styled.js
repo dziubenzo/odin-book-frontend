@@ -137,6 +137,10 @@ export const StyledComments = styled.div`
   h2 {
     margin-bottom: 0.5em;
   }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    gap: 4px;
+  }
 `;
 
 export const StyledComment = styled.div`
@@ -228,7 +232,7 @@ export const StyledCommentLikes = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     flex-direction: column;
-    gap: revert;
+    gap: 6px;
 
     .like-icon,
     .dislike-icon {

@@ -16,7 +16,7 @@ export const MAX_CATEGORY_DESCRIPTION_LENGTH = 320;
 export const MIN_POST_TITLE_LENGTH = 3;
 export const MAX_POST_TITLE_LENGTH = 64;
 export const MIN_POST_CONTENT_LENGTH = 8;
-export const POSTS_PER_FETCH = 5;
+export const POSTS_PER_FETCH = 15;
 export const SHRINK_HEADER_SCROLL_VALUE = 100;
 
 export const defaultAvatars = [
@@ -402,11 +402,11 @@ export const createComment = async (
   setIsSubmitted(true);
   setTimeout(() => {
     setIsSubmitted(false);
+    setInProgress(false);
+    commentFieldRef.current.textContent = '';
+    setContent('');
   }, 2000);
-  commentFieldRef.current.textContent = '';
-  setContent('');
-  setContentLength(MAX_COMMENT_LENGTH);
-  return setInProgress(false);
+  return setContentLength(MAX_COMMENT_LENGTH);
 };
 
 // Update user profile (bio and/or avatar)

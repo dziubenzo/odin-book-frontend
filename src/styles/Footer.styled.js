@@ -11,6 +11,7 @@ export const StyledFooter = styled.footer`
   position: sticky;
   bottom: 0;
   background: inherit;
+  z-index: 1;
 
   *:focus-visible {
     border: none;
