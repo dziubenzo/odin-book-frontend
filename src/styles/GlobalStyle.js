@@ -45,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
     display: grid;
     grid-template-rows: min-content auto min-content;
     place-items: center;
-    min-height: 100dvh;
+    min-height: 100lvh;
     width: 100%;
     max-width: 1000px;
     padding: 0 1em;
@@ -54,6 +54,10 @@ const GlobalStyle = createGlobalStyle`
     @media (max-width: ${(props) => props.theme.mobile}) {
       padding: 0 1em;
     }
+  }
+
+  main {
+    z-index: 0;
   }
 `;
 
