@@ -396,7 +396,7 @@ export const StyledUserStats = styled.div`
   @media (min-width: ${(props) => props.theme.tabletMin}) and (max-width: ${(
       props,
     ) => props.theme.tabletMax}) {
-    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
