@@ -39,6 +39,7 @@ const GlobalStyle = createGlobalStyle`
     background: ${(props) => props.theme.colours.backgroundGradient};
     background-attachment: fixed;
     overflow-y: scroll;
+    height: 100lvh;
   }
 
   #root {
