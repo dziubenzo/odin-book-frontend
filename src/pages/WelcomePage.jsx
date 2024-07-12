@@ -80,7 +80,7 @@ function WelcomePage() {
             />
           </>
         )}
-        {showLoading && !showPage && <Loading />}
+        {showLoading && !showPage && <Loading message={'The App'} />}
       </StyledWelcomePage>
     </Theme>
   );

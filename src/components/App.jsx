@@ -18,7 +18,7 @@ function App({ children }) {
   return (
     <Theme theme={theme} setTheme={setTheme}>
       <GlobalStyle />
-      {!user && <Loading isWholePage={true} />}
+      {!user && <Loading message={'The App'} isWholePage={true} />}
       {user && (
         <>
           <Header />
