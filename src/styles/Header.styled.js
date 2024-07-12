@@ -104,7 +104,7 @@ export const StyledHeaderTopBar = styled.nav`
   @media (min-width: ${(props) => props.theme.tabletMin}) and (max-width: ${(
       props,
     ) => props.theme.tabletMax}) {
-      gap: 16px;
+    gap: 16px;
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {

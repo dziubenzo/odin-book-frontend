@@ -55,10 +55,6 @@ const GlobalStyle = createGlobalStyle`
       padding: 0 1em;
     }
   }
-
-  main {
-    z-index: 0;
-  }
 `;
 
 export default GlobalStyle;

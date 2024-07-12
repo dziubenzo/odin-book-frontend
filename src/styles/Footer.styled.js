@@ -10,7 +10,7 @@ export const StyledFooter = styled.footer`
   padding-top: 0.5em;
   position: sticky;
   bottom: 0;
-  background: inherit;
+  background: ${(props) => props.theme.colours.background};
   z-index: 1;
 
   *:focus-visible {
