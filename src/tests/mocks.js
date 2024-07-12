@@ -216,7 +216,7 @@ export const longComment =
   'I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment. I am a long comment...';
 
 export const longBio =
-  'I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for.';
+  'I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for. I am too long to achieve what I hope for.';
 
 export const longDescription =
   'I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description. I am a long description...';

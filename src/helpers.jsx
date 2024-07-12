@@ -8,7 +8,7 @@ Constants
 
 export const MIN_COMMENT_LENGTH = 3;
 export const MAX_COMMENT_LENGTH = 320;
-export const MAX_BIO_LENGTH = 160;
+export const MAX_BIO_LENGTH = 320;
 export const MIN_CATEGORY_NAME_LENGTH = 3;
 export const MAX_CATEGORY_NAME_LENGTH = 32;
 export const MIN_CATEGORY_DESCRIPTION_LENGTH = 3;
