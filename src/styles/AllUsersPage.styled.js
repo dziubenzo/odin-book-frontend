@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { StyledAllCategoriesPage } from './AllCategoriesPage.styled';
 
 export const StyledAllUsersPage = styled(StyledAllCategoriesPage)`
-  padding: 2em 0.1em;
-
   .users-wrapper {
     max-width: 100%;
     display: grid;

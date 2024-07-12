@@ -9,7 +9,6 @@ export const StyledPostDetailsPage = styled.main`
   align-content: start;
   height: 100%;
   width: 100%;
-  padding: 4em 0;
 
   *:focus-visible {
     border: none;
@@ -19,10 +18,6 @@ export const StyledPostDetailsPage = styled.main`
   hr {
     margin: 1.5em 0;
     width: 100%;
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    padding: 1em 0;
   }
 `;
 

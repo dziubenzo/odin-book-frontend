@@ -6,8 +6,6 @@ export const StyledFooter = styled.footer`
   place-items: center;
   width: 100%;
   column-gap: 16px;
-  padding-bottom: 0.5em;
-  padding-top: 0.5em;
   position: sticky;
   bottom: 0;
   background: ${(props) => props.theme.colours.background};

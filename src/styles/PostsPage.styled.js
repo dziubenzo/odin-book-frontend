@@ -9,7 +9,6 @@ export const StyledPostsPage = styled.main`
   flex-direction: column;
   justify-content: flex-start;
   gap: 16px;
-  padding: 2em 0;
 
   *:focus-visible {
     border: none;

@@ -5,7 +5,6 @@ export const StyledNewCategoryPage = styled.main`
   flex-direction: column;
   height: 100%;
   width: 100%;
-  padding: 2em 0.1em;
   gap: 16px;
 
   .icon-wrapper {

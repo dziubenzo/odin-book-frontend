@@ -48,13 +48,18 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100lvh;
     width: 100%;
     max-width: 1000px;
-    padding: 0 1em;
     background: inherit;
 
-    @media (max-width: ${(props) => props.theme.mobile}) {
-      padding: 0 1em;
-    }
+      header,
+      footer {
+        padding: 0.5em 1em;
+      }
+
+      main {
+        padding: 2em 1em;
+      }
   }
+  
 `;
 
 export default GlobalStyle;

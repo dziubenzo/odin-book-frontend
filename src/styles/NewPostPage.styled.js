@@ -7,7 +7,6 @@ export const StyledNewPostPage = styled.main`
   justify-content: start;
   height: 100%;
   width: 100%;
-  padding: 2em 0.1em;
   gap: 16px;
 
   *:focus-visible {

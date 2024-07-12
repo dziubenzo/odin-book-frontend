@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
   width: 100%;
-  padding-top: 0.5em;
   position: sticky;
   top: 0;
   background: inherit;
@@ -38,8 +37,6 @@ export const StyledHeader = styled.header`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    padding-top: 0.5em;
-
     hr {
       margin: 0.5em 0;
     }
