@@ -5,7 +5,6 @@ export const StyledFooter = styled.footer`
   grid-template-columns: repeat(3, 1fr);
   place-items: center;
   width: 100%;
-  height: 100%;
   column-gap: 16px;
   padding-bottom: 0.5em;
   padding-top: 0.5em;
