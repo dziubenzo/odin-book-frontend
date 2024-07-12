@@ -39,14 +39,13 @@ const GlobalStyle = createGlobalStyle`
     background: ${(props) => props.theme.colours.backgroundGradient};
     background-attachment: fixed;
     overflow-y: scroll;
-    height: 100lvh;
   }
 
   #root {
     display: grid;
     grid-template-rows: min-content auto min-content;
     place-items: center;
-    min-height: 100lvh;
+    min-height: 100vh;
     width: 100%;
     max-width: 1000px;
     padding: 0 1em;
