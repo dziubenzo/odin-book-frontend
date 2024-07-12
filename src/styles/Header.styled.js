@@ -119,5 +119,4 @@ export const StyledHeaderTopBar = styled.nav`
 
 export const StyledHeaderBottomBar = styled(StyledHeaderTopBar)`
   grid-template-columns: repeat(3, 1fr);
-  padding-bottom: 0.5em;
 `;
