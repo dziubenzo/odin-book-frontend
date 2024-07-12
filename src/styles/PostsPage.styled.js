@@ -393,6 +393,12 @@ export const StyledUserStats = styled.div`
   place-items: center;
   row-gap: 32px;
 
+  @media (min-width: ${(props) => props.theme.tabletMin}) and (max-width: ${(
+      props,
+    ) => props.theme.tabletMax}) {
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
     row-gap: 16px;

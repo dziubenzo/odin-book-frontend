@@ -11,6 +11,14 @@ export const StyledAllUsersPage = styled(StyledAllCategoriesPage)`
     gap: 16px;
   }
 
+  @media (min-width: ${(props) => props.theme.tabletMin}) and (max-width: ${(
+      props,
+    ) => props.theme.tabletMax}) {
+    .users-wrapper {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     .users-wrapper {
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

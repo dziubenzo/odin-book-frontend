@@ -118,6 +118,17 @@ export const StyledDefaultAvatars = styled.div`
     }
   }
 
+  @media (min-width: ${(props) => props.theme.tabletMin}) and (max-width: ${(
+      props,
+    ) => props.theme.tabletMax}) {
+    .default-avatars-images {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+    }
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     .default-avatars-images {
       display: flex;
@@ -265,6 +276,20 @@ export const StyledBioInput = styled.div`
 
       &:focus-visible {
         border: 2px solid ${(props) => props.theme.colours.secondary};
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    .update-profile-wrapper {
+      .update-profile-button {
+        transition: none;
+
+        &:hover {
+          transition:
+            color,
+            background-color 0.15s ease-in;
+        }
       }
     }
   }

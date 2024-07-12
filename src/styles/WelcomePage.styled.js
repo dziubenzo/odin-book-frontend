@@ -52,10 +52,11 @@ export const StyledButton = styled.button`
   }
 
   @media (hover: hover) {
+    transition:
+      color,
+      background-color 0.15s ease-in;
+
     &:hover {
-      transition:
-        color,
-        background-color 0.15s ease-in;
       color: ${(props) => props.theme.colours.background};
       background-color: ${(props) => props.theme.colours.primary};
     }

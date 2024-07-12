@@ -26,6 +26,8 @@ export const darkTheme = {
     primary: 'Sen, sans-serif',
   },
   mobile: '768px',
+  tabletMin: '769px',
+  tabletMax: '1024px',
 };
 
 export const lightTheme = {
