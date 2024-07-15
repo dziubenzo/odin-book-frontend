@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { StyledCommentInputTop } from '../styles/PostDetailsPage.styled';
-import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../helpers';
+import { disableEnter, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../helpers';
 import Avatar from './Avatar';
 
 function CommentInputTop({
@@ -11,13 +11,6 @@ function CommentInputTop({
   setContent,
   setContentLength,
 }) {
-  // Prevent Enter from inserting a next line
-  function disableEnter(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
-  }
-
   function handleCommentFieldInput(event) {
     // Prevent the field from going above MAX_COMMENT_LENGTH
     if (event.currentTarget.textContent.length > MAX_COMMENT_LENGTH) {

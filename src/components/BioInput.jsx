@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { StyledBioInput } from '../styles/ProfilePage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
-import { MAX_BIO_LENGTH } from '../helpers';
+import { disableEnter, MAX_BIO_LENGTH } from '../helpers';
 
 function BioInput({
   bio,
@@ -31,6 +31,7 @@ function BioInput({
           setBio(event.target.value);
           setBioLength(MAX_BIO_LENGTH - event.target.value.length);
         }}
+        onKeyDown={disableEnter}
         defaultValue={bio}
       />
       <div className="update-profile-wrapper">

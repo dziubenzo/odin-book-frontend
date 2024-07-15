@@ -48,8 +48,8 @@ Functions
 // Log in as guest
 export const logInAsGuest = async (setIsLoggingIn, navigate) => {
   const guestUser = {
-    username: 'test',
-    password: 'test',
+    username: 'TOP',
+    password: '12345678',
   };
   setIsLoggingIn(true);
   const res = await fetch(`${API_URL}/users/login`, {
@@ -773,4 +773,11 @@ export const fetchMorePosts = async (
   setPosts((previousPosts) => [...previousPosts, ...morePosts]);
   morePosts.length === POSTS_PER_FETCH ? setHasMore(true) : setHasMore(false);
   return;
+};
+
+// Prevent Enter from inserting a next line
+export const disableEnter = (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+  }
 };
