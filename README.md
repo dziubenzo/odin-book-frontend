@@ -1,6 +1,10 @@
 # Odin Project - Odin-Book (Frontend)
 
-Meet **Aurora**
+<h3 align="center">Meet Aurora</h3>
+
+<p align="center">
+  <img src="https://res.cloudinary.com/dvhkp9wc6/image/upload/v1721036301/odin_book/phyuajtrnec3hlzlklos.png" height="500" title="App - Posts Page">
+</p>
 
 A Reddit-inspired social news aggregation and content rating app featuring three types of posts (text, image and video), comments, categories and likes.
 
@@ -11,7 +15,7 @@ A Reddit-inspired social news aggregation and content rating app featuring three
 
   - Text posts with rich text formatting support
   - Image posts (image URL and upload)
-  - Video posts (YouTube videos)
+  - Video posts (YouTube URL)
 
 - Like and dislike posts
 - Sort posts by newest, oldest, likes and comments
@@ -30,6 +34,8 @@ A Reddit-inspired social news aggregation and content rating app featuring three
   - By followed users
   - Liked by you
   - Created by you
+  - By any user
+  - By any category
 
 - Customise your profile by:
 
@@ -39,7 +45,7 @@ A Reddit-inspired social news aggregation and content rating app featuring three
 - Light and dark mode
 - Guest account
 
-### Nerdy Features
+### More Features
 
 - Unit and integration tests for both backend and frontend
 - Infinite scroll for posts
@@ -70,3 +76,15 @@ A Reddit-inspired social news aggregation and content rating app featuring three
 - Passport JWT Strategy (authentication)
 - Cloudinary
 - Multer
+
+#### Frontend Testing
+
+- Vitest
+- React Testing Library
+- jsdom
+
+#### Backend Testing
+
+- Vitest
+- SuperTest
+- mongodb-memory-server
