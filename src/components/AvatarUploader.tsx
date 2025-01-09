@@ -1,16 +1,33 @@
-import PropTypes from 'prop-types';
 import { StyledAvatarUploader } from '../styles/ProfilePage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
 
+type IconType = {
+  type: 'Icon';
+  setSelectedAvatar: () => void;
+};
+
+type AvatarType = {
+  type: 'Avatar';
+  setSelectedAvatar: React.Dispatch<React.SetStateAction<string>>;
+};
+
+type AvatarUploaderProps = {
+  uploadedAvatar: File | null;
+  uploadedAvatarPreview: string;
+  setUploadedAvatar: React.Dispatch<React.SetStateAction<File | null>>;
+  setUploadedAvatarPreview: React.Dispatch<React.SetStateAction<string>>;
+} & (IconType | AvatarType);
+
 function AvatarUploader({
-  type = 'Avatar',
+  type,
   uploadedAvatar,
   uploadedAvatarPreview,
   setUploadedAvatar,
   setUploadedAvatarPreview,
   setSelectedAvatar,
-}) {
-  function uploadAvatar(event) {
+}: AvatarUploaderProps) {
+  function uploadAvatar(event: React.ChangeEvent<HTMLInputElement>) {
+    if (!event.target.files) return;
     if (event.target.files[0]) {
       // Make sure the file attached is an image
       // On Linux, you can attach anything despite the accept attribute being set
@@ -19,12 +36,12 @@ function AvatarUploader({
       }
       setUploadedAvatar(event.target.files[0]);
       setUploadedAvatarPreview(URL.createObjectURL(event.target.files[0]));
-      setSelectedAvatar('');
+      if (type === 'Avatar') setSelectedAvatar('');
     }
   }
 
   function clearUploadedAvatar() {
-    setUploadedAvatar('');
+    setUploadedAvatar(null);
     setUploadedAvatarPreview('');
   }
 
@@ -68,14 +85,5 @@ function AvatarUploader({
     </StyledAvatarUploader>
   );
 }
-
-AvatarUploader.propTypes = {
-  type: PropTypes.string,
-  uploadedAvatar: PropTypes.any,
-  uploadedAvatarPreview: PropTypes.any,
-  setUploadedAvatar: PropTypes.func,
-  setUploadedAvatarPreview: PropTypes.func,
-  setSelectedAvatar: PropTypes.func,
-};
 
 export default AvatarUploader;

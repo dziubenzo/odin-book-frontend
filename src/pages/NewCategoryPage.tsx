@@ -1,23 +1,23 @@
-import { StyledNewCategoryPage } from '../styles/NewCategoryPage.styled';
-import AvatarUploader from '../components/AvatarUploader';
 import { useState } from 'react';
+import { MdOutlineErrorOutline } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
+import AvatarUploader from '../components/AvatarUploader';
+import NewCategoryForm from '../components/NewCategoryForm';
 import {
   MAX_CATEGORY_DESCRIPTION_LENGTH,
   MAX_CATEGORY_NAME_LENGTH,
-  createNewCategory,
   defaultCategoryIcon,
-} from '../helpers';
-import { StyledButton } from '../styles/WelcomePage.styled';
-import NewCategoryForm from '../components/NewCategoryForm';
-import { useNavigate } from 'react-router-dom';
-import { MdOutlineErrorOutline } from 'react-icons/md';
-import SuccessPage from './SuccessPage';
+} from '../constants';
+import { createNewCategory } from '../helpers';
 import { useChangeTitle } from '../hooks';
+import { StyledNewCategoryPage } from '../styles/NewCategoryPage.styled';
+import { StyledButton } from '../styles/WelcomePage.styled';
+import SuccessPage from './SuccessPage';
 
 function NewCategoryPage() {
   const navigate = useNavigate();
 
-  const [uploadedIcon, setUploadedIcon] = useState('');
+  const [uploadedIcon, setUploadedIcon] = useState<File | null>(null);
   const [uploadedIconPreview, setUploadedIconPreview] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -31,7 +31,9 @@ function NewCategoryPage() {
 
   useChangeTitle('New Category');
 
-  async function handleCreateCategoryClick(event) {
+  async function handleCreateCategoryClick(
+    event: React.FormEvent<HTMLFormElement>,
+  ) {
     event.preventDefault();
     await createNewCategory(
       inProgress,

@@ -1,11 +1,20 @@
-import PropTypes from 'prop-types';
-import { StyledNewCategoryForm } from '../styles/NewCategoryPage.styled';
 import {
-  MIN_CATEGORY_NAME_LENGTH,
-  MIN_CATEGORY_DESCRIPTION_LENGTH,
   MAX_CATEGORY_DESCRIPTION_LENGTH,
   MAX_CATEGORY_NAME_LENGTH,
-} from '../helpers';
+  MIN_CATEGORY_DESCRIPTION_LENGTH,
+  MIN_CATEGORY_NAME_LENGTH,
+} from '../constants';
+import { StyledNewCategoryForm } from '../styles/NewCategoryPage.styled';
+
+type NewCategoryFormProps = {
+  nameLength: number;
+  descriptionLength: number;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setNameLength: React.Dispatch<React.SetStateAction<number>>;
+  setDescription: React.Dispatch<React.SetStateAction<string>>;
+  setDescriptionLength: React.Dispatch<React.SetStateAction<number>>;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+};
 
 function NewCategoryForm({
   nameLength,
@@ -15,7 +24,7 @@ function NewCategoryForm({
   setDescription,
   setDescriptionLength,
   onSubmit,
-}) {
+}: NewCategoryFormProps) {
   return (
     <StyledNewCategoryForm id="new-category-form" onSubmit={onSubmit}>
       <h1 className="top-header">New Category</h1>
@@ -66,24 +75,14 @@ function NewCategoryForm({
         maxLength={MAX_CATEGORY_DESCRIPTION_LENGTH}
         required
         onInput={(event) => {
-          setDescription(event.target.value);
+          setDescription(event.currentTarget.value);
           setDescriptionLength(
-            MAX_CATEGORY_DESCRIPTION_LENGTH - event.target.value.length,
+            MAX_CATEGORY_DESCRIPTION_LENGTH - event.currentTarget.value.length,
           );
         }}
       />
     </StyledNewCategoryForm>
   );
 }
-
-NewCategoryForm.propTypes = {
-  nameLength: PropTypes.number,
-  descriptionLength: PropTypes.number,
-  setName: PropTypes.func,
-  setNameLength: PropTypes.func,
-  setDescription: PropTypes.func,
-  setDescriptionLength: PropTypes.func,
-  onSubmit: PropTypes.func,
-};
 
 export default NewCategoryForm;

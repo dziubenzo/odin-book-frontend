@@ -1,8 +1,12 @@
-import PropTypes from 'prop-types';
-import { StyledNoPostsSection } from '../styles/PostsPage.styled';
 import { GiSadCrab } from 'react-icons/gi';
+import { StyledNoPostsSection } from '../styles/PostsPage.styled';
 
-function NoPostsSection({ isCategoryPage, isUserPage }) {
+type NoPostsSectionProps = {
+  isCategoryPage: boolean;
+  isUserPage: boolean;
+};
+
+function NoPostsSection({ isCategoryPage, isUserPage }: NoPostsSectionProps) {
   return (
     <StyledNoPostsSection
       className={isCategoryPage || isUserPage ? 'position-normal' : undefined}
@@ -12,10 +16,5 @@ function NoPostsSection({ isCategoryPage, isUserPage }) {
     </StyledNoPostsSection>
   );
 }
-
-NoPostsSection.propTypes = {
-  isCategoryPage: PropTypes.bool,
-  isUserPage: PropTypes.bool,
-};
 
 export default NoPostsSection;

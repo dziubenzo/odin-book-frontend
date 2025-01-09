@@ -1,6 +1,5 @@
-import { StyledFooterCentre } from '../styles/Footer.styled';
-
 import { DiGithubBadge } from 'react-icons/di';
+import { StyledFooterCentre } from '../styles/Footer.styled';
 
 function FooterCentre() {
   return (

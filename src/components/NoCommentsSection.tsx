@@ -1,5 +1,5 @@
-import { StyledNoCommentsSection } from '../styles/PostDetailsPage.styled';
 import { GiPodiumWinner } from 'react-icons/gi';
+import { StyledNoCommentsSection } from '../styles/PostDetailsPage.styled';
 
 function NoCommentsSection() {
   return (

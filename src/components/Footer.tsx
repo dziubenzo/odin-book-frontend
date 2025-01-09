@@ -1,10 +1,14 @@
-import PropTypes from 'prop-types';
 import { StyledFooter } from '../styles/Footer.styled';
-import FooterLeft from './FooterLeft';
+import type { User } from '../types';
 import FooterCentre from './FooterCentre';
+import FooterLeft from './FooterLeft';
 import FooterRight from './FooterRight';
 
-function Footer({ user }) {
+type FooterProps = {
+  user: User;
+};
+
+function Footer({ user }: FooterProps) {
   return (
     <StyledFooter>
       <FooterLeft />
@@ -13,9 +17,5 @@ function Footer({ user }) {
     </StyledFooter>
   );
 }
-
-Footer.propTypes = {
-  user: PropTypes.object,
-};
 
 export default Footer;

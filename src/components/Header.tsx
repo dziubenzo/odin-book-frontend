@@ -1,7 +1,7 @@
-import { StyledHeader } from '../styles/Header.styled';
-import HeaderTopBar from './HeaderTopBar';
-import HeaderBottomBar from './HeaderBottomBar';
 import { useShrinkHeader } from '../hooks';
+import { StyledHeader } from '../styles/Header.styled';
+import HeaderBottomBar from './HeaderBottomBar';
+import HeaderTopBar from './HeaderTopBar';
 
 function Header() {
   const isSmaller = useShrinkHeader();

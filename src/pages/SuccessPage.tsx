@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types';
 import { StyledSuccessPage } from '../styles/SuccessPage.styled';
 import { GrStatusGood } from 'react-icons/gr';
 import { useChangeTitle } from '../hooks';
 
-function SuccessPage({ resourceCreated }) {
+type SuccessPageProps = {
+  resourceCreated: 'post' | 'category';
+};
+
+function SuccessPage({ resourceCreated }: SuccessPageProps) {
   useChangeTitle('Success');
 
   return (
@@ -14,9 +17,5 @@ function SuccessPage({ resourceCreated }) {
     </StyledSuccessPage>
   );
 }
-
-SuccessPage.propTypes = {
-  resourceCreated: PropTypes.string,
-};
 
 export default SuccessPage;
