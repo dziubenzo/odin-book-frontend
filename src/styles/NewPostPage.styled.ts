@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { MIN_POST_CONTENT_LENGTH } from '../helpers';
 
+type StyledTextEditorProps = {
+  $contentLength: number;
+};
+
 export const StyledNewPostPage = styled.main`
   display: flex;
   flex-direction: column;
@@ -132,7 +136,7 @@ export const StyledCategoryPicker = styled.div`
   }
 `;
 
-export const StyledTextEditor = styled.div`
+export const StyledTextEditor = styled.div<StyledTextEditorProps>`
   margin-top: 1em;
 
   .rsw-editor {

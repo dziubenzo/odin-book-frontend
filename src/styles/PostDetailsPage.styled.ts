@@ -3,6 +3,10 @@ import { StyledPostInfo } from './PostsPage.styled';
 import { StyledButton } from './WelcomePage.styled';
 import { MIN_COMMENT_LENGTH } from '../helpers';
 
+type StyledCommentInputTopProps = {
+  $contentLength: number;
+};
+
 export const StyledPostDetailsPage = styled.main`
   display: flex;
   flex-direction: column;
@@ -255,7 +259,7 @@ export const StyledSubmitButton = styled(StyledButton)`
   background: transparent;
 `;
 
-export const StyledCommentInputTop = styled.div`
+export const StyledCommentInputTop = styled.div<StyledCommentInputTopProps>`
   display: flex;
   gap: 16px;
   align-items: center;

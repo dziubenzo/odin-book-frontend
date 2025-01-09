@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+type StyledAvatarProps = {
+  $size: number;
+};
+
 export const StyledError = styled.div`
   display: flex;
   height: 100%;
@@ -56,7 +60,7 @@ export const StyledLoading = styled.div`
   }
 `;
 
-export const StyledAvatar = styled.div`
+export const StyledAvatar = styled.div<StyledAvatarProps>`
   display: flex;
 
   img {
