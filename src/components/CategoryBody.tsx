@@ -1,8 +1,12 @@
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { StyledCategoryBody } from '../styles/AllCategoriesPage.styled';
+import type { Category } from '../types';
 
-function CategoryBody({ category }) {
+type CategoryBodyProps = {
+  category: Category;
+};
+
+function CategoryBody({ category }: CategoryBodyProps) {
   const { slug, name, description } = category;
 
   return (
@@ -14,9 +18,5 @@ function CategoryBody({ category }) {
     </StyledCategoryBody>
   );
 }
-
-CategoryBody.propTypes = {
-  category: PropTypes.object,
-};
 
 export default CategoryBody;

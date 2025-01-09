@@ -1,12 +1,22 @@
-import API_URL from '../API';
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { StyledModal } from '../styles/WelcomePage.styled';
-import { IoCloseOutline } from 'react-icons/io5';
-import { StyledSubmitButton, StyledInput } from '../styles/WelcomePage.styled';
-import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { IoCloseOutline } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
+import API_URL from '../API';
 import { setTimedMessage } from '../helpers';
+import {
+  StyledInput,
+  StyledModal,
+  StyledSubmitButton,
+} from '../styles/WelcomePage.styled';
+
+type LoginModalProps = {
+  loginModalRef: React.RefObject<HTMLDialogElement>;
+  username: string;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  password: string;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+};
 
 function LoginModal({
   loginModalRef,
@@ -14,14 +24,14 @@ function LoginModal({
   setUsername,
   password,
   setPassword,
-}) {
+}: LoginModalProps) {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-  async function logIn(event) {
+  async function logIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    const formData = new FormData(event.currentTarget);
     const user = {
       username: formData.get('username'),
       password: formData.get('password'),
@@ -46,21 +56,25 @@ function LoginModal({
     navigate('/posts');
   }
 
+  function closeModal() {
+    if (!loginModalRef.current) return;
+    loginModalRef.current.close();
+  }
+
+  function closeModalOnOutsideClick(
+    event: React.MouseEvent<HTMLDialogElement>,
+  ) {
+    return event.target === loginModalRef.current ? closeModal() : undefined;
+  }
+
   return (
-    <StyledModal
-      ref={loginModalRef}
-      onMouseDown={(event) =>
-        event.target === loginModalRef.current
-          ? loginModalRef.current.close()
-          : undefined
-      }
-    >
+    <StyledModal ref={loginModalRef} onMouseDown={closeModalOnOutsideClick}>
       <div className="modal-wrapper">
         <button
           className="close-modal-icon"
           aria-label="Close Modal Icon"
           title="Close"
-          onClick={() => loginModalRef.current.close()}
+          onClick={closeModal}
         >
           <IoCloseOutline />
         </button>
@@ -100,13 +114,5 @@ function LoginModal({
     </StyledModal>
   );
 }
-
-LoginModal.propTypes = {
-  loginModalRef: PropTypes.any,
-  username: PropTypes.string,
-  setUsername: PropTypes.func,
-  password: PropTypes.string,
-  setPassword: PropTypes.func,
-};
 
 export default LoginModal;

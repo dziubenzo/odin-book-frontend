@@ -1,10 +1,20 @@
-import PropTypes from 'prop-types';
-import { StyledCategoryPicker } from '../styles/NewPostPage.styled';
 import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useUserAndTheme } from '../hooks';
+import { StyledCategoryPicker } from '../styles/NewPostPage.styled';
+import type { Category } from '../types';
 
-function CategoryPicker({ categories, category, setCategory }) {
-  const { user } = useOutletContext();
+type CategoryPickerProps = {
+  categories: Category[];
+  category: string;
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function CategoryPicker({
+  categories,
+  category,
+  setCategory,
+}: CategoryPickerProps) {
+  const { user } = useUserAndTheme();
   const { followed_categories } = user;
   const [checkboxTicked, setCheckboxTicked] = useState(false);
 
@@ -60,11 +70,5 @@ function CategoryPicker({ categories, category, setCategory }) {
     </StyledCategoryPicker>
   );
 }
-
-CategoryPicker.propTypes = {
-  categories: PropTypes.array,
-  category: PropTypes.string,
-  setCategory: PropTypes.func,
-};
 
 export default CategoryPicker;

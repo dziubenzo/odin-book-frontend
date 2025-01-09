@@ -1,9 +1,13 @@
-import PropTypes from 'prop-types';
-import { StyledLoading } from '../styles/App.styled';
 import { ClimbingBoxLoader } from 'react-spinners';
 import { useTheme } from 'styled-components';
+import { StyledLoading } from '../styles/App.styled';
 
-function Loading({ message, isWholePage = false }) {
+type LoadingProps = {
+  message: string;
+  isWholePage: boolean;
+};
+
+function Loading({ message, isWholePage = false }: LoadingProps) {
   const theme = useTheme();
 
   return (
@@ -16,10 +20,5 @@ function Loading({ message, isWholePage = false }) {
     </StyledLoading>
   );
 }
-
-Loading.propTypes = {
-  message: PropTypes.string,
-  isWholePage: PropTypes.bool,
-};
 
 export default Loading;

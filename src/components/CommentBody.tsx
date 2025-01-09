@@ -1,10 +1,14 @@
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { format, formatDistanceToNow } from 'date-fns';
 import { LuDot } from 'react-icons/lu';
+import { Link } from 'react-router-dom';
 import { StyledCommentBody } from '../styles/PostDetailsPage.styled';
+import type { Comment } from '../types';
 
-function CommentBody({ comment }) {
+type CommentBodyProps = {
+  comment: Comment;
+};
+
+function CommentBody({ comment }: CommentBodyProps) {
   const { author, created_at, content } = comment;
 
   return (
@@ -22,9 +26,5 @@ function CommentBody({ comment }) {
     </StyledCommentBody>
   );
 }
-
-CommentBody.propTypes = {
-  comment: PropTypes.object,
-};
 
 export default CommentBody;

@@ -1,18 +1,17 @@
-import Theme from '../components/Theme';
-import GlobalStyle from '../styles/GlobalStyle';
-import { StyledWelcomePage } from '../styles/WelcomePage.styled';
-import { StyledButton } from '../styles/WelcomePage.styled';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading';
 import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
-import Loading from '../components/Loading';
-import { useEffect, useRef, useState } from 'react';
-import { useChangeTitle, useCheckAuth } from '../hooks';
+import Theme from '../components/Theme';
 import { logInAsGuest } from '../helpers';
-import { useNavigate } from 'react-router-dom';
+import { useChangeTitle, useCheckAuth } from '../hooks';
+import GlobalStyle from '../styles/GlobalStyle';
+import { StyledButton, StyledWelcomePage } from '../styles/WelcomePage.styled';
 
 function WelcomePage() {
-  const loginModalRef = useRef(null);
-  const signupModalRef = useRef(null);
+  const loginModalRef = useRef<HTMLDialogElement>(null);
+  const signupModalRef = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -38,6 +37,11 @@ function WelcomePage() {
     await logInAsGuest(setIsLoggingIn, navigate);
   }
 
+  function showModal(modalRef: React.RefObject<HTMLDialogElement>) {
+    if (!modalRef.current) return;
+    modalRef.current.showModal();
+  }
+
   return (
     <Theme>
       <StyledWelcomePage>
@@ -49,12 +53,10 @@ function WelcomePage() {
                 Welcome to <span className="app-name">AURORA</span>
               </h1>
               <div className="welcome-page-btns">
-                <StyledButton onClick={() => loginModalRef.current.showModal()}>
+                <StyledButton onClick={() => showModal(loginModalRef)}>
                   Log In
                 </StyledButton>
-                <StyledButton
-                  onClick={() => signupModalRef.current.showModal()}
-                >
+                <StyledButton onClick={() => showModal(signupModalRef)}>
                   Sign Up
                 </StyledButton>
                 <StyledButton

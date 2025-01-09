@@ -18,7 +18,7 @@ function App({ children }: AppProps) {
   useThemeValue(setTheme);
 
   return (
-    <Theme theme={theme} setTheme={setTheme}>
+    <Theme theme={theme}>
       <GlobalStyle />
       {!user && <Loading message={'The App'} isWholePage={true} />}
       {user && (

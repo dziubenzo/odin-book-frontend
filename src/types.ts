@@ -1,3 +1,6 @@
+import type { Updater } from 'use-immer';
+import { darkTheme, lightTheme } from './helpers';
+
 export type User = {
   _id: string;
   username: string;
@@ -17,6 +20,11 @@ export type Category = {
   created_at: Date;
   slug: string;
   __v: number;
+};
+
+export type DetailedCategory = Category & {
+  postsCount: number;
+  followersCount: number;
 };
 
 export type Post = {
@@ -50,3 +58,13 @@ export type Comment = {
 };
 
 type CommentAuthor = PostAuthor;
+
+// Figure out better types
+export type OutletContext = {
+  user: User | null;
+  setUser: Updater<User | null>;
+  theme: string;
+  setTheme: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export type ThemeObject = typeof darkTheme & typeof lightTheme;

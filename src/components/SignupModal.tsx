@@ -1,26 +1,34 @@
-import API_URL from '../API';
-import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { StyledSignupModal } from '../styles/WelcomePage.styled';
 import { IoCloseOutline } from 'react-icons/io5';
-import { StyledSubmitButton, StyledInput } from '../styles/WelcomePage.styled';
+import API_URL from '../API';
 import { setTimedMessage } from '../helpers';
+import { StyledInput, StyledSignupModal, StyledSubmitButton } from '../styles/WelcomePage.styled';
+
+type SignupModalProps = {
+  signupModalRef: React.RefObject<HTMLDialogElement>;
+  loginModalRef: React.RefObject<HTMLDialogElement>;
+  setUsername: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+};
 
 function SignupModal({
   signupModalRef,
   loginModalRef,
   setUsername,
   setPassword,
-}) {
+}: SignupModalProps) {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [error, setError] = useState('');
 
-  async function signUp(event) {
+  async function signUp(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.target);
+    const formData = new FormData(event.currentTarget);
+    const username = formData.get('username') as string;
+    const password = formData.get('password') as string;
+    if (!username || !password) return;
     const newUser = {
-      username: formData.get('username'),
-      password: formData.get('password'),
+      username,
+      password,
       confirm_password: formData.get('confirm_password'),
     };
     setIsSigningUp(true);
@@ -38,30 +46,42 @@ function SignupModal({
     }
     // Show Log In modal and pass Sign Up username and password to Log In modal
     setIsSigningUp(false);
-    signupModalRef.current.close();
-    loginModalRef.current.showModal();
-    setUsername(newUser.username);
-    setPassword(newUser.password);
+    closeModal();
+    showLoginModal();
+    setUsername(username);
+    setPassword(password);
     // Clear Sign Up modal form
-    event.target.reset();
+    event.currentTarget.reset();
     return;
+  }
+
+  function closeModal() {
+    if (!signupModalRef.current) return;
+    signupModalRef.current.close();
+  }
+
+  function closeModalOnOutsideClick(
+    event: React.MouseEvent<HTMLDialogElement>,
+  ) {
+    return event.target === signupModalRef.current ? closeModal() : undefined;
+  }
+
+  function showLoginModal() {
+    if (!loginModalRef.current) return;
+    loginModalRef.current.showModal();
   }
 
   return (
     <StyledSignupModal
       ref={signupModalRef}
-      onMouseDown={(event) =>
-        event.target === signupModalRef.current
-          ? signupModalRef.current.close()
-          : undefined
-      }
+      onMouseDown={closeModalOnOutsideClick}
     >
       <div className="modal-wrapper">
         <button
           className="close-modal-icon"
           aria-label="Close Modal Icon"
           title="Close"
-          onClick={() => signupModalRef.current.close()}
+          onClick={closeModal}
         >
           <IoCloseOutline />
         </button>
@@ -106,12 +126,5 @@ function SignupModal({
     </StyledSignupModal>
   );
 }
-
-SignupModal.propTypes = {
-  signupModalRef: PropTypes.any,
-  loginModalRef: PropTypes.any,
-  setUsername: PropTypes.func,
-  setPassword: PropTypes.func,
-};
 
 export default SignupModal;
