@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { walkingCrab, breathing } from './animations';
+import { breathing, walkingCrab } from './animations';
 
 export const StyledPostsPage = styled.main`
   position: relative;

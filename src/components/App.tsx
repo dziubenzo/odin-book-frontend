@@ -1,15 +1,17 @@
-import PropTypes from 'prop-types';
+import { ReactNode, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useAuthUser, useThemeValue } from '../hooks';
+import GlobalStyle from '../styles/GlobalStyle';
 import Footer from './Footer';
 import Header from './Header';
 import Loading from './Loading';
-import { useAuthUser, useThemeValue } from '../hooks';
-
 import Theme from './Theme';
-import GlobalStyle from '../styles/GlobalStyle';
-import { useState } from 'react';
 
-function App({ children }) {
+type AppProps = {
+  children?: ReactNode;
+};
+
+function App({ children }: AppProps) {
   const [theme, setTheme] = useState('');
 
   const { user, setUser } = useAuthUser();
@@ -30,9 +32,5 @@ function App({ children }) {
     </Theme>
   );
 }
-
-App.propTypes = {
-  children: PropTypes.node,
-};
 
 export default App;

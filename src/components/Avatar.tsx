@@ -1,9 +1,15 @@
-import PropTypes from 'prop-types';
-import { StyledAvatar } from '../styles/App.styled';
 import { Link } from 'react-router-dom';
+import { StyledAvatar } from '../styles/App.styled';
+import type { Category, User } from '../types';
 
-function Avatar({ object, size, isCategory = false }) {
-  if (isCategory) {
+type CategoryAvatar = { object: Category; type: 'category' };
+
+type UserAvatar = { object: User; type: 'user' };
+
+type AvatarProps = { size: number } & (CategoryAvatar | UserAvatar);
+
+function Avatar({ object, size, type }: AvatarProps) {
+  if (type === 'category') {
     const { name, icon, slug } = object;
 
     return (
@@ -15,7 +21,7 @@ function Avatar({ object, size, isCategory = false }) {
     );
   }
 
-  if (!isCategory) {
+  if (type === 'user') {
     const { username, avatar } = object;
 
     return (
@@ -27,11 +33,5 @@ function Avatar({ object, size, isCategory = false }) {
     );
   }
 }
-
-Avatar.propTypes = {
-  object: PropTypes.object,
-  size: PropTypes.number,
-  isCategory: PropTypes.bool,
-};
 
 export default Avatar;

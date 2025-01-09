@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { showModal, hideModal } from './animations';
+import { hideModal, showModal } from './animations';
 
 export const StyledWelcomePage = styled.main`
   display: flex;

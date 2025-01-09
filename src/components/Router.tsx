@@ -1,14 +1,14 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App';
-import PostsPage from '../pages/PostsPage';
-import ErrorPage from '../pages/ErrorPage';
-import WelcomePage from '../pages/WelcomePage';
-import PostDetailsPage from '../pages/PostDetailsPage';
-import ProfilePage from '../pages/ProfilePage';
 import AllCategoriesPage from '../pages/AllCategoriesPage';
-import NewCategoryPage from '../pages/NewCategoryPage';
 import AllUsersPage from '../pages/AllUsersPage';
+import ErrorPage from '../pages/ErrorPage';
+import NewCategoryPage from '../pages/NewCategoryPage';
 import NewPostPage from '../pages/NewPostPage';
+import PostDetailsPage from '../pages/PostDetailsPage';
+import PostsPage from '../pages/PostsPage';
+import ProfilePage from '../pages/ProfilePage';
+import WelcomePage from '../pages/WelcomePage';
+import App from './App';
 
 function Router() {
   const router = createBrowserRouter([

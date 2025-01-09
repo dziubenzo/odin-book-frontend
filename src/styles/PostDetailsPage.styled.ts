@@ -1,7 +1,7 @@
 import styled from 'styled-components';
+import { MIN_COMMENT_LENGTH } from '../helpers';
 import { StyledPostInfo } from './PostsPage.styled';
 import { StyledButton } from './WelcomePage.styled';
-import { MIN_COMMENT_LENGTH } from '../helpers';
 
 type StyledCommentInputTopProps = {
   $contentLength: number;
