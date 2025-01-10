@@ -1,56 +1,55 @@
-import API_URL from '../API';
-import Loading from '../components/Loading';
-import Error from '../components/Error';
-import { StyledNewPostPage } from '../styles/NewPostPage.styled';
-import PostTypeSelector from '../components/PostTypeSelector';
 import { useState } from 'react';
-import { createImagePost, createTextPost, createVideoPost } from '../helpers';
-import { useOutletContext, useNavigate } from 'react-router-dom';
-import { useChangeTitle, useFetchPageData, usePreserveState } from '../hooks';
-import PostTitleInput from '../components/PostTitleInput';
+import { useNavigate } from 'react-router-dom';
+import API_URL from '../API';
 import CategoryPicker from '../components/CategoryPicker';
-import SuccessPage from './SuccessPage';
-import TextEditor from '../components/TextEditor';
+import Error from '../components/Error';
 import ImageEditor from '../components/ImageEditor';
-import VideoEditor from '../components/VideoEditor';
+import Loading from '../components/Loading';
+import PostTitleInput from '../components/PostTitleInput';
+import PostTypeSelector from '../components/PostTypeSelector';
 import PublishPostSection from '../components/PublishPostSection';
+import TextEditor from '../components/TextEditor';
+import VideoEditor from '../components/VideoEditor';
+import { createImagePost, createTextPost, createVideoPost } from '../helpers';
+import {
+  useChangeTitle,
+  useFetchPageData,
+  usePreserveState,
+  useUserAndTheme,
+} from '../hooks';
+import { StyledNewPostPage } from '../styles/NewPostPage.styled';
+import type { Category } from '../types';
+import SuccessPage from './SuccessPage';
 
 function NewPostPage() {
   const navigate = useNavigate();
-  const { user } = useOutletContext();
+  const { user } = useUserAndTheme();
   const {
     data: categories,
     loading,
     error,
-  } = useFetchPageData(`${API_URL}/categories`);
+  } = useFetchPageData<Category[]>(`${API_URL}/categories`);
 
   const [inProgress, setInProgress] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [postPublished, setPostPublished] = useState(false);
 
-  const [postType, setPostType] = useState('text');
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [content, setContent] = useState('');
-  const [imageURL, setImageURL] = useState('');
-  const [imageFile, setImageFile] = useState('');
-  const [videoURL, setVideoURL] = useState('');
-
-  usePreserveState(
-    loading,
+  const {
     postType,
-    title,
-    category,
-    content,
-    imageURL,
-    videoURL,
     setPostType,
+    title,
     setTitle,
+    category,
     setCategory,
+    content,
     setContent,
+    imageURL,
     setImageURL,
+    imageFile,
+    setImageFile,
+    videoURL,
     setVideoURL,
-  );
+  } = usePreserveState(loading);
 
   useChangeTitle('New Post');
 
@@ -95,7 +94,7 @@ function NewPostPage() {
     }
   }
 
-  if (postPublished) return <SuccessPage resourceCreated={'post'} />;
+  if (postPublished) return <SuccessPage resourceCreated="post" />;
 
   return (
     <StyledNewPostPage>

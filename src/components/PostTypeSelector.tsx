@@ -1,7 +1,12 @@
-import PropTypes from 'prop-types';
 import { StyledPostTypeSelector } from '../styles/NewPostPage.styled';
+import type { PostType } from '../types';
 
-function PostTypeSelector({ postType, setPostType }) {
+type PostTypeSelectorProps = {
+  postType: PostType;
+  setPostType: React.Dispatch<React.SetStateAction<PostType>>;
+};
+
+function PostTypeSelector({ postType, setPostType }: PostTypeSelectorProps) {
   return (
     <StyledPostTypeSelector data-testid={'post-type-selector'}>
       <button
@@ -25,9 +30,5 @@ function PostTypeSelector({ postType, setPostType }) {
     </StyledPostTypeSelector>
   );
 }
-PostTypeSelector.propTypes = {
-  postType: PropTypes.string,
-  setPostType: PropTypes.func,
-};
 
 export default PostTypeSelector;

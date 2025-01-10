@@ -1,14 +1,18 @@
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import {
   StyledLinkInput,
   StyledVideoEditor,
 } from '../styles/NewPostPage.styled';
-import { useState } from 'react';
 
-function VideoEditor({ videoURL, setVideoURL }) {
+type VideoEditorProps = {
+  videoURL: string;
+  setVideoURL: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function VideoEditor({ videoURL, setVideoURL }: VideoEditorProps) {
   const [inputValue, setInputValue] = useState('');
 
-  function handleYouTubeLink(link) {
+  function handleYouTubeLink(link: string) {
     setInputValue(link);
     const youTubeRegEx = new RegExp(
       /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|watch\?.+&v=))((\w|-){11})(?:\S+)?$/,
@@ -61,10 +65,5 @@ function VideoEditor({ videoURL, setVideoURL }) {
     </StyledVideoEditor>
   );
 }
-
-VideoEditor.propTypes = {
-  videoURL: PropTypes.string,
-  setVideoURL: PropTypes.func,
-};
 
 export default VideoEditor;

@@ -1,14 +1,21 @@
-import PropTypes from 'prop-types';
 import Editor from 'react-simple-wysiwyg';
-import { StyledTextEditor } from '../styles/NewPostPage.styled';
 import sanitize from 'sanitize-html';
+import { StyledTextEditor } from '../styles/NewPostPage.styled';
 
-function TextEditor({ content, setContent }) {
+type TextEditorProps = {
+  content: string;
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function TextEditor({ content, setContent }: TextEditorProps) {
   // Remove almost all attributes of any pasted content to get rid of formatting
   // Remove unsupported tags
   function handlePastedContent() {
     setTimeout(() => {
-      const contentEditableDiv = document.querySelector("div[class='rsw-ce']");
+      const contentEditableDiv = document.querySelector<HTMLDivElement>(
+        "div[class='rsw-ce']",
+      );
+      if (!contentEditableDiv) return;
       const cleaned = sanitize(contentEditableDiv.innerHTML, {
         allowedTags: [
           'b',
@@ -43,10 +50,5 @@ function TextEditor({ content, setContent }) {
     </StyledTextEditor>
   );
 }
-
-TextEditor.propTypes = {
-  content: PropTypes.string,
-  setContent: PropTypes.func,
-};
 
 export default TextEditor;

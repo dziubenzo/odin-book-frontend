@@ -1,13 +1,24 @@
-import PropTypes from 'prop-types';
-import {
-  StyledLinkInput,
-  StyledImageEditor,
-} from '../styles/NewPostPage.styled';
-import { isValidImageURL } from '../helpers';
-import ImageUploader from './ImageUploader';
 import { useState } from 'react';
+import { isValidImageURL } from '../helpers';
+import {
+  StyledImageEditor,
+  StyledLinkInput,
+} from '../styles/NewPostPage.styled';
+import ImageUploader from './ImageUploader';
 
-function ImageEditor({ imageURL, imageFile, setImageURL, setImageFile }) {
+type ImageEditorProps = {
+  imageURL: string;
+  imageFile: File | null;
+  setImageURL: React.Dispatch<React.SetStateAction<string>>;
+  setImageFile: React.Dispatch<React.SetStateAction<File | null>>;
+};
+
+function ImageEditor({
+  imageURL,
+  imageFile,
+  setImageURL,
+  setImageFile,
+}: ImageEditorProps) {
   const [imageFilePreview, setImageFilePreview] = useState('');
 
   return (
@@ -48,12 +59,5 @@ function ImageEditor({ imageURL, imageFile, setImageURL, setImageFile }) {
     </StyledImageEditor>
   );
 }
-
-ImageEditor.propTypes = {
-  imageURL: PropTypes.string,
-  imageFile: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  setImageURL: PropTypes.func,
-  setImageFile: PropTypes.func,
-};
 
 export default ImageEditor;

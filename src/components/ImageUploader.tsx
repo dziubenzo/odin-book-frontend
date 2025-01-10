@@ -1,15 +1,22 @@
-import PropTypes from 'prop-types';
+import { allowedImageFormats } from '../constants';
 import { StyledImageUploader } from '../styles/NewPostPage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
-import { allowedImageFormats } from '../helpers';
+
+type ImageUploaderProps = {
+  imageFile: File | null;
+  setImageFile: React.Dispatch<React.SetStateAction<File | null>>;
+  setImageFilePreview: React.Dispatch<React.SetStateAction<string>>;
+  setImageURL: React.Dispatch<React.SetStateAction<string>>;
+};
 
 function ImageUploader({
   imageFile,
   setImageFile,
   setImageFilePreview,
   setImageURL,
-}) {
-  function uploadImage(event) {
+}: ImageUploaderProps) {
+  function uploadImage(event: React.ChangeEvent<HTMLInputElement>) {
+    if (!event.target.files) return;
     if (event.target.files[0]) {
       // Make sure the file attached is an image in the allowed format
       // On Linux, you can attach anything despite the accept attribute being set
@@ -23,7 +30,7 @@ function ImageUploader({
   }
 
   function clearUploadedImage() {
-    setImageFile('');
+    setImageFile(null);
     setImageFilePreview('');
   }
 
@@ -57,12 +64,5 @@ function ImageUploader({
     </StyledImageUploader>
   );
 }
-
-ImageUploader.propTypes = {
-  imageFile: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  setImageFile: PropTypes.func,
-  setImageFilePreview: PropTypes.func,
-  setImageURL: PropTypes.func,
-};
 
 export default ImageUploader;

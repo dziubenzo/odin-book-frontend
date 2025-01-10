@@ -1,8 +1,12 @@
-import PropTypes from 'prop-types';
+import { MAX_POST_TITLE_LENGTH, MIN_POST_TITLE_LENGTH } from '../constants';
 import { StyledPostTitleInput } from '../styles/NewPostPage.styled';
-import { MIN_POST_TITLE_LENGTH, MAX_POST_TITLE_LENGTH } from '../helpers';
 
-function PostTitleInput({ title, setTitle }) {
+type PostTitleInputProps = {
+  title: string;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function PostTitleInput({ title, setTitle }: PostTitleInputProps) {
   return (
     <StyledPostTitleInput>
       <label htmlFor="title">Post Title:</label>
@@ -20,10 +24,5 @@ function PostTitleInput({ title, setTitle }) {
     </StyledPostTitleInput>
   );
 }
-
-PostTitleInput.propTypes = {
-  title: PropTypes.string,
-  setTitle: PropTypes.func,
-};
 
 export default PostTitleInput;

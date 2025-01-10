@@ -1,13 +1,18 @@
-import PropTypes from 'prop-types';
+import { MdOutlineErrorOutline } from 'react-icons/md';
 import { StyledPublishPostSection } from '../styles/NewPostPage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
-import { MdOutlineErrorOutline } from 'react-icons/md';
+
+type PublishPostSectionProps = {
+  errorMessage: string;
+  inProgress: boolean;
+  handleSubmitButtonClick: () => Promise<void>;
+};
 
 function PublishPostSection({
   errorMessage,
   inProgress,
   handleSubmitButtonClick,
-}) {
+}: PublishPostSectionProps) {
   return (
     <StyledPublishPostSection>
       {errorMessage && (
@@ -25,11 +30,5 @@ function PublishPostSection({
     </StyledPublishPostSection>
   );
 }
-
-PublishPostSection.propTypes = {
-  errorMessage: PropTypes.string,
-  inProgress: PropTypes.bool,
-  handleSubmitButtonClick: PropTypes.func,
-};
 
 export default PublishPostSection;

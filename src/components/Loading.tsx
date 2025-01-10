@@ -3,8 +3,8 @@ import { useTheme } from 'styled-components';
 import { StyledLoading } from '../styles/App.styled';
 
 type LoadingProps = {
-  message: string;
-  isWholePage: boolean;
+  message?: string;
+  isWholePage?: boolean;
 };
 
 function Loading({ message, isWholePage = false }: LoadingProps) {

@@ -68,3 +68,5 @@ export type OutletContext = {
 };
 
 export type ThemeObject = typeof darkTheme & typeof lightTheme;
+
+export type PostType = 'text' | 'image' | 'video';
