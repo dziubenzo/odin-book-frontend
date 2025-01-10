@@ -1,14 +1,23 @@
-import PropTypes from 'prop-types';
 import { StyledPost } from '../styles/PostsPage.styled';
-import PostLikes from './PostLikes';
+import type { Post as PostType } from '../types';
 import PostBody from './PostBody';
+import PostLikes from './PostLikes';
 
-function Post({ post, user, handlePostLikeClick, handlePostDislikeClick }) {
+type PostProps = {
+  post: PostType;
+  handlePostLikeClick: (post: PostType) => Promise<void>;
+  handlePostDislikeClick: (post: PostType) => Promise<void>;
+};
+
+function Post({
+  post,
+  handlePostLikeClick,
+  handlePostDislikeClick,
+}: PostProps) {
   return (
     <StyledPost>
       <PostLikes
         post={post}
-        user={user}
         handlePostLikeClick={handlePostLikeClick}
         handlePostDislikeClick={handlePostDislikeClick}
       />
@@ -16,12 +25,5 @@ function Post({ post, user, handlePostLikeClick, handlePostDislikeClick }) {
     </StyledPost>
   );
 }
-
-Post.propTypes = {
-  post: PropTypes.object,
-  user: PropTypes.object,
-  handlePostLikeClick: PropTypes.func,
-  handlePostDislikeClick: PropTypes.func,
-};
 
 export default Post;

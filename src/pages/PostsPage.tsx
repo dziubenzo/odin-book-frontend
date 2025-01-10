@@ -1,33 +1,41 @@
-import PropTypes from 'prop-types';
-import API_URL from '../API';
-import { useOutletContext, useParams } from 'react-router-dom';
-import { StyledPostsPage } from '../styles/PostsPage.styled';
-import { useChangeTitle, useFetchPosts, useSortPosts } from '../hooks';
+import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import Post from '../components/Post';
+import { useParams } from 'react-router-dom';
+import API_URL from '../API';
+import CategoryDetails from '../components/CategoryDetails';
+import EndInfiniteScroll from '../components/EndInfiniteScroll';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
-import CategoryDetails from '../components/CategoryDetails';
-import UserDetails from '../components/UserDetails';
-import PostsSorter from '../components/PostsSorter';
-import NoPostsSection from '../components/NoPostsSection';
 import LoadingInfiniteScroll from '../components/LoadingInfiniteScroll';
-import EndInfiniteScroll from '../components/EndInfiniteScroll';
-import { useState } from 'react';
+import NoPostsSection from '../components/NoPostsSection';
+import Post from '../components/Post';
+import PostsSorter from '../components/PostsSorter';
+import UserDetails from '../components/UserDetails';
+import { POSTS_PER_FETCH } from '../constants';
+import { dislikePost, fetchMorePosts, likePost } from '../helpers';
 import {
-  dislikePost,
-  fetchMorePosts,
-  likePost,
-  POSTS_PER_FETCH,
-} from '../helpers';
+  useChangeTitle,
+  useFetchPosts,
+  useSortPosts,
+  useUserAndTheme,
+} from '../hooks';
+import { StyledPostsPage } from '../styles/PostsPage.styled';
+import type { Post as PostType } from '../types';
+
+type PostsPageProps = {
+  fetchQuery?: string;
+  pageDescription: string;
+  isCategoryPage?: boolean;
+  isUserPage?: boolean;
+};
 
 function PostsPage({
-  fetchQuery = '',
-  pageDescription = 'All Posts',
-  isCategoryPage = false,
-  isUserPage = false,
-}) {
-  const { user } = useOutletContext();
+  fetchQuery,
+  pageDescription,
+  isCategoryPage,
+  isUserPage,
+}: PostsPageProps) {
+  const { user } = useUserAndTheme();
   // Get the category/user to retrieve from the URL parameter
   const { slug, username } = useParams();
   if (slug) {
@@ -39,19 +47,19 @@ function PostsPage({
   const { posts, setPosts, loading, error, setError, hasMore, setHasMore } =
     useFetchPosts(`${API_URL}/posts/${fetchQuery}`, POSTS_PER_FETCH);
   const [inProgress, setInProgress] = useState(false);
-  const [resourceError, setResourceError] = useState(false);
+  const [resourceError, setResourceError] = useState<string | null>(null);
   const [loadingResource, setLoadingResource] = useState(false);
 
   useChangeTitle(pageDescription);
   const { sortBy, setSortBy } = useSortPosts(posts, setPosts);
 
   function renderPosts() {
+    if (!posts) return;
     return posts.map((post) => {
       return (
         <Post
           key={post._id}
           post={post}
-          user={user}
           handlePostLikeClick={handleLikeClick}
           handlePostDislikeClick={handleDislikeClick}
         />
@@ -59,7 +67,7 @@ function PostsPage({
     });
   }
 
-  async function handleLikeClick(post) {
+  async function handleLikeClick(post: PostType) {
     await likePost(
       post,
       user._id,
@@ -70,7 +78,7 @@ function PostsPage({
     );
   }
 
-  async function handleDislikeClick(post) {
+  async function handleDislikeClick(post: PostType) {
     await dislikePost(
       post,
       user._id,
@@ -82,6 +90,7 @@ function PostsPage({
   }
 
   async function handleInfiniteScroll() {
+    if (!posts) return;
     await fetchMorePosts(
       `${API_URL}/posts/${fetchQuery}`,
       POSTS_PER_FETCH,
@@ -91,12 +100,17 @@ function PostsPage({
     );
   }
 
-  if (error || resourceError)
-    return (
+  if (error || resourceError) {
+    if (error) {
       <StyledPostsPage>
-        <Error errorMessage={error || resourceError} />
-      </StyledPostsPage>
-    );
+        <Error errorMessage={error} />
+      </StyledPostsPage>;
+    } else if (resourceError) {
+      <StyledPostsPage>
+        <Error errorMessage={resourceError} />
+      </StyledPostsPage>;
+    }
+  }
 
   return (
     <StyledPostsPage>
@@ -144,12 +158,5 @@ function PostsPage({
     </StyledPostsPage>
   );
 }
-
-PostsPage.propTypes = {
-  fetchQuery: PropTypes.string,
-  pageDescription: PropTypes.string,
-  isCategoryPage: PropTypes.bool,
-  isUserPage: PropTypes.bool,
-};
 
 export default PostsPage;

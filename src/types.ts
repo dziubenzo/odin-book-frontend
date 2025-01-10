@@ -1,5 +1,5 @@
 import type { Updater } from 'use-immer';
-import { darkTheme, lightTheme } from './helpers';
+import { darkTheme, lightTheme } from './constants';
 
 export type User = {
   _id: string;
@@ -10,6 +10,16 @@ export type User = {
   followed_users: User['_id'][];
   followed_categories: Category['_id'][];
   __v: number;
+};
+
+export type DetailedUser = User & {
+  postsCount: number;
+  postLikesCount: number;
+  postDislikesCount: number;
+  commentsCount: number;
+  commentLikesCount: number;
+  commentDislikesCount: number;
+  followersCount: number;
 };
 
 export type Category = {
@@ -44,7 +54,7 @@ export type DetailedPost = Omit<Post, 'comments'> & {
   comments: Comment[];
 };
 
-type PostAuthor = Pick<User, 'username' | 'avatar'>;
+export type PostAuthor = Pick<User, 'username' | 'avatar'>;
 type PostCategory = Pick<Category, 'name' | 'slug'>;
 
 export type Comment = {
@@ -70,3 +80,5 @@ export type OutletContext = {
 export type ThemeObject = typeof darkTheme & typeof lightTheme;
 
 export type PostType = 'text' | 'image' | 'video';
+
+export type SortBy = 'newest' | 'oldest' | 'likes' | 'comments';

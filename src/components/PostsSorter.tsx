@@ -1,10 +1,23 @@
-import PropTypes from 'prop-types';
 import { StyledPostSorter } from '../styles/PostsPage.styled';
+import type { SortBy as SortByType } from '../types';
 
-function PostsSorter({ sortBy, setSortBy }) {
-  function handleSortButtonClick(event) {
-    setSortBy(event.target.textContent.toLowerCase());
-    localStorage.setItem('sortBy', event.target.textContent.toLowerCase());
+type PostSorterProps = {
+  sortBy: SortByType;
+  setSortBy: React.Dispatch<React.SetStateAction<SortByType>>;
+};
+
+function PostsSorter({ sortBy, setSortBy }: PostSorterProps) {
+  function handleSortButtonClick(event: React.MouseEvent<HTMLButtonElement>) {
+    const btnDescription = event.currentTarget!.textContent!.toLowerCase();
+    if (
+      btnDescription === 'newest' ||
+      btnDescription === 'oldest' ||
+      btnDescription === 'likes' ||
+      btnDescription === 'comments'
+    ) {
+      setSortBy(btnDescription);
+      localStorage.setItem('sortBy', btnDescription);
+    }
   }
 
   return (
@@ -39,10 +52,5 @@ function PostsSorter({ sortBy, setSortBy }) {
     </StyledPostSorter>
   );
 }
-
-PostsSorter.propTypes = {
-  sortBy: PropTypes.string,
-  setSortBy: PropTypes.func,
-};
 
 export default PostsSorter;

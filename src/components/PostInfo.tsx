@@ -1,17 +1,24 @@
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { format, formatDistanceToNow } from 'date-fns';
 import { FaRegCommentAlt } from 'react-icons/fa';
 import { LuDot } from 'react-icons/lu';
-import { format, formatDistanceToNow } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { StyledPostInfoPostDetails } from '../styles/PostDetailsPage.styled';
+import { StyledPostInfo } from '../styles/PostsPage.styled';
+import { Post } from '../types';
 import Avatar from './Avatar';
 
-function PostInfo({ post, StyledComponent }) {
+type PostInfoProps = {
+  post: Post;
+  isPostInfoPostDetails: boolean;
+};
+
+function PostInfo({ post, isPostInfoPostDetails }: PostInfoProps) {
   const { author, created_at, category, comments } = post;
 
-  return (
-    <StyledComponent>
+  const info = (
+    <>
       <div className="post-author">
-        <Avatar object={author} size={14.4} />
+        <Avatar object={author} size={14.4} type="user" />
         <Link to={`/users/${author.username}`} className="user-link">
           {author.username}
         </Link>
@@ -34,13 +41,14 @@ function PostInfo({ post, StyledComponent }) {
         </p>
         <FaRegCommentAlt />
       </div>
-    </StyledComponent>
+    </>
   );
-}
 
-PostInfo.propTypes = {
-  StyledComponent: PropTypes.object,
-  post: PropTypes.object,
-};
+  if (isPostInfoPostDetails) {
+    return <StyledPostInfoPostDetails>{info}</StyledPostInfoPostDetails>;
+  }
+
+  return <StyledPostInfo>{info}</StyledPostInfo>;
+}
 
 export default PostInfo;

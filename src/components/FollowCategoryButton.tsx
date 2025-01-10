@@ -1,13 +1,22 @@
-import PropTypes from 'prop-types';
+import { useUserAndTheme } from '../hooks';
 import { StyledButton } from '../styles/WelcomePage.styled';
+import type { DetailedCategory } from '../types';
+
+type FollowCategoryButtonProps = {
+  category: DetailedCategory;
+  inProgress: DetailedCategory['_id'] | null;
+  handleCategoryButtonClick: (
+    categoryID: DetailedCategory['_id'],
+  ) => Promise<void>;
+};
 
 function FollowCategoryButton({
-  loggedInUser,
   category,
   inProgress,
   handleCategoryButtonClick,
-}) {
-  const { followed_categories } = loggedInUser;
+}: FollowCategoryButtonProps) {
+  const { user } = useUserAndTheme();
+  const { followed_categories } = user;
   const { _id: categoryID } = category;
 
   return (
@@ -23,12 +32,5 @@ function FollowCategoryButton({
     </StyledButton>
   );
 }
-
-FollowCategoryButton.propTypes = {
-  loggedInUser: PropTypes.object,
-  category: PropTypes.object,
-  inProgress: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  handleCategoryButtonClick: PropTypes.func,
-};
 
 export default FollowCategoryButton;

@@ -1,11 +1,14 @@
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import PostInfo from './PostInfo';
 import parse from 'html-react-parser';
+import { Link } from 'react-router-dom';
+import { StyledPostBody } from '../styles/PostsPage.styled';
+import type { Post } from '../types';
+import PostInfo from './PostInfo';
 
-import { StyledPostBody, StyledPostInfo } from '../styles/PostsPage.styled';
+type PostBodyProps = {
+  post: Post;
+};
 
-function PostBody({ post }) {
+function PostBody({ post }: PostBodyProps) {
   const { slug, title, content } = post;
   let noWarningContent;
 
@@ -21,13 +24,9 @@ function PostBody({ post }) {
         <p className="post-title">{title}</p>
         <div className="post-content">{parse(noWarningContent || content)}</div>
       </Link>
-      <PostInfo post={post} StyledComponent={StyledPostInfo} />
+      <PostInfo post={post} isPostInfoPostDetails={false} />
     </StyledPostBody>
   );
 }
-
-PostBody.propTypes = {
-  post: PropTypes.object,
-};
 
 export default PostBody;

@@ -2,8 +2,8 @@ import { GiSadCrab } from 'react-icons/gi';
 import { StyledNoPostsSection } from '../styles/PostsPage.styled';
 
 type NoPostsSectionProps = {
-  isCategoryPage: boolean;
-  isUserPage: boolean;
+  isCategoryPage?: boolean;
+  isUserPage?: boolean;
 };
 
 function NoPostsSection({ isCategoryPage, isUserPage }: NoPostsSectionProps) {

@@ -1,30 +1,42 @@
-import PropTypes from 'prop-types';
-import API_URL from '../API';
-import { useOutletContext, useParams } from 'react-router-dom';
-import { StyledResourceDetails } from '../styles/PostsPage.styled';
-import { useFetchPageData, useSyncWithParent } from '../hooks';
 import { useRef, useState } from 'react';
+import { MdOutlineErrorOutline } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
+import API_URL from '../API';
+import { followOrUnfollowUser } from '../helpers';
+import { useFetchPageData, useSyncWithParent, useUserAndTheme } from '../hooks';
+import { StyledResourceDetails } from '../styles/PostsPage.styled';
+import type { DetailedUser } from '../types';
+import FollowUserButton from './FollowUserButton';
 import ResourceDetailsTop from './ResourceDetailsTop';
 import UserStats from './UserStats';
-import FollowUserButton from './FollowUserButton';
-import { followOrUnfollowUser } from '../helpers';
-import { MdOutlineErrorOutline } from 'react-icons/md';
 
-function UserDetails({ loadingPosts, setResourceError, setLoadingResource }) {
-  const { user, setUser } = useOutletContext();
+type UserDetailsProps = {
+  loadingPosts: boolean;
+  setResourceError: React.Dispatch<React.SetStateAction<string | null>>;
+  setLoadingResource: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function UserDetails({
+  loadingPosts,
+  setResourceError,
+  setLoadingResource,
+}: UserDetailsProps) {
+  const { user, setUser } = useUserAndTheme();
   const { username } = useParams();
   const {
     data: renderedUser,
     setData: setRenderedUser,
     loading,
     error,
-  } = useFetchPageData(`${API_URL}/users/${username}`);
-  const errorMessageRef = useRef(null);
+  } = useFetchPageData<DetailedUser>(`${API_URL}/users/${username}`);
+  const errorMessageRef = useRef<HTMLParagraphElement>(null);
 
   const [errorMessage, setErrorMessage] = useState('');
-  const [inProgress, setInProgress] = useState(false);
+  const [inProgress, setInProgress] = useState<DetailedUser['_id'] | null>(
+    null,
+  );
 
-  async function handleUserButtonClick(renderedUserID) {
+  async function handleUserButtonClick(renderedUserID: DetailedUser['_id']) {
     await followOrUnfollowUser(
       inProgress,
       user,
@@ -35,6 +47,7 @@ function UserDetails({ loadingPosts, setResourceError, setLoadingResource }) {
     );
     // Scroll to the error message if there was an error and clear the error message after a timeout
     if (errorMessage) {
+      if (!errorMessageRef.current) return;
       errorMessageRef.current.scrollIntoView({
         block: 'center',
         behavior: 'smooth',
@@ -48,6 +61,7 @@ function UserDetails({ loadingPosts, setResourceError, setLoadingResource }) {
     }
     // Update rendered user's followers
     setRenderedUser((draft) => {
+      if (!draft) return;
       if (user.followed_users.includes(renderedUserID)) {
         draft.followersCount--;
         return;
@@ -71,11 +85,10 @@ function UserDetails({ loadingPosts, setResourceError, setLoadingResource }) {
             <p ref={errorMessageRef}>{errorMessage}</p>
           </div>
         )}
-        <UserStats user={renderedUser} />
+        <UserStats renderedUser={renderedUser} />
         {renderedUser._id === user._id ? undefined : (
           <div className="mystery-wrapper">
             <FollowUserButton
-              loggedInUser={user}
               renderedUser={renderedUser}
               inProgress={inProgress}
               handleUserButtonClick={handleUserButtonClick}
@@ -86,11 +99,5 @@ function UserDetails({ loadingPosts, setResourceError, setLoadingResource }) {
     );
   }
 }
-
-UserDetails.propTypes = {
-  loadingPosts: PropTypes.bool,
-  setResourceError: PropTypes.func,
-  setLoadingResource: PropTypes.func,
-};
 
 export default UserDetails;

@@ -1,13 +1,20 @@
-import PropTypes from 'prop-types';
+import { useUserAndTheme } from '../hooks';
 import { StyledButton } from '../styles/WelcomePage.styled';
+import type { DetailedUser } from '../types';
+
+type FollowUserButtonProps = {
+  renderedUser: DetailedUser;
+  inProgress: DetailedUser['_id'] | null;
+  handleUserButtonClick: (renderedUserID: DetailedUser['_id']) => Promise<void>;
+};
 
 function FollowUserButton({
-  loggedInUser,
   renderedUser,
   inProgress,
   handleUserButtonClick,
-}) {
-  const { followed_users } = loggedInUser;
+}: FollowUserButtonProps) {
+  const { user } = useUserAndTheme();
+  const { followed_users } = user;
   const { _id: renderedUserID } = renderedUser;
 
   return (
@@ -23,12 +30,5 @@ function FollowUserButton({
     </StyledButton>
   );
 }
-
-FollowUserButton.propTypes = {
-  loggedInUser: PropTypes.object,
-  renderedUser: PropTypes.object,
-  inProgress: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  handleUserButtonClick: PropTypes.func,
-};
 
 export default FollowUserButton;

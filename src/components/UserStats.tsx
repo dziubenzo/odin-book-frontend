@@ -1,13 +1,17 @@
-import PropTypes from 'prop-types';
-import { StyledUserStats } from '../styles/PostsPage.styled';
-import { TbUserStar, TbFileLike, TbFileDislike } from 'react-icons/tb';
-import { FaUsers, FaRegCommentAlt } from 'react-icons/fa';
-import { MdOutlineCategory } from 'react-icons/md';
-import { LuLink } from 'react-icons/lu';
 import { BiCommentAdd, BiCommentMinus } from 'react-icons/bi';
+import { FaRegCommentAlt, FaUsers } from 'react-icons/fa';
+import { LuLink } from 'react-icons/lu';
+import { MdOutlineCategory } from 'react-icons/md';
+import { TbFileDislike, TbFileLike, TbUserStar } from 'react-icons/tb';
+import { StyledUserStats } from '../styles/PostsPage.styled';
+import type { DetailedUser } from '../types';
 import Stat from './Stat';
 
-function UserStats({ user }) {
+type UserStats = {
+  renderedUser: DetailedUser;
+};
+
+function UserStats({ renderedUser }: UserStats) {
   const {
     followed_users,
     followed_categories,
@@ -18,7 +22,7 @@ function UserStats({ user }) {
     commentLikesCount,
     commentDislikesCount,
     followersCount,
-  } = user;
+  } = renderedUser;
 
   return (
     <StyledUserStats>
@@ -66,9 +70,5 @@ function UserStats({ user }) {
     </StyledUserStats>
   );
 }
-
-UserStats.propTypes = {
-  user: PropTypes.object,
-};
 
 export default UserStats;

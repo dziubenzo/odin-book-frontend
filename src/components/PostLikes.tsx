@@ -1,13 +1,20 @@
-import PropTypes from 'prop-types';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { useUserAndTheme } from '../hooks';
 import { StyledPostLikes } from '../styles/PostsPage.styled';
+import type { Post } from '../types';
+
+type PostLikesProps = {
+  post: Post;
+  handlePostLikeClick: (post: Post) => Promise<void>;
+  handlePostDislikeClick: (post: Post) => Promise<void>;
+};
 
 function PostLikes({
   post,
-  user,
   handlePostLikeClick,
   handlePostDislikeClick,
-}) {
+}: PostLikesProps) {
+  const { user } = useUserAndTheme();
   const { likes, dislikes } = post;
 
   return (
@@ -40,12 +47,5 @@ function PostLikes({
     </StyledPostLikes>
   );
 }
-
-PostLikes.propTypes = {
-  post: PropTypes.object,
-  user: PropTypes.object,
-  handlePostLikeClick: PropTypes.func,
-  handlePostDislikeClick: PropTypes.func,
-};
 
 export default PostLikes;

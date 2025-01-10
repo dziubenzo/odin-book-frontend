@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { StyledAvatar } from '../styles/App.styled';
-import type { Category, User } from '../types';
+import type { Category, DetailedUser, PostAuthor, User } from '../types';
 
 type CategoryAvatar = { object: Category; type: 'category' };
 
-type UserAvatar = { object: User; type: 'user' };
+type UserAvatar = { object: DetailedUser | User | PostAuthor; type: 'user' };
 
 type AvatarProps = { size: number } & (CategoryAvatar | UserAvatar);
 
