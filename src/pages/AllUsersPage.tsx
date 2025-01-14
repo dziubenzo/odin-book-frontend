@@ -1,31 +1,31 @@
-import API_URL from '../API';
-import { useOutletContext } from 'react-router-dom';
-import Loading from '../components/Loading';
-import Error from '../components/Error';
-import User from '../components/User';
-import { StyledAllUsersPage } from '../styles/AllUsersPage.styled';
-import { useChangeTitle, useFetchPageData } from '../hooks';
 import { useState } from 'react';
+import API_URL from '../API';
+import Error from '../components/Error';
+import Loading from '../components/Loading';
+import User from '../components/User';
 import { followOrUnfollowUser } from '../helpers';
+import { useChangeTitle, useFetchPageData, useUserAndTheme } from '../hooks';
+import { StyledAllUsersPage } from '../styles/AllUsersPage.styled';
+import type { User as UserType } from '../types';
 
 function AllUsersPage() {
-  const { user, setUser } = useOutletContext();
+  const { user, setUser } = useUserAndTheme();
   const {
     data: users,
     loading,
     error,
     setError,
-  } = useFetchPageData(`${API_URL}/users`);
-  const [inProgress, setInProgress] = useState(false);
+  } = useFetchPageData<UserType[]>(`${API_URL}/users`);
+  const [inProgress, setInProgress] = useState<UserType['_id'] | null>(null);
 
   useChangeTitle('All Users');
 
   function renderUsers() {
+    if (!users) return;
     return users.map((singleUser) => {
       return (
         <User
           key={singleUser._id}
-          loggedInUser={user}
           user={singleUser}
           handleUserButtonClick={handleUserButtonClick}
           inProgress={inProgress}
@@ -34,7 +34,7 @@ function AllUsersPage() {
     });
   }
 
-  async function handleUserButtonClick(userID) {
+  async function handleUserButtonClick(userID: UserType['_id']) {
     await followOrUnfollowUser(
       inProgress,
       user,

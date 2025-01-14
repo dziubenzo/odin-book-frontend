@@ -1,11 +1,13 @@
 import { useUserAndTheme } from '../hooks';
 import { StyledButton } from '../styles/WelcomePage.styled';
-import type { DetailedUser } from '../types';
+import type { DetailedUser, User } from '../types';
 
 type FollowUserButtonProps = {
-  renderedUser: DetailedUser;
-  inProgress: DetailedUser['_id'] | null;
-  handleUserButtonClick: (renderedUserID: DetailedUser['_id']) => Promise<void>;
+  renderedUser: DetailedUser | User;
+  inProgress: DetailedUser['_id'] | User['_id'] | null;
+  handleUserButtonClick: (
+    renderedUserID: DetailedUser['_id'] | User['_id'],
+  ) => Promise<void>;
 };
 
 function FollowUserButton({
