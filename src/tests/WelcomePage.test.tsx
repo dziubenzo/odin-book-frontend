@@ -1,25 +1,25 @@
 /* eslint-disable no-undef */
 
 import { render, screen } from '@testing-library/react';
-import { describe } from 'vitest';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
-
-import WelcomePage from '../pages/WelcomePage';
+import { describe } from 'vitest';
 import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
 import Theme from '../components/Theme';
-
+import WelcomePage from '../pages/WelcomePage';
 import { mockFetch } from './fetchMock';
 
 function renderWelcomePage() {
   const user = userEvent.setup();
   HTMLDialogElement.prototype.showModal = vi.fn();
+
   render(
     <BrowserRouter>
       <WelcomePage />
     </BrowserRouter>,
   );
+
   return user;
 }
 
@@ -29,17 +29,21 @@ function renderLoginModal() {
     current: document.createElement('dialog'),
   };
   HTMLDialogElement.prototype.close = vi.fn();
+
   render(
     <BrowserRouter>
       <Theme>
         <LoginModal
           loginModalRef={mockRef}
+          username=""
           setUsername={vi.fn()}
+          password=""
           setPassword={vi.fn()}
         />
       </Theme>
     </BrowserRouter>,
   );
+
   return user;
 }
 
@@ -53,6 +57,7 @@ function renderSignupModal() {
   };
   HTMLDialogElement.prototype.close = vi.fn();
   HTMLDialogElement.prototype.showModal = vi.fn();
+
   render(
     <Theme>
       <SignupModal
@@ -63,6 +68,7 @@ function renderSignupModal() {
       />
     </Theme>,
   );
+
   return user;
 }
 
@@ -130,17 +136,17 @@ describe('LoginModal', () => {
   test('Username field should accept input', async () => {
     const user = renderLoginModal();
 
-    const usernameField = screen.getByLabelText(/username/i);
-    await user.click(usernameField);
-    await user.keyboard('myusername');
+    const usernameField = screen.getByLabelText<HTMLInputElement>(/username/i);
+    // await user.click(usernameField);
+    await user.type(usernameField, 'myusername');
 
-    expect(usernameField.value).toBe('myusername');
+    expect(usernameField).toHaveValue('myusername');
   });
 
   test('Password field should accept input', async () => {
     const user = renderLoginModal();
 
-    const passwordField = screen.getByLabelText(/password/i);
+    const passwordField = screen.getByLabelText<HTMLInputElement>(/password/i);
     await user.click(passwordField);
     await user.keyboard('mypassword');
 
@@ -175,8 +181,8 @@ describe('LoginModal', () => {
     const user = renderLoginModal();
     const fetchMock = mockFetch('invalid username', false);
 
-    const usernameField = screen.getByLabelText(/username/i);
-    const passwordField = screen.getByLabelText(/password/i);
+    const usernameField = screen.getByLabelText<HTMLInputElement>(/username/i);
+    const passwordField = screen.getByLabelText<HTMLInputElement>(/password/i);
     usernameField.value = 'myusername';
     passwordField.value = 'mypassword';
 
@@ -218,31 +224,29 @@ describe('SignupModal', () => {
   test('Username field should accept input', async () => {
     const user = renderSignupModal();
 
-    const usernameField = screen.getByLabelText(/username/i);
-    await user.click(usernameField);
-    await user.keyboard('myusername');
+    const usernameField = screen.getByLabelText<HTMLInputElement>(/username/i);
+    await user.type(usernameField, 'myusername');
 
-    expect(usernameField.value).toBe('myusername');
+    expect(usernameField).toHaveValue('myusername');
   });
 
   test('Password field should accept input', async () => {
     const user = renderSignupModal();
 
-    const passwordField = screen.getByLabelText('Password');
-    await user.click(passwordField);
-    await user.keyboard('mypassword');
+    const passwordField = screen.getByLabelText<HTMLInputElement>('Password');
+    await user.type(passwordField, 'mypassword');
 
-    expect(passwordField.value).toBe('mypassword');
+    expect(passwordField).toHaveValue('mypassword');
   });
 
   test('Confirm Password field should accept input', async () => {
     const user = renderSignupModal();
 
-    const confirmPasswordField = screen.getByLabelText(/confirm password/i);
-    await user.click(confirmPasswordField);
-    await user.keyboard('confirmpassword');
+    const confirmPasswordField =
+      screen.getByLabelText<HTMLInputElement>(/confirm password/i);
+    await user.type(confirmPasswordField, 'confirmpassword');
 
-    expect(confirmPasswordField.value).toBe('confirmpassword');
+    expect(confirmPasswordField).toHaveValue('confirmpassword');
   });
 
   test('Sign Up button should be visible on render', () => {
@@ -273,9 +277,10 @@ describe('SignupModal', () => {
     const user = renderSignupModal();
     const fetchMock = mockFetch('invalid username', false);
 
-    const usernameField = screen.getByLabelText(/username/i);
-    const passwordField = screen.getByLabelText('Password');
-    const confirmPasswordField = screen.getByLabelText(/confirm password/i);
+    const usernameField = screen.getByLabelText<HTMLInputElement>(/username/i);
+    const passwordField = screen.getByLabelText<HTMLInputElement>('Password');
+    const confirmPasswordField =
+      screen.getByLabelText<HTMLInputElement>(/confirm password/i);
     usernameField.value = 'myusername';
     passwordField.value = 'mypassword';
     confirmPasswordField.value = 'mypassword';
@@ -299,9 +304,10 @@ describe('SignupModal', () => {
       true,
     );
 
-    const usernameField = screen.getByLabelText(/username/i);
-    const passwordField = screen.getByLabelText('Password');
-    const confirmPasswordField = screen.getByLabelText(/confirm password/i);
+    const usernameField = screen.getByLabelText<HTMLInputElement>(/username/i);
+    const passwordField = screen.getByLabelText<HTMLInputElement>('Password');
+    const confirmPasswordField =
+      screen.getByLabelText<HTMLInputElement>(/confirm password/i);
     usernameField.value = 'validusername';
     passwordField.value = 'validpassword';
     confirmPasswordField.value = 'idonotmatter';

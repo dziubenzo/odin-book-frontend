@@ -86,8 +86,8 @@ function LoginModal({
             name="username"
             minLength={3}
             maxLength={16}
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            defaultValue={username}
+            onChange={(event) => setUsername(event.currentTarget.value)}
             required
           />
           <label htmlFor="password">Password</label>
@@ -97,8 +97,8 @@ function LoginModal({
             name="password"
             minLength={3}
             maxLength={16}
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            defaultValue={password}
+            onChange={(event) => setPassword(event.currentTarget.value)}
             required
           />
         </form>

@@ -1,24 +1,22 @@
 /* eslint-disable no-undef */
 
 import { render, screen } from '@testing-library/react';
-import { describe, expect } from 'vitest';
-
-import Avatar from '../components/Avatar';
-import HeaderTopBar from '../components/HeaderTopBar';
-import HeaderBottomBar from '../components/HeaderBottomBar';
-import FooterLeft from '../components/FooterLeft';
-import FooterCentre from '../components/FooterCentre';
-import FooterRight from '../components/FooterRight';
-import Theme from '../components/Theme';
 import { BrowserRouter } from 'react-router-dom';
-
+import { describe, expect } from 'vitest';
+import Avatar from '../components/Avatar';
+import FooterCentre from '../components/FooterCentre';
+import FooterLeft from '../components/FooterLeft';
+import FooterRight from '../components/FooterRight';
+import HeaderBottomBar from '../components/HeaderBottomBar';
+import HeaderTopBar from '../components/HeaderTopBar';
+import Theme from '../components/Theme';
 import { category1, superUser, user2 } from './mocks';
 
-function renderAvatar(size) {
+function renderAvatar(size: number) {
   render(
     <BrowserRouter>
       <Theme>
-        <Avatar object={user2} size={size} />
+        <Avatar object={user2} size={size} type="user" />
       </Theme>
     </BrowserRouter>,
   );
@@ -28,7 +26,7 @@ function renderIcon() {
   render(
     <BrowserRouter>
       <Theme>
-        <Avatar object={category1} isCategory={true} />
+        <Avatar object={category1} size={36} type="category" />
       </Theme>
     </BrowserRouter>,
   );
@@ -86,7 +84,7 @@ function renderFooterRight() {
 describe('Avatar', () => {
   describe("User's Avatar", () => {
     it('should render an avatar img that has the correct alt text', () => {
-      renderAvatar();
+      renderAvatar(36);
 
       const avatarImg = screen.getByRole('img');
 
@@ -102,16 +100,8 @@ describe('Avatar', () => {
       expect(avatarImg).toHaveStyle({ height: '100px' });
     });
 
-    it('should render an avatar img that has the default size if no size prop provided', () => {
-      renderAvatar();
-
-      const avatarImg = screen.getByRole('img');
-
-      expect(avatarImg).toHaveStyle({ height: '50px' });
-    });
-
     it('should render an avatar img that links to the user page', () => {
-      renderAvatar();
+      renderAvatar(36);
 
       const userLink = screen.getByRole('link');
 

@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import API_URL from '../API';
 import { setTimedMessage } from '../helpers';
-import { StyledInput, StyledSignupModal, StyledSubmitButton } from '../styles/WelcomePage.styled';
+import {
+  StyledInput,
+  StyledSignupModal,
+  StyledSubmitButton,
+} from '../styles/WelcomePage.styled';
 
 type SignupModalProps = {
   signupModalRef: React.RefObject<HTMLDialogElement>;
@@ -51,7 +55,7 @@ function SignupModal({
     setUsername(username);
     setPassword(password);
     // Clear Sign Up modal form
-    event.currentTarget.reset();
+    (event.target as HTMLFormElement).reset();
     return;
   }
 
