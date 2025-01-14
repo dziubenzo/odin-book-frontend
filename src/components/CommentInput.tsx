@@ -1,13 +1,21 @@
-import PropTypes from 'prop-types';
-import { StyledCommentInput } from '../styles/PostDetailsPage.styled';
 import { useRef, useState } from 'react';
+import type { Updater } from 'use-immer';
+import { MAX_COMMENT_LENGTH } from '../constants';
 import { createComment } from '../helpers';
-import { MAX_COMMENT_LENGTH } from '../helpers';
-import CommentInputTop from './CommentInputTop';
+import { useUserAndTheme } from '../hooks';
+import { StyledCommentInput } from '../styles/PostDetailsPage.styled';
+import type { DetailedPost } from '../types';
 import CommentInputBottom from './CommentInputBottom';
+import CommentInputTop from './CommentInputTop';
 
-function CommentInput({ user, post, setPost }) {
-  const commentFieldRef = useRef(null);
+type CommentInputProps = {
+  post: DetailedPost;
+  setPost: Updater<DetailedPost | null>;
+};
+
+function CommentInput({ post, setPost }: CommentInputProps) {
+  const { user } = useUserAndTheme();
+  const commentFieldRef = useRef<HTMLParagraphElement>(null);
 
   const [content, setContent] = useState('');
   const [contentLength, setContentLength] = useState(MAX_COMMENT_LENGTH);
@@ -35,7 +43,6 @@ function CommentInput({ user, post, setPost }) {
     <StyledCommentInput>
       <h2>New Comment</h2>
       <CommentInputTop
-        user={user}
         commentFieldRef={commentFieldRef}
         content={content}
         contentLength={contentLength}
@@ -52,11 +59,5 @@ function CommentInput({ user, post, setPost }) {
     </StyledCommentInput>
   );
 }
-
-CommentInput.propTypes = {
-  user: PropTypes.object,
-  post: PropTypes.object,
-  setPost: PropTypes.func,
-};
 
 export default CommentInput;

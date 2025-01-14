@@ -17,6 +17,7 @@ function Post({
   return (
     <StyledPost>
       <PostLikes
+        type="multiple-posts"
         post={post}
         handlePostLikeClick={handlePostLikeClick}
         handlePostDislikeClick={handlePostDislikeClick}

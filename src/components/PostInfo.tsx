@@ -4,11 +4,11 @@ import { LuDot } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
 import { StyledPostInfoPostDetails } from '../styles/PostDetailsPage.styled';
 import { StyledPostInfo } from '../styles/PostsPage.styled';
-import { Post } from '../types';
+import { DetailedPost, Post } from '../types';
 import Avatar from './Avatar';
 
 type PostInfoProps = {
-  post: Post;
+  post: Post | DetailedPost;
   isPostInfoPostDetails: boolean;
 };
 

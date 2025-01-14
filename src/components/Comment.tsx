@@ -1,35 +1,31 @@
-import PropTypes from 'prop-types';
 import { StyledComment } from '../styles/PostDetailsPage.styled';
-import { useOutletContext } from 'react-router-dom';
+import type { Comment as CommentType } from '../types';
+import Avatar from './Avatar';
 import CommentBody from './CommentBody';
 import CommentLikes from './CommentLikes';
-import Avatar from './Avatar';
+
+type CommentProps = {
+  comment: CommentType;
+  handleCommentLikeClick: (commentID: CommentType['_id']) => Promise<void>;
+  handleCommentDislikeClick: (commentID: CommentType['_id']) => Promise<void>;
+};
 
 function Comment({
   comment,
   handleCommentLikeClick,
   handleCommentDislikeClick,
-}) {
-  const { user } = useOutletContext();
-
+}: CommentProps) {
   return (
     <StyledComment>
-      <Avatar object={comment.author} size={36} />
+      <Avatar object={comment.author} size={36} type="user" />
       <CommentBody comment={comment} />
       <CommentLikes
         comment={comment}
-        user={user}
         handleCommentLikeClick={handleCommentLikeClick}
         handleCommentDislikeClick={handleCommentDislikeClick}
       />
     </StyledComment>
   );
 }
-
-Comment.propTypes = {
-  comment: PropTypes.object,
-  handleCommentLikeClick: PropTypes.func,
-  handleCommentDislikeClick: PropTypes.func,
-};
 
 export default Comment;

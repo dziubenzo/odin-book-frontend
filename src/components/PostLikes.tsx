@@ -1,15 +1,26 @@
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { useUserAndTheme } from '../hooks';
 import { StyledPostLikes } from '../styles/PostsPage.styled';
-import type { Post } from '../types';
+import type { DetailedPost, Post } from '../types';
 
-type PostLikesProps = {
+type SinglePost = {
+  type: 'single-post';
+  post: DetailedPost;
+  handlePostLikeClick: () => Promise<void>;
+  handlePostDislikeClick: () => Promise<void>;
+};
+
+type MultiplePosts = {
+  type: 'multiple-posts';
   post: Post;
   handlePostLikeClick: (post: Post) => Promise<void>;
   handlePostDislikeClick: (post: Post) => Promise<void>;
 };
 
+type PostLikesProps = SinglePost | MultiplePosts;
+
 function PostLikes({
+  type,
   post,
   handlePostLikeClick,
   handlePostDislikeClick,
@@ -23,7 +34,11 @@ function PostLikes({
         className="like-icon"
         aria-label="Like Post Icon"
         title="Like Post"
-        onClick={() => handlePostLikeClick(post)}
+        onClick={() =>
+          type === 'single-post'
+            ? handlePostLikeClick()
+            : handlePostLikeClick(post)
+        }
       >
         <FaArrowUp
           className={likes.includes(user._id) ? 'liked' : undefined}
@@ -37,7 +52,11 @@ function PostLikes({
         className="dislike-icon"
         aria-label="Dislike Post Icon"
         title="Dislike Post"
-        onClick={() => handlePostDislikeClick(post)}
+        onClick={() =>
+          type === 'single-post'
+            ? handlePostDislikeClick()
+            : handlePostDislikeClick(post)
+        }
       >
         <FaArrowDown
           className={dislikes.includes(user._id) ? 'disliked' : undefined}

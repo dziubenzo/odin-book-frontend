@@ -1,13 +1,20 @@
-import PropTypes from 'prop-types';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { useUserAndTheme } from '../hooks';
 import { StyledCommentLikes } from '../styles/PostDetailsPage.styled';
+import type { Comment } from '../types';
+
+type CommentLikesProps = {
+  comment: Comment;
+  handleCommentLikeClick: (commentID: Comment['_id']) => Promise<void>;
+  handleCommentDislikeClick: (commentID: Comment['_id']) => Promise<void>;
+};
 
 function CommentLikes({
   comment,
-  user,
   handleCommentLikeClick,
   handleCommentDislikeClick,
-}) {
+}: CommentLikesProps) {
+  const { user } = useUserAndTheme();
   const { _id, likes, dislikes } = comment;
 
   return (
@@ -38,12 +45,5 @@ function CommentLikes({
     </StyledCommentLikes>
   );
 }
-
-CommentLikes.propTypes = {
-  comment: PropTypes.object,
-  user: PropTypes.object,
-  handleCommentLikeClick: PropTypes.func,
-  handleCommentDislikeClick: PropTypes.func,
-};
 
 export default CommentLikes;

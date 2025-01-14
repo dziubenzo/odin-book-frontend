@@ -1,16 +1,22 @@
-import PropTypes from 'prop-types';
+import { RiErrorWarningLine } from 'react-icons/ri';
 import {
   StyledCommentInputBottom,
   StyledSubmitButton,
 } from '../styles/PostDetailsPage.styled';
-import { RiErrorWarningLine } from 'react-icons/ri';
+
+type CommentInputBottomProps = {
+  handleSubmitCommentClick: () => Promise<void>;
+  inProgress: boolean;
+  isSubmitted: boolean;
+  commentError: string;
+};
 
 function CommentInputBottom({
   handleSubmitCommentClick,
   inProgress,
   isSubmitted,
   commentError,
-}) {
+}: CommentInputBottomProps) {
   return (
     <StyledCommentInputBottom>
       <StyledSubmitButton onClick={handleSubmitCommentClick}>
@@ -27,12 +33,5 @@ function CommentInputBottom({
     </StyledCommentInputBottom>
   );
 }
-
-CommentInputBottom.propTypes = {
-  handleSubmitCommentClick: PropTypes.func,
-  inProgress: PropTypes.bool,
-  isSubmitted: PropTypes.bool,
-  commentError: PropTypes.string,
-};
 
 export default CommentInputBottom;

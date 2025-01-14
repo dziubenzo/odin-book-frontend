@@ -1,31 +1,32 @@
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import API_URL from '../API';
-import { useOutletContext, useParams } from 'react-router-dom';
-import { StyledPostDetailsPage } from '../styles/PostDetailsPage.styled';
-import { useChangeTitle, useFetchPageData } from '../hooks';
-import Loading from '../components/Loading';
-import Error from '../components/Error';
-import PostDetails from '../components/PostDetails';
+import CommentInput from '../components/CommentInput';
 import Comments from '../components/Comments';
+import Error from '../components/Error';
+import Loading from '../components/Loading';
+import PostDetails from '../components/PostDetails';
+import ReturnIcon from '../components/ReturnIcon';
 import {
   dislikeComment,
   dislikeSinglePost,
   likeComment,
   likeSinglePost,
 } from '../helpers';
-import { useState } from 'react';
-import CommentInput from '../components/CommentInput';
-import ReturnIcon from '../components/ReturnIcon';
+import { useChangeTitle, useFetchPageData, useUserAndTheme } from '../hooks';
+import { StyledPostDetailsPage } from '../styles/PostDetailsPage.styled';
+import type { Comment, DetailedPost } from '../types';
 
 function PostDetailsPage() {
   const { slug } = useParams();
-  const { user } = useOutletContext();
+  const { user } = useUserAndTheme();
   const {
     data: post,
     setData: setPost,
     loading,
     error,
     setError,
-  } = useFetchPageData(`${API_URL}/posts/${slug}`);
+  } = useFetchPageData<DetailedPost>(`${API_URL}/posts/${slug}`);
 
   const [inProgress, setInProgress] = useState(false);
 
@@ -53,7 +54,7 @@ function PostDetailsPage() {
     );
   }
 
-  async function handleCommentLikeClick(commentID) {
+  async function handleCommentLikeClick(commentID: Comment['_id']) {
     await likeComment(
       post,
       commentID,
@@ -65,7 +66,7 @@ function PostDetailsPage() {
     );
   }
 
-  async function handleCommentDislikeClick(commentID) {
+  async function handleCommentDislikeClick(commentID: Comment['_id']) {
     await dislikeComment(
       post,
       commentID,
@@ -85,11 +86,10 @@ function PostDetailsPage() {
         <>
           <PostDetails
             post={post}
-            user={user}
             handlePostLikeClick={handlePostLikeClick}
             handlePostDislikeClick={handlePostDislikeClick}
           />
-          <CommentInput user={user} post={post} setPost={setPost} />
+          <CommentInput post={post} setPost={setPost} />
           <Comments
             comments={post.comments}
             handleCommentLikeClick={handleCommentLikeClick}

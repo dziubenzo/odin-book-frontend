@@ -1,18 +1,20 @@
-import PropTypes from 'prop-types';
-import {
-  StyledPostDetails,
-  StyledPostInfoPostDetails,
-} from '../styles/PostDetailsPage.styled';
-import PostLikes from './PostLikes';
-import PostInfo from './PostInfo';
 import parse from 'html-react-parser';
+import { StyledPostDetails } from '../styles/PostDetailsPage.styled';
+import type { DetailedPost } from '../types';
+import PostInfo from './PostInfo';
+import PostLikes from './PostLikes';
+
+type PostDetailsProps = {
+  post: DetailedPost;
+  handlePostLikeClick: () => Promise<void>;
+  handlePostDislikeClick: () => Promise<void>;
+};
 
 function PostDetails({
   post,
-  user,
   handlePostLikeClick,
   handlePostDislikeClick,
-}) {
+}: PostDetailsProps) {
   const { title, content } = post;
 
   // Wrap image post in <a> for the image to be opened in new tab on click
@@ -36,25 +38,18 @@ function PostDetails({
         <div className="post-top-bar">
           <h2 className="post-title">{title}</h2>
           <PostLikes
+            type="single-post"
             post={post}
-            user={user}
             handlePostLikeClick={handlePostLikeClick}
             handlePostDislikeClick={handlePostDislikeClick}
           />
         </div>
         <div className="post-content">{wrapPostContent()}</div>
       </div>
-      <PostInfo post={post} StyledComponent={StyledPostInfoPostDetails} />
+      <PostInfo post={post} isPostInfoPostDetails={true} />
       <hr />
     </StyledPostDetails>
   );
 }
-
-PostDetails.propTypes = {
-  post: PropTypes.object,
-  user: PropTypes.object,
-  handlePostLikeClick: PropTypes.func,
-  handlePostDislikeClick: PropTypes.func,
-};
 
 export default PostDetails;
