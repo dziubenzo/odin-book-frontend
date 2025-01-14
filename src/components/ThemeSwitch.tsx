@@ -1,9 +1,9 @@
-import { MdLightMode, MdDarkMode } from 'react-icons/md';
-import { useOutletContext } from 'react-router-dom';
+import { MdDarkMode, MdLightMode } from 'react-icons/md';
+import { useUserAndTheme } from '../hooks';
 import { StyledStickyIcon } from '../styles/App.styled';
 
 function ThemeSwitch() {
-  const { theme, setTheme } = useOutletContext();
+  const { theme, setTheme } = useUserAndTheme();
 
   function handleThemeSwitchClick() {
     if (localStorage.getItem('theme') === 'dark') {

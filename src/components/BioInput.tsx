@@ -1,7 +1,18 @@
-import PropTypes from 'prop-types';
+import { MAX_BIO_LENGTH } from '../constants';
+import { disableEnter } from '../helpers';
 import { StyledBioInput } from '../styles/ProfilePage.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
-import { disableEnter, MAX_BIO_LENGTH } from '../helpers';
+import type { User } from '../types';
+
+type BioInputProps = {
+  bio: User['bio'];
+  bioLength: number;
+  inProgress: boolean;
+  feedback: string;
+  setBio: React.Dispatch<React.SetStateAction<string>>;
+  setBioLength: React.Dispatch<React.SetStateAction<number>>;
+  handleUpdateProfileClick: () => Promise<void>;
+};
 
 function BioInput({
   bio,
@@ -11,7 +22,7 @@ function BioInput({
   handleUpdateProfileClick,
   inProgress,
   feedback,
-}) {
+}: BioInputProps) {
   return (
     <StyledBioInput>
       <label htmlFor="bio">
@@ -28,8 +39,8 @@ function BioInput({
         placeholder="Fill out your bio here!"
         maxLength={MAX_BIO_LENGTH}
         onInput={(event) => {
-          setBio(event.target.value);
-          setBioLength(MAX_BIO_LENGTH - event.target.value.length);
+          setBio(event.currentTarget.value);
+          setBioLength(MAX_BIO_LENGTH - event.currentTarget.value.length);
         }}
         onKeyDown={disableEnter}
         defaultValue={bio}
@@ -46,15 +57,5 @@ function BioInput({
     </StyledBioInput>
   );
 }
-
-BioInput.propTypes = {
-  bio: PropTypes.string,
-  bioLength: PropTypes.number,
-  setBio: PropTypes.func,
-  setBioLength: PropTypes.func,
-  handleUpdateProfileClick: PropTypes.func,
-  inProgress: PropTypes.bool,
-  feedback: PropTypes.string,
-};
 
 export default BioInput;

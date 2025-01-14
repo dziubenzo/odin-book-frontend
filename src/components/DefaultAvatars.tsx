@@ -1,10 +1,19 @@
-import PropTypes from 'prop-types';
+import { defaultAvatars } from '../constants';
+import { useUserAndTheme } from '../hooks';
 import { StyledDefaultAvatars } from '../styles/ProfilePage.styled';
-import { defaultAvatars } from '../helpers';
-import { useOutletContext } from 'react-router-dom';
 
-function DefaultAvatars({ selectedAvatar, uploadedAvatar, setSelectedAvatar }) {
-  const { user } = useOutletContext();
+type DefaultAvatarsProps = {
+  selectedAvatar: string;
+  uploadedAvatar: File | null;
+  setSelectedAvatar: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function DefaultAvatars({
+  selectedAvatar,
+  uploadedAvatar,
+  setSelectedAvatar,
+}: DefaultAvatarsProps) {
+  const { user } = useUserAndTheme();
   const { avatar: currentUserAvatar } = user;
 
   function renderDefaultAvatars() {
@@ -41,11 +50,5 @@ function DefaultAvatars({ selectedAvatar, uploadedAvatar, setSelectedAvatar }) {
     )
   );
 }
-
-DefaultAvatars.propTypes = {
-  selectedAvatar: PropTypes.string,
-  uploadedAvatar: PropTypes.any,
-  setSelectedAvatar: PropTypes.func,
-};
 
 export default DefaultAvatars;

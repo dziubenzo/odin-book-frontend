@@ -1,20 +1,20 @@
-import { useOutletContext } from 'react-router-dom';
-import { StyledProfilePage } from '../styles/ProfilePage.styled';
-import { MAX_BIO_LENGTH, updateUserProfile } from '../helpers';
 import { useState } from 'react';
-import UserInfo from '../components/UserInfo';
 import AvatarUploader from '../components/AvatarUploader';
-import DefaultAvatars from '../components/DefaultAvatars';
 import BioInput from '../components/BioInput';
+import DefaultAvatars from '../components/DefaultAvatars';
 import ThemeSwitch from '../components/ThemeSwitch';
-import { useChangeTitle } from '../hooks';
+import UserInfo from '../components/UserInfo';
+import { MAX_BIO_LENGTH } from '../constants';
+import { updateUserProfile } from '../helpers';
+import { useChangeTitle, useUserAndTheme } from '../hooks';
+import { StyledProfilePage } from '../styles/ProfilePage.styled';
 
 export default function ProfilePage() {
-  const { user, setUser } = useOutletContext();
+  const { user, setUser } = useUserAndTheme();
   const [bio, setBio] = useState(user.bio);
   const [bioLength, setBioLength] = useState(MAX_BIO_LENGTH - user.bio.length);
   const [selectedAvatar, setSelectedAvatar] = useState('');
-  const [uploadedAvatar, setUploadedAvatar] = useState('');
+  const [uploadedAvatar, setUploadedAvatar] = useState<File | null>(null);
   const [uploadedAvatarPreview, setUploadedAvatarPreview] = useState('');
   const [inProgress, setInProgress] = useState(false);
   const [feedback, setFeedback] = useState('');
@@ -39,13 +39,14 @@ export default function ProfilePage() {
 
   return (
     <StyledProfilePage>
-      <UserInfo user={user} />
+      <UserInfo />
       <DefaultAvatars
         selectedAvatar={selectedAvatar}
         uploadedAvatar={uploadedAvatar}
         setSelectedAvatar={setSelectedAvatar}
       />
       <AvatarUploader
+        type="Avatar"
         uploadedAvatar={uploadedAvatar}
         uploadedAvatarPreview={uploadedAvatarPreview}
         setUploadedAvatar={setUploadedAvatar}
@@ -55,11 +56,11 @@ export default function ProfilePage() {
       <BioInput
         bio={bio}
         bioLength={bioLength}
+        inProgress={inProgress}
+        feedback={feedback}
         setBio={setBio}
         setBioLength={setBioLength}
         handleUpdateProfileClick={handleUpdateProfileClick}
-        inProgress={inProgress}
-        feedback={feedback}
       />
       <ThemeSwitch />
     </StyledProfilePage>
