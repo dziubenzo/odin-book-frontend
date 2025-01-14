@@ -1,15 +1,16 @@
-import API_URL from './API';
-import { useState, useEffect, useLayoutEffect } from 'react';
-import { useImmer } from 'use-immer';
-import { useNavigate } from 'react-router-dom';
-import { SHRINK_HEADER_SCROLL_VALUE } from './helpers';
 import Cookies from 'js-cookie';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { type Updater, useImmer } from 'use-immer';
+import API_URL from './API';
+import { SHRINK_HEADER_SCROLL_VALUE } from './constants';
+import type { OutletContext, Post, PostType, SortBy, User } from './types';
 
 // Authenticate user based on JWT stored in a cookie
 // Set user state if auth successful
 export const useAuthUser = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useImmer('');
+  const [user, setUser] = useImmer<User | null>(null);
 
   useEffect(() => {
     async function authUser() {
@@ -23,7 +24,7 @@ export const useAuthUser = () => {
       if (!res.ok) {
         return navigate('/');
       }
-      const user = await res.json();
+      const user: User = await res.json();
       setUser(user);
     }
     authUser();
@@ -32,10 +33,21 @@ export const useAuthUser = () => {
   return { user, setUser };
 };
 
+// Wrapper for the useOutletContext hook that makes sure the user object cannot be null
+export const useUserAndTheme = () => {
+  const { user, setUser, theme, setTheme } = useOutletContext<OutletContext>();
+
+  if (!user) throw new Error('Something went wrong');
+
+  return { user, setUser, theme, setTheme };
+};
+
 // Check user authentication (Welcome Page)
 // Show Welcome Page if auth unsuccessful
 // Redirect to /posts if auth successful
-export const useCheckAuth = (setShowPage) => {
+export const useCheckAuth = (
+  setShowPage: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,10 +70,10 @@ export const useCheckAuth = (setShowPage) => {
 };
 
 // Fetch page data
-export const useFetchPageData = (endpoint) => {
-  const [data, setData] = useImmer(null);
+export const useFetchPageData = <T,>(endpoint: string) => {
+  const [data, setData] = useImmer<T | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -75,11 +87,11 @@ export const useFetchPageData = (endpoint) => {
         },
       });
       if (!res.ok) {
-        const error = await res.json();
+        const error = (await res.json()) as string;
         setLoading(false);
         return setError(error);
       }
-      const data = await res.json();
+      const data: T = await res.json();
       setData(data);
       setLoading(false);
     }
@@ -90,10 +102,10 @@ export const useFetchPageData = (endpoint) => {
 };
 
 // Fetch initial posts (infinite scroll)
-export const useFetchPosts = (endpoint, limit) => {
-  const [posts, setPosts] = useImmer(null);
+export const useFetchPosts = (endpoint: string, limit: number) => {
+  const [posts, setPosts] = useImmer<Post[] | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
@@ -139,24 +151,27 @@ export const useFetchPosts = (endpoint, limit) => {
 
 // Show Leave Page dialog if any field is not empty
 // Save fields to session storage and retrieve them on page load
-export const usePreserveState = (
-  loading,
-  postType,
-  title,
-  category,
-  content,
-  imageURL,
-  videoURL,
-  setPostType,
-  setTitle,
-  setCategory,
-  setContent,
-  setImageURL,
-  setVideoURL,
-) => {
+export const usePreserveState = (loading: boolean) => {
+  const [postType, setPostType] = useState<PostType>('text');
+  const [title, setTitle] = useState('');
+  const [category, setCategory] = useState('');
+  const [content, setContent] = useState('');
+  const [imageURL, setImageURL] = useState('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [videoURL, setVideoURL] = useState('');
+
   useEffect(() => {
     if (loading) {
-      setPostType(sessionStorage.getItem('postType') || postType);
+      const savedPostType = sessionStorage.getItem('postType');
+      if (
+        savedPostType === 'text' ||
+        savedPostType === 'image' ||
+        savedPostType === 'video'
+      ) {
+        setPostType(savedPostType);
+      } else {
+        setPostType(postType);
+      }
       setTitle(sessionStorage.getItem('title') || '');
       setCategory(sessionStorage.getItem('category') || '');
       setContent(sessionStorage.getItem('content') || '');
@@ -164,7 +179,7 @@ export const usePreserveState = (
       setVideoURL(sessionStorage.getItem('videoURL') || '');
     }
 
-    function triggerLeavePageDialog(event) {
+    function triggerLeavePageDialog(event: BeforeUnloadEvent) {
       event.preventDefault();
       event.returnValue = true;
     }
@@ -185,6 +200,23 @@ export const usePreserveState = (
       }
     };
   }, [postType, title, category, content, imageURL, videoURL]);
+
+  return {
+    postType,
+    setPostType,
+    title,
+    setTitle,
+    category,
+    setCategory,
+    content,
+    setContent,
+    imageURL,
+    setImageURL,
+    imageFile,
+    setImageFile,
+    videoURL,
+    setVideoURL,
+  };
 };
 
 // Shrink the header on reaching the specified scroll value
@@ -210,23 +242,26 @@ export const useShrinkHeader = () => {
 
 // Save the initial theme value (dark) to the local storage
 // Otherwise read the theme value from the local storage
-export const useThemeValue = (setTheme) => {
+export const useThemeValue = (
+  setTheme: React.Dispatch<React.SetStateAction<string>>,
+) => {
   useEffect(() => {
-    if (!localStorage.getItem('theme')) {
+    const localStorageValue = localStorage.getItem('theme');
+    if (!localStorageValue) {
       localStorage.setItem('theme', 'dark');
       return setTheme('dark');
     }
-    setTheme(localStorage.getItem('theme'));
+    setTheme(localStorageValue);
   }, []);
 };
 
 // Pass the error to the parent component so that the entire page throws an error
 // Ensure that the fetch of a resource and the fetch of posts are in sync
 export const useSyncWithParent = (
-  error,
-  loading,
-  setResourceError,
-  setLoadingResource,
+  error: string | null,
+  loading: boolean,
+  setResourceError: React.Dispatch<React.SetStateAction<string | null>>,
+  setLoadingResource: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   useEffect(() => {
     if (error) {
@@ -242,10 +277,23 @@ export const useSyncWithParent = (
 };
 
 // Sort posts
-export const useSortPosts = (posts, setPosts) => {
-  const [sortBy, setSortBy] = useState(
-    localStorage.getItem('sortBy') || 'newest',
-  );
+export const useSortPosts = (
+  posts: Post[] | null,
+  setPosts: Updater<Post[] | null>,
+) => {
+  const [sortBy, setSortBy] = useState<SortBy>(() => {
+    const localStorageValue = localStorage.getItem('sortBy');
+    if (
+      localStorageValue &&
+      (localStorageValue === 'newest' ||
+        localStorageValue === 'oldest' ||
+        localStorageValue === 'likes' ||
+        localStorageValue === 'comments')
+    ) {
+      return localStorageValue;
+    }
+    return 'newest';
+  });
 
   useEffect(() => {
     if (posts) {
@@ -254,14 +302,18 @@ export const useSortPosts = (posts, setPosts) => {
           // Pass a new array to the setter function to ensure rerender
           setPosts(
             posts.toSorted(
-              (a, b) => new Date(b.created_at) - new Date(a.created_at),
+              (a, b) =>
+                new Date(b.created_at).getTime() -
+                new Date(a.created_at).getTime(),
             ),
           );
           break;
         case 'oldest':
           setPosts(
             posts.toSorted(
-              (a, b) => new Date(a.created_at) - new Date(b.created_at),
+              (a, b) =>
+                new Date(a.created_at).getTime() -
+                new Date(b.created_at).getTime(),
             ),
           );
           break;
@@ -290,7 +342,7 @@ export const useSortPosts = (posts, setPosts) => {
 };
 
 // Change app title
-export const useChangeTitle = (title) => {
+export const useChangeTitle = (title: string) => {
   useLayoutEffect(() => {
     document.title = `Aurora - ${title}`;
   }, [title]);

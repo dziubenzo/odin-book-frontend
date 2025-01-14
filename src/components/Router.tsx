@@ -28,7 +28,7 @@ function Router() {
       children: [
         {
           path: '',
-          element: <PostsPage />,
+          element: <PostsPage pageDescription="All Posts" />,
         },
         {
           path: 'categories',

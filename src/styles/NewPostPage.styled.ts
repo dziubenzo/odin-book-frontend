@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MIN_POST_CONTENT_LENGTH } from '../helpers';
+import { MIN_POST_CONTENT_LENGTH } from '../constants';
 
 type StyledTextEditorProps = {
   $contentLength: number;

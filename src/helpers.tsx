@@ -1,52 +1,27 @@
-import API_URL from './API';
 import Cookies from 'js-cookie';
+import type { NavigateFunction } from 'react-router-dom';
 import slugify from 'slugify';
-
-/* 
-Constants
-*/
-
-export const MIN_COMMENT_LENGTH = 3;
-export const MAX_COMMENT_LENGTH = 320;
-export const MAX_BIO_LENGTH = 320;
-export const MIN_CATEGORY_NAME_LENGTH = 3;
-export const MAX_CATEGORY_NAME_LENGTH = 32;
-export const MIN_CATEGORY_DESCRIPTION_LENGTH = 3;
-export const MAX_CATEGORY_DESCRIPTION_LENGTH = 320;
-export const MIN_POST_TITLE_LENGTH = 3;
-export const MAX_POST_TITLE_LENGTH = 64;
-export const MIN_POST_CONTENT_LENGTH = 8;
-export const POSTS_PER_FETCH = 15;
-export const SHRINK_HEADER_SCROLL_VALUE = 100;
-
-export const defaultAvatars = [
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/b0heqsns8cpkyjzm1bsd.png',
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/dfmwqquwvyavf4v31wcg.png',
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/kqrc0rjjpz18d0rz0lhw.png',
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/cpwima9dqagdfywemsop.png',
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/mxppgtj6ahub99iimrii.png',
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/d8lormu9xhhiyendqm0v.png',
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/kvvaddcwsv0at8xdkunu.png',
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111758/odin_book/avatars/default/akap5kaki53sgmkhqekz.png',
-];
-
-export const defaultCategoryIcon =
-  'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1719224975/odin_book/category_icons/default/yx1nunw6khsgatgbqczt.png';
-
-export const allowedImageFormats = [
-  'image/avif',
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'image/gif',
-];
-
-/* 
-Functions
-*/
+import type { Updater } from 'use-immer';
+import API_URL from './API';
+import {
+  MAX_COMMENT_LENGTH,
+  MIN_POST_CONTENT_LENGTH,
+  MIN_POST_TITLE_LENGTH,
+  POSTS_PER_FETCH,
+} from './constants';
+import type {
+  Comment,
+  DetailedCategory,
+  DetailedPost,
+  Post,
+  User,
+} from './types';
 
 // Log in as guest
-export const logInAsGuest = async (setIsLoggingIn, navigate) => {
+export const logInAsGuest = async (
+  setIsLoggingIn: React.Dispatch<React.SetStateAction<boolean>>,
+  navigate: NavigateFunction,
+) => {
   const guestUser = {
     username: 'TOP',
     password: '12345678',
@@ -72,12 +47,12 @@ export const logInAsGuest = async (setIsLoggingIn, navigate) => {
 // Like post
 // Handle two cases (post either liked already or not liked)
 export const likePost = async (
-  post,
-  userID,
-  inProgress,
-  setInProgress,
-  setError,
-  setPosts,
+  post: Post,
+  userID: User['_id'],
+  inProgress: boolean,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setPosts: Updater<Post[] | null>,
 ) => {
   if (inProgress) {
     return;
@@ -99,6 +74,7 @@ export const likePost = async (
     return setInProgress(false);
   }
   setPosts((draft) => {
+    if (!draft) return;
     const [post] = draft.filter((post) => post.slug === postSlug);
     // Post already liked
     if (post.likes.includes(userID)) {
@@ -120,12 +96,12 @@ export const likePost = async (
 // Dislike post
 // Handle two cases (post either disliked already or not disliked)
 export const dislikePost = async (
-  post,
-  userID,
-  inProgress,
-  setInProgress,
-  setError,
-  setPosts,
+  post: Post,
+  userID: User['_id'],
+  inProgress: boolean,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setPosts: Updater<Post[] | null>,
 ) => {
   if (inProgress) {
     return;
@@ -147,6 +123,7 @@ export const dislikePost = async (
     return setInProgress(false);
   }
   setPosts((draft) => {
+    if (!draft) return;
     const [post] = draft.filter((post) => post.slug === postSlug);
     // Post already disliked
     if (post.dislikes.includes(userID)) {
@@ -168,14 +145,14 @@ export const dislikePost = async (
 // Like post (Post Details page)
 // Handle two cases (post either liked already or not liked)
 export const likeSinglePost = async (
-  post,
-  userID,
-  inProgress,
-  setInProgress,
-  setError,
-  setPost,
+  post: DetailedPost | null,
+  userID: User['_id'],
+  inProgress: boolean,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setPost: Updater<DetailedPost | null>,
 ) => {
-  if (inProgress) {
+  if (inProgress || !post) {
     return;
   }
   setInProgress(true);
@@ -194,6 +171,7 @@ export const likeSinglePost = async (
     return setInProgress(false);
   }
   setPost((draft) => {
+    if (!draft) return;
     // Post already liked
     if (draft.likes.includes(userID)) {
       const likeIndex = draft.likes.indexOf(userID);
@@ -214,14 +192,14 @@ export const likeSinglePost = async (
 // Dislike post (Post Details page)
 // Handle two cases (post either disliked already or not disliked)
 export const dislikeSinglePost = async (
-  post,
-  userID,
-  inProgress,
-  setInProgress,
-  setError,
-  setPost,
+  post: DetailedPost | null,
+  userID: User['_id'],
+  inProgress: boolean,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setPost: Updater<DetailedPost | null>,
 ) => {
-  if (inProgress) {
+  if (inProgress || !post) {
     return;
   }
   setInProgress(true);
@@ -240,6 +218,7 @@ export const dislikeSinglePost = async (
     return setInProgress(false);
   }
   setPost((draft) => {
+    if (!draft) return;
     // Post already disliked
     if (draft.dislikes.includes(userID)) {
       const dislikeIndex = draft.dislikes.indexOf(userID);
@@ -260,15 +239,15 @@ export const dislikeSinglePost = async (
 // Like comment
 // Handle two cases (comment either liked already or not liked)
 export const likeComment = async (
-  post,
-  commentID,
-  userID,
-  inProgress,
-  setInProgress,
-  setError,
-  setPost,
+  post: DetailedPost | null,
+  commentID: Comment['_id'],
+  userID: User['_id'],
+  inProgress: boolean,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setPost: Updater<DetailedPost | null>,
 ) => {
-  if (inProgress) {
+  if (inProgress || !post) {
     return;
   }
   setInProgress(true);
@@ -290,6 +269,7 @@ export const likeComment = async (
     return setInProgress(false);
   }
   setPost((draft) => {
+    if (!draft) return;
     const [comment] = draft.comments.filter(
       (comment) => comment._id === commentID,
     );
@@ -313,15 +293,15 @@ export const likeComment = async (
 // Dislike comment
 // Handle two cases (comment either disliked already or not disliked)
 export const dislikeComment = async (
-  post,
-  commentID,
-  userID,
-  inProgress,
-  setInProgress,
-  setError,
-  setPost,
+  post: DetailedPost | null,
+  commentID: Comment['_id'],
+  userID: User['_id'],
+  inProgress: boolean,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setPost: Updater<DetailedPost | null>,
 ) => {
-  if (inProgress) {
+  if (inProgress || !post) {
     return;
   }
   setInProgress(true);
@@ -343,6 +323,7 @@ export const dislikeComment = async (
     return setInProgress(false);
   }
   setPost((draft) => {
+    if (!draft) return;
     const [comment] = draft.comments.filter(
       (comment) => comment._id === commentID,
     );
@@ -365,17 +346,17 @@ export const dislikeComment = async (
 
 // Create post comment
 export const createComment = async (
-  userID,
-  post,
-  content,
-  inProgress,
-  commentFieldRef,
-  setCommentError,
-  setInProgress,
-  setIsSubmitted,
-  setContent,
-  setContentLength,
-  setPost,
+  userID: User['_id'],
+  post: DetailedPost,
+  content: string,
+  inProgress: boolean,
+  commentFieldRef: React.RefObject<HTMLParagraphElement>,
+  setCommentError: React.Dispatch<React.SetStateAction<string>>,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>,
+  setContent: React.Dispatch<React.SetStateAction<string>>,
+  setContentLength: React.Dispatch<React.SetStateAction<number>>,
+  setPost: Updater<DetailedPost | null>,
 ) => {
   if (inProgress) {
     return;
@@ -397,31 +378,32 @@ export const createComment = async (
     setTimedMessage(error, setCommentError);
     return setInProgress(false);
   }
-  const updatedPost = await res.json();
+  const updatedPost: DetailedPost = await res.json();
   setPost(updatedPost);
   setIsSubmitted(true);
   setTimeout(() => {
     setIsSubmitted(false);
     setInProgress(false);
-    commentFieldRef.current.textContent = '';
     setContent('');
+    if (!commentFieldRef.current) return;
+    commentFieldRef.current.textContent = '';
   }, 2000);
   return setContentLength(MAX_COMMENT_LENGTH);
 };
 
 // Update user profile (bio and/or avatar)
 export const updateUserProfile = async (
-  user,
-  inProgress,
-  bio,
-  selectedAvatar,
-  uploadedAvatar,
-  setInProgress,
-  setFeedback,
-  setUser,
-  setSelectedAvatar,
-  setUploadedAvatar,
-  setUploadedAvatarPreview,
+  user: User,
+  inProgress: boolean,
+  bio: User['bio'],
+  selectedAvatar: string,
+  uploadedAvatar: File | null,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setFeedback: React.Dispatch<React.SetStateAction<string>>,
+  setUser: Updater<User | null>,
+  setSelectedAvatar: React.Dispatch<React.SetStateAction<string>>,
+  setUploadedAvatar: React.Dispatch<React.SetStateAction<File | null>>,
+  setUploadedAvatarPreview: React.Dispatch<React.SetStateAction<string>>,
 ) => {
   if (inProgress) {
     return;
@@ -456,19 +438,19 @@ export const updateUserProfile = async (
   setUser(updatedUser);
   setTimedMessage('Profile updated successfully!', setFeedback);
   setSelectedAvatar('');
-  setUploadedAvatar('');
+  setUploadedAvatar(null);
   setUploadedAvatarPreview('');
   return setInProgress(false);
 };
 
 // Follow/unfollow a category
 export const followOrUnfollowCategory = async (
-  inProgress,
-  user,
-  categoryID,
-  setInProgress,
-  setError,
-  setUser,
+  inProgress: string | null,
+  user: User,
+  categoryID: DetailedCategory['_id'],
+  setInProgress: React.Dispatch<React.SetStateAction<string | null>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setUser: Updater<User | null>,
 ) => {
   if (inProgress) {
     return;
@@ -485,23 +467,23 @@ export const followOrUnfollowCategory = async (
   if (!res.ok) {
     const error = await res.json();
     setError(error);
-    return setInProgress(false);
+    return setInProgress(null);
   }
   const updatedUser = await res.json();
   setUser(updatedUser);
-  return setInProgress(false);
+  return setInProgress(null);
 };
 
 // Create new category
 export const createNewCategory = async (
-  inProgress,
-  name,
-  description,
-  uploadedIcon,
-  setInProgress,
-  setError,
-  setCategoryCreated,
-  navigate,
+  inProgress: boolean,
+  name: string,
+  description: string,
+  uploadedIcon: File | null,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setError: React.Dispatch<React.SetStateAction<string>>,
+  setCategoryCreated: React.Dispatch<React.SetStateAction<boolean>>,
+  navigate: NavigateFunction,
 ) => {
   if (inProgress) {
     return;
@@ -534,12 +516,12 @@ export const createNewCategory = async (
 
 // Follow/unfollow a user
 export const followOrUnfollowUser = async (
-  inProgress,
-  user,
-  userID,
-  setInProgress,
-  setError,
-  setUser,
+  inProgress: User['_id'] | null,
+  user: User,
+  userID: User['_id'],
+  setInProgress: React.Dispatch<React.SetStateAction<string | null>>,
+  setError: React.Dispatch<React.SetStateAction<string | null>>,
+  setUser: Updater<User | null>,
 ) => {
   if (inProgress) {
     return;
@@ -556,24 +538,24 @@ export const followOrUnfollowUser = async (
   if (!res.ok) {
     const error = await res.json();
     setError(error);
-    return setInProgress(false);
+    return setInProgress(null);
   }
   const updatedUser = await res.json();
   setUser(updatedUser);
-  return setInProgress(false);
+  return setInProgress(null);
 };
 
 // Create text post
 export const createTextPost = async (
-  inProgress,
-  userID,
-  title,
-  content,
-  category,
-  setInProgress,
-  setErrorMessage,
-  setPostPublished,
-  navigate,
+  inProgress: boolean,
+  userID: User['_id'],
+  title: string,
+  content: string,
+  category: string,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  setPostPublished: React.Dispatch<React.SetStateAction<boolean>>,
+  navigate: NavigateFunction,
 ) => {
   if (areCommonFieldsInvalid(inProgress, category, title, setErrorMessage)) {
     return;
@@ -599,16 +581,16 @@ export const createTextPost = async (
 
 // Create image post
 export const createImagePost = async (
-  inProgress,
-  userID,
-  title,
-  imageURL,
-  imageFile,
-  category,
-  setInProgress,
-  setErrorMessage,
-  setPostPublished,
-  navigate,
+  inProgress: boolean,
+  userID: User['_id'],
+  title: string,
+  imageURL: string,
+  imageFile: File | null,
+  category: string,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  setPostPublished: React.Dispatch<React.SetStateAction<boolean>>,
+  navigate: NavigateFunction,
 ) => {
   if (areCommonFieldsInvalid(inProgress, category, title, setErrorMessage)) {
     return;
@@ -644,15 +626,15 @@ export const createImagePost = async (
 
 // Create video post
 export const createVideoPost = async (
-  inProgress,
-  userID,
-  title,
-  videoURL,
-  category,
-  setInProgress,
-  setErrorMessage,
-  setPostPublished,
-  navigate,
+  inProgress: boolean,
+  userID: User['_id'],
+  title: string,
+  videoURL: string,
+  category: string,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  setPostPublished: React.Dispatch<React.SetStateAction<boolean>>,
+  navigate: NavigateFunction,
 ) => {
   if (areCommonFieldsInvalid(inProgress, category, title, setErrorMessage)) {
     return;
@@ -678,12 +660,12 @@ export const createVideoPost = async (
 
 // Handle create post submission
 const submitPost = async (
-  type,
-  data,
-  setErrorMessage,
-  setInProgress,
-  setPostPublished,
-  navigate,
+  type: 'text' | 'image' | 'video',
+  data: FormData,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
+  setPostPublished: React.Dispatch<React.SetStateAction<boolean>>,
+  navigate: NavigateFunction,
 ) => {
   const res = await fetch(`${API_URL}/posts/?type=${type}`, {
     method: 'POST',
@@ -711,10 +693,10 @@ const submitPost = async (
 
 // Validate fields common to all post types
 const areCommonFieldsInvalid = (
-  inProgress,
-  category,
-  title,
-  setErrorMessage,
+  inProgress: boolean,
+  category: string,
+  title: string,
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
 ) => {
   if (inProgress) {
     return true;
@@ -731,7 +713,7 @@ const areCommonFieldsInvalid = (
 };
 
 // Check if the URL provided is a valid image
-export const isValidImageURL = (string) => {
+export const isValidImageURL = (string: string) => {
   if (typeof string !== 'string') {
     return false;
   }
@@ -741,7 +723,11 @@ export const isValidImageURL = (string) => {
 };
 
 // Set feedback/error message and remove it after the time provided
-export const setTimedMessage = (message, setterFunction, time = 2000) => {
+export const setTimedMessage = (
+  message: string,
+  setterFunction: React.Dispatch<React.SetStateAction<string>>,
+  time = 2000,
+) => {
   setterFunction(message);
   return setTimeout(() => {
     setterFunction('');
@@ -750,11 +736,11 @@ export const setTimedMessage = (message, setterFunction, time = 2000) => {
 
 // Fetch more posts (infinite scroll)
 export const fetchMorePosts = async (
-  endpoint,
-  limit,
-  skip,
-  setPosts,
-  setHasMore,
+  endpoint: string,
+  limit: number,
+  skip: number,
+  setPosts: Updater<Post[] | null>,
+  setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const res = await fetch(
     endpoint +
@@ -769,14 +755,23 @@ export const fetchMorePosts = async (
       },
     },
   );
-  const morePosts = await res.json();
-  setPosts((previousPosts) => [...previousPosts, ...morePosts]);
-  morePosts.length === POSTS_PER_FETCH ? setHasMore(true) : setHasMore(false);
+  const morePosts: Post[] = await res.json();
+  setPosts((previousPosts) => {
+    if (!previousPosts) return;
+    return [...previousPosts, ...morePosts];
+  });
+  if (morePosts.length === POSTS_PER_FETCH) {
+    setHasMore(true);
+  } else {
+    setHasMore(false);
+  }
   return;
 };
 
 // Prevent Enter from inserting a next line
-export const disableEnter = (event) => {
+export const disableEnter = (
+  event: React.KeyboardEvent<HTMLTextAreaElement | HTMLParagraphElement>,
+) => {
   if (event.key === 'Enter') {
     event.preventDefault();
   }

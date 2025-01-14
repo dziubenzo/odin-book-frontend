@@ -31,7 +31,7 @@ function UserDetails({
   } = useFetchPageData<DetailedUser>(`${API_URL}/users/${username}`);
   const errorMessageRef = useRef<HTMLParagraphElement>(null);
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [inProgress, setInProgress] = useState<DetailedUser['_id'] | null>(
     null,
   );

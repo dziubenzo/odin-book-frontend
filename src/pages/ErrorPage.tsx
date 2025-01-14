@@ -5,7 +5,7 @@ import { StyledErrorPage } from '../styles/ErrorPage.styled';
 import GlobalStyle from '../styles/GlobalStyle';
 
 type ErrorPageProps = {
-  isWholePage: boolean;
+  isWholePage?: boolean;
 };
 
 function ErrorPage({ isWholePage = false }: ErrorPageProps) {
