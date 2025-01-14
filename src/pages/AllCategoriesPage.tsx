@@ -1,32 +1,33 @@
-import API_URL from '../API';
-import { useOutletContext, Link } from 'react-router-dom';
-import { StyledAllCategoriesPage } from '../styles/AllCategoriesPage.styled';
-import { useChangeTitle, useFetchPageData } from '../hooks';
 import { useState } from 'react';
-import Loading from '../components/Loading';
-import Error from '../components/Error';
-import Category from '../components/Category';
-import { followOrUnfollowCategory } from '../helpers';
 import { IoCreateOutline } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
+import API_URL from '../API';
+import Category from '../components/Category';
+import Error from '../components/Error';
+import Loading from '../components/Loading';
+import { followOrUnfollowCategory } from '../helpers';
+import { useChangeTitle, useFetchPageData, useUserAndTheme } from '../hooks';
+import { StyledAllCategoriesPage } from '../styles/AllCategoriesPage.styled';
+import type { Category as CategoryType } from '../types';
 
 function AllCategoriesPage() {
-  const { user, setUser } = useOutletContext();
+  const { user, setUser } = useUserAndTheme();
   const {
     data: categories,
     loading,
     error,
     setError,
-  } = useFetchPageData(`${API_URL}/categories`);
-  const [inProgress, setInProgress] = useState(false);
+  } = useFetchPageData<CategoryType[]>(`${API_URL}/categories`);
+  const [inProgress, setInProgress] = useState<CategoryType["_id"] | null>(null);
 
   useChangeTitle('All Categories');
 
   function renderCategories() {
+    if (!categories) return;
     return categories.map((category) => {
       return (
         <Category
           key={category._id}
-          user={user}
           category={category}
           handleCategoryButtonClick={handleCategoryButtonClick}
           inProgress={inProgress}
@@ -35,7 +36,7 @@ function AllCategoriesPage() {
     });
   }
 
-  async function handleCategoryButtonClick(categoryID) {
+  async function handleCategoryButtonClick(categoryID: CategoryType['_id']) {
     await followOrUnfollowCategory(
       inProgress,
       user,

@@ -1,12 +1,12 @@
 import { useUserAndTheme } from '../hooks';
 import { StyledButton } from '../styles/WelcomePage.styled';
-import type { DetailedCategory } from '../types';
+import type { Category, DetailedCategory } from '../types';
 
 type FollowCategoryButtonProps = {
-  category: DetailedCategory;
-  inProgress: DetailedCategory['_id'] | null;
+  category: DetailedCategory | Category;
+  inProgress: DetailedCategory['_id'] | Category['_id'] | null;
   handleCategoryButtonClick: (
-    categoryID: DetailedCategory['_id'],
+    categoryID: DetailedCategory['_id'] | Category['_id'],
   ) => Promise<void>;
 };
 

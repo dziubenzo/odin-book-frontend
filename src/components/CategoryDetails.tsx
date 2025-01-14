@@ -31,7 +31,7 @@ function CategoryDetails({
   } = useFetchPageData<DetailedCategory>(`${API_URL}/categories/${slug}`);
   const errorMessageRef = useRef<HTMLParagraphElement>(null);
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [inProgress, setInProgress] = useState<DetailedCategory['_id'] | null>(
     null,
   );

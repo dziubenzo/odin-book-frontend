@@ -1,16 +1,25 @@
-import PropTypes from 'prop-types';
 import { StyledCategory } from '../styles/AllCategoriesPage.styled';
+import type { Category as CategoryType } from '../types';
 import Avatar from './Avatar';
 import CategoryBody from './CategoryBody';
 import FollowCategoryButton from './FollowCategoryButton';
 
-function Category({ user, category, handleCategoryButtonClick, inProgress }) {
+type CategoryProps = {
+  category: CategoryType;
+  handleCategoryButtonClick: (categoryID: CategoryType['_id']) => Promise<void>;
+  inProgress: CategoryType['_id'] | null;
+};
+
+function Category({
+  category,
+  handleCategoryButtonClick,
+  inProgress,
+}: CategoryProps) {
   return (
     <StyledCategory>
-      <Avatar object={category} size={50} isCategory={true} />
+      <Avatar object={category} size={50} type="category" />
       <CategoryBody category={category} />
       <FollowCategoryButton
-        loggedInUser={user}
         category={category}
         inProgress={inProgress}
         handleCategoryButtonClick={handleCategoryButtonClick}
@@ -18,12 +27,5 @@ function Category({ user, category, handleCategoryButtonClick, inProgress }) {
     </StyledCategory>
   );
 }
-
-Category.propTypes = {
-  user: PropTypes.object,
-  category: PropTypes.object,
-  handleCategoryButtonClick: PropTypes.func,
-  inProgress: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-};
 
 export default Category;
