@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import type { IconType } from 'react-icons';
 import { StyledStat } from '../styles/PostsPage.styled';
 
@@ -17,11 +16,5 @@ function Stat({ IconComponent, description, count }: StatProps) {
     </StyledStat>
   );
 }
-
-Stat.propTypes = {
-  IconComponent: PropTypes.elementType,
-  description: PropTypes.string,
-  count: PropTypes.number,
-};
 
 export default Stat;

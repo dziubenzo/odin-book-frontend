@@ -5,7 +5,7 @@ import { StyledCommentInputTop } from '../styles/PostDetailsPage.styled';
 import Avatar from './Avatar';
 
 type CommentInputTopProps = {
-  commentFieldRef: React.RefObject<HTMLParagraphElement>;
+  commentFieldRef: React.RefObject<HTMLParagraphElement | null>;
   content: string;
   contentLength: number;
   setContent: React.Dispatch<React.SetStateAction<string>>;

@@ -37,7 +37,7 @@ function WelcomePage() {
     await logInAsGuest(setIsLoggingIn, navigate);
   }
 
-  function showModal(modalRef: React.RefObject<HTMLDialogElement>) {
+  function showModal(modalRef: React.RefObject<HTMLDialogElement | null>) {
     if (!modalRef.current) return;
     modalRef.current.showModal();
   }

@@ -11,7 +11,7 @@ import {
 } from '../styles/WelcomePage.styled';
 
 type LoginModalProps = {
-  loginModalRef: React.RefObject<HTMLDialogElement>;
+  loginModalRef: React.RefObject<HTMLDialogElement | null>;
   username: string;
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   password: string;

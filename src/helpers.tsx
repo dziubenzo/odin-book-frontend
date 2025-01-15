@@ -350,7 +350,7 @@ export const createComment = async (
   post: DetailedPost,
   content: string,
   inProgress: boolean,
-  commentFieldRef: React.RefObject<HTMLParagraphElement>,
+  commentFieldRef: React.RefObject<HTMLParagraphElement | null>,
   setCommentError: React.Dispatch<React.SetStateAction<string>>,
   setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>,
