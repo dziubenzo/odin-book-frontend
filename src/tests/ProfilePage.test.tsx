@@ -1,34 +1,19 @@
 /* eslint-disable no-undef */
 
 import { render, screen } from '@testing-library/react';
-import { describe, expect } from 'vitest';
-
-import ProfilePage from '../pages/ProfilePage';
-import ThemeSwitch from '../components/ThemeSwitch';
-import Theme from '../components/Theme';
-import { BrowserRouter } from 'react-router-dom';
 import { userEvent } from '@testing-library/user-event';
-
-import { longBio, user2 } from './mocks';
-import { MAX_BIO_LENGTH, defaultAvatars } from '../helpers';
+import { BrowserRouter } from 'react-router-dom';
+import { describe, expect } from 'vitest';
+import Theme from '../components/Theme';
+import ThemeSwitch from '../components/ThemeSwitch';
+import { defaultAvatars, MAX_BIO_LENGTH } from '../constants';
+import ProfilePage from '../pages/ProfilePage';
 import { mockFetch } from './fetchMock';
-
-const mockSetTheme = vi.fn();
+import { longBio, user2 } from './mocks';
+import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 function renderProfilePage() {
-  // Mock useOutletContext
-  vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
-    return {
-      ...actual,
-      useOutletContext: () => {
-        return {
-          user: user2,
-          setUser: vi.fn(),
-        };
-      },
-    };
-  });
+  mockUseUserAndTheme(user2);
   const user = userEvent.setup();
 
   render(
@@ -43,21 +28,8 @@ function renderProfilePage() {
 }
 
 function renderThemeSwitch() {
-  // Mock useOutletContext
-  vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
-    return {
-      ...actual,
-      useOutletContext: () => {
-        return {
-          user: user2,
-          setUser: vi.fn(),
-          theme: 'dark',
-          setTheme: mockSetTheme,
-        };
-      },
-    };
-  });
+  const mockSetTheme = vi.fn();
+  mockUseUserAndTheme(user2, 'dark', mockSetTheme);
   const user = userEvent.setup();
 
   render(
@@ -85,7 +57,7 @@ describe('UserInfo', () => {
   it("should render a user's username", () => {
     renderProfilePage();
 
-    const username = screen.getByText(new RegExp(user2.username), 'i');
+    const username = screen.getByText(new RegExp(user2.username, 'i'));
 
     expect(username).toBeInTheDocument();
   });
@@ -108,7 +80,7 @@ describe('UserInfo', () => {
     renderProfilePage();
 
     const heading = screen.getByRole('heading', {
-      name: new RegExp(new Date().getFullYear()),
+      name: new RegExp(new Date().getFullYear().toString()),
     });
 
     expect(heading).toBeInTheDocument();
@@ -151,7 +123,7 @@ describe('DefaultAvatars', () => {
   it("should mark a default avatar as current if the user's avatar is one of the default avatars", () => {
     renderProfilePage();
 
-    const currentDefaultAvatar = screen.getByRole('img', {
+    const currentDefaultAvatar = screen.getByRole<HTMLImageElement>('img', {
       name: /default avatar 1/i,
     });
 
@@ -287,7 +259,7 @@ describe('BioInput', () => {
   it('should have a textbox that shows the current user bio', () => {
     renderProfilePage();
 
-    const bioTextbox = screen.getByRole('textbox');
+    const bioTextbox = screen.getByRole<HTMLTextAreaElement>('textbox');
 
     expect(bioTextbox.value).toBe(user2.bio);
   });
@@ -296,7 +268,7 @@ describe('BioInput', () => {
     const user = renderProfilePage();
     const input = 'Apple pies are tasty!';
 
-    const bioTextbox = screen.getByRole('textbox');
+    const bioTextbox = screen.getByRole<HTMLTextAreaElement>('textbox');
     await user.clear(bioTextbox);
     await user.type(bioTextbox, input);
 
@@ -306,7 +278,7 @@ describe('BioInput', () => {
   it('should have a textbox that respects MAX_BIO_LENGTH', async () => {
     const user = renderProfilePage();
 
-    const bioTextbox = screen.getByRole('textbox');
+    const bioTextbox = screen.getByRole<HTMLTextAreaElement>('textbox');
     await user.clear(bioTextbox);
     await user.type(bioTextbox, longBio);
 
@@ -385,6 +357,6 @@ describe('ThemeSwitch', () => {
     });
     await user.click(themeSwitchIcon);
 
-    expect(mockSetTheme).toHaveBeenCalled();
+    expect(mockSetTheme).toHaveBeenCalledOnce();
   });
 });

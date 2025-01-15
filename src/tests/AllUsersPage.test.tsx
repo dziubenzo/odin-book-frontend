@@ -1,33 +1,22 @@
 /* eslint-disable no-undef */
 
 import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 import { describe, expect } from 'vitest';
-
-import AllUsersPage from '../pages/AllUsersPage';
-import User from '../components/User';
 import FollowUserButton from '../components/FollowUserButton';
 import Theme from '../components/Theme';
-import { BrowserRouter } from 'react-router-dom';
-import { userEvent } from '@testing-library/user-event';
-
+import User from '../components/User';
+import AllUsersPage from '../pages/AllUsersPage';
+import type { DetailedUser, User as UserType } from '../types';
 import { mockFetch } from './fetchMock';
 import { user2, user3 } from './mocks';
+import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 const users = [user2, user3];
 
 function renderAllUsersPage() {
-  // Mock useOutletContext
-  vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
-    return {
-      ...actual,
-      useOutletContext: () => {
-        return {
-          user: user2,
-        };
-      },
-    };
-  });
+  mockUseUserAndTheme(user2);
 
   render(
     <BrowserRouter>
@@ -38,15 +27,19 @@ function renderAllUsersPage() {
   );
 }
 
-function renderUser(loggedInUser, renderedUser, inProgress) {
+function renderUser(
+  loggedInUser: UserType,
+  renderedUser: UserType,
+  inProgress: UserType['_id'] | null,
+) {
   const mockFollowUser = vi.fn();
+  mockUseUserAndTheme(loggedInUser);
   const user = userEvent.setup();
 
   render(
     <BrowserRouter>
       <Theme>
         <User
-          loggedInUser={loggedInUser}
           user={renderedUser}
           handleUserButtonClick={mockFollowUser}
           inProgress={inProgress}
@@ -58,15 +51,19 @@ function renderUser(loggedInUser, renderedUser, inProgress) {
   return { mockFollowUser, user };
 }
 
-function renderFollowUserButton(loggedInUser, renderedUser, inProgress) {
+function renderFollowUserButton(
+  loggedInUser: UserType,
+  renderedUser: DetailedUser | UserType,
+  inProgress: DetailedUser['_id'] | UserType['_id'] | null,
+) {
   const mockFollowUser = vi.fn();
+  mockUseUserAndTheme(loggedInUser);
   const user = userEvent.setup();
 
   render(
     <BrowserRouter>
       <Theme>
         <FollowUserButton
-          loggedInUser={loggedInUser}
           renderedUser={renderedUser}
           handleUserButtonClick={mockFollowUser}
           inProgress={inProgress}
@@ -122,7 +119,7 @@ describe('AllUsersPage', () => {
 
 describe('User', () => {
   it("should render user's avatar", () => {
-    renderUser(user2, user3, false);
+    renderUser(user2, user3, null);
 
     const userAvatar = screen.getByRole('img', {
       name: new RegExp(`${user3.username}'s avatar`, 'i'),
@@ -132,7 +129,7 @@ describe('User', () => {
   });
 
   it("should render user's username", () => {
-    renderUser(user2, user3, false);
+    renderUser(user2, user3, null);
 
     const userUsername = screen.getByText(new RegExp(user3.username, 'i'));
 
@@ -140,7 +137,7 @@ describe('User', () => {
   });
 
   it('should render two links to the user page (avatar and username)', () => {
-    renderUser(user2, user3, false);
+    renderUser(user2, user3, null);
 
     const userLinks = screen.getAllByRole('link');
 
@@ -170,11 +167,7 @@ describe('User', () => {
 
 describe('FollowUserButton', () => {
   it('should render a Follow/Unfollow button, which calls a follow/unfollow function with user ID if clicked', async () => {
-    const { mockFollowUser, user } = renderFollowUserButton(
-      user2,
-      user3,
-      false,
-    );
+    const { mockFollowUser, user } = renderFollowUserButton(user2, user3, null);
 
     const followButton = screen.getByRole('button');
 
@@ -187,7 +180,7 @@ describe('FollowUserButton', () => {
   });
 
   it('should render a Follow button description if the user is not followed by the logged in user', () => {
-    renderFollowUserButton(user2, user3, false);
+    renderFollowUserButton(user2, user3, null);
 
     const followButton = screen.getByRole('button');
 
@@ -195,7 +188,7 @@ describe('FollowUserButton', () => {
   });
 
   it('should render an Unfollow button description if the user is followed by the logged in user', () => {
-    renderFollowUserButton(user3, user2, false);
+    renderFollowUserButton(user3, user2, null);
 
     const followButton = screen.getByRole('button');
 
