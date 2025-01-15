@@ -31,7 +31,7 @@ type PostsPageProps = {
 
 function PostsPage({
   pageDescription,
-  fetchQuery,
+  fetchQuery = '',
   isCategoryPage,
   isUserPage,
 }: PostsPageProps) {

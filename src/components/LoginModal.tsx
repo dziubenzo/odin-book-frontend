@@ -52,7 +52,11 @@ function LoginModal({
     // Create a cookie with API-signed JWT
     const token = await res.json();
     setIsLoggingIn(false);
-    Cookies.set('jwt', token, { expires: 3, secure: true });
+    Cookies.set('jwt', token, {
+      expires: 3,
+      secure: location.protocol === 'https:',
+      sameSite: 'Lax',
+    });
     navigate('/posts');
   }
 
