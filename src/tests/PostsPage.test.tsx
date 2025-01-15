@@ -25,7 +25,7 @@ import {
   superUser,
   user1,
   user2,
-  USER_STATS_COUNT
+  USER_STATS_COUNT,
 } from './mocks';
 import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
@@ -405,14 +405,13 @@ describe('CategoryDetails', () => {
     mockFetch(error, false);
     const { setResourceErrorMock } = renderCategoryDetails();
 
-    // Wait for mockFetch to populate the page
-    // This allows me to use the queryBy query to check for the non-existence of something in proper setting
-    await waitFor(() => {}, { timeout: 0 });
-    const iconImg = screen.queryByRole('img', { name: /icon for the/i });
+    // Wait for mockFetch to complete
+    await waitFor(() => {
+      expect(setResourceErrorMock).toHaveBeenCalledWith(error);
+    });
 
+    const iconImg = screen.queryByRole('img', { name: /icon for the/i });
     expect(iconImg).not.toBeInTheDocument();
-    expect(setResourceErrorMock).toHaveBeenCalled();
-    expect(setResourceErrorMock).toHaveBeenCalledWith(error);
   });
 
   it('should not render anything while fetching', async () => {
@@ -442,10 +441,10 @@ describe('CategoryDetails', () => {
     mockFetch(category1, true);
     const { setLoadingResourceMock } = renderCategoryDetails();
 
-    await waitFor(() => {}, { timeout: 0 });
-
-    expect(setLoadingResourceMock).toHaveBeenCalled();
-    expect(setLoadingResourceMock).toHaveBeenCalledWith(false);
+    // Wait for mockFetch to complete
+    await waitFor(() => {
+      expect(setLoadingResourceMock).toHaveBeenLastCalledWith(false);
+    });
   });
 
   it('should render a category icon', async () => {
@@ -514,14 +513,13 @@ describe('UserDetails', () => {
     mockFetch(error, false);
     const { setResourceErrorMock } = renderUserDetails();
 
-    // Wait for mockFetch to populate the page
-    // This allows me to use the queryBy query to check for the non-existence of something in proper setting
-    await waitFor(() => {}, { timeout: 0 });
-    const iconImg = screen.queryByRole('img', { name: /icon for the/i });
+    // Wait for mockFetch to complete
+    await waitFor(() => {
+      expect(setResourceErrorMock).toHaveBeenCalledWith(error);
+    });
 
+    const iconImg = screen.queryByRole('img', { name: /icon for the/i });
     expect(iconImg).not.toBeInTheDocument();
-    expect(setResourceErrorMock).toHaveBeenCalled();
-    expect(setResourceErrorMock).toHaveBeenCalledWith(error);
   });
 
   it('should not render anything while fetching', async () => {
@@ -551,10 +549,10 @@ describe('UserDetails', () => {
     mockFetch(detailedUser2, true);
     const { setLoadingResourceMock } = renderUserDetails();
 
-    await waitFor(() => {}, { timeout: 0 });
-
-    expect(setLoadingResourceMock).toHaveBeenCalled();
-    expect(setLoadingResourceMock).toHaveBeenCalledWith(false);
+    // Wait for mockFetch to complete
+    await waitFor(() => {
+      expect(setLoadingResourceMock).toHaveBeenLastCalledWith(false);
+    });
   });
 
   it("should render a user's avatar", async () => {
