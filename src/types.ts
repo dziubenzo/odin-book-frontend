@@ -48,6 +48,7 @@ export type Post = {
   dislikes: User['_id'][];
   comments: Comment['_id'][];
   slug: string;
+  __v: number;
 };
 
 export type DetailedPost = Omit<Post, 'comments'> & {

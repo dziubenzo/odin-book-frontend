@@ -1,4 +1,11 @@
-import { defaultAvatars } from '../helpers';
+import { defaultAvatars } from '../constants';
+import type {
+  DetailedCategory,
+  DetailedPost,
+  DetailedUser,
+  Post,
+  User,
+} from '../types';
 
 /* 
 Users
@@ -7,36 +14,41 @@ Users
 export const superUser = {
   _id: '0',
   username: 'superUser',
-};
-
-export const user1 = {
-  _id: '1',
-  username: 'user1',
-};
-
-export const user2 = {
-  _id: '2',
-  username: 'user2',
   avatar: defaultAvatars[0],
-  bio: 'Bio Bio Bio Yo Yo Yo!',
-  registered_at: Date.now(),
+  bio: 'I am the SUPER USER!',
+  registered_at: new Date(),
   followed_categories: [],
   followed_users: [],
-};
+  __v: 0,
+} as const satisfies User;
+
+export const user1 = {
+  ...superUser,
+  _id: '1',
+  username: 'user1',
+} as const satisfies User;
+
+export const user2 = {
+  ...superUser,
+  _id: '2',
+  username: 'user2',
+  bio: 'Bio Bio Bio Yo Yo Yo!',
+} as const satisfies User;
 
 export const user3 = {
+  ...superUser,
   _id: '3',
   username: 'user3',
   avatar: 'https://www.example.com/super_avatar.png',
   followed_categories: ['1'],
   followed_users: ['2'],
-};
+} as const satisfies User;
 
-export const user4 = {
+export const detailedUser1 = {
+  ...superUser,
   _id: '4',
   username: 'user4',
   bio: 'I have a bio, yo!',
-  registered_at: Date.now(),
   avatar: 'https://www.example.com/super_avatar.png',
   followed_categories: ['1'],
   followed_users: ['2', '3'],
@@ -47,16 +59,14 @@ export const user4 = {
   commentLikesCount: 0,
   commentDislikesCount: 0,
   followersCount: 0,
-};
+} as const satisfies DetailedUser;
 
-export const user5 = {
+export const detailedUser2 = {
+  ...superUser,
   _id: '5',
   username: 'user5',
   bio: '',
-  registered_at: Date.now(),
   avatar: 'https://www.example.com/super_avatar.png',
-  followed_categories: [],
-  followed_users: [],
   postsCount: 999,
   postLikesCount: 999,
   postDislikesCount: 999,
@@ -64,7 +74,7 @@ export const user5 = {
   commentLikesCount: 999,
   commentDislikesCount: 999,
   followersCount: 999,
-};
+} as const satisfies DetailedUser;
 
 /* 
 Categories
@@ -75,11 +85,12 @@ export const category1 = {
   name: 'Category 1',
   icon: 'https://www.example.com/super_icon.png',
   description: 'Category 1 description',
-  created_at: Date.now(),
+  created_at: new Date(),
   slug: 'category-1',
   postsCount: 99,
   followersCount: 99,
-};
+  __v: 0,
+} as const satisfies DetailedCategory;
 
 export const category2 = {
   ...category1,
@@ -87,7 +98,7 @@ export const category2 = {
   name: 'Category 2',
   description: 'Category 2 description',
   slug: 'category-2',
-};
+} as const satisfies DetailedCategory;
 
 /* 
 Posts
@@ -99,56 +110,56 @@ export const post1 = {
   title: 'Post 1',
   content: 'Post 1 Content',
   category: {
-    _id: '1',
     name: 'category1',
     slug: 'category1',
   },
-  created_at: Date.now(),
+  created_at: new Date(),
   likes: ['1', '2', '3'],
   dislikes: ['1', '2'],
   comments: [],
   slug: 'post-1',
-};
+  __v: 0,
+} as const satisfies Post;
 
 export const post2 = {
   _id: '2',
   author: {
-    _id: '2',
     username: 'user2',
+    avatar: '',
   },
   title: 'Post 2',
   content: 'Post 2 Content',
   category: {
-    _id: '2',
     name: 'category2',
     slug: 'category2',
   },
-  created_at: Date.now(),
+  created_at: new Date(),
   likes: ['1', '2', '3', '4', '5'],
   dislikes: ['1', '2'],
   comments: [],
   slug: 'post-2',
-};
+  __v: 0,
+} as const satisfies Post;
 
 export const post3 = {
   _id: '3',
   author: {
-    _id: '3',
     username: 'user3',
+    avatar: '',
   },
   title: 'Post 3',
   content: 'Post 3 Content',
   category: {
-    _id: '3',
     name: 'category3',
     slug: 'category3',
   },
-  created_at: Date.now(),
+  created_at: new Date(),
   likes: [],
   dislikes: ['1', '2', '3', '4', '5'],
   comments: ['A', 'B', 'C', 'D'],
   slug: 'post-3',
-};
+  __v: 0,
+} as const satisfies Post;
 
 /* 
 Detailed post
@@ -157,56 +168,59 @@ Detailed post
 export const detailedPost1 = {
   _id: '3',
   author: {
-    _id: '1',
     username: 'user1',
+    avatar: '',
   },
   title: 'Post 1 Detailed',
   content: 'Post 1 Detailed Content',
   category: {
-    _id: '1',
     name: 'category1',
     slug: 'category1',
   },
-  created_at: Date.now(),
+  created_at: new Date(),
   likes: ['1'],
   dislikes: ['0'],
   comments: [
     {
       _id: '1',
       author: {
-        _id: '1',
         username: 'user1',
+        avatar: '',
       },
-      created_at: Date.now(),
+      created_at: new Date(),
       content: 'Comment Content 1',
       likes: ['1'],
       dislikes: ['0', '5', '7'],
+      __v: 0,
     },
     {
       _id: '2',
       author: {
-        _id: '1',
         username: 'user1',
+        avatar: '',
       },
-      created_at: Date.now(),
+      created_at: new Date(),
       content: 'Comment Content 2',
       likes: ['0'],
       dislikes: [],
+      __v: 0,
     },
     {
       _id: '3',
       author: {
-        _id: '0',
         username: 'superUser',
+        avatar: '',
       },
-      created_at: Date.now(),
+      created_at: new Date(),
       content: 'Comment Content 3',
       likes: [],
       dislikes: ['0', '1'],
+      __v: 0,
     },
   ],
   slug: 'post-3',
-};
+  __v: 0,
+} as const satisfies DetailedPost;
 
 /* 
 Miscellaneous

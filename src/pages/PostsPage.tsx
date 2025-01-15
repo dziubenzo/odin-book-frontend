@@ -23,15 +23,15 @@ import { StyledPostsPage } from '../styles/PostsPage.styled';
 import type { Post as PostType } from '../types';
 
 type PostsPageProps = {
-  fetchQuery?: string;
   pageDescription: string;
+  fetchQuery?: string;
   isCategoryPage?: boolean;
   isUserPage?: boolean;
 };
 
 function PostsPage({
-  fetchQuery,
   pageDescription,
+  fetchQuery,
   isCategoryPage,
   isUserPage,
 }: PostsPageProps) {
@@ -102,13 +102,17 @@ function PostsPage({
 
   if (error || resourceError) {
     if (error) {
-      <StyledPostsPage>
-        <Error errorMessage={error} />
-      </StyledPostsPage>;
+      return (
+        <StyledPostsPage>
+          <Error errorMessage={error} />
+        </StyledPostsPage>
+      );
     } else if (resourceError) {
-      <StyledPostsPage>
-        <Error errorMessage={resourceError} />
-      </StyledPostsPage>;
+      return (
+        <StyledPostsPage>
+          <Error errorMessage={resourceError} />
+        </StyledPostsPage>
+      );
     }
   }
 

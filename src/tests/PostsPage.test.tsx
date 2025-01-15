@@ -1,47 +1,36 @@
 /* eslint-disable no-undef */
 
 import { render, screen, waitFor } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { DiAndroid } from 'react-icons/di';
+import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
-
-import PostsPage from '../pages/PostsPage';
-import PostLikes from '../components/PostLikes';
-import PostBody from '../components/PostBody';
 import CategoryDetails from '../components/CategoryDetails';
-import UserDetails from '../components/UserDetails';
+import PostBody from '../components/PostBody';
+import PostLikes from '../components/PostLikes';
 import Stat from '../components/Stat';
 import Theme from '../components/Theme';
-import { BrowserRouter } from 'react-router-dom';
-import { userEvent } from '@testing-library/user-event';
-
+import UserDetails from '../components/UserDetails';
+import PostsPage from '../pages/PostsPage';
+import type { Post } from '../types';
 import { mockFetch } from './fetchMock';
 import {
   category1,
   CATEGORY_STATS_COUNT,
+  detailedUser1,
+  detailedUser2,
   post1,
   post2,
   post3,
   superUser,
   user1,
   user2,
-  user4,
-  user5,
-  USER_STATS_COUNT,
+  USER_STATS_COUNT
 } from './mocks';
-import { DiAndroid } from 'react-icons/di';
+import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
-function renderPostsPage(pageDescription) {
-  // Mock useOutletContext hook only
-  vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
-    return {
-      ...actual,
-      useOutletContext: () => {
-        return {
-          user: superUser,
-        };
-      },
-    };
-  });
+function renderPostsPage(pageDescription: string) {
+  mockUseUserAndTheme(superUser);
   const user = userEvent.setup();
 
   render(
@@ -55,16 +44,17 @@ function renderPostsPage(pageDescription) {
   return user;
 }
 
-function renderPostLikes(loggedInUser) {
+function renderPostLikes(isUser1 = false) {
   const likeFn = vi.fn();
   const dislikeFn = vi.fn();
+  mockUseUserAndTheme(isUser1 ? user1 : superUser);
   const user = userEvent.setup();
 
   render(
     <Theme>
       <PostLikes
+        type="multiple-posts"
         post={post1}
-        user={loggedInUser}
         handlePostLikeClick={likeFn}
         handlePostDislikeClick={dislikeFn}
       />
@@ -74,7 +64,7 @@ function renderPostLikes(loggedInUser) {
   return { likeFn, dislikeFn, user };
 }
 
-function renderPostBody(post) {
+function renderPostBody(post: Post) {
   render(
     <BrowserRouter>
       <Theme>
@@ -87,9 +77,9 @@ function renderPostBody(post) {
 function renderCategoryDetails(loadingPosts = false) {
   const setResourceErrorMock = vi.fn();
   const setLoadingResourceMock = vi.fn();
-  // Mock useParams and useOutletContext
+  // Mock useParams
   vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
+    const actual = (await importOriginal()) as object;
     return {
       ...actual,
       useParams: () => {
@@ -97,13 +87,9 @@ function renderCategoryDetails(loadingPosts = false) {
           slug: category1.slug,
         };
       },
-      useOutletContext: () => {
-        return {
-          user: user4,
-        };
-      },
     };
   });
+  mockUseUserAndTheme(detailedUser1);
 
   render(
     <BrowserRouter>
@@ -123,23 +109,19 @@ function renderCategoryDetails(loadingPosts = false) {
 function renderUserDetails(loadingPosts = false) {
   const setResourceErrorMock = vi.fn();
   const setLoadingResourceMock = vi.fn();
-  // Mock useParams and useOutletContext
+  // Mock useParams
   vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
+    const actual = (await importOriginal()) as object;
     return {
       ...actual,
       useParams: () => {
         return {
-          username: user4.username,
-        };
-      },
-      useOutletContext: () => {
-        return {
-          user: user4,
+          username: detailedUser1.username,
         };
       },
     };
   });
+  mockUseUserAndTheme(detailedUser1);
 
   render(
     <BrowserRouter>
@@ -172,7 +154,7 @@ function renderStat() {
 describe('PostsPage', () => {
   it('should render a loading message immediately after rendering', () => {
     mockFetch('Failed to fetch', false);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const loadingMessage = screen.getByRole('heading', {
       name: /loading/i,
@@ -183,7 +165,7 @@ describe('PostsPage', () => {
 
   it('should render an error message if fetching posts fails', async () => {
     mockFetch('Failed to fetch', false);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const errorMessage = await screen.findByText(/failed to fetch/i);
 
@@ -192,7 +174,7 @@ describe('PostsPage', () => {
 
   it('should render a feed heading and render posts fetched if fetching posts succeeds', async () => {
     mockFetch([post1, post2, post3], true);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const feedHeading = await screen.findByRole('heading', { name: /feed/i });
     const postContents = await screen.findAllByText(/content/i);
@@ -201,18 +183,7 @@ describe('PostsPage', () => {
     expect(postContents).toHaveLength(3);
   });
 
-  it('should render a default feed heading if no pageDescription prop is provided', async () => {
-    mockFetch([post1, post2, post3], true);
-    renderPostsPage();
-
-    const feedHeading = await screen.findByRole('heading', {
-      name: /all posts/i,
-    });
-
-    expect(feedHeading).toBeInTheDocument();
-  });
-
-  it('should render a different feed heading if the pageDescription prop is provided', async () => {
+  it('should render a feed heading based on the pageDescription prop is provided', async () => {
     const prop = 'All Beavers Sorted By Teeth Length';
     mockFetch([post1, post2, post3], true);
     renderPostsPage(prop);
@@ -226,7 +197,7 @@ describe('PostsPage', () => {
 
   it('should render a no posts found section if there are no posts to show', async () => {
     mockFetch([], true);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const noPostsHeading = await screen.findByRole('heading', {
       name: /no posts found/i,
@@ -239,7 +210,7 @@ describe('PostsPage', () => {
 describe('PostsSorter', () => {
   it("should render a 'Sort By' paragraph", async () => {
     mockFetch([post1], true);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const sortByPara = await screen.findByText(/sort by/i);
 
@@ -248,7 +219,7 @@ describe('PostsSorter', () => {
 
   it('should render a Newest sort button, which is selected by default', async () => {
     mockFetch([post1], true);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const newestButton = await screen.findByRole('button', { name: /newest/i });
 
@@ -258,7 +229,7 @@ describe('PostsSorter', () => {
 
   it('should render an Oldest sort button, which is not selected', async () => {
     mockFetch([post1], true);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const oldestButton = await screen.findByRole('button', { name: /oldest/i });
 
@@ -268,7 +239,7 @@ describe('PostsSorter', () => {
 
   it('should render a Likes sort button, which is not selected', async () => {
     mockFetch([post1], true);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const likesButton = await screen.findByRole('button', { name: /likes/i });
 
@@ -278,7 +249,7 @@ describe('PostsSorter', () => {
 
   it('should render a Comments sort button, which is not selected', async () => {
     mockFetch([post1], true);
-    renderPostsPage();
+    renderPostsPage('All Posts');
 
     const commentsButton = await screen.findByRole('button', {
       name: /comments/i,
@@ -290,7 +261,7 @@ describe('PostsSorter', () => {
 
   it('should render a Comments sort button, which, if clicked, should become selected and should make the previous sort button deselected', async () => {
     mockFetch([post1], true);
-    const user = renderPostsPage();
+    const user = renderPostsPage('All Posts');
 
     const newestButton = await screen.findByRole('button', { name: /newest/i });
     const commentsButton = await screen.findByRole('button', {
@@ -305,7 +276,7 @@ describe('PostsSorter', () => {
 
 describe('PostLikes', () => {
   it('should show likes count', () => {
-    renderPostLikes(superUser);
+    renderPostLikes();
 
     const likesCount = screen.getByTestId('likes-count');
 
@@ -315,7 +286,7 @@ describe('PostLikes', () => {
   it('should show a correct likes count', () => {
     const likes = post1.likes.length;
     const dislikes = post1.dislikes.length;
-    renderPostLikes(superUser);
+    renderPostLikes();
 
     const likesCount = screen.getByTestId('likes-count');
 
@@ -323,7 +294,7 @@ describe('PostLikes', () => {
   });
 
   it('should call a function to like a post when the up arrow icon is clicked', async () => {
-    const { user, likeFn } = renderPostLikes(superUser);
+    const { user, likeFn } = renderPostLikes();
 
     const likePostIcon = screen.getByRole('button', {
       name: 'Like Post Icon',
@@ -334,7 +305,7 @@ describe('PostLikes', () => {
   });
 
   it('should call a function to dislike a post when the down arrow icon is clicked', async () => {
-    const { user, dislikeFn } = renderPostLikes(superUser);
+    const { user, dislikeFn } = renderPostLikes();
 
     const dislikePostIcon = screen.getByRole('button', {
       name: /dislike post icon/i,
@@ -345,7 +316,7 @@ describe('PostLikes', () => {
   });
 
   it('should render an up arrow without the liked class if the post is not liked by the user', async () => {
-    renderPostLikes(superUser);
+    renderPostLikes();
 
     const upArrow = screen.getByTestId('up-arrow');
 
@@ -353,7 +324,7 @@ describe('PostLikes', () => {
   });
 
   it('should render a down arrow without the disliked class if the post is not disliked by the user', async () => {
-    renderPostLikes(superUser);
+    renderPostLikes();
 
     const downArrow = screen.getByTestId('down-arrow');
 
@@ -361,7 +332,7 @@ describe('PostLikes', () => {
   });
 
   it('should render an up arrow with the liked class if the post is liked by the user', async () => {
-    renderPostLikes(user1);
+    renderPostLikes(true);
 
     const upArrow = screen.getByTestId('up-arrow');
 
@@ -369,7 +340,7 @@ describe('PostLikes', () => {
   });
 
   it('should render a down arrow with the disliked class if the post is disliked by the user', async () => {
-    renderPostLikes(user1);
+    renderPostLikes(true);
 
     const downArrow = screen.getByTestId('down-arrow');
 
@@ -494,8 +465,7 @@ describe('CategoryDetails', () => {
 
     expect(categoryNameHeading).toBeInTheDocument();
     expect(categoryNameHeading.textContent).toMatch(
-      new RegExp(category1.name),
-      'i',
+      new RegExp(category1.name, 'i'),
     );
   });
 
@@ -513,8 +483,7 @@ describe('CategoryDetails', () => {
     renderCategoryDetails();
 
     const categoryDescription = await screen.findByText(
-      new RegExp(category1.description),
-      'i',
+      new RegExp(category1.description, 'i'),
     );
 
     expect(categoryDescription).toBeInTheDocument();
@@ -579,7 +548,7 @@ describe('UserDetails', () => {
   });
 
   it('should call the loadingResource setter function with false as the argument if fetching a user is successful', async () => {
-    mockFetch(user5, true);
+    mockFetch(detailedUser2, true);
     const { setLoadingResourceMock } = renderUserDetails();
 
     await waitFor(() => {}, { timeout: 0 });
@@ -589,7 +558,7 @@ describe('UserDetails', () => {
   });
 
   it("should render a user's avatar", async () => {
-    mockFetch(user5, true);
+    mockFetch(detailedUser2, true);
     renderUserDetails();
 
     const avatarImg = await screen.findByRole('img', { name: /avatar/i });
@@ -598,20 +567,19 @@ describe('UserDetails', () => {
   });
 
   it("should render a user's username heading", async () => {
-    mockFetch(user5, true);
+    mockFetch(detailedUser2, true);
     renderUserDetails();
 
     const usernameHeading = await screen.findByRole('heading');
 
     expect(usernameHeading).toBeInTheDocument();
     expect(usernameHeading.textContent).toMatch(
-      new RegExp(user5.username),
-      'i',
+      new RegExp(detailedUser2.username, 'i'),
     );
   });
 
   it("should render a 'member since' paragraph", async () => {
-    mockFetch(user5, true);
+    mockFetch(detailedUser2, true);
     renderUserDetails();
 
     const memberSincePara = await screen.findByText(/member since/i);
@@ -623,13 +591,13 @@ describe('UserDetails', () => {
     mockFetch(user2, true);
     renderUserDetails();
 
-    const userBio = await screen.findByText(new RegExp(user2.bio), 'i');
+    const userBio = await screen.findByText(new RegExp(user2.bio, 'i'));
 
     expect(userBio).toBeInTheDocument();
   });
 
   it('should render a no bio message if the user has not set their bio', async () => {
-    mockFetch(user5, true);
+    mockFetch(detailedUser2, true);
     renderUserDetails();
 
     const noBioMessage = await screen.findByText(/no bio/i);
@@ -638,7 +606,7 @@ describe('UserDetails', () => {
   });
 
   it('should render user stats of USER_STATS_COUNT length', async () => {
-    mockFetch(user5, true);
+    mockFetch(detailedUser2, true);
     renderUserDetails();
 
     const statIcons = await screen.findAllByTitle(/icon/i);
@@ -647,7 +615,7 @@ describe('UserDetails', () => {
   });
 
   it('should render a Follow/Unfollow user button', async () => {
-    mockFetch(user5, true);
+    mockFetch(detailedUser2, true);
     renderUserDetails();
 
     const followButton = await screen.findByRole('button');
@@ -656,7 +624,7 @@ describe('UserDetails', () => {
   });
 
   it('should not render a Follow/Unfollow user button if the logged in user is the rendered user', async () => {
-    mockFetch(user4, true);
+    mockFetch(detailedUser1, true);
     renderUserDetails();
 
     await waitFor(() => {}, { timeout: 0 });
