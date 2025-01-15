@@ -1,19 +1,18 @@
 /* eslint-disable no-undef */
 
 import { render, screen } from '@testing-library/react';
-import { describe, expect } from 'vitest';
-
-import NewCategoryPage from '../pages/NewCategoryPage';
-import Theme from '../components/Theme';
 import { userEvent } from '@testing-library/user-event';
+import { describe, expect } from 'vitest';
+import Theme from '../components/Theme';
 import {
-  MIN_CATEGORY_NAME_LENGTH,
+  MAX_CATEGORY_DESCRIPTION_LENGTH,
   MAX_CATEGORY_NAME_LENGTH,
   MIN_CATEGORY_DESCRIPTION_LENGTH,
-  MAX_CATEGORY_DESCRIPTION_LENGTH,
-} from '../helpers';
-import { longDescription } from './mocks';
+  MIN_CATEGORY_NAME_LENGTH,
+} from '../constants';
+import NewCategoryPage from '../pages/NewCategoryPage';
 import { mockFetch } from './fetchMock';
+import { longDescription } from './mocks';
 
 const navigateFn = vi.fn();
 
@@ -22,7 +21,7 @@ function renderNewCategoryPage() {
 
   // Mock useNavigate
   vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
+    const actual = (await importOriginal()) as object;
     return {
       ...actual,
       useNavigate: () => navigateFn,
@@ -53,7 +52,7 @@ describe('NewCategoryForm', () => {
     const user = renderNewCategoryPage();
     const input = 'New Category Name';
 
-    const nameInput = screen.getByRole('textbox', {
+    const nameInput = screen.getByRole<HTMLInputElement>('textbox', {
       name: /name/i,
     });
     await user.type(nameInput, input);
@@ -66,7 +65,7 @@ describe('NewCategoryForm', () => {
     const user = renderNewCategoryPage();
     const longInput = 'I am a waaay, waaay, waaay too long category name, hi!';
 
-    const nameInput = screen.getByRole('textbox', {
+    const nameInput = screen.getByRole<HTMLInputElement>('textbox', {
       name: /name/i,
     });
     await user.type(nameInput, longInput);
@@ -79,7 +78,7 @@ describe('NewCategoryForm', () => {
     const user = renderNewCategoryPage();
     const shortInput = '!!';
 
-    const nameInput = screen.getByRole('textbox', {
+    const nameInput = screen.getByRole<HTMLInputElement>('textbox', {
       name: /name/i,
     });
     await user.clear(nameInput);
@@ -93,7 +92,7 @@ describe('NewCategoryForm', () => {
     const user = renderNewCategoryPage();
     const normalInput = 'Super Cool Category Name';
 
-    const nameInput = screen.getByRole('textbox', {
+    const nameInput = screen.getByRole<HTMLInputElement>('textbox', {
       name: /name/i,
     });
     await user.clear(nameInput);
@@ -129,9 +128,12 @@ describe('NewCategoryForm', () => {
     const user = renderNewCategoryPage();
     const input = 'New Category Description';
 
-    const descriptionTextbox = screen.getByRole('textbox', {
-      name: /description/i,
-    });
+    const descriptionTextbox = screen.getByRole<HTMLTextAreaElement>(
+      'textbox',
+      {
+        name: /description/i,
+      },
+    );
     await user.type(descriptionTextbox, input);
 
     expect(descriptionTextbox).toBeInTheDocument();
@@ -141,9 +143,12 @@ describe('NewCategoryForm', () => {
   it('should render a description textbox that cannot exceed MAX_CATEGORY_DESCRIPTION_LENGTH', async () => {
     const user = renderNewCategoryPage();
 
-    const descriptionTextbox = screen.getByRole('textbox', {
-      name: /description/i,
-    });
+    const descriptionTextbox = screen.getByRole<HTMLTextAreaElement>(
+      'textbox',
+      {
+        name: /description/i,
+      },
+    );
     await user.type(descriptionTextbox, longDescription);
 
     expect(descriptionTextbox.value).not.toBe(longDescription);
@@ -156,9 +161,12 @@ describe('NewCategoryForm', () => {
     const user = renderNewCategoryPage();
     const shortInput = ':)';
 
-    const descriptionTextbox = screen.getByRole('textbox', {
-      name: /description/i,
-    });
+    const descriptionTextbox = screen.getByRole<HTMLTextAreaElement>(
+      'textbox',
+      {
+        name: /description/i,
+      },
+    );
     await user.clear(descriptionTextbox);
     await user.type(descriptionTextbox, shortInput);
 
@@ -168,13 +176,16 @@ describe('NewCategoryForm', () => {
     expect(descriptionTextbox).toHaveClass('short-warning');
   });
 
-  it('should render a name input that has normal text colour if the number of characters is at least MIN_CATEGORY_NAME_LENGTH', async () => {
+  it('should render a description textbox that has normal text colour if the number of characters is at least MIN_CATEGORY_NAME_LENGTH', async () => {
     const user = renderNewCategoryPage();
     const normalInput = 'Totally normal category description';
 
-    const descriptionTextbox = screen.getByRole('textbox', {
-      name: /description/i,
-    });
+    const descriptionTextbox = screen.getByRole<HTMLTextAreaElement>(
+      'textbox',
+      {
+        name: /description/i,
+      },
+    );
     await user.clear(descriptionTextbox);
     await user.type(descriptionTextbox, normalInput);
 
@@ -349,8 +360,13 @@ describe('NewCategoryPage', () => {
     const user = renderNewCategoryPage();
     const input = 'Category';
     mockFetch({}, true);
-    // Mock setTimeout
-    global.setTimeout = vi.fn((cb) => cb());
+    // Mock setTimeout TS safe way
+    vi.spyOn(global, 'setTimeout').mockImplementation((callback) => {
+      if (typeof callback === 'function') {
+        callback();
+      }
+      return { hasRef: () => false } as NodeJS.Timeout;
+    });
 
     const nameInput = screen.getByRole('textbox', {
       name: /name/i,

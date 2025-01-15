@@ -1,12 +1,13 @@
 /* eslint-disable no-undef */
 
-import { render, screen, waitFor } from '@testing-library/react';
-import { beforeEach, describe, expect } from 'vitest';
-import { within } from '@testing-library/react';
-
-import NewPostPage from '../pages/NewPostPage';
-import Theme, { darkTheme } from '../components/Theme';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import { beforeEach, describe, expect } from 'vitest';
+import PublishPostSection from '../components/PublishPostSection';
+import Theme from '../components/Theme';
+import { darkTheme, MAX_POST_TITLE_LENGTH } from '../constants';
+import NewPostPage from '../pages/NewPostPage';
+import { mockFetch } from './fetchMock';
 import {
   badImageURL,
   badYouTubeLink,
@@ -18,30 +19,23 @@ import {
   longPostTitle,
   user3,
 } from './mocks';
-import { mockFetch } from './fetchMock';
-import { MAX_POST_TITLE_LENGTH } from '../helpers';
-import PublishPostSection from '../components/PublishPostSection';
+import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 const navigateFn = vi.fn();
 const publishPostFn = vi.fn();
 const categories = [category1, category2];
 
 function renderNewPostPage() {
-  const user = userEvent.setup();
-
-  // Mock useNavigate and useOutletContext
+  // Mock useNavigate
   vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
+    const actual = (await importOriginal()) as object;
     return {
       ...actual,
       useNavigate: () => navigateFn,
-      useOutletContext: () => {
-        return {
-          user: user3,
-        };
-      },
     };
   });
+  mockUseUserAndTheme(user3);
+  const user = userEvent.setup();
 
   render(
     <Theme>
@@ -52,7 +46,7 @@ function renderNewPostPage() {
   return { user };
 }
 
-function renderPublishPostSection(error, inProgress) {
+function renderPublishPostSection(error: string, inProgress: boolean) {
   const user = userEvent.setup();
 
   render(
@@ -114,9 +108,12 @@ describe('PostTitleInput', () => {
   it('should render an input for post title', async () => {
     renderNewPostPage();
 
-    const postTitleInput = await screen.findByRole('textbox', {
-      name: /post title/i,
-    });
+    const postTitleInput = await screen.findByRole<HTMLInputElement>(
+      'textbox',
+      {
+        name: /post title/i,
+      },
+    );
 
     expect(postTitleInput).toBeInTheDocument();
   });
@@ -125,9 +122,12 @@ describe('PostTitleInput', () => {
     const { user } = renderNewPostPage();
     const text = 'I am a post title input, hi!';
 
-    const postTitleInput = await screen.findByRole('textbox', {
-      name: /post title/i,
-    });
+    const postTitleInput = await screen.findByRole<HTMLInputElement>(
+      'textbox',
+      {
+        name: /post title/i,
+      },
+    );
     await user.type(postTitleInput, text);
 
     expect(postTitleInput.value).toBe(text);
@@ -137,9 +137,12 @@ describe('PostTitleInput', () => {
     const { user } = renderNewPostPage();
     const text = 'Sh';
 
-    const postTitleInput = await screen.findByRole('textbox', {
-      name: /post title/i,
-    });
+    const postTitleInput = await screen.findByRole<HTMLInputElement>(
+      'textbox',
+      {
+        name: /post title/i,
+      },
+    );
     await user.clear(postTitleInput);
     await user.type(postTitleInput, text);
 
@@ -150,9 +153,12 @@ describe('PostTitleInput', () => {
     const { user } = renderNewPostPage();
     const text = 'I am completely normal';
 
-    const postTitleInput = await screen.findByRole('textbox', {
-      name: /post title/i,
-    });
+    const postTitleInput = await screen.findByRole<HTMLInputElement>(
+      'textbox',
+      {
+        name: /post title/i,
+      },
+    );
     await user.clear(postTitleInput);
     await user.type(postTitleInput, text);
 
@@ -162,9 +168,12 @@ describe('PostTitleInput', () => {
   it('should render an input for post title that cannot go above MAX_POST_TITLE_LENGTH', async () => {
     const { user } = renderNewPostPage();
 
-    const postTitleInput = await screen.findByRole('textbox', {
-      name: /post title/i,
-    });
+    const postTitleInput = await screen.findByRole<HTMLInputElement>(
+      'textbox',
+      {
+        name: /post title/i,
+      },
+    );
     await user.clear(postTitleInput);
     await user.type(postTitleInput, longPostTitle);
 
@@ -194,7 +203,7 @@ describe('CategoryPicker', () => {
       name: /category/i,
     });
     const categoryOptions =
-      await within(categoryPicker).findAllByRole('option');
+      await within(categoryPicker).findAllByRole<HTMLOptionElement>('option');
 
     expect(categoryOptions.length).toBe(categories.length + 1);
   });
@@ -202,9 +211,12 @@ describe('CategoryPicker', () => {
   it('should render a category picker that has an empty option selected by default', async () => {
     renderNewPostPage();
 
-    const defaultCategoryOption = await screen.findByRole('option', {
-      name: /choose category/i,
-    });
+    const defaultCategoryOption = await screen.findByRole<HTMLOptionElement>(
+      'option',
+      {
+        name: /choose category/i,
+      },
+    );
 
     expect(defaultCategoryOption.value).toBeFalsy();
     expect(defaultCategoryOption.selected).toBe(true);
@@ -216,16 +228,22 @@ describe('CategoryPicker', () => {
     const categoryPicker = await screen.findByRole('combobox', {
       name: /category/i,
     });
-    const category1Option = await screen.findByRole('option', {
-      name: new RegExp(category1.name, 'i'),
-    });
+    const category1Option = await screen.findByRole<HTMLOptionElement>(
+      'option',
+      {
+        name: new RegExp(category1.name, 'i'),
+      },
+    );
     await user.selectOptions(categoryPicker, category1Option);
 
     expect(category1Option.selected).toBe(true);
 
-    const category2Option = await screen.findByRole('option', {
-      name: new RegExp(category2.name, 'i'),
-    });
+    const category2Option = await screen.findByRole<HTMLOptionElement>(
+      'option',
+      {
+        name: new RegExp(category2.name, 'i'),
+      },
+    );
     await user.selectOptions(categoryPicker, category2Option);
 
     expect(category1Option.selected).toBe(false);
@@ -235,9 +253,12 @@ describe('CategoryPicker', () => {
   it('should render a category picker whose options have category IDs as values', async () => {
     renderNewPostPage();
 
-    const category1Option = await screen.findByRole('option', {
-      name: new RegExp(category1.name, 'i'),
-    });
+    const category1Option = await screen.findByRole<HTMLOptionElement>(
+      'option',
+      {
+        name: new RegExp(category1.name, 'i'),
+      },
+    );
 
     expect(category1Option.value).toBe(category1._id);
   });
@@ -435,7 +456,7 @@ describe('ImageEditor', () => {
     const { user } = renderNewPostPage();
     const text = 'Super cool image!';
 
-    const imageURLInput = await screen.findByRole('textbox', {
+    const imageURLInput = await screen.findByRole<HTMLInputElement>('textbox', {
       name: /image url/i,
     });
     await user.type(imageURLInput, text);
@@ -455,13 +476,13 @@ describe('ImageEditor', () => {
     const imagePreviewHeading = screen.queryByRole('heading', {
       name: /image preview/i,
     });
-    const imagePreview = screen.queryByRole('img', {
+    const imagePreview = screen.queryByRole<HTMLImageElement>('img', {
       name: /image preview/i,
     });
 
     expect(imagePreviewHeading).toBeInTheDocument();
     expect(imagePreview).toBeInTheDocument();
-    expect(imagePreview.src).toBe(goodImageURL);
+    expect(imagePreview!.src).toBe(goodImageURL);
     expect(imageURLInput).not.toHaveClass('invalid-link');
   });
 
@@ -500,7 +521,7 @@ describe('ImageEditor', () => {
     const imagePreviewHeading = screen.queryByRole('heading', {
       name: /image preview/i,
     });
-    const imagePreview = screen.queryByRole('img', {
+    const imagePreview = screen.queryByRole<HTMLImageElement>('img', {
       name: /image preview/i,
     });
     const clearUploadedFileButton = screen.queryByRole('button', {
@@ -513,7 +534,7 @@ describe('ImageEditor', () => {
 
     expect(imagePreviewHeading).toBeInTheDocument();
     expect(imagePreview).toBeInTheDocument();
-    expect(imagePreview.src).toMatch(/two_cute_cats.avif/i);
+    expect(imagePreview!.src).toMatch(/two_cute_cats.avif/i);
     expect(clearUploadedFileButton).toBeInTheDocument();
     expect(imageURLInput).not.toBeInTheDocument();
     expect(imageSelector).not.toBeInTheDocument();
@@ -592,10 +613,13 @@ describe('ImageEditor', () => {
     const filePicker = await screen.findByTestId('image-picker');
     await user.upload(filePicker, goodFile);
 
-    const clearUploadedFileButton = screen.queryByRole('button', {
-      name: /clear/i,
-    });
-    await user.click(clearUploadedFileButton);
+    const clearUploadedFileButton = screen.queryByRole<HTMLButtonElement>(
+      'button',
+      {
+        name: /clear/i,
+      },
+    );
+    await user.click(clearUploadedFileButton!);
 
     const imageURLInput = screen.queryByRole('textbox', {
       name: /image url/i,
@@ -646,9 +670,12 @@ describe('VideoEditor', () => {
     const { user } = renderNewPostPage();
     const text = 'Beaver';
 
-    const youTubeURLInput = await screen.findByRole('textbox', {
-      name: /youtube url/i,
-    });
+    const youTubeURLInput = await screen.findByRole<HTMLInputElement>(
+      'textbox',
+      {
+        name: /youtube url/i,
+      },
+    );
     await user.type(youTubeURLInput, text);
 
     expect(youTubeURLInput.value).toBe(text);
@@ -666,11 +693,12 @@ describe('VideoEditor', () => {
     const videoPreviewHeading = screen.queryByRole('heading', {
       name: /video preview/i,
     });
-    const videoPlayer = screen.queryByTitle(/youtube video player/i);
+    const videoPlayer =
+      screen.queryByTitle<HTMLIFrameElement>(/youtube video player/i);
 
     expect(videoPreviewHeading).toBeInTheDocument();
     expect(videoPlayer).toBeInTheDocument();
-    expect(videoPlayer.src).toMatch(goodYouTubeLinkID);
+    expect(videoPlayer!.src).toMatch(goodYouTubeLinkID);
     expect(youTubeURLInput).not.toHaveClass('invalid-link');
   });
 
@@ -696,7 +724,7 @@ describe('VideoEditor', () => {
 
 describe('PublishPostSection', () => {
   it('should render a Publish button', () => {
-    renderPublishPostSection(null, false);
+    renderPublishPostSection('', false);
 
     const publishButton = screen.getByRole('button', {
       name: /publish/i,
@@ -715,7 +743,7 @@ describe('PublishPostSection', () => {
   });
 
   it("should render a Publish button that says 'Publish' if no post is being created", () => {
-    renderPublishPostSection(null, false);
+    renderPublishPostSection('', false);
 
     const publishButton = screen.getByRole('button', {
       name: /publish/i,
@@ -725,7 +753,7 @@ describe('PublishPostSection', () => {
   });
 
   it("should render a Publish button that says 'Publishing' if a post is being created", () => {
-    renderPublishPostSection(null, true);
+    renderPublishPostSection('', true);
 
     const publishButton = screen.getByRole('button', {
       name: /publish/i,
@@ -735,7 +763,7 @@ describe('PublishPostSection', () => {
   });
 
   it('should render a Publish button that calls a create post function if clicked', async () => {
-    const { user } = renderPublishPostSection(null, false);
+    const { user } = renderPublishPostSection('', false);
 
     const publishButton = screen.getByRole('button', {
       name: /publish/i,
