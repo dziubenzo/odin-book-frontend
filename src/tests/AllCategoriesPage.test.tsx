@@ -1,33 +1,22 @@
 /* eslint-disable no-undef */
 
 import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 import { describe, expect } from 'vitest';
-
-import AllCategoriesPage from '../pages/AllCategoriesPage';
 import Category from '../components/Category';
 import FollowCategoryButton from '../components/FollowCategoryButton';
 import Theme from '../components/Theme';
-import { BrowserRouter } from 'react-router-dom';
-import { userEvent } from '@testing-library/user-event';
-
+import AllCategoriesPage from '../pages/AllCategoriesPage';
+import type { Category as CategoryType, User } from '../types';
 import { mockFetch } from './fetchMock';
-import { user2, category1, category2, user3 } from './mocks';
+import { category1, category2, user2, user3 } from './mocks';
+import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 const categories = [category1, category2];
 
 function renderAllCategoriesPage() {
-  // Mock useOutletContext
-  vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
-    return {
-      ...actual,
-      useOutletContext: () => {
-        return {
-          user: user2,
-        };
-      },
-    };
-  });
+  mockUseUserAndTheme(user2);
 
   render(
     <BrowserRouter>
@@ -43,25 +32,27 @@ function renderCategory() {
     <BrowserRouter>
       <Theme>
         <Category
-          user={user2}
           category={category1}
           handleCategoryButtonClick={vi.fn()}
-          inProgress={false}
+          inProgress={null}
         />
       </Theme>
     </BrowserRouter>,
   );
 }
 
-function renderFollowCategoryButton(loggedInUser, inProgress) {
+function renderFollowCategoryButton(
+  loggedInUser: User,
+  inProgress: CategoryType['_id'] | null,
+) {
   const mockFollowCategory = vi.fn();
+  mockUseUserAndTheme(loggedInUser);
   const user = userEvent.setup();
 
   render(
     <BrowserRouter>
       <Theme>
         <FollowCategoryButton
-          loggedInUser={loggedInUser}
           category={category1}
           handleCategoryButtonClick={mockFollowCategory}
           inProgress={inProgress}
@@ -170,7 +161,7 @@ describe('FollowCategoryButton', () => {
   it('should render a Follow/Unfollow button, which calls a follow/unfollow function with category ID if clicked', async () => {
     const { mockFollowCategory, user } = renderFollowCategoryButton(
       user2,
-      false,
+      null,
     );
 
     const followButton = screen.getByRole('button');
@@ -184,7 +175,7 @@ describe('FollowCategoryButton', () => {
   });
 
   it('should render a Follow button description if the category is not followed by the user', () => {
-    renderFollowCategoryButton(user2, false);
+    renderFollowCategoryButton(user2, null);
 
     const followButton = screen.getByRole('button');
 
@@ -192,7 +183,7 @@ describe('FollowCategoryButton', () => {
   });
 
   it('should render an Unfollow button description if the category is followed by the user', () => {
-    renderFollowCategoryButton(user3, false);
+    renderFollowCategoryButton(user3, null);
 
     const followButton = screen.getByRole('button');
 

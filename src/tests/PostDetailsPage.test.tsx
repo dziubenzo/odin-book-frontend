@@ -1,30 +1,30 @@
 /* eslint-disable no-undef */
 
 import { render, screen } from '@testing-library/react';
-
-import PostDetailsPage from '../pages/PostDetailsPage';
+import { userEvent } from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
+import { expect } from 'vitest';
+import CommentBody from '../components/CommentBody';
 import CommentInput from '../components/CommentInput';
 import CommentInputBottom from '../components/CommentInputBottom';
-import Comments from '../components/Comments';
-import CommentBody from '../components/CommentBody';
 import CommentLikes from '../components/CommentLikes';
+import Comments from '../components/Comments';
 import Theme from '../components/Theme';
-import { BrowserRouter } from 'react-router-dom';
-import { userEvent } from '@testing-library/user-event';
-
+import { MAX_COMMENT_LENGTH } from '../constants';
+import PostDetailsPage from '../pages/PostDetailsPage';
+import type { User } from '../types';
 import { mockFetch } from './fetchMock';
-import { detailedPost1, superUser, longComment, user1 } from './mocks';
-import { MAX_COMMENT_LENGTH } from '../helpers';
-import { expect } from 'vitest';
+import { detailedPost1, longComment, superUser, user1 } from './mocks';
+import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 const navigateFn = vi.fn();
 
 const { comments } = detailedPost1;
 
 function renderPostDetailsPage() {
-  // Mock useOutletContext, useParams and useNavigate hooks
+  // Mock useParams and useNavigate hooks
   vi.mock('react-router-dom', async (importOriginal) => {
-    const actual = await importOriginal();
+    const actual = (await importOriginal()) as object;
     return {
       ...actual,
       useParams: () => {
@@ -32,14 +32,10 @@ function renderPostDetailsPage() {
           slug: `${detailedPost1.slug}`,
         };
       },
-      useOutletContext: () => {
-        return {
-          user: superUser,
-        };
-      },
       useNavigate: () => navigateFn,
     };
   });
+  mockUseUserAndTheme(superUser);
   const user = userEvent.setup();
 
   render(
@@ -55,16 +51,13 @@ function renderPostDetailsPage() {
 
 function renderCommentInput() {
   const setPostMock = vi.fn();
+  mockUseUserAndTheme(superUser);
   const user = userEvent.setup();
 
   render(
     <BrowserRouter>
       <Theme>
-        <CommentInput
-          user={superUser}
-          post={detailedPost1}
-          setPost={setPostMock}
-        />
+        <CommentInput post={detailedPost1} setPost={setPostMock} />
       </Theme>
     </BrowserRouter>,
   );
@@ -73,7 +66,7 @@ function renderCommentInput() {
 }
 
 function renderCommentInputBottom(
-  handleSubmitCommentClick,
+  handleSubmitCommentClick: () => Promise<void>,
   inProgress = false,
   isSubmitted = false,
   commentError = '',
@@ -124,17 +117,17 @@ function renderCommentBody() {
   return firstComment;
 }
 
-function renderCommentLikes(loggedInUser) {
+function renderCommentLikes(loggedInUser: User) {
   const firstComment = comments[0];
   const likeFn = vi.fn();
   const dislikeFn = vi.fn();
+  mockUseUserAndTheme(loggedInUser);
   const user = userEvent.setup();
 
   render(
     <Theme>
       <CommentLikes
         comment={firstComment}
-        user={loggedInUser}
         handleCommentLikeClick={likeFn}
         handleCommentDislikeClick={dislikeFn}
       />
@@ -252,7 +245,7 @@ describe('CommentInputTop', () => {
   it('should render a comment length paragraph', () => {
     renderCommentInput();
 
-    const commentLengthPara = screen.getByText(new RegExp(MAX_COMMENT_LENGTH));
+    const commentLengthPara = screen.getByText(MAX_COMMENT_LENGTH);
 
     expect(commentLengthPara).toBeInTheDocument();
   });
@@ -265,7 +258,7 @@ describe('CommentInputTop', () => {
     await user.click(commentInputField);
     await user.type(commentInputField, typedText);
     const commentLengthPara = screen.getByText(
-      new RegExp(MAX_COMMENT_LENGTH - typedText.length),
+      MAX_COMMENT_LENGTH - typedText.length,
     );
 
     expect(commentLengthPara).toBeInTheDocument();
@@ -274,13 +267,15 @@ describe('CommentInputTop', () => {
   it('should render a comment length paragraph that cannot exceed MAX_COMMENT_LENGTH', async () => {
     const { user } = renderCommentInput();
 
-    const commentInputField = screen.getByTestId('comment-input-field');
+    const commentInputField = screen.getByTestId<HTMLParagraphElement>(
+      'comment-input-field',
+    );
     await user.click(commentInputField);
     await user.type(commentInputField, longComment + 'I will now be too long');
     const commentLengthPara = screen.getByText(/0/i);
 
     expect(commentLengthPara).toBeInTheDocument();
-    expect(commentInputField.textContent.length).toBe(MAX_COMMENT_LENGTH);
+    expect(commentInputField.textContent!.length).toBe(MAX_COMMENT_LENGTH);
   });
 
   it('should render a comment length paragraph that has a different colour if the comment length is smaller than MIN_COMMENT_LENGTH', async () => {
@@ -291,7 +286,7 @@ describe('CommentInputTop', () => {
     await user.click(commentInputField);
     await user.type(commentInputField, typedText);
     const commentLengthPara = screen.getByText(
-      new RegExp(MAX_COMMENT_LENGTH - typedText.length),
+      MAX_COMMENT_LENGTH - typedText.length,
     );
 
     expect(commentLengthPara).toHaveClass('warning');
@@ -304,7 +299,7 @@ describe('CommentInputTop', () => {
     await user.click(commentInputField);
     await user.type(commentInputField, longComment);
     const commentLengthPara = screen.getByText(
-      new RegExp(MAX_COMMENT_LENGTH - longComment.length),
+      MAX_COMMENT_LENGTH - longComment.length,
     );
 
     expect(commentLengthPara).toHaveClass('warning');
@@ -318,7 +313,7 @@ describe('CommentInputTop', () => {
     await user.click(commentInputField);
     await user.type(commentInputField, typedText);
     const commentLengthPara = screen.getByText(
-      new RegExp(MAX_COMMENT_LENGTH - typedText.length),
+      MAX_COMMENT_LENGTH - typedText.length,
     );
 
     expect(commentLengthPara).not.toHaveClass('warning');
@@ -416,7 +411,7 @@ describe('CommentLikes', () => {
     const { firstComment } = renderCommentLikes(superUser);
 
     const likesCount = screen.getByText(
-      new RegExp(firstComment.likes.length - firstComment.dislikes.length),
+      firstComment.likes.length - firstComment.dislikes.length,
     );
 
     expect(likesCount).toBeInTheDocument();
