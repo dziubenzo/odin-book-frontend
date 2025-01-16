@@ -264,6 +264,24 @@ export const useThemeValue = (initialValue: ThemeValue) => {
     }
   }, [initialValue]);
 
+  // Listen for changes to the theme
+  // Change the theme in other opened app tabs so that they are in sync
+  useEffect(() => {
+    const syncTheme = (event: StorageEvent) => {
+      if (
+        event.key === 'theme' &&
+        (event.newValue === 'light' || event.newValue === 'dark')
+      ) {
+        setTheme(event.newValue);
+      }
+    };
+    window.addEventListener('storage', syncTheme);
+
+    return () => {
+      window.removeEventListener('storage', syncTheme);
+    };
+  }, []);
+
   return { theme, setTheme };
 };
 
