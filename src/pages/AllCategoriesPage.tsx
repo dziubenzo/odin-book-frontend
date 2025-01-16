@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import API_URL from '../API';
 import Category from '../components/Category';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
@@ -17,8 +16,10 @@ function AllCategoriesPage() {
     loading,
     error,
     setError,
-  } = useFetchPageData<CategoryType[]>(`${API_URL}/categories`);
-  const [inProgress, setInProgress] = useState<CategoryType["_id"] | null>(null);
+  } = useFetchPageData<CategoryType[]>(`/categories`);
+  const [inProgress, setInProgress] = useState<CategoryType['_id'] | null>(
+    null,
+  );
 
   useChangeTitle('All Categories');
 

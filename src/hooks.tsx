@@ -5,11 +5,11 @@ import { type Updater, useImmer } from 'use-immer';
 import API_URL from './API';
 import { SHRINK_HEADER_SCROLL_VALUE } from './constants';
 import {
-  type ThemeValue,
   type OutletContext,
   type Post,
   type PostType,
   type SortBy,
+  type ThemeValue,
   type User,
 } from './types';
 
@@ -50,9 +50,8 @@ export const useUserAndTheme = () => {
 // Check user authentication (Welcome Page)
 // Show Welcome Page if auth unsuccessful
 // Redirect to /posts if auth successful
-export const useCheckAuth = (
-  setShowPage: React.Dispatch<React.SetStateAction<boolean>>,
-) => {
+export const useCheckAuth = () => {
+  const [showPage, setShowPage] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,6 +71,8 @@ export const useCheckAuth = (
     }
     checkAuth();
   }, []);
+
+  return showPage;
 };
 
 // Fetch page data
@@ -85,7 +86,7 @@ export const useFetchPageData = <T,>(endpoint: string) => {
       setLoading(true);
       setData(null);
       setError(null);
-      const res = await fetch(endpoint, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${Cookies.get('jwt')}`,
@@ -120,10 +121,11 @@ export const useFetchPosts = (endpoint: string, limit: number) => {
       setError(null);
       setHasMore(true);
       const res = await fetch(
-        endpoint +
-          (endpoint[endpoint.length - 1] === '/'
+        `${API_URL}${endpoint}${
+          endpoint[endpoint.length - 1] === '/'
             ? `?limit=${limit}`
-            : `&limit=${limit}`),
+            : `&limit=${limit}`
+        }`,
         {
           headers: {
             'Content-Type': 'application/json',

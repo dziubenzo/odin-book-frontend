@@ -88,7 +88,6 @@ describe('WelcomePage', () => {
 
     await waitFor(() => {
       expect(navigateFn).toHaveBeenCalledWith('/posts');
-      screen.debug();
     });
   });
 

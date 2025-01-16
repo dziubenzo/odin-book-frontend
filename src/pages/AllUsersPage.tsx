@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import API_URL from '../API';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import User from '../components/User';
@@ -15,7 +14,7 @@ function AllUsersPage() {
     loading,
     error,
     setError,
-  } = useFetchPageData<UserType[]>(`${API_URL}/users`);
+  } = useFetchPageData<UserType[]>(`/users`);
   const [inProgress, setInProgress] = useState<UserType['_id'] | null>(null);
 
   useChangeTitle('All Users');

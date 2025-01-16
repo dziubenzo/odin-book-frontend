@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
-import API_URL from '../API';
 import CategoryDetails from '../components/CategoryDetails';
 import EndInfiniteScroll from '../components/EndInfiniteScroll';
 import Error from '../components/Error';
@@ -20,11 +19,11 @@ import {
   useUserAndTheme,
 } from '../hooks';
 import { StyledPostsPage } from '../styles/PostsPage.styled';
-import type { Post as PostType } from '../types';
+import type { FetchQuery, Post as PostType } from '../types';
 
 type PostsPageProps = {
   pageDescription: string;
-  fetchQuery?: string;
+  fetchQuery?: FetchQuery;
   isCategoryPage?: boolean;
   isUserPage?: boolean;
 };
@@ -45,7 +44,7 @@ function PostsPage({
     fetchQuery += username;
   }
   const { posts, setPosts, loading, error, setError, hasMore, setHasMore } =
-    useFetchPosts(`${API_URL}/posts/${fetchQuery}`, POSTS_PER_FETCH);
+    useFetchPosts(`/posts/${fetchQuery}`, POSTS_PER_FETCH);
   const [inProgress, setInProgress] = useState(false);
   const [resourceError, setResourceError] = useState<string | null>(null);
   const [loadingResource, setLoadingResource] = useState(false);
@@ -92,7 +91,7 @@ function PostsPage({
   async function handleInfiniteScroll() {
     if (!posts) return;
     await fetchMorePosts(
-      `${API_URL}/posts/${fetchQuery}`,
+      `/posts/${fetchQuery}`,
       POSTS_PER_FETCH,
       posts.length,
       setPosts,

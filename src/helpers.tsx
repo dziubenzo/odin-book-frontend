@@ -747,11 +747,11 @@ export const fetchMorePosts = async (
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const res = await fetch(
-    endpoint +
-      (endpoint[endpoint.length - 1] === '/'
+    `${API_URL}${endpoint}${
+      endpoint[endpoint.length - 1] === '/'
         ? `?limit=${limit}&skip=${skip}`
-        : `&limit=${limit}&skip=${skip}`),
-
+        : `&limit=${limit}&skip=${skip}`
+    }`,
     {
       headers: {
         'Content-Type': 'application/json',

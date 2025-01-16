@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
-import API_URL from '../API';
 import { followOrUnfollowCategory } from '../helpers';
 import { useFetchPageData, useSyncWithParent, useUserAndTheme } from '../hooks';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
@@ -28,7 +27,7 @@ function CategoryDetails({
     setData: setCategory,
     loading,
     error,
-  } = useFetchPageData<DetailedCategory>(`${API_URL}/categories/${slug}`);
+  } = useFetchPageData<DetailedCategory>(`/categories/${slug}`);
   const errorMessageRef = useRef<HTMLParagraphElement>(null);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

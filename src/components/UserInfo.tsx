@@ -1,11 +1,12 @@
 import { format } from 'date-fns';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUserAndTheme } from '../hooks';
 import { StyledUserInfo } from '../styles/ProfilePage.styled';
 import Avatar from './Avatar';
 
 function UserInfo() {
   const { user } = useUserAndTheme();
+  const navigate = useNavigate();
 
   return (
     <StyledUserInfo>
@@ -18,7 +19,7 @@ function UserInfo() {
       <h2>
         member since <span>{format(user.registered_at, 'dd MMMM yyyy')}</span>
       </h2>
-      <Link className="previous-page-link" to={'-1'}>
+      <Link className="previous-page-link" to="" onClick={() => navigate(-1)}>
         Back To
         <br />
         Previous Page

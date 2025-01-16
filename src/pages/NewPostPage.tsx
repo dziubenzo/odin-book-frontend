@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API_URL from '../API';
 import CategoryPicker from '../components/CategoryPicker';
 import Error from '../components/Error';
 import ImageEditor from '../components/ImageEditor';
@@ -28,7 +27,7 @@ function NewPostPage() {
     data: categories,
     loading,
     error,
-  } = useFetchPageData<Category[]>(`${API_URL}/categories`);
+  } = useFetchPageData<Category[]>(`/categories`);
 
   const [inProgress, setInProgress] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');

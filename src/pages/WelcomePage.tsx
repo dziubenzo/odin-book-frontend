@@ -16,12 +16,11 @@ function WelcomePage() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showPage, setShowPage] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useChangeTitle('Welcome');
-  useCheckAuth(setShowPage);
+  const showPage = useCheckAuth();
 
   // Show the loading screen after a delay to prevent an empty page when the server is waking up from sleep
   useEffect(() => {

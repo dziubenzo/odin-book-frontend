@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import API_URL from '../API';
 import CommentInput from '../components/CommentInput';
 import Comments from '../components/Comments';
 import Error from '../components/Error';
@@ -26,7 +25,7 @@ function PostDetailsPage() {
     loading,
     error,
     setError,
-  } = useFetchPageData<DetailedPost>(`${API_URL}/posts/${slug}`);
+  } = useFetchPageData<DetailedPost>(`/posts/${slug}`);
 
   const [inProgress, setInProgress] = useState(false);
 

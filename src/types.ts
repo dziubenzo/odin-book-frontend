@@ -84,3 +84,12 @@ export type ThemeValue = 'light' | 'dark';
 export type PostType = 'text' | 'image' | 'video';
 
 export type SortBy = 'newest' | 'oldest' | 'likes' | 'comments';
+
+export type FetchQuery =
+  | '?filter=categories'
+  | '?filter=following'
+  | '?filter=liked'
+  | '?filter=yours'
+  | '?category='
+  | '?user='
+  | '';

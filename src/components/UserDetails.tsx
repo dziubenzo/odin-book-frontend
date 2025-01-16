@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
-import API_URL from '../API';
 import { followOrUnfollowUser } from '../helpers';
 import { useFetchPageData, useSyncWithParent, useUserAndTheme } from '../hooks';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
@@ -28,7 +27,7 @@ function UserDetails({
     setData: setRenderedUser,
     loading,
     error,
-  } = useFetchPageData<DetailedUser>(`${API_URL}/users/${username}`);
+  } = useFetchPageData<DetailedUser>(`/users/${username}`);
   const errorMessageRef = useRef<HTMLParagraphElement>(null);
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
