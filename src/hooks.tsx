@@ -4,7 +4,14 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import { type Updater, useImmer } from 'use-immer';
 import API_URL from './API';
 import { SHRINK_HEADER_SCROLL_VALUE } from './constants';
-import type { OutletContext, Post, PostType, SortBy, User } from './types';
+import {
+  type ThemeValue,
+  type OutletContext,
+  type Post,
+  type PostType,
+  type SortBy,
+  type User,
+} from './types';
 
 // Authenticate user based on JWT stored in a cookie
 // Set user state if auth successful
@@ -33,11 +40,9 @@ export const useAuthUser = () => {
   return { user, setUser };
 };
 
-// Wrapper for the useOutletContext hook that makes sure the user object cannot be null
+// Wrapper for the useOutletContext hook to avoid having to type the hook whenever I use it
 export const useUserAndTheme = () => {
   const { user, setUser, theme, setTheme } = useOutletContext<OutletContext>();
-
-  if (!user) throw new Error('Something went wrong');
 
   return { user, setUser, theme, setTheme };
 };
@@ -240,19 +245,24 @@ export const useShrinkHeader = () => {
   return isSmaller;
 };
 
-// Save the initial theme value (dark) to the local storage
+// Save the initial theme value to the local storage
 // Otherwise read the theme value from the local storage
-export const useThemeValue = (
-  setTheme: React.Dispatch<React.SetStateAction<string>>,
-) => {
+export const useThemeValue = (initialValue: ThemeValue) => {
+  const [theme, setTheme] = useState<ThemeValue>(initialValue);
+
   useEffect(() => {
     const localStorageValue = localStorage.getItem('theme');
-    if (!localStorageValue) {
-      localStorage.setItem('theme', 'dark');
-      return setTheme('dark');
+    if (
+      localStorageValue &&
+      (localStorageValue === 'light' || localStorageValue === 'dark')
+    ) {
+      setTheme(localStorageValue);
+    } else {
+      localStorage.setItem('theme', initialValue);
     }
-    setTheme(localStorageValue);
-  }, []);
+  }, [initialValue]);
+
+  return { theme, setTheme };
 };
 
 // Pass the error to the parent component so that the entire page throws an error

@@ -1,5 +1,6 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { Outlet } from 'react-router-dom';
+import { THEME_INITIAL_VALUE } from '../constants';
 import { useAuthUser, useThemeValue } from '../hooks';
 import GlobalStyle from '../styles/GlobalStyle';
 import Footer from './Footer';
@@ -12,10 +13,8 @@ type AppProps = {
 };
 
 function App({ children }: AppProps) {
-  const [theme, setTheme] = useState('');
-
+  const { theme, setTheme } = useThemeValue(THEME_INITIAL_VALUE);
   const { user, setUser } = useAuthUser();
-  useThemeValue(setTheme);
 
   return (
     <Theme theme={theme}>

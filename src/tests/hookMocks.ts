@@ -1,10 +1,10 @@
 import 'react-router-dom';
 import * as hooks from '../hooks';
-import type { User } from '../types';
+import type { ThemeValue, User } from '../types';
 
 export const mockUseUserAndTheme = (
   user: User,
-  theme = 'dark',
+  theme: ThemeValue = 'dark',
   setTheme?: () => void,
 ) => {
   return vi.spyOn(hooks, 'useUserAndTheme').mockReturnValue({

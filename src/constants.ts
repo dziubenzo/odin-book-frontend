@@ -1,3 +1,5 @@
+import type { ThemeValue } from './types';
+
 export const darkTheme = {
   colours: {
     background: '#042426',
@@ -77,3 +79,5 @@ export const allowedImageFormats = [
   'image/webp',
   'image/gif',
 ];
+
+export const THEME_INITIAL_VALUE: ThemeValue = 'dark';

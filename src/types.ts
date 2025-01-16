@@ -70,15 +70,16 @@ export type Comment = {
 
 type CommentAuthor = PostAuthor;
 
-// Figure out better types
 export type OutletContext = {
-  user: User | null;
+  user: User;
   setUser: Updater<User | null>;
-  theme: string;
-  setTheme: React.Dispatch<React.SetStateAction<string>>;
+  theme: ThemeValue;
+  setTheme: React.Dispatch<React.SetStateAction<ThemeValue>>;
 };
 
 export type ThemeObject = typeof darkTheme & typeof lightTheme;
+
+export type ThemeValue = 'light' | 'dark';
 
 export type PostType = 'text' | 'image' | 'video';
 
