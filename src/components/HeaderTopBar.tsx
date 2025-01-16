@@ -7,23 +7,23 @@ import { StyledHeaderTopBar } from '../styles/Header.styled';
 function HeaderTopBar() {
   return (
     <StyledHeaderTopBar>
-      <NavLink to={'/posts'} className="link" end>
+      <NavLink to={'/posts'} className="link" end title="All Posts">
         <RiGlobalLine />
         <p>ALL</p>
       </NavLink>
-      <NavLink to={'/posts/categories'} className="link">
+      <NavLink to={'/posts/categories'} className="link" title="Categories">
         <TbCategoryPlus />
         <p>CATEGORIES</p>
       </NavLink>
-      <NavLink to={'/posts/following'} className="link">
+      <NavLink to={'/posts/following'} className="link" title="Following">
         <RiUserStarLine />
         <p>FOLLOWING</p>
       </NavLink>
-      <NavLink to={'/posts/liked'} className="link">
+      <NavLink to={'/posts/liked'} className="link" title="Liked">
         <AiOutlineLike />
         <p>LIKED</p>
       </NavLink>
-      <NavLink to={'/posts/by-you'} className="link">
+      <NavLink to={'/posts/by-you'} className="link" title="Yours">
         <AiOutlineUser />
         <p>YOURS</p>
       </NavLink>
