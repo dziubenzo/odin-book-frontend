@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,8 +8,8 @@ import Theme from '../components/Theme';
 import AllCategoriesPage from '../pages/AllCategoriesPage';
 import type { Category as CategoryType, User } from '../types';
 import { mockFetch } from './fetchMock';
+import { mockUseUserAndTheme } from './hookMocks';
 import { category1, category2, user2, user3 } from './mocks';
-import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 const categories = [category1, category2];
 

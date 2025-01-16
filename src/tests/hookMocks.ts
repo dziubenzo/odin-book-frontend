@@ -1,3 +1,4 @@
+import 'react-router-dom';
 import * as hooks from '../hooks';
 import type { User } from '../types';
 

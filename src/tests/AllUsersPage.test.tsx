@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,8 +8,8 @@ import User from '../components/User';
 import AllUsersPage from '../pages/AllUsersPage';
 import type { DetailedUser, User as UserType } from '../types';
 import { mockFetch } from './fetchMock';
+import { mockUseUserAndTheme } from './hookMocks';
 import { user2, user3 } from './mocks';
-import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 const users = [user2, user3];
 

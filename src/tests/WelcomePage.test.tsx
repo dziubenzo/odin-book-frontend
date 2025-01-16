@@ -1,6 +1,4 @@
-/* eslint-disable no-undef */
-
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { describe } from 'vitest';
@@ -10,9 +8,21 @@ import Theme from '../components/Theme';
 import WelcomePage from '../pages/WelcomePage';
 import { mockFetch } from './fetchMock';
 
-function renderWelcomePage() {
-  const user = userEvent.setup();
+const navigateFn = vi.fn();
+
+function renderWelcomePage(auth = false) {
+  // Simulate authentication/no authentication
+  mockFetch({}, auth);
+  // Mock useNavigate hook
+  vi.mock('react-router-dom', async (importOriginal) => {
+    const actual = (await importOriginal()) as object;
+    return {
+      ...actual,
+      useNavigate: () => navigateFn,
+    };
+  });
   HTMLDialogElement.prototype.showModal = vi.fn();
+  const user = userEvent.setup();
 
   render(
     <BrowserRouter>
@@ -73,6 +83,15 @@ function renderSignupModal() {
 }
 
 describe('WelcomePage', () => {
+  test('WelcomePage should redirect the user to "/posts" if authentication is successful', async () => {
+    renderWelcomePage(true);
+
+    await waitFor(() => {
+      expect(navigateFn).toHaveBeenCalledWith('/posts');
+      screen.debug();
+    });
+  });
+
   test('Log In, Sign Up and Log In As Guest buttons should be visible', async () => {
     renderWelcomePage();
 

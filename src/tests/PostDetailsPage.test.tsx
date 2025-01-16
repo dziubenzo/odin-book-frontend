@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -14,8 +12,8 @@ import { MAX_COMMENT_LENGTH } from '../constants';
 import PostDetailsPage from '../pages/PostDetailsPage';
 import type { User } from '../types';
 import { mockFetch } from './fetchMock';
+import { mockUseUserAndTheme } from './hookMocks';
 import { detailedPost1, longComment, superUser, user1 } from './mocks';
-import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 const navigateFn = vi.fn();
 

@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import { render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { beforeEach, describe, expect } from 'vitest';
@@ -8,6 +6,7 @@ import Theme from '../components/Theme';
 import { darkTheme, MAX_POST_TITLE_LENGTH } from '../constants';
 import NewPostPage from '../pages/NewPostPage';
 import { mockFetch } from './fetchMock';
+import { mockUseUserAndTheme } from './hookMocks';
 import {
   badImageURL,
   badYouTubeLink,
@@ -19,7 +18,6 @@ import {
   longPostTitle,
   user3,
 } from './mocks';
-import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 const navigateFn = vi.fn();
 const publishPostFn = vi.fn();

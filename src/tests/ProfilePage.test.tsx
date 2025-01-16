@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,7 +8,7 @@ import { defaultAvatars, MAX_BIO_LENGTH } from '../constants';
 import ProfilePage from '../pages/ProfilePage';
 import { mockFetch } from './fetchMock';
 import { longBio, user2 } from './mocks';
-import { mockUseUserAndTheme } from './useUserAndThemeMock';
+import { mockUseUserAndTheme } from './hookMocks';
 
 function renderProfilePage() {
   mockUseUserAndTheme(user2);

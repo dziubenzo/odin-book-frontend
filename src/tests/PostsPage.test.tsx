@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { DiAndroid } from 'react-icons/di';
@@ -14,6 +12,7 @@ import UserDetails from '../components/UserDetails';
 import PostsPage from '../pages/PostsPage';
 import type { Post } from '../types';
 import { mockFetch } from './fetchMock';
+import { mockUseUserAndTheme } from './hookMocks';
 import {
   category1,
   CATEGORY_STATS_COUNT,
@@ -27,7 +26,6 @@ import {
   user2,
   USER_STATS_COUNT,
 } from './mocks';
-import { mockUseUserAndTheme } from './useUserAndThemeMock';
 
 function renderPostsPage(pageDescription: string) {
   mockUseUserAndTheme(superUser);
