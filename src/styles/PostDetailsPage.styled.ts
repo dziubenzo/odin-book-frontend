@@ -146,6 +146,7 @@ export const StyledComment = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  white-space: pre-wrap;
 
   a {
     text-decoration: none;

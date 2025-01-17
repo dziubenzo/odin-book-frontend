@@ -1,7 +1,9 @@
+import { useTheme } from 'styled-components';
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../constants';
 import { useUserAndTheme } from '../hooks';
 import { StyledCommentInputTop } from '../styles/PostDetailsPage.styled';
 import Avatar from './Avatar';
+import { moveCaretToEnd } from '../helpers';
 
 type CommentInputTopProps = {
   commentFieldRef: React.RefObject<HTMLParagraphElement | null>;
@@ -21,25 +23,36 @@ function CommentInputTop({
   handleSubmitCommentClick,
 }: CommentInputTopProps) {
   const { user } = useUserAndTheme();
+  const theme = useTheme();
 
   function handleCommentFieldInput(
     event: React.FormEvent<HTMLParagraphElement>,
   ) {
-    if (!event.currentTarget.textContent) return;
+    event.preventDefault();
+    if (event.currentTarget.textContent === null) return;
     // Prevent the field from going above MAX_COMMENT_LENGTH
     if (event.currentTarget.textContent.length > MAX_COMMENT_LENGTH) {
-      return (event.currentTarget.textContent = content);
+      event.currentTarget.textContent = content;
+      // Move caret to the end of the field after replacing textContent
+      return moveCaretToEnd(event.currentTarget);
     }
     setContent(event.currentTarget.textContent);
-    setContentLength(
-      MAX_COMMENT_LENGTH - event.currentTarget.textContent.length,
+    // Make sure new lines do not count towards the character limit
+    const textWithNoNewLines = event.currentTarget.textContent.replaceAll(
+      '\n',
+      '',
     );
+    setContentLength(MAX_COMMENT_LENGTH - textWithNoNewLines.length);
   }
 
+  // Submit comment on Enter key press
+  // Insert a new line on Shift and Enter keys press
   function submitCommentOnEnter(
     event: React.KeyboardEvent<HTMLParagraphElement>,
   ) {
-    if (event.key === 'Enter') {
+    // Prevent submitting with Enter on mobile devices
+    if (document.body.clientWidth < parseInt(theme.mobile)) return;
+    if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       handleSubmitCommentClick();
     }
@@ -51,11 +64,10 @@ function CommentInputTop({
       <p
         ref={commentFieldRef}
         className="comment-input-field"
-        contentEditable
+        contentEditable="plaintext-only"
         data-testid="comment-input-field"
         onKeyDown={submitCommentOnEnter}
         onInput={handleCommentFieldInput}
-        onPaste={(event) => event.preventDefault()}
       ></p>
       <p
         className={

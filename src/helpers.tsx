@@ -780,3 +780,11 @@ export const disableEnter = (
     event.preventDefault();
   }
 };
+
+// Move caret to the end of the comment field
+export const moveCaretToEnd = (commentField: HTMLParagraphElement) => {
+  const selection = window.getSelection();
+  if (selection === null) return;
+  selection.selectAllChildren(commentField);
+  selection.collapseToEnd();
+};
