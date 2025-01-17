@@ -48,6 +48,7 @@ function CommentInput({ post, setPost }: CommentInputProps) {
         contentLength={contentLength}
         setContent={setContent}
         setContentLength={setContentLength}
+        handleSubmitCommentClick={handleSubmitCommentClick}
       />
       <CommentInputBottom
         handleSubmitCommentClick={handleSubmitCommentClick}

@@ -774,7 +774,7 @@ export const fetchMorePosts = async (
 
 // Prevent Enter from inserting a next line
 export const disableEnter = (
-  event: React.KeyboardEvent<HTMLTextAreaElement | HTMLParagraphElement>,
+  event: React.KeyboardEvent<HTMLTextAreaElement>,
 ) => {
   if (event.key === 'Enter') {
     event.preventDefault();

@@ -1,5 +1,4 @@
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../constants';
-import { disableEnter } from '../helpers';
 import { useUserAndTheme } from '../hooks';
 import { StyledCommentInputTop } from '../styles/PostDetailsPage.styled';
 import Avatar from './Avatar';
@@ -10,6 +9,7 @@ type CommentInputTopProps = {
   contentLength: number;
   setContent: React.Dispatch<React.SetStateAction<string>>;
   setContentLength: React.Dispatch<React.SetStateAction<number>>;
+  handleSubmitCommentClick: () => Promise<void>;
 };
 
 function CommentInputTop({
@@ -18,6 +18,7 @@ function CommentInputTop({
   contentLength,
   setContent,
   setContentLength,
+  handleSubmitCommentClick,
 }: CommentInputTopProps) {
   const { user } = useUserAndTheme();
 
@@ -35,6 +36,15 @@ function CommentInputTop({
     );
   }
 
+  function submitCommentOnEnter(
+    event: React.KeyboardEvent<HTMLParagraphElement>,
+  ) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSubmitCommentClick();
+    }
+  }
+
   return (
     <StyledCommentInputTop $contentLength={content.length}>
       <Avatar object={user} size={36} type="user" />
@@ -43,7 +53,7 @@ function CommentInputTop({
         className="comment-input-field"
         contentEditable
         data-testid="comment-input-field"
-        onKeyDown={disableEnter}
+        onKeyDown={submitCommentOnEnter}
         onInput={handleCommentFieldInput}
         onPaste={(event) => event.preventDefault()}
       ></p>
