@@ -193,8 +193,8 @@ export const StyledCommentLikes = styled.div`
 
   .like-icon,
   .dislike-icon {
-    height: 32px;
-    width: 32px;
+    height: 38px;
+    width: 38px;
     background: transparent;
     border: none;
 

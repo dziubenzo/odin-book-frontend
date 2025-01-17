@@ -101,6 +101,11 @@ export const StyledPostLikes = styled.div`
     .dislike-icon {
       height: 24px;
       width: 24px;
+
+      .loader * {
+        width: 4px !important;
+        height: 4px !important;
+      }
     }
 
     .likes-count {

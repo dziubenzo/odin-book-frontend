@@ -61,6 +61,7 @@ function PostsPage({
           post={post}
           handlePostLikeClick={handleLikeClick}
           handlePostDislikeClick={handleDislikeClick}
+          inProgress={inProgress}
         />
       );
     });

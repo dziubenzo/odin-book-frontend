@@ -55,6 +55,7 @@ function renderPostLikes(isUser1 = false) {
         post={post1}
         handlePostLikeClick={likeFn}
         handlePostDislikeClick={dislikeFn}
+        inProgress={false}
       />
     </Theme>,
   );

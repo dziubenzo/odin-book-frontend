@@ -87,12 +87,14 @@ function PostDetailsPage() {
             post={post}
             handlePostLikeClick={handlePostLikeClick}
             handlePostDislikeClick={handlePostDislikeClick}
+            inProgress={inProgress}
           />
           <CommentInput post={post} setPost={setPost} />
           <Comments
             comments={post.comments}
             handleCommentLikeClick={handleCommentLikeClick}
             handleCommentDislikeClick={handleCommentDislikeClick}
+            inProgress={inProgress}
           />
           <ReturnIcon />
         </>

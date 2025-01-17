@@ -8,12 +8,14 @@ type CommentProps = {
   comment: CommentType;
   handleCommentLikeClick: (commentID: CommentType['_id']) => Promise<void>;
   handleCommentDislikeClick: (commentID: CommentType['_id']) => Promise<void>;
+  inProgress: boolean;
 };
 
 function Comment({
   comment,
   handleCommentLikeClick,
   handleCommentDislikeClick,
+  inProgress,
 }: CommentProps) {
   return (
     <StyledComment>
@@ -23,6 +25,7 @@ function Comment({
         comment={comment}
         handleCommentLikeClick={handleCommentLikeClick}
         handleCommentDislikeClick={handleCommentDislikeClick}
+        inProgress={inProgress}
       />
     </StyledComment>
   );

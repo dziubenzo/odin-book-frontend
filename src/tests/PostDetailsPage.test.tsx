@@ -93,6 +93,7 @@ function renderComments() {
           comments={comments}
           handleCommentLikeClick={likeCommentFn}
           handleCommentDislikeClick={dislikeCommentFn}
+          inProgress={false}
         />
       </Theme>
     </BrowserRouter>,
@@ -128,6 +129,7 @@ function renderCommentLikes(loggedInUser: User) {
         comment={firstComment}
         handleCommentLikeClick={likeFn}
         handleCommentDislikeClick={dislikeFn}
+        inProgress={false}
       />
     </Theme>,
   );

@@ -8,12 +8,14 @@ type PostDetailsProps = {
   post: DetailedPost;
   handlePostLikeClick: () => Promise<void>;
   handlePostDislikeClick: () => Promise<void>;
+  inProgress: boolean;
 };
 
 function PostDetails({
   post,
   handlePostLikeClick,
   handlePostDislikeClick,
+  inProgress,
 }: PostDetailsProps) {
   const { title, content } = post;
 
@@ -42,6 +44,7 @@ function PostDetails({
             post={post}
             handlePostLikeClick={handlePostLikeClick}
             handlePostDislikeClick={handlePostDislikeClick}
+            inProgress={inProgress}
           />
         </div>
         <div className="post-content">{wrapPostContent()}</div>
