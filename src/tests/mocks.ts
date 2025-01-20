@@ -1,3 +1,4 @@
+import { subMonths } from 'date-fns';
 import { defaultAvatars } from '../constants';
 import type {
   DetailedCategory,
@@ -133,7 +134,7 @@ export const post2 = {
     name: 'category2',
     slug: 'category2',
   },
-  created_at: new Date(),
+  created_at: subMonths(new Date(), 1),
   likes: ['1', '2', '3', '4', '5'],
   dislikes: ['1', '2'],
   comments: [],
@@ -153,7 +154,7 @@ export const post3 = {
     name: 'category3',
     slug: 'category3',
   },
-  created_at: new Date(),
+  created_at: subMonths(new Date(), 2),
   likes: [],
   dislikes: ['1', '2', '3', '4', '5'],
   comments: ['A', 'B', 'C', 'D'],

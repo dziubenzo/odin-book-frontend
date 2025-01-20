@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import { formatDate } from 'date-fns';
 import { DiAndroid } from 'react-icons/di';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
@@ -206,7 +207,71 @@ describe('PostsPage', () => {
   });
 });
 
+describe('MonthIndicator', () => {
+  it('should render a Last Month month indicator if there are at least two posts and one is at least a month old', async () => {
+    mockFetch([post1, post2], true);
+    renderPostsPage('Posts');
+
+    const lastMonthIndicator = await screen.findByRole('heading', {
+      name: /last month/i,
+    });
+
+    expect(lastMonthIndicator).toBeInTheDocument();
+  });
+
+  it('should render a month indicator with the month and year in which a post was created if there are at least two posts and one is at least two months old', async () => {
+    mockFetch([post1, post3], true);
+    renderPostsPage('Posts');
+
+    const twoMonthsAgoIndicator = await screen.findByRole('heading', {
+      name: new RegExp(formatDate(post3.created_at, 'MMMM yyyy'), 'i'),
+    });
+
+    expect(twoMonthsAgoIndicator).toBeInTheDocument();
+  });
+
+  it('should render a month indicator for the first post if posts are sorted by oldest', async () => {
+    mockFetch([post1, post2, post3], true);
+    const user = renderPostsPage('Posts');
+
+    // Sort posts by oldest
+    const oldestButton = await screen.findByRole('button', { name: /oldest/i });
+    await user.click(oldestButton);
+
+    const firstPostMonthIndicator = await screen.findByRole('heading', {
+      name: new RegExp(formatDate(post3.created_at, 'MMMM yyyy'), 'i'),
+    });
+
+    expect(firstPostMonthIndicator).toBeInTheDocument();
+  });
+
+  it('should render a This Month month indicator for a post created this month if posts are sorted by oldest', async () => {
+    mockFetch([post1, post2, post3], true);
+    const user = renderPostsPage('Posts');
+
+    // Sort posts by oldest
+    const oldestButton = await screen.findByRole('button', { name: /oldest/i });
+    await user.click(oldestButton);
+
+    const thisMonthIndicator = await screen.findByRole('heading', {
+      name: /this month/i,
+    });
+
+    expect(thisMonthIndicator).toBeInTheDocument();
+  });
+});
+
 describe('PostsSorter', () => {
+  beforeAll(async () => {
+    const user = userEvent.setup();
+    mockFetch([post1], true);
+    renderPostsPage('All Posts');
+
+    // Sort post back by newest
+    const newestButton = await screen.findByRole('button', { name: /newest/i });
+    await user.click(newestButton);
+  });
+
   it("should render a 'Sort By' paragraph", async () => {
     mockFetch([post1], true);
     renderPostsPage('All Posts');
