@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { isSameMonth } from 'date-fns';
+import { Fragment, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useParams } from 'react-router-dom';
 import CategoryDetails from '../components/CategoryDetails';
@@ -6,6 +7,7 @@ import EndInfiniteScroll from '../components/EndInfiniteScroll';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
 import LoadingInfiniteScroll from '../components/LoadingInfiniteScroll';
+import MonthIndicator from '../components/MonthIndicator';
 import NoPostsSection from '../components/NoPostsSection';
 import Post from '../components/Post';
 import PostsSorter from '../components/PostsSorter';
@@ -54,15 +56,24 @@ function PostsPage({
 
   function renderPosts() {
     if (!posts) return;
-    return posts.map((post) => {
+    return posts.map((post, index) => {
       return (
-        <Post
-          key={post._id}
-          post={post}
-          handlePostLikeClick={handleLikeClick}
-          handlePostDislikeClick={handleDislikeClick}
-          inProgress={inProgress}
-        />
+        <Fragment key={post._id}>
+          {sortBy === 'oldest' && index === 0 && (
+            <MonthIndicator date={post.created_at} />
+          )}
+          {(sortBy === 'oldest' || sortBy === 'newest') &&
+            index > 0 &&
+            !isSameMonth(post.created_at, posts[index - 1].created_at) && (
+              <MonthIndicator date={post.created_at} />
+            )}
+          <Post
+            post={post}
+            handlePostLikeClick={handleLikeClick}
+            handlePostDislikeClick={handleDislikeClick}
+            inProgress={inProgress}
+          />
+        </Fragment>
       );
     });
   }

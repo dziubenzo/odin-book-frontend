@@ -65,7 +65,7 @@ function CommentInputTop({
         placeholder={
           isMobile()
             ? undefined
-            : '1. Press Shift+Enter to insert a new line\n2. Press Enter to send your comment'
+            : '1. Press Shift+Enter to insert a new line\n2. Press Enter to submit your comment'
         }
       ></textarea>
       <p

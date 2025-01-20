@@ -114,6 +114,16 @@ export const StyledPostLikes = styled.div`
   }
 `;
 
+export const StyledMonthIndicator = styled.h3`
+  text-align: right;
+  color: ${(props) => props.theme.colours.secondary};
+  margin: 1.5em 0;
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    margin: 0.75em 0;
+  }
+`;
+
 export const StyledPostBody = styled.div`
   display: grid;
   gap: 8px;
