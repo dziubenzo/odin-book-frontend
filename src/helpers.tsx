@@ -4,6 +4,7 @@ import slugify from 'slugify';
 import type { Updater } from 'use-immer';
 import API_URL from './API';
 import {
+  darkTheme,
   MAX_COMMENT_LENGTH,
   MIN_POST_CONTENT_LENGTH,
   MIN_POST_TITLE_LENGTH,
@@ -354,7 +355,7 @@ export const createComment = async (
   post: DetailedPost,
   content: string,
   inProgress: boolean,
-  commentFieldRef: React.RefObject<HTMLParagraphElement | null>,
+  commentFieldRef: React.RefObject<HTMLTextAreaElement | null>,
   setCommentError: React.Dispatch<React.SetStateAction<string>>,
   setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
   setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>,
@@ -385,13 +386,13 @@ export const createComment = async (
   const updatedPost: DetailedPost = await res.json();
   setPost(updatedPost);
   setIsSubmitted(true);
+  if (!commentFieldRef.current) return;
+  commentFieldRef.current.value = '';
   setTimeout(() => {
     setIsSubmitted(false);
     setInProgress(false);
     setContent('');
-    if (!commentFieldRef.current) return;
-    commentFieldRef.current.textContent = '';
-  }, 2000);
+  }, 1000);
   return setContentLength(MAX_COMMENT_LENGTH);
 };
 
@@ -781,10 +782,12 @@ export const disableEnter = (
   }
 };
 
-// Move caret to the end of the comment field
-export const moveCaretToEnd = (commentField: HTMLParagraphElement) => {
-  const selection = window.getSelection();
-  if (selection === null) return;
-  selection.selectAllChildren(commentField);
-  selection.collapseToEnd();
+// Move caret to the end of the comment textarea
+export const moveCaretToEnd = (commentTextArea: HTMLTextAreaElement) => {
+  commentTextArea.focus();
+};
+
+// Check if the app is browsed on a mobile browser
+export const isMobile = () => {
+  return document.body.clientWidth < parseInt(darkTheme.mobile);
 };

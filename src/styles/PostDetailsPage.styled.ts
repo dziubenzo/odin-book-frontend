@@ -275,6 +275,7 @@ export const StyledCommentInputTop = styled.div<StyledCommentInputTopProps>`
   .comment-input-field {
     width: 100%;
     height: auto;
+    border: none;
     outline: 1px solid ${(props) => props.theme.colours.primary};
     border-radius: 8px;
     padding: 0.5em;
@@ -283,10 +284,12 @@ export const StyledCommentInputTop = styled.div<StyledCommentInputTopProps>`
       props.$contentLength < MIN_COMMENT_LENGTH
         ? props.theme.colours.lightRed
         : 'inherit'};
+    resize: vertical;
+    background-color: inherit;
+    font-size: ${props => props.theme.fontSizes.standard};
 
     &:focus-visible {
       outline: 2px solid ${(props) => props.theme.colours.primary};
-      border: none;
     }
   }
 

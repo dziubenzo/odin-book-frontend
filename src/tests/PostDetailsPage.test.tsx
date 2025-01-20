@@ -226,20 +226,20 @@ describe('CommentInputTop', () => {
   it('should render an empty comment input field', () => {
     renderCommentInput();
 
-    const commentInputField = screen.getByTestId('comment-input-field');
+    const commentTextArea = screen.getByRole<HTMLTextAreaElement>('textbox');
 
-    expect(commentInputField.textContent).toBe('');
+    expect(commentTextArea).toHaveValue('');
   });
 
   it('should render a comment input field that accepts input', async () => {
     const { user } = renderCommentInput();
     const typedText = 'I should accept input, yay!';
 
-    const commentInputField = screen.getByTestId('comment-input-field');
-    await user.click(commentInputField);
-    await user.type(commentInputField, typedText);
+    const commentTextArea = screen.getByRole<HTMLTextAreaElement>('textbox');
+    await user.click(commentTextArea);
+    await user.type(commentTextArea, typedText);
 
-    expect(commentInputField.textContent).toBe(typedText);
+    expect(commentTextArea).toHaveValue(typedText);
   });
 
   it('should render a comment length paragraph', () => {
@@ -254,9 +254,24 @@ describe('CommentInputTop', () => {
     const { user } = renderCommentInput();
     const typedText = 'Text!';
 
-    const commentInputField = screen.getByTestId('comment-input-field');
-    await user.click(commentInputField);
-    await user.type(commentInputField, typedText);
+    const commentTextArea = screen.getByRole<HTMLTextAreaElement>('textbox');
+    await user.click(commentTextArea);
+    await user.type(commentTextArea, typedText);
+    const commentLengthPara = screen.getByText(
+      MAX_COMMENT_LENGTH - typedText.length,
+    );
+
+    expect(commentLengthPara).toBeInTheDocument();
+  });
+
+  it('should render a comment length paragraph that does not include new lines as characters', async () => {
+    const { user } = renderCommentInput();
+    const typedText = 'Text';
+    const typedTextWithNewLines = `\n${typedText}\n`;
+
+    const commentTextArea = screen.getByRole<HTMLTextAreaElement>('textbox');
+    await user.click(commentTextArea);
+    await user.type(commentTextArea, typedTextWithNewLines);
     const commentLengthPara = screen.getByText(
       MAX_COMMENT_LENGTH - typedText.length,
     );
@@ -267,24 +282,22 @@ describe('CommentInputTop', () => {
   it('should render a comment length paragraph that cannot exceed MAX_COMMENT_LENGTH', async () => {
     const { user } = renderCommentInput();
 
-    const commentInputField = screen.getByTestId<HTMLParagraphElement>(
-      'comment-input-field',
-    );
-    await user.click(commentInputField);
-    await user.type(commentInputField, longComment + 'I will now be too long');
+    const commentTextArea = screen.getByRole<HTMLTextAreaElement>('textbox');
+    await user.click(commentTextArea);
+    await user.type(commentTextArea, longComment + 'I will now be too long');
     const commentLengthPara = screen.getByText(/0/i);
 
     expect(commentLengthPara).toBeInTheDocument();
-    expect(commentInputField.textContent!.length).toBe(MAX_COMMENT_LENGTH);
+    expect(commentTextArea.value.length).toBe(MAX_COMMENT_LENGTH);
   });
 
   it('should render a comment length paragraph that has a different colour if the comment length is smaller than MIN_COMMENT_LENGTH', async () => {
     const { user } = renderCommentInput();
     const typedText = 'Oi';
 
-    const commentInputField = screen.getByTestId('comment-input-field');
-    await user.click(commentInputField);
-    await user.type(commentInputField, typedText);
+    const commentTextArea = screen.getByRole<HTMLTextAreaElement>('textbox');
+    await user.click(commentTextArea);
+    await user.type(commentTextArea, typedText);
     const commentLengthPara = screen.getByText(
       MAX_COMMENT_LENGTH - typedText.length,
     );
@@ -295,9 +308,9 @@ describe('CommentInputTop', () => {
   it('should render a comment length paragraph that has a different colour if the comment length is close to MAX_COMMENT_LENGTH', async () => {
     const { user } = renderCommentInput();
 
-    const commentInputField = screen.getByTestId('comment-input-field');
-    await user.click(commentInputField);
-    await user.type(commentInputField, longComment);
+    const commentTextArea = screen.getByRole<HTMLTextAreaElement>('textbox');
+    await user.click(commentTextArea);
+    await user.type(commentTextArea, longComment);
     const commentLengthPara = screen.getByText(
       MAX_COMMENT_LENGTH - longComment.length,
     );
@@ -309,9 +322,9 @@ describe('CommentInputTop', () => {
     const { user } = renderCommentInput();
     const typedText = 'I am a legit comment, trust me!';
 
-    const commentInputField = screen.getByTestId('comment-input-field');
-    await user.click(commentInputField);
-    await user.type(commentInputField, typedText);
+    const commentTextArea = screen.getByRole<HTMLTextAreaElement>('textbox');
+    await user.click(commentTextArea);
+    await user.type(commentTextArea, typedText);
     const commentLengthPara = screen.getByText(
       MAX_COMMENT_LENGTH - typedText.length,
     );

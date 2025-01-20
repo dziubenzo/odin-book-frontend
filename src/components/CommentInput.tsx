@@ -15,7 +15,7 @@ type CommentInputProps = {
 
 function CommentInput({ post, setPost }: CommentInputProps) {
   const { user } = useUserAndTheme();
-  const commentFieldRef = useRef<HTMLParagraphElement>(null);
+  const commentFieldRef = useRef<HTMLTextAreaElement>(null);
 
   const [content, setContent] = useState('');
   const [contentLength, setContentLength] = useState(MAX_COMMENT_LENGTH);
