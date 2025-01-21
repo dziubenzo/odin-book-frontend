@@ -121,21 +121,18 @@ export const StyledPopover = styled.div`
   .top-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    justify-items: center;
     align-items: center;
-    gap: 16px;
-
-    div {
-      justify-self: end;
-    }
+    word-break: break-all;
 
     p {
-      justify-self: start;
       font-size: ${(props) => props.theme.fontSizes.medium};
       color: ${(props) => props.theme.colours.secondary};
     }
   }
 
-  .user-stats {
+  .user-stats,
+  .category-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
@@ -151,6 +148,10 @@ export const StyledPopover = styled.div`
         color: ${(props) => props.theme.colours.secondary};
       }
     }
+  }
+
+  .category-stats {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .popover-btn {
