@@ -20,21 +20,32 @@ export const useAuthUser = () => {
   const [user, setUser] = useImmer<User | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function authUser() {
-      const res = await fetch(`${API_URL}/users/auth`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${Cookies.get('jwt')}`,
-        },
-      });
-      if (!res.ok) {
-        return navigate('/');
+      try {
+        const res = await fetch(`${API_URL}/users/auth`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('jwt')}`,
+          },
+          signal: controller.signal,
+        });
+        if (!res.ok) {
+          return navigate('/');
+        }
+        const user: User = await res.json();
+        setUser(user);
+      } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError') return;
       }
-      const user: User = await res.json();
-      setUser(user);
     }
     authUser();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   return { user, setUser };
@@ -55,21 +66,32 @@ export const useCheckAuth = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function checkAuth() {
-      const res = await fetch(`${API_URL}/users/auth`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${Cookies.get('jwt')}`,
-        },
-      });
-      if (!res.ok) {
-        setShowPage(true);
-        return;
+      try {
+        const res = await fetch(`${API_URL}/users/auth`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('jwt')}`,
+          },
+          signal: controller.signal,
+        });
+        if (!res.ok) {
+          setShowPage(true);
+          return;
+        }
+        return navigate('/posts');
+      } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError') return;
       }
-      return navigate('/posts');
     }
     checkAuth();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   return showPage;
@@ -82,26 +104,40 @@ export const useFetchPageData = <T,>(endpoint: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function fetchData() {
-      setLoading(true);
-      setData(null);
-      setError(null);
-      const res = await fetch(`${API_URL}${endpoint}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${Cookies.get('jwt')}`,
-        },
-      });
-      if (!res.ok) {
-        const error = (await res.json()) as string;
+      try {
+        setLoading(true);
+        setData(null);
+        setError(null);
+        const res = await fetch(`${API_URL}${endpoint}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('jwt')}`,
+          },
+          signal: controller.signal,
+        });
+        if (!res.ok) {
+          const error = (await res.json()) as string;
+          setLoading(false);
+          return setError(error);
+        }
+        const data: T = await res.json();
+        setData(data);
+      } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        setError('Unexpected error occurred');
+      } finally {
+        if (controller.signal.aborted) return;
         setLoading(false);
-        return setError(error);
       }
-      const data: T = await res.json();
-      setData(data);
-      setLoading(false);
     }
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, [endpoint]);
 
   return { data, setData, loading, error, setError };
@@ -115,34 +151,48 @@ export const useFetchPosts = (endpoint: string, limit: number) => {
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
+    const controller = new AbortController();
+
     async function fetchPosts() {
-      setLoading(true);
-      setPosts(null);
-      setError(null);
-      setHasMore(true);
-      const res = await fetch(
-        `${API_URL}${endpoint}${
-          endpoint[endpoint.length - 1] === '/'
-            ? `?limit=${limit}`
-            : `&limit=${limit}`
-        }`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${Cookies.get('jwt')}`,
+      try {
+        setLoading(true);
+        setPosts(null);
+        setError(null);
+        setHasMore(true);
+        const res = await fetch(
+          `${API_URL}${endpoint}${
+            endpoint[endpoint.length - 1] === '/'
+              ? `?limit=${limit}`
+              : `&limit=${limit}`
+          }`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${Cookies.get('jwt')}`,
+            },
+            signal: controller.signal,
           },
-        },
-      );
-      if (!res.ok) {
-        const error = await res.json();
+        );
+        if (!res.ok) {
+          const error = await res.json();
+          setLoading(false);
+          return setError(error);
+        }
+        const posts = await res.json();
+        setPosts(posts);
+      } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError') return;
+        setError('Unexpected error occurred');
+      } finally {
+        if (controller.signal.aborted) return;
         setLoading(false);
-        return setError(error);
       }
-      const posts = await res.json();
-      setPosts(posts);
-      setLoading(false);
     }
     fetchPosts();
+
+    return () => {
+      controller.abort();
+    };
   }, [endpoint]);
 
   return {

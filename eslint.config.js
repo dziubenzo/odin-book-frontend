@@ -25,6 +25,7 @@ export default tseslint.config(
       ],
       'no-console': 'error',
       'no-unused-vars': 'off',
+      'no-unsafe-finally': 'off',
     },
   },
 );
