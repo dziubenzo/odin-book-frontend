@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { MdOutlineErrorOutline } from 'react-icons/md';
 import { followOrUnfollowCategory, followOrUnfollowUser } from '../helpers';
 import { useFetchPageData, useUserAndTheme } from '../hooks';
+import PopoverSkeleton from '../skeletons/PopoverSkeleton';
 import { StyledPopover } from '../styles/App.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
 import { DetailedCategory, DetailedUser } from '../types';
@@ -34,16 +36,21 @@ function Popover({ type, query, positionX, positionY }: PopoverProps) {
 
   if (loading) {
     return (
-      <StyledPopover style={{ top: positionY, left: positionX }}>
-        <p>Loading data...</p>
-      </StyledPopover>
+      <PopoverSkeleton
+        type={type === 'user' ? 'user' : 'category'}
+        positionX={positionX}
+        positionY={positionY}
+      />
     );
   }
 
   if (error) {
     return (
       <StyledPopover style={{ top: positionY, left: positionX }}>
-        <p>{error}</p>
+        <div className="error-msg-wrapper">
+          <MdOutlineErrorOutline />
+          <p>Error while retrieving {type}</p>
+        </div>
       </StyledPopover>
     );
   }

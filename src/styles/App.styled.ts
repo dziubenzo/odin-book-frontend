@@ -161,6 +161,21 @@ export const StyledPopover = styled.div`
     border-radius: 8px;
   }
 
+  .error-msg-wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    svg {
+      height: 64px;
+      width: 64px;
+    }
+  }
+
   @media (max-width: ${(props) => props.theme.mobile}) {
     display: none;
   }
