@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+export const POPOVER_WIDTH = 300;
+
 type StyledAvatarProps = {
   $size: number;
 };
@@ -102,5 +104,63 @@ export const StyledStickyIcon = styled.button`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     width: 50px;
+  }
+`;
+
+export const StyledPopover = styled.div`
+  position: absolute;
+  width: ${POPOVER_WIDTH}px;
+  height: 225px;
+  border-radius: 24px;
+  background-color: ${(props) => props.theme.colours.background};
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 16px;
+
+    div {
+      justify-self: end;
+    }
+
+    p {
+      justify-self: start;
+      font-size: ${(props) => props.theme.fontSizes.medium};
+      color: ${(props) => props.theme.colours.secondary};
+    }
+  }
+
+  .user-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+    text-align: center;
+    gap: 8px;
+
+    div {
+      p {
+        font-size: ${(props) => props.theme.fontSizes.small};
+      }
+      .count {
+        font-size: ${(props) => props.theme.fontSizes.large};
+        color: ${(props) => props.theme.colours.secondary};
+      }
+    }
+  }
+
+  .popover-btn {
+    height: 100% !important;
+    width: auto;
+    padding: revert !important;
+    border-radius: 8px;
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    display: none;
   }
 `;

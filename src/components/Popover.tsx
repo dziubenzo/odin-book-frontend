@@ -1,7 +1,9 @@
-import { useFetchPageData } from '../hooks';
+import { useState } from 'react';
+import { followOrUnfollowUser } from '../helpers';
+import { useFetchPageData, useUserAndTheme } from '../hooks';
 import { StyledPopover } from '../styles/App.styled';
 import { StyledButton } from '../styles/WelcomePage.styled';
-import { DetailedCategory, DetailedUser } from '../types';
+import { DetailedCategory, DetailedUser, User } from '../types';
 import Avatar from './Avatar';
 
 type UserPopover = {
@@ -20,9 +22,15 @@ type PopoverProps = {
 } & (UserPopover | CategoryPopover);
 
 function Popover({ type, query, positionX, positionY }: PopoverProps) {
-  const { data, loading, error } = useFetchPageData<
+  const { user, setUser } = useUserAndTheme();
+  const { data, setData, loading, error } = useFetchPageData<
     DetailedUser | DetailedCategory
   >(query);
+
+  const [inProgress, setInProgress] = useState<
+    DetailedUser['_id'] | DetailedCategory['_id'] | null
+  >(null);
+  const [followError, setFollowError] = useState<string | null>(null);
 
   if (loading) {
     return (
@@ -42,6 +50,7 @@ function Popover({ type, query, positionX, positionY }: PopoverProps) {
 
   if (type === 'user' && data) {
     const {
+      _id: popoverUser,
       username,
       postsCount,
       followersCount,
@@ -49,16 +58,66 @@ function Popover({ type, query, positionX, positionY }: PopoverProps) {
       followed_users,
     } = data as DetailedUser;
 
+    // Follow or unfollow popover user
+    async function handleUserButtonClick(userID: User['_id']) {
+      await followOrUnfollowUser(
+        inProgress,
+        user,
+        userID,
+        setInProgress,
+        setFollowError,
+        setUser,
+      );
+      if (inProgress) {
+        return;
+      }
+      // Update popover user's followers
+      setData((draft) => {
+        if (!draft) return;
+        if (user.followed_users.includes(userID)) {
+          draft.followersCount--;
+          return;
+        }
+        draft.followersCount++;
+      });
+    }
+
     return (
       <StyledPopover style={{ top: positionY, left: positionX }}>
         <div className="top-row">
-          <Avatar type="user" size={96} object={data as DetailedUser} />
+          <Avatar type="user" size={64} object={data as DetailedUser} />
           <p>{username}</p>
         </div>
-        <p>Posts: {postsCount}</p>
-        <p>Followers: {followersCount}</p>
-        <p>Following: {followed_users.length}</p>
-        <p>Comments: {commentsCount}</p>
+        <div className="user-stats">
+          <div>
+            <p>Posts</p>
+            <p className="count">{postsCount}</p>
+          </div>
+          <div>
+            <p>Comments</p>
+            <p className="count">{commentsCount}</p>
+          </div>
+          <div>
+            <p>Followers</p>
+            <p className="count">{followersCount}</p>
+          </div>
+          <div>
+            <p>Following</p>
+            <p className="count">{followed_users.length}</p>
+          </div>
+        </div>
+        <StyledButton
+          className="popover-btn"
+          onClick={() => handleUserButtonClick(popoverUser)}
+        >
+          {inProgress === popoverUser
+            ? 'Changing...'
+            : followError
+              ? followError
+              : user.followed_users.includes(popoverUser)
+                ? 'Unfollow'
+                : 'Follow'}
+        </StyledButton>
       </StyledPopover>
     );
   } else if (type === 'category' && data) {
@@ -66,7 +125,7 @@ function Popover({ type, query, positionX, positionY }: PopoverProps) {
 
     return (
       <StyledPopover style={{ top: positionY, left: positionX }}>
-        <Avatar type="category" size={96} object={data as DetailedCategory} />
+        <Avatar type="category" size={64} object={data as DetailedCategory} />
         <p>{name}</p>
         <p>Posts: {postsCount}</p>
         <p>Followers: {followersCount}</p>
