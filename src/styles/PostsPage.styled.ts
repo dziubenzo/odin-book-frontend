@@ -166,9 +166,16 @@ export const StyledPostBody = styled.div`
   }
 
   @media (hover: hover) {
-    transition: background-color 0.3s;
+    .post-link {
+      outline: 0.3em solid transparent;
+      border-radius: 8px;
+      transition:
+        background-color 0.3s,
+        outline 0.3s;
+    }
 
-    &:hover {
+    .post-link:hover {
+      outline: 0.3em solid ${(props) => props.theme.colours.tertiary};
       background-color: ${(props) => props.theme.colours.tertiary};
     }
   }

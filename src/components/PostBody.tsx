@@ -20,7 +20,7 @@ function PostBody({ post }: PostBodyProps) {
 
   return (
     <StyledPostBody>
-      <Link to={`/posts/${slug}`}>
+      <Link className="post-link" to={`/posts/${slug}`}>
         <p className="post-title">{title}</p>
         <div className="post-content">{parse(noWarningContent || content)}</div>
       </Link>
