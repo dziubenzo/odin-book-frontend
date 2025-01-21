@@ -10,6 +10,7 @@ import {
   MIN_POST_TITLE_LENGTH,
   POSTS_PER_FETCH,
 } from './constants';
+import { POPOVER_WIDTH } from './styles/App.styled';
 import type {
   Comment,
   DetailedCategory,
@@ -790,4 +791,20 @@ export const moveCaretToEnd = (commentTextArea: HTMLTextAreaElement) => {
 // Check if the app is browsed on a mobile browser
 export const isMobile = () => {
   return document.body.clientWidth < parseInt(darkTheme.mobile);
+};
+
+// Calculate position for both popovers
+export const calculatePopoverPosition = (
+  event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>,
+  setPositionX: React.Dispatch<React.SetStateAction<number>>,
+  setPositionY: React.Dispatch<React.SetStateAction<number>>,
+) => {
+  setPositionX(
+    event.currentTarget.offsetLeft +
+      event.currentTarget.offsetWidth / 2 -
+      POPOVER_WIDTH / 2,
+  );
+  setPositionY(
+    event.currentTarget.offsetTop + event.currentTarget.offsetHeight,
+  );
 };
