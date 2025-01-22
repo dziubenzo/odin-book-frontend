@@ -62,7 +62,11 @@ function Popover({
 
   if (error) {
     return (
-      <StyledPopover style={{ top: positionY, left: positionX }}>
+      <StyledPopover
+        className={isClosing ? 'closing' : undefined}
+        style={{ top: positionY, left: positionX }}
+        onAnimationEnd={handleAnimationEnd}
+      >
         <div className="error-msg-wrapper">
           <MdOutlineErrorOutline />
           <p>Error while retrieving {type}</p>
@@ -133,7 +137,11 @@ function Popover({
             <p className="count">{followed_users.length}</p>
           </div>
         </div>
-        <StyledButton className="popover-btn" onClick={handleUserButtonClick}>
+        <StyledButton
+          className="popover-btn"
+          onClick={handleUserButtonClick}
+          disabled={user._id === popoverUser}
+        >
           {inProgress === popoverUser
             ? 'Changing...'
             : followError

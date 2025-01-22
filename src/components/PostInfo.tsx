@@ -54,7 +54,7 @@ function PostInfo({ post, isPostInfoPostDetails }: PostInfoProps) {
         }}
       >
         <Avatar object={author} size={14.4} type="user" />
-        <Link to={`/users/${author.username}`} className="user-link">
+        <Link className="user-link" to={`/users/${author.username}`}>
           {author.username}
         </Link>
         {showUserPopover && (

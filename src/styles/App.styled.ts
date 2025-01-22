@@ -182,6 +182,12 @@ export const StyledPopover = styled.div`
     width: auto;
     padding: revert !important;
     border-radius: 8px;
+
+    &:disabled {
+      background-color: ${(props) => props.theme.colours.background};
+      color: ${(props) => props.theme.colours.background};
+      cursor: not-allowed;
+    }
   }
 
   .error-msg-wrapper {
