@@ -66,8 +66,11 @@ export const StyledLoading = styled.div`
 export const StyledAvatar = styled.div<StyledAvatarProps>`
   display: flex;
 
-  img {
-    height: ${(props) => props.$size || 50}px;
+  a {
+    img {
+      height: ${(props) => props.$size || 50}px !important;
+      width: ${(props) => props.$size || 50}px !important;
+    }
   }
 `;
 
@@ -133,6 +136,17 @@ export const StyledPopover = styled.div`
     justify-items: center;
     align-items: center;
     word-break: break-all;
+
+    div {
+      display: revert;
+
+      a {
+        display: block;
+        width: inherit !important;
+        height: inherit !important;
+        max-height: 64px;
+      }
+    }
 
     p {
       font-size: ${(props) => props.theme.fontSizes.medium};
