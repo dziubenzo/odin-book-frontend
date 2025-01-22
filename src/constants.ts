@@ -13,6 +13,8 @@ export const darkTheme = {
     lightRed: '#f84242',
     gitHubLogo: 'white',
     boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+    popoverBoxShadow:
+      'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
   },
   fontSizes: {
     small: '0.8rem',
@@ -42,6 +44,8 @@ export const lightTheme = {
     lightRed: '#f84242',
     gitHubLogo: 'black',
     boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+    popoverBoxShadow:
+      'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
   },
 };
 

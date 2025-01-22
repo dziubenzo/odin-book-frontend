@@ -44,7 +44,7 @@ function Avatar({ object, size, type }: AvatarProps) {
     return (
       <StyledAvatar $size={size}>
         <Link to={`/users/${slug}`}>
-          <img src={icon} alt={`${name}'s avatar`} />
+          <img src={icon} alt={`Icon for the ${name} category`} />
         </Link>
       </StyledAvatar>
     );

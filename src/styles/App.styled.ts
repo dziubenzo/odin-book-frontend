@@ -74,6 +74,18 @@ export const StyledAvatar = styled.div<StyledAvatarProps>`
       width: ${(props) => props.$size || 50}px !important;
     }
   }
+
+  @media (hover: hover) {
+    transition: outline 0.15s ease-in;
+
+    img {
+      transition: transform 0.15s ease-out;
+
+      &:hover {
+        transform: rotate(30deg);
+      }
+    }
+  }
 `;
 
 export const StyledStickyIcon = styled.button`
@@ -123,6 +135,7 @@ export const StyledPopover = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-shadow: ${(props) => props.theme.colours.popoverBoxShadow};
   z-index: 2; // to be on top of the footer
 
   &.opening {
@@ -187,9 +200,10 @@ export const StyledPopover = styled.div`
     border-radius: 8px;
 
     &:disabled {
+      cursor: not-allowed;
       background-color: ${(props) => props.theme.colours.background};
       color: ${(props) => props.theme.colours.background};
-      cursor: not-allowed;
+      opacity: 0.5;
     }
   }
 

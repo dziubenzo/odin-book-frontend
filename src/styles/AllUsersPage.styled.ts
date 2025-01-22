@@ -55,14 +55,6 @@ export const StyledUser = styled.div`
   @media (hover: hover) {
     transition: outline 0.15s ease-in;
 
-    img {
-      transition: transform 0.15s ease-out;
-
-      &:hover {
-        transform: rotate(30deg);
-      }
-    }
-
     &:hover {
       outline: 2px solid ${(props) => props.theme.colours.primary};
     }
