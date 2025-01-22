@@ -100,18 +100,14 @@ export const StyledCategoryBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 100%;
 
-  a {
+  .category-link {
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 64px;
-
-    .name {
-      font-size: ${(props) => props.theme.fontSizes.large};
-      font-weight: 600;
-    }
+    font-size: ${(props) => props.theme.fontSizes.large};
+    font-weight: 600;
   }
 
   .description {
@@ -119,7 +115,7 @@ export const StyledCategoryBody = styled.div`
   }
 
   @media (hover: hover) {
-    .name {
+    .category-link {
       &:hover {
         color: ${(props) => props.theme.colours.secondary};
       }
@@ -127,15 +123,12 @@ export const StyledCategoryBody = styled.div`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    a {
+    .category-link {
       text-decoration: revert;
       text-underline-offset: 0.3em;
       text-decoration-color: ${(props) => props.theme.colours.secondary};
-
-      .name {
-        font-size: ${(props) => props.theme.fontSizes.medium};
-        color: ${(props) => props.theme.colours.secondary};
-      }
+      font-size: ${(props) => props.theme.fontSizes.medium};
+      color: ${(props) => props.theme.colours.secondary};
     }
 
     .description {

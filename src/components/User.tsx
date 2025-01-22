@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
 import FollowUserButton from '../components/FollowUserButton';
 import { useUserAndTheme } from '../hooks';
 import { StyledUser } from '../styles/AllUsersPage.styled';
 import type { User as UserType } from '../types';
 import Avatar from './Avatar';
+import DetailsLink from './DetailsLink';
 
 type UserProps = {
   user: UserType;
@@ -20,9 +20,7 @@ function User({ user, handleUserButtonClick, inProgress }: UserProps) {
     <StyledUser>
       <Avatar object={user} size={100} type="user" />
       {loggedInUserUsername === renderedUserUsername ? undefined : (
-        <Link to={`/users/${renderedUserUsername}`} className="user-link">
-          <p className="username">{renderedUserUsername}</p>
-        </Link>
+        <DetailsLink type="user" username={renderedUserUsername} />
       )}
       {renderedUserID === loggedInUserID ? undefined : (
         <FollowUserButton

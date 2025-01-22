@@ -42,9 +42,6 @@ export const StyledUser = styled.div`
     gap: 16px;
     text-decoration: none;
     width: 100%;
-  }
-
-  .username {
     font-size: ${(props) => props.theme.fontSizes.medium};
   }
 
@@ -70,7 +67,7 @@ export const StyledUser = styled.div`
       outline: 2px solid ${(props) => props.theme.colours.primary};
     }
 
-    .username:hover {
+    .user-link:hover {
       color: ${(props) => props.theme.colours.secondary};
     }
   }

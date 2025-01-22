@@ -5,14 +5,17 @@ import { StyledAvatar } from '../styles/App.styled';
 import type { Category, DetailedUser, PostAuthor, User } from '../types';
 import Popover from './Popover';
 
-type CategoryAvatar = { object: Category; type: 'category' };
-
-type UserAvatar = {
-  object: DetailedUser | User | PostAuthor;
-  type: 'user' | 'footer';
+type CategoryIcon = {
+  type: 'category' | 'category-no-popover';
+  object: Category;
 };
 
-type AvatarProps = { size: number } & (CategoryAvatar | UserAvatar);
+type UserAvatar = {
+  type: 'user' | 'user-no-popover';
+  object: DetailedUser | User | PostAuthor;
+};
+
+type AvatarProps = { size: number } & (CategoryIcon | UserAvatar);
 
 function Avatar({ object, size, type }: AvatarProps) {
   const [showPopover, setShowPopover] = useState(false);
@@ -21,14 +24,27 @@ function Avatar({ object, size, type }: AvatarProps) {
   const [popoverY, setPopoverY] = useState(0);
   const timeoutRef = useRef<NodeJS.Timeout>(undefined);
 
-  // Do not show popover when hovering over an avatar in the footer
-  if (type === 'footer') {
+  // Do not show popover in some cases
+  if (type === 'user-no-popover') {
     const { username, avatar } = object;
 
     return (
       <StyledAvatar $size={size}>
         <Link to={`/users/${username}`}>
           <img src={avatar} alt={`${username}'s avatar`} />
+        </Link>
+      </StyledAvatar>
+    );
+  }
+
+  // Do not show popover in some cases
+  if (type === 'category-no-popover') {
+    const { icon, slug, name } = object;
+
+    return (
+      <StyledAvatar $size={size}>
+        <Link to={`/users/${slug}`}>
+          <img src={icon} alt={`${name}'s avatar`} />
         </Link>
       </StyledAvatar>
     );

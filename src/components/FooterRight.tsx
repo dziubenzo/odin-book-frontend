@@ -9,7 +9,7 @@ type FooterRightProps = {
 function FooterRight({ user }: FooterRightProps) {
   return (
     <StyledFooterRight>
-      <Avatar object={user} size={50} type="footer" />
+      <Avatar object={user} size={50} type="user-no-popover" />
       <p className="username">{user.username}</p>
     </StyledFooterRight>
   );

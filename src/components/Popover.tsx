@@ -116,7 +116,11 @@ function Popover({
         onAnimationEnd={handleAnimationEnd}
       >
         <div className="top-row">
-          <Avatar type="user" size={64} object={data as DetailedUser} />
+          <Avatar
+            type="user-no-popover"
+            size={64}
+            object={data as DetailedUser}
+          />
           <p>{username}</p>
         </div>
         <div className="user-stats">
@@ -193,7 +197,11 @@ function Popover({
         onAnimationEnd={handleAnimationEnd}
       >
         <div className="top-row">
-          <Avatar type="category" size={64} object={data as DetailedCategory} />
+          <Avatar
+            type="category-no-popover"
+            size={64}
+            object={data as DetailedCategory}
+          />
           <p>{name}</p>
         </div>
         <div className="category-stats">

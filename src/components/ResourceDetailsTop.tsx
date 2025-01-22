@@ -21,7 +21,7 @@ function ResourceDetailsTop({ resourceType, object }: ResourceDetailsTopProps) {
 
     return (
       <StyledResourceDetailsTop>
-        <Avatar object={object} size={100} type="category" />
+        <Avatar object={object} size={100} type="category-no-popover" />
         <h1 className="name">{name}</h1>
         <div className="date-wrapper">
           <p className="date">created</p>
@@ -34,7 +34,7 @@ function ResourceDetailsTop({ resourceType, object }: ResourceDetailsTopProps) {
 
     return (
       <StyledResourceDetailsTop>
-        <Avatar object={object} size={100} type="user" />
+        <Avatar object={object} size={100} type="user-no-popover" />
         <h1 className="name">{username}</h1>
         <div className="date-wrapper">
           <p className="date">member since</p>

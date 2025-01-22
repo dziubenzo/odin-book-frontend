@@ -67,6 +67,8 @@ export const StyledAvatar = styled.div<StyledAvatarProps>`
   display: flex;
 
   a {
+    max-height: ${(props) => props.$size || 50}px !important;
+
     img {
       height: ${(props) => props.$size || 50}px !important;
       width: ${(props) => props.$size || 50}px !important;

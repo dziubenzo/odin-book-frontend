@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import { StyledCategoryBody } from '../styles/AllCategoriesPage.styled';
 import type { Category } from '../types';
+import DetailsLink from './DetailsLink';
 
 type CategoryBodyProps = {
   category: Category;
@@ -11,9 +11,7 @@ function CategoryBody({ category }: CategoryBodyProps) {
 
   return (
     <StyledCategoryBody>
-      <Link to={`/categories/${slug}`}>
-        <p className="name">{name}</p>
-      </Link>
+      <DetailsLink type="category" name={name} slug={slug} />
       <p className="description">{description}</p>
     </StyledCategoryBody>
   );

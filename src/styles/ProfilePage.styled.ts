@@ -32,10 +32,9 @@ export const StyledUserInfo = styled.div`
     align-items: center;
     gap: 24px;
 
-    .username {
-      a {
-        font-weight: 700;
-      }
+    .user-link {
+      font-size: ${(props) => props.theme.fontSizes.extraLarge};
+      font-weight: 700;
     }
   }
 
@@ -74,7 +73,7 @@ export const StyledUserInfo = styled.div`
     }
 
     .top-line {
-      a {
+      .user-link {
         text-decoration: revert;
         text-underline-offset: 0.2em;
         text-decoration-color: ${(props) => props.theme.colours.primary};

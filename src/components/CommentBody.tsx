@@ -1,8 +1,8 @@
 import { format, formatDistanceToNow } from 'date-fns';
 import { LuDot } from 'react-icons/lu';
-import { Link } from 'react-router-dom';
 import { StyledCommentBody } from '../styles/PostDetailsPage.styled';
 import type { Comment } from '../types';
+import DetailsLink from './DetailsLink';
 
 type CommentBodyProps = {
   comment: Comment;
@@ -14,9 +14,7 @@ function CommentBody({ comment }: CommentBodyProps) {
   return (
     <StyledCommentBody>
       <div className="top-bar">
-        <Link className="user-link" to={`/users/${author.username}`}>
-          {author.username}
-        </Link>
+        <DetailsLink type="user" username={author.username} />
         <LuDot />
         <span className="date" title={format(created_at, 'HH:mm, dd/MM/yyyy')}>
           {formatDistanceToNow(created_at, { addSuffix: true })}{' '}
