@@ -121,6 +121,7 @@ export const StyledPopover = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  z-index: 2; // to be on top of the footer
 
   &.opening {
     animation: ${showPopover} 0.25s ease-in forwards;
