@@ -1,9 +1,9 @@
 import { format, formatDistanceToNow } from 'date-fns';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { FaRegCommentAlt } from 'react-icons/fa';
 import { LuDot } from 'react-icons/lu';
 import { Link } from 'react-router-dom';
-import { calculatePopoverPosition } from '../helpers';
+import { handlePopoverHiding, handlePopoverShowing } from '../helpers';
 import { StyledPostInfoPostDetails } from '../styles/PostDetailsPage.styled';
 import { StyledPostInfo } from '../styles/PostsPage.styled';
 import type { DetailedPost, Post } from '../types';
@@ -19,23 +19,38 @@ function PostInfo({ post, isPostInfoPostDetails }: PostInfoProps) {
   const { author, created_at, category, comments } = post;
 
   const [showUserPopover, setShowUserPopover] = useState(false);
+  const [isUserPopoverClosing, setIsUserPopoverClosing] = useState(false);
   const [userPopoverX, setUserPopoverX] = useState(0);
   const [userPopoverY, setUserPopoverY] = useState(0);
+  const userTimeoutRef = useRef<NodeJS.Timeout>(undefined);
 
   const [showCategoryPopover, setShowCategoryPopover] = useState(false);
+  const [isCategoryPopoverClosing, setIsCategoryPopoverClosing] =
+    useState(false);
   const [categoryPopoverX, setCategoryPopoverX] = useState(0);
   const [categoryPopoverY, setCategoryPopoverY] = useState(0);
+  const categoryTimeoutRef = useRef<NodeJS.Timeout>(undefined);
 
   const info = (
     <>
       <div
         className="post-author"
         onMouseEnter={(event) => {
-          setShowUserPopover(true);
-          calculatePopoverPosition(event, setUserPopoverX, setUserPopoverY);
+          handlePopoverShowing(
+            event,
+            isUserPopoverClosing,
+            setUserPopoverX,
+            setUserPopoverY,
+            userTimeoutRef,
+            setShowUserPopover,
+          );
         }}
         onMouseLeave={() => {
-          setTimeout(() => setShowUserPopover(false), 500);
+          handlePopoverHiding(
+            userTimeoutRef,
+            showUserPopover,
+            setIsUserPopoverClosing,
+          );
         }}
       >
         <Avatar object={author} size={14.4} type="user" />
@@ -48,6 +63,9 @@ function PostInfo({ post, isPostInfoPostDetails }: PostInfoProps) {
             query={`/users/${author.username}`}
             positionX={userPopoverX}
             positionY={userPopoverY}
+            isClosing={isUserPopoverClosing}
+            setIsClosing={setIsUserPopoverClosing}
+            setShowPopover={setShowUserPopover}
           />
         )}
       </div>
@@ -61,15 +79,21 @@ function PostInfo({ post, isPostInfoPostDetails }: PostInfoProps) {
       <LuDot />
       <div
         onMouseEnter={(event) => {
-          setShowCategoryPopover(true);
-          calculatePopoverPosition(
+          handlePopoverShowing(
             event,
+            isCategoryPopoverClosing,
             setCategoryPopoverX,
             setCategoryPopoverY,
+            categoryTimeoutRef,
+            setShowCategoryPopover,
           );
         }}
         onMouseLeave={() => {
-          setTimeout(() => setShowCategoryPopover(false), 500);
+          handlePopoverHiding(
+            categoryTimeoutRef,
+            showCategoryPopover,
+            setIsCategoryPopoverClosing,
+          );
         }}
       >
         <Link to={`/categories/${category.slug}`} className="category-link">
@@ -81,6 +105,9 @@ function PostInfo({ post, isPostInfoPostDetails }: PostInfoProps) {
             query={`/categories/${category.slug}`}
             positionX={categoryPopoverX}
             positionY={categoryPopoverY}
+            isClosing={isCategoryPopoverClosing}
+            setIsClosing={setIsCategoryPopoverClosing}
+            setShowPopover={setShowCategoryPopover}
           />
         )}
       </div>

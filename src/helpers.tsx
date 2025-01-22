@@ -8,6 +8,7 @@ import {
   MAX_COMMENT_LENGTH,
   MIN_POST_CONTENT_LENGTH,
   MIN_POST_TITLE_LENGTH,
+  POPOVER_SHOW_DELAY,
   POSTS_PER_FETCH,
 } from './constants';
 import { POPOVER_WIDTH } from './styles/App.styled';
@@ -793,8 +794,35 @@ export const isMobile = () => {
   return document.body.clientWidth < parseInt(darkTheme.mobile);
 };
 
+// Show popover after a user or category is hovered over for POPOVER_SHOW_DELAY
+export function handlePopoverShowing(
+  event: React.MouseEvent<HTMLDivElement>,
+  isClosing: boolean,
+  setPositionX: React.Dispatch<React.SetStateAction<number>>,
+  setPositionY: React.Dispatch<React.SetStateAction<number>>,
+  timeoutRef: React.RefObject<NodeJS.Timeout | undefined>,
+  setShowPopover: React.Dispatch<React.SetStateAction<boolean>>,
+) {
+  if (isClosing) return;
+  calculatePopoverPosition(event, setPositionX, setPositionY);
+  timeoutRef.current = setTimeout(() => {
+    setShowPopover(true);
+  }, POPOVER_SHOW_DELAY);
+}
+
+// Hide popover
+export function handlePopoverHiding(
+  timeoutRef: React.RefObject<NodeJS.Timeout | undefined>,
+  showPopover: boolean,
+  setIsClosing: React.Dispatch<React.SetStateAction<boolean>>,
+) {
+  clearTimeout(timeoutRef.current);
+  if (!showPopover) return;
+  setIsClosing(true);
+}
+
 // Calculate position for both popovers
-export const calculatePopoverPosition = (
+const calculatePopoverPosition = (
   event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement>,
   setPositionX: React.Dispatch<React.SetStateAction<number>>,
   setPositionY: React.Dispatch<React.SetStateAction<number>>,

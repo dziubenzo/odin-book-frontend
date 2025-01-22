@@ -14,7 +14,10 @@ type PopoverSkeletonType = {
 function PopoverSkeleton({ type, positionX, positionY }: PopoverSkeletonType) {
   if (type === 'user') {
     return (
-      <StyledPopover style={{ top: positionY, left: positionX }}>
+      <StyledPopover
+        className="opening"
+        style={{ top: positionY, left: positionX }}
+      >
         <div className="top-row">
           <StyledAvatarSkeleton $size={64} />
           <StyledParagraphSkeleton>Something</StyledParagraphSkeleton>
@@ -52,7 +55,10 @@ function PopoverSkeleton({ type, positionX, positionY }: PopoverSkeletonType) {
 
   if (type === 'category') {
     return (
-      <StyledPopover style={{ top: positionY, left: positionX }}>
+      <StyledPopover
+        className="opening"
+        style={{ top: positionY, left: positionX }}
+      >
         <div className="top-row">
           <StyledAvatarSkeleton $size={64} />
           <StyledParagraphSkeleton>Something</StyledParagraphSkeleton>

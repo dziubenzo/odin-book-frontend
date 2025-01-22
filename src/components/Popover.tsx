@@ -21,9 +21,20 @@ type CategoryPopover = {
 type PopoverProps = {
   positionX: number;
   positionY: number;
+  isClosing: boolean;
+  setIsClosing: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowPopover: React.Dispatch<React.SetStateAction<boolean>>;
 } & (UserPopover | CategoryPopover);
 
-function Popover({ type, query, positionX, positionY }: PopoverProps) {
+function Popover({
+  type,
+  query,
+  positionX,
+  positionY,
+  isClosing,
+  setIsClosing,
+  setShowPopover,
+}: PopoverProps) {
   const { user, setUser } = useUserAndTheme();
   const { data, setData, loading, error } = useFetchPageData<
     DetailedUser | DetailedCategory
@@ -33,6 +44,11 @@ function Popover({ type, query, positionX, positionY }: PopoverProps) {
     DetailedUser['_id'] | DetailedCategory['_id'] | null
   >(null);
   const [followError, setFollowError] = useState<string | null>(null);
+
+  function handleAnimationEnd() {
+    setShowPopover(false);
+    setIsClosing(false);
+  }
 
   if (loading) {
     return (
@@ -90,7 +106,11 @@ function Popover({ type, query, positionX, positionY }: PopoverProps) {
     }
 
     return (
-      <StyledPopover style={{ top: positionY, left: positionX }}>
+      <StyledPopover
+        className={isClosing ? 'closing' : undefined}
+        style={{ top: positionY, left: positionX }}
+        onAnimationEnd={handleAnimationEnd}
+      >
         <div className="top-row">
           <Avatar type="user" size={64} object={data as DetailedUser} />
           <p>{username}</p>
@@ -159,7 +179,11 @@ function Popover({ type, query, positionX, positionY }: PopoverProps) {
     }
 
     return (
-      <StyledPopover style={{ top: positionY, left: positionX }}>
+      <StyledPopover
+        className={isClosing ? 'closing' : undefined}
+        style={{ top: positionY, left: positionX }}
+        onAnimationEnd={handleAnimationEnd}
+      >
         <div className="top-row">
           <Avatar type="category" size={64} object={data as DetailedCategory} />
           <p>{name}</p>

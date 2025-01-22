@@ -57,6 +57,7 @@ export const MAX_POST_TITLE_LENGTH = 64;
 export const MIN_POST_CONTENT_LENGTH = 8;
 export const POSTS_PER_FETCH = 15;
 export const SHRINK_HEADER_SCROLL_VALUE = 100;
+export const POPOVER_SHOW_DELAY = 500;
 
 export const defaultAvatars = [
   'https://res.cloudinary.com/dvhkp9wc6/image/upload/v1718111759/odin_book/avatars/default/b0heqsns8cpkyjzm1bsd.png',

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { hidePopover, showPopover } from './animations';
 
 export const POPOVER_WIDTH = 300;
 
@@ -117,6 +118,14 @@ export const StyledPopover = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  &.opening {
+    animation: ${showPopover} 0.25s ease-in forwards;
+  }
+
+  &.closing {
+    animation: ${hidePopover} 0.25s ease-in forwards;
+  }
 
   .top-row {
     display: grid;
