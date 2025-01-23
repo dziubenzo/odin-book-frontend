@@ -70,17 +70,15 @@ export const StyledHeaderTopBar = styled.nav`
     gap: 8px;
     text-align: center;
     padding: 0.5em;
-    cursor: pointer;
-  }
-
-  a {
     font-size: ${(props) => props.theme.fontSizes.medium};
-    text-decoration: none;
+    text-decoration: none transparent;
+    cursor: pointer;
 
     &.active {
-      p {
-        font-weight: 600;
-      }
+      text-decoration: underline wavy
+        ${(props) => props.theme.colours.secondary};
+      text-underline-offset: 6px;
+      transition: text-decoration-color 0.3s ease-in-out;
     }
   }
 
@@ -107,11 +105,8 @@ export const StyledHeaderTopBar = styled.nav`
   @media (max-width: ${(props) => props.theme.mobile}) {
     gap: 8px;
 
-    a {
-      font-size: ${(props) => props.theme.fontSizes.small};
-    }
-
     .link {
+      font-size: ${(props) => props.theme.fontSizes.small};
       padding: 0;
     }
   }
