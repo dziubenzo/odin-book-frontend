@@ -20,7 +20,7 @@ function PopoverSkeleton({ type, positionX, positionY }: PopoverSkeletonType) {
       >
         <div className="top-row">
           <StyledAvatarSkeleton $size={64} />
-          <StyledParagraphSkeleton>Something</StyledParagraphSkeleton>
+          <StyledParagraphSkeleton>Loading...</StyledParagraphSkeleton>
         </div>
         <div className="user-stats">
           <div>

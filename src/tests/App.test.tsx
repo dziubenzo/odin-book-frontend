@@ -7,8 +7,19 @@ import FooterLeft from '../components/FooterLeft';
 import FooterRight from '../components/FooterRight';
 import HeaderBottomBar from '../components/HeaderBottomBar';
 import HeaderTopBar from '../components/HeaderTopBar';
+import Popover from '../components/Popover';
 import Theme from '../components/Theme';
-import { category1, superUser, user2 } from './mocks';
+import type { User } from '../types';
+import { mockFetch } from './fetchMock';
+import { mockUseUserAndTheme } from './hookMocks';
+import {
+  category1,
+  CATEGORY_STATS_COUNT,
+  detailedUser1,
+  detailedUser2,
+  superUser,
+  user2,
+} from './mocks';
 
 function renderAvatar(size: number) {
   render(
@@ -75,6 +86,39 @@ function renderFooterRight() {
     <BrowserRouter>
       <Theme>
         <FooterRight user={superUser} />
+      </Theme>
+    </BrowserRouter>,
+  );
+}
+
+function renderPopover(type: 'user' | 'category', loggedInUser: User) {
+  mockUseUserAndTheme(loggedInUser);
+
+  render(
+    <BrowserRouter>
+      <Theme>
+        {type === 'user' && (
+          <Popover
+            type={type}
+            query="/users/does-not-matter"
+            positionX={0}
+            positionY={0}
+            isClosing={false}
+            setIsClosing={vi.fn()}
+            setShowPopover={vi.fn()}
+          />
+        )}
+        {type === 'category' && (
+          <Popover
+            type={type}
+            query="/categories/does-not-matter"
+            positionX={0}
+            positionY={0}
+            isClosing={false}
+            setIsClosing={vi.fn()}
+            setShowPopover={vi.fn()}
+          />
+        )}
       </Theme>
     </BrowserRouter>,
   );
@@ -271,5 +315,113 @@ describe('FooterRight', () => {
     const usernamePara = screen.getByRole('paragraph');
 
     expect(usernamePara.textContent).toBe(superUser.username);
+  });
+});
+
+describe('Popover', () => {
+  it('should show a loading skeleton when mounted', () => {
+    mockFetch('Failed to fetch', false);
+    renderPopover('user', superUser);
+
+    const usernameSkeleton = screen.getByText(/loading.../i);
+
+    expect(usernameSkeleton).toBeInTheDocument();
+  });
+
+  it('should render an error containing popover type when the fetch fails', async () => {
+    const popoverType = 'category';
+    mockFetch('Failed to fetch', false);
+    renderPopover(popoverType, superUser);
+
+    const errorMessage = await screen.findByText(
+      new RegExp(`retrieving ${popoverType}`, 'i'),
+    );
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  describe('Popover - User', () => {
+    it("should render a popover containing user's username and avatar", async () => {
+      mockFetch(detailedUser2, true);
+      renderPopover('user', superUser);
+
+      const username = await screen.findByText(
+        new RegExp(detailedUser2.username, 'i'),
+      );
+      const avatar = screen.getByRole<HTMLImageElement>('img');
+
+      expect(username).toBeInTheDocument();
+      expect(avatar.src).toBe(detailedUser2.avatar);
+    });
+
+    it('should render four user stats in total', async () => {
+      mockFetch(detailedUser1, true);
+      renderPopover('user', superUser);
+
+      const stats = await screen.findAllByText(detailedUser1.postsCount);
+      const followingStat = screen.getByText(
+        detailedUser1.followed_users.length,
+      );
+
+      expect(stats).toHaveLength(3);
+      expect(followingStat).toBeInTheDocument();
+    });
+
+    it('should render a Follow/Unfollow button, which is not disabled', async () => {
+      mockFetch(detailedUser1, true);
+      renderPopover('user', superUser);
+
+      const followBtn = await screen.findByRole('button', {
+        name: /follow/i,
+      });
+
+      expect(followBtn).toBeInTheDocument();
+      expect(followBtn).not.toBeDisabled();
+    });
+
+    it('should render a disabled button if the logged in user is the popover user', async () => {
+      mockFetch(detailedUser1, true);
+      renderPopover('user', detailedUser1);
+
+      const followBtn = await screen.findByRole('button', {
+        name: /follow/i,
+      });
+
+      expect(followBtn).toBeDisabled();
+    });
+  });
+
+  describe('Popover - Category', () => {
+    it('should render a popover containing category name and icon', async () => {
+      mockFetch(category1, true);
+      renderPopover('category', superUser);
+
+      const name = await screen.findByText(new RegExp(category1.name, 'i'));
+      const icon = screen.getByRole<HTMLImageElement>('img');
+
+      expect(name).toBeInTheDocument();
+      expect(icon.src).toBe(category1.icon);
+    });
+
+    it('should render all category stats', async () => {
+      mockFetch(category1, true);
+      renderPopover('category', superUser);
+
+      const stats = await screen.findAllByText(category1.postsCount);
+
+      expect(stats).toHaveLength(CATEGORY_STATS_COUNT);
+    });
+
+    it('should render a Follow/Unfollow button', async () => {
+      mockFetch(category1, true);
+      renderPopover('category', superUser);
+
+      const followBtn = await screen.findByRole('button', {
+        name: /follow/i,
+      });
+
+      expect(followBtn).toBeInTheDocument();
+      expect(followBtn).not.toBeDisabled();
+    });
   });
 });
