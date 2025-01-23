@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { flicker } from './animations';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -58,6 +59,29 @@ const GlobalStyle = createGlobalStyle`
       main {
         padding: 2em 1em;
       }
+  }
+
+  // Helper classes for skeletons
+  .skeleton {
+    background-color: ${(props) => props.theme.colours.primary} !important;
+    color: transparent !important;
+    user-select: none !important;
+    cursor: revert !important;
+    border-radius: 8px;
+    animation: ${flicker} 1s linear infinite alternate;
+    pointer-events: none;
+  }
+
+  .no-hover {
+    pointer-events: none;
+  }
+
+  .inline {
+    display: inline;
+  }
+
+  .mw-40 {
+    max-width: 40% !important;
   }
   
 `;

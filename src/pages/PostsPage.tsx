@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import CategoryDetails from '../components/CategoryDetails';
 import EndInfiniteScroll from '../components/EndInfiniteScroll';
 import Error from '../components/Error';
-import Loading from '../components/Loading';
 import LoadingInfiniteScroll from '../components/LoadingInfiniteScroll';
 import MonthIndicator from '../components/MonthIndicator';
 import NoPostsSection from '../components/NoPostsSection';
@@ -20,6 +19,7 @@ import {
   useSortPosts,
   useUserAndTheme,
 } from '../hooks';
+import PostsSkeleton from '../skeletons/PostsSkeleton';
 import { StyledPostsPage } from '../styles/PostsPage.styled';
 import type { FetchQuery, Post as PostType } from '../types';
 
@@ -144,7 +144,7 @@ function PostsPage({
         />
       )}
       {!error && <h1 className="top-header">Feed - {pageDescription}</h1>}
-      {loading && <Loading message={pageDescription} />}
+      {loading && <PostsSkeleton length={6} />}
       {posts && !loadingResource && (
         <>
           {posts?.length === 0 ? (
