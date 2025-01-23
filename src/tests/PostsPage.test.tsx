@@ -230,6 +230,17 @@ describe('MonthIndicator', () => {
     expect(twoMonthsAgoIndicator).toBeInTheDocument();
   });
 
+  it('should render a This Month month indicator for the first post if posts are sorted by newest and the first post was created this month', async () => {
+    mockFetch([post1, post2, post3], true);
+    renderPostsPage('Posts');
+
+    const thisMonthIndicator = await screen.findByRole('heading', {
+      name: /this month/i,
+    });
+
+    expect(thisMonthIndicator).toBeInTheDocument();
+  });
+
   it('should render a month indicator for the first post if posts are sorted by oldest', async () => {
     mockFetch([post1, post2, post3], true);
     const user = renderPostsPage('Posts');

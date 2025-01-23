@@ -59,7 +59,7 @@ function PostsPage({
     return posts.map((post, index) => {
       return (
         <Fragment key={post._id}>
-          {sortBy === 'oldest' && index === 0 && (
+          {(sortBy === 'oldest' || sortBy === 'newest') && index === 0 && (
             <MonthIndicator date={post.created_at} />
           )}
           {(sortBy === 'oldest' || sortBy === 'newest') &&
