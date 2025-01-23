@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { type Updater, useImmer } from 'use-immer';
 import API_URL from './API';
@@ -375,47 +375,52 @@ export const useSortPosts = (
     return 'newest';
   });
 
-  useEffect(() => {
-    if (posts) {
-      switch (sortBy) {
-        case 'newest':
-          // Pass a new array to the setter function to ensure rerender
-          setPosts(
-            posts.toSorted(
-              (a, b) =>
-                new Date(b.created_at).getTime() -
-                new Date(a.created_at).getTime(),
-            ),
-          );
-          break;
-        case 'oldest':
-          setPosts(
-            posts.toSorted(
-              (a, b) =>
-                new Date(a.created_at).getTime() -
-                new Date(b.created_at).getTime(),
-            ),
-          );
-          break;
-        case 'likes':
-          setPosts(
-            posts.toSorted(
-              (a, b) =>
-                b.likes.length -
-                b.dislikes.length -
-                (a.likes.length - a.dislikes.length),
-            ),
-          );
-          break;
-        case 'comments':
-          setPosts(
-            posts.toSorted((a, b) => b.comments.length - a.comments.length),
-          );
-          break;
-      }
+  const newest = useMemo(() => {
+    if (!posts) return;
+    return posts.toSorted(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
+  }, [posts]);
+
+  const oldest = useMemo(() => {
+    if (!posts) return;
+    return posts.toSorted(
+      (a, b) =>
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+    );
+  }, [posts]);
+
+  const likes = useMemo(() => {
+    if (!posts) return;
+    return posts.toSorted(
+      (a, b) =>
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+    );
+  }, [posts]);
+
+  const comments = useMemo(() => {
+    if (!posts) return;
+    return posts.toSorted((a, b) => b.comments.length - a.comments.length);
+  }, [posts]);
+
+  // Use useLayoutEffect to prevent content flickering/flashes when changing the sorting method
+  useLayoutEffect(() => {
+    if (!posts) return;
+    switch (sortBy) {
+      case 'newest':
+        setPosts(newest!);
+        break;
+      case 'oldest':
+        setPosts(oldest!);
+        break;
+      case 'likes':
+        setPosts(likes!);
+        break;
+      case 'comments':
+        setPosts(comments!);
+        break;
     }
-    // Prevent an error if posts are yet to be fetched
-    // Ensure that the sorting method is applied when infinite scrolling
   }, [sortBy, posts?.length]);
 
   return { sortBy, setSortBy };
