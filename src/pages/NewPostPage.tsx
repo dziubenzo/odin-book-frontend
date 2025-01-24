@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import CategoryPicker from '../components/CategoryPicker';
 import Error from '../components/Error';
 import ImageEditor from '../components/ImageEditor';
-import Loading from '../components/Loading';
 import PostTitleInput from '../components/PostTitleInput';
 import PostTypeSelector from '../components/PostTypeSelector';
 import PublishPostSection from '../components/PublishPostSection';
@@ -16,6 +15,7 @@ import {
   usePreserveState,
   useUserAndTheme,
 } from '../hooks';
+import CategoryPickerSkeleton from '../skeletons/CategoryPickerSkeleton';
 import { StyledNewPostPage } from '../styles/NewPostPage.styled';
 import type { Category } from '../types';
 import SuccessPage from './SuccessPage';
@@ -97,17 +97,19 @@ function NewPostPage() {
 
   return (
     <StyledNewPostPage>
-      {loading && <Loading />}
       {error && <Error errorMessage={error} />}
-      {categories && (
+      {(categories || loading) && (
         <>
           <h1 className="top-header">New Post</h1>
           <PostTitleInput title={title} setTitle={setTitle} />
-          <CategoryPicker
-            categories={categories}
-            category={category}
-            setCategory={setCategory}
-          />
+          {loading && <CategoryPickerSkeleton />}
+          {categories && (
+            <CategoryPicker
+              categories={categories}
+              category={category}
+              setCategory={setCategory}
+            />
+          )}
           <PostTypeSelector postType={postType} setPostType={setPostType} />
           {postType === 'text' && (
             <TextEditor content={content} setContent={setContent} />

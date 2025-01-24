@@ -62,7 +62,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   // Helper classes for skeletons
-  .skeleton {
+  .skeleton,
+  .checkbox-skeleton {
     background-color: ${(props) => props.theme.colours.primary} !important;
     color: transparent !important;
     user-select: none !important;
@@ -70,6 +71,11 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 8px;
     animation: ${flicker} 1s linear infinite alternate;
     pointer-events: none;
+  }
+
+  .checkbox-skeleton {
+    width: 24px;
+    height: 24px;
   }
 
   .no-hover {
