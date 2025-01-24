@@ -38,24 +38,12 @@ function PostDetailsSkeleton({ commentsLength }: PostDetailsSkeleton) {
             </StyledPostLikes>
           </div>
           <div className="post-content skeleton">
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content. Some post content.
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content. Some post content.
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content. Some post content.
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content. Some post content.
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content. Some post content.
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content. Some post content.
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content. Some post content.
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content. Some post content.
-            Some post content. Some post content. Some post content. Some post
-            content. Some post content. Some post content.{' '}
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod sint
+            reprehenderit corporis. Reiciendis exercitationem reprehenderit
+            beatae illum aliquam, explicabo nisi rem nemo nam ipsa doloremque
+            tenetur officiis asperiores autem ab vero magni voluptate debitis ea
+            eum similique fugit ullam ex. Sint amet similique quo porro, cumque
+            accusantium aliquam sequi culpa.
           </div>
         </div>
         <StyledPostInfoPostDetails>

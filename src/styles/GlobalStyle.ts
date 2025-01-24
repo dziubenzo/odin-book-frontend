@@ -91,6 +91,10 @@ const GlobalStyle = createGlobalStyle`
     width: fit-content !important;
     max-width: fit-content !important;
   }
+
+  .align-center {
+    align-self: center;
+  }
   
 `;
 

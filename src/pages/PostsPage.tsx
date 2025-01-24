@@ -48,8 +48,6 @@ function PostsPage({
   const { posts, setPosts, loading, error, setError, hasMore, setHasMore } =
     useFetchPosts(`/posts/${fetchQuery}`, POSTS_PER_FETCH);
   const [inProgress, setInProgress] = useState(false);
-  const [resourceError, setResourceError] = useState<string | null>(null);
-  const [loadingResource, setLoadingResource] = useState(false);
 
   useChangeTitle(pageDescription);
   const { sortBy, setSortBy } = useSortPosts(posts, setPosts);
@@ -111,41 +109,21 @@ function PostsPage({
     );
   }
 
-  if (error || resourceError) {
-    if (error) {
-      return (
-        <StyledPostsPage>
-          <Error errorMessage={error} />
-        </StyledPostsPage>
-      );
-    } else if (resourceError) {
-      return (
-        <StyledPostsPage>
-          <Error errorMessage={resourceError} />
-        </StyledPostsPage>
-      );
-    }
+  if (error) {
+    return (
+      <StyledPostsPage>
+        <Error errorMessage={error} />
+      </StyledPostsPage>
+    );
   }
 
   return (
     <StyledPostsPage>
-      {isCategoryPage && (
-        <CategoryDetails
-          loadingPosts={loading}
-          setResourceError={setResourceError}
-          setLoadingResource={setLoadingResource}
-        />
-      )}
-      {isUserPage && (
-        <UserDetails
-          loadingPosts={loading}
-          setResourceError={setResourceError}
-          setLoadingResource={setLoadingResource}
-        />
-      )}
+      {isCategoryPage && <CategoryDetails setPageError={setError} />}
+      {isUserPage && <UserDetails setPageError={setError} />}
       {!error && <h1 className="top-header">Feed - {pageDescription}</h1>}
       {loading && <PostsSkeleton length={6} />}
-      {posts && !loadingResource && (
+      {posts && (
         <>
           {posts?.length === 0 ? (
             <NoPostsSection

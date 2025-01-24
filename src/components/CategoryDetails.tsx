@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { followOrUnfollowCategory } from '../helpers';
-import { useFetchPageData, useSyncWithParent, useUserAndTheme } from '../hooks';
+import { useFetchPageData, useUserAndTheme } from '../hooks';
+import ResourceDetailsSkeleton from '../skeletons/ResourceDetailsSkeleton';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
 import type { DetailedCategory } from '../types';
 import CategoryStats from './CategoryStats';
@@ -10,16 +11,10 @@ import FollowCategoryButton from './FollowCategoryButton';
 import ResourceDetailsTop from './ResourceDetailsTop';
 
 type CategoryDetailsProps = {
-  loadingPosts: boolean;
-  setResourceError: React.Dispatch<React.SetStateAction<string | null>>;
-  setLoadingResource: React.Dispatch<React.SetStateAction<boolean>>;
+  setPageError: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-function CategoryDetails({
-  loadingPosts,
-  setResourceError,
-  setLoadingResource,
-}: CategoryDetailsProps) {
+function CategoryDetails({ setPageError }: CategoryDetailsProps) {
   const { user, setUser } = useUserAndTheme();
   const { slug } = useParams();
   const {
@@ -71,9 +66,18 @@ function CategoryDetails({
     });
   }
 
-  useSyncWithParent(error, loading, setResourceError, setLoadingResource);
+  // Throw a page-wide error if fetching fails
+  useEffect(() => {
+    if (error) {
+      setPageError(error);
+    }
+  }, [error]);
 
-  if (category && !loadingPosts) {
+  if (loading) {
+    return <ResourceDetailsSkeleton type="category" />;
+  }
+
+  if (category) {
     const { description } = category;
 
     return (

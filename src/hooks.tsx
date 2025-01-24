@@ -335,27 +335,6 @@ export const useThemeValue = (initialValue: ThemeValue) => {
   return { theme, setTheme };
 };
 
-// Pass the error to the parent component so that the entire page throws an error
-// Ensure that the fetch of a resource and the fetch of posts are in sync
-export const useSyncWithParent = (
-  error: string | null,
-  loading: boolean,
-  setResourceError: React.Dispatch<React.SetStateAction<string | null>>,
-  setLoadingResource: React.Dispatch<React.SetStateAction<boolean>>,
-) => {
-  useEffect(() => {
-    if (error) {
-      setResourceError(error);
-    }
-    if (loading) {
-      setLoadingResource(true);
-    }
-    if (!loading) {
-      setLoadingResource(false);
-    }
-  }, [loading, error]);
-};
-
 // Sort posts
 export const useSortPosts = (
   posts: Post[] | null,

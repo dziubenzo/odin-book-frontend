@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MdOutlineErrorOutline } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import { followOrUnfollowUser } from '../helpers';
-import { useFetchPageData, useSyncWithParent, useUserAndTheme } from '../hooks';
+import { useFetchPageData, useUserAndTheme } from '../hooks';
+import ResourceDetailsSkeleton from '../skeletons/ResourceDetailsSkeleton';
 import { StyledResourceDetails } from '../styles/PostsPage.styled';
 import type { DetailedUser } from '../types';
 import FollowUserButton from './FollowUserButton';
@@ -10,16 +11,10 @@ import ResourceDetailsTop from './ResourceDetailsTop';
 import UserStats from './UserStats';
 
 type UserDetailsProps = {
-  loadingPosts: boolean;
-  setResourceError: React.Dispatch<React.SetStateAction<string | null>>;
-  setLoadingResource: React.Dispatch<React.SetStateAction<boolean>>;
+  setPageError: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
-function UserDetails({
-  loadingPosts,
-  setResourceError,
-  setLoadingResource,
-}: UserDetailsProps) {
+function UserDetails({ setPageError }: UserDetailsProps) {
   const { user, setUser } = useUserAndTheme();
   const { username } = useParams();
   const {
@@ -69,9 +64,18 @@ function UserDetails({
     });
   }
 
-  useSyncWithParent(error, loading, setResourceError, setLoadingResource);
+  // Throw a page-wide error if fetching fails
+  useEffect(() => {
+    if (error) {
+      setPageError(error);
+    }
+  }, [error]);
 
-  if (renderedUser && !loadingPosts) {
+  if (loading) {
+    return <ResourceDetailsSkeleton type="user" />;
+  }
+
+  if (renderedUser) {
     const { bio } = renderedUser;
 
     return (
