@@ -7,8 +7,10 @@ type StyledAvatarSkeletonProps = {
 };
 
 export const StyledAvatarSkeleton = styled.div<StyledAvatarSkeletonProps>`
-  width: ${(props) => props.$size}px;
-  height: ${(props) => props.$size}px;
+  min-width: ${(props) => props.$size}px !important;
+  width: ${(props) => props.$size}px !important;
+  min-height: ${(props) => props.$size}px !important;
+  height: ${(props) => props.$size}px !important;
   border-radius: 50%;
   background-color: ${(props) => props.theme.colours.primary};
   animation: ${flicker} 1s linear infinite alternate;

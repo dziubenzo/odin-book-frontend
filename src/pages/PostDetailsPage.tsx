@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import CommentInput from '../components/CommentInput';
 import Comments from '../components/Comments';
 import Error from '../components/Error';
-import Loading from '../components/Loading';
 import PostDetails from '../components/PostDetails';
 import ReturnIcon from '../components/ReturnIcon';
 import {
@@ -13,6 +12,7 @@ import {
   likeSinglePost,
 } from '../helpers';
 import { useChangeTitle, useFetchPageData, useUserAndTheme } from '../hooks';
+import PostDetailsSkeleton from '../skeletons/PostDetailsSkeleton';
 import { StyledPostDetailsPage } from '../styles/PostDetailsPage.styled';
 import type { Comment, DetailedPost } from '../types';
 
@@ -79,7 +79,7 @@ function PostDetailsPage() {
 
   return (
     <StyledPostDetailsPage>
-      {loading && <Loading message="Post" />}
+      {loading && <PostDetailsSkeleton commentsLength={6} />}
       {error && <Error errorMessage={error} />}
       {post && (
         <>
