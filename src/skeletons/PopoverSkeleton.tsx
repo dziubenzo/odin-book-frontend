@@ -1,9 +1,6 @@
 import { StyledPopover } from '../styles/App.styled';
-import {
-  StyledAvatarSkeleton,
-  StyledParagraphSkeleton,
-  StyledPopoverButtonSkeleton,
-} from '../styles/Skeletons.styled';
+import { StyledAvatarSkeleton } from '../styles/Skeletons.styled';
+import { StyledButton } from '../styles/WelcomePage.styled';
 
 type PopoverSkeletonType = {
   type: 'user' | 'category';
@@ -20,35 +17,27 @@ function PopoverSkeleton({ type, positionX, positionY }: PopoverSkeletonType) {
       >
         <div className="top-row">
           <StyledAvatarSkeleton $size={64} />
-          <StyledParagraphSkeleton>Loading...</StyledParagraphSkeleton>
+          <p className="skeleton">Username</p>
         </div>
         <div className="user-stats">
           <div>
             <p>Posts</p>
-            <StyledParagraphSkeleton className="count">
-              111
-            </StyledParagraphSkeleton>
+            <p className="count skeleton fit-content justify-center">111</p>
           </div>
           <div>
             <p>Comments</p>
-            <StyledParagraphSkeleton className="count">
-              111
-            </StyledParagraphSkeleton>
+            <p className="count skeleton fit-content justify-center">111</p>
           </div>
           <div>
             <p>Followers</p>
-            <StyledParagraphSkeleton className="count">
-              111
-            </StyledParagraphSkeleton>
+            <p className="count skeleton fit-content justify-center">111</p>
           </div>
           <div>
             <p>Following</p>
-            <StyledParagraphSkeleton className="count">
-              111
-            </StyledParagraphSkeleton>
+            <p className="count skeleton fit-content justify-center">111</p>
           </div>
         </div>
-        <StyledPopoverButtonSkeleton />
+        <StyledButton className="popover-btn skeleton">Button</StyledButton>
       </StyledPopover>
     );
   }
@@ -61,23 +50,19 @@ function PopoverSkeleton({ type, positionX, positionY }: PopoverSkeletonType) {
       >
         <div className="top-row">
           <StyledAvatarSkeleton $size={64} />
-          <StyledParagraphSkeleton>Something</StyledParagraphSkeleton>
+          <p className="skeleton">Category</p>
         </div>
         <div className="category-stats">
           <div>
             <p>Posts</p>
-            <StyledParagraphSkeleton className="count">
-              111
-            </StyledParagraphSkeleton>
+            <p className="count skeleton fit-content justify-center">111</p>
           </div>
           <div>
             <p>Followers</p>
-            <StyledParagraphSkeleton className="count">
-              111
-            </StyledParagraphSkeleton>
+            <p className="count skeleton fit-content justify-center">111</p>
           </div>
         </div>
-        <StyledPopoverButtonSkeleton />
+        <StyledButton className="popover-btn skeleton">Button</StyledButton>
       </StyledPopover>
     );
   }

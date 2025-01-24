@@ -95,6 +95,10 @@ const GlobalStyle = createGlobalStyle`
   .align-center {
     align-self: center;
   }
+
+  .justify-center {
+    justify-self: center;
+  }
   
 `;
 
