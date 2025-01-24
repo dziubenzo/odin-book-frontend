@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Error from '../components/Error';
-import Loading from '../components/Loading';
 import User from '../components/User';
 import { followOrUnfollowUser } from '../helpers';
 import { useChangeTitle, useFetchPageData, useUserAndTheme } from '../hooks';
+import AllUsersSkeleton from '../skeletons/AllUsersSkeleton';
 import { StyledAllUsersPage } from '../styles/AllUsersPage.styled';
 import type { User as UserType } from '../types';
 
@@ -46,7 +46,7 @@ function AllUsersPage() {
 
   return (
     <StyledAllUsersPage>
-      {loading && <Loading message="All Users" />}
+      {loading && <AllUsersSkeleton length={10} />}
       {error && <Error errorMessage={error} />}
       {users && (
         <>
