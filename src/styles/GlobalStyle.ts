@@ -80,8 +80,10 @@ const GlobalStyle = createGlobalStyle`
     display: inline;
   }
 
-  .mw-40 {
-    max-width: 40% !important;
+  .fit-content {
+    min-width: fit-content !important;
+    width: fit-content !important;
+    max-width: fit-content !important;
   }
   
 `;

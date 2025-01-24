@@ -51,8 +51,8 @@ function PostsSkeleton({ length }: PostsSkeletonProps) {
                     </StyledPostLikes>
                     <StyledPostBody>
                       <a className="post-link no-hover">
-                        <p className="post-title skeleton inline mw-40">
-                          Title!
+                        <p className="post-title skeleton fit-content">
+                          Some fancy title, yay!
                         </p>
                         <div className="post-content skeleton">
                           Fancy content! Fancy content! Fancy content! Fancy

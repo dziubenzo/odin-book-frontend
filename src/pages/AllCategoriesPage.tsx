@@ -3,9 +3,9 @@ import { IoCreateOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import Category from '../components/Category';
 import Error from '../components/Error';
-import Loading from '../components/Loading';
 import { followOrUnfollowCategory } from '../helpers';
 import { useChangeTitle, useFetchPageData, useUserAndTheme } from '../hooks';
+import AllCategoriesSkeleton from '../skeletons/AllCategoriesSkeleton';
 import { StyledAllCategoriesPage } from '../styles/AllCategoriesPage.styled';
 import type { Category as CategoryType } from '../types';
 
@@ -50,7 +50,7 @@ function AllCategoriesPage() {
 
   return (
     <StyledAllCategoriesPage>
-      {loading && <Loading message="All Categories" />}
+      {loading && <AllCategoriesSkeleton length={6} />}
       {error && <Error errorMessage={error} />}
       {categories && (
         <>

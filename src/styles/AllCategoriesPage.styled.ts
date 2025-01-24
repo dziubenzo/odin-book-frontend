@@ -112,6 +112,7 @@ export const StyledCategoryBody = styled.div`
 
   .description {
     font-size: 0.9em;
+    word-break: break-all;
   }
 
   @media (hover: hover) {

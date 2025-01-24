@@ -126,4 +126,5 @@ function PostDetailsSkeleton({ commentsLength }: PostDetailsSkeleton) {
     </>
   );
 }
+
 export default PostDetailsSkeleton;
