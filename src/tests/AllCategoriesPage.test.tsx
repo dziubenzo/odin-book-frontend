@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect } from 'vitest';
@@ -63,15 +63,13 @@ function renderFollowCategoryButton(
 }
 
 describe('AllCategoriesPage', () => {
-  it('should show a loading message immediately after rendering', () => {
+  it('should show a loading skeleton immediately after rendering', () => {
     mockFetch('Failed to fetch', false);
     renderAllCategoriesPage();
 
-    const loadingMessage = screen.getByRole('heading', {
-      name: /loading all categories/i,
-    });
+    const categoryNameLinks = screen.getAllByText(/Category Name/i);
 
-    expect(loadingMessage).toBeInTheDocument();
+    expect(categoryNameLinks[0]).toHaveClass('skeleton');
   });
 
   it('should show an error message if fetching categories fails', async () => {
@@ -87,11 +85,14 @@ describe('AllCategoriesPage', () => {
     mockFetch(categories, true);
     renderAllCategoriesPage();
 
-    const allCategoriesHeading = await screen.findByRole('heading', {
-      name: /all categories \(/i,
-    });
+    // Prevent skeleton from influencing the result
+    await waitFor(async () => {
+      const allCategoriesHeading = await screen.findByRole('heading', {
+        name: /all categories/i,
+      });
 
-    expect(allCategoriesHeading.textContent).toContain(categories.length);
+      expect(allCategoriesHeading.textContent).toContain(categories.length);
+    });
   });
 
   it('should render a link to the New Category page', async () => {

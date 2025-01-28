@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { expect } from 'vitest';
@@ -138,15 +138,16 @@ function renderCommentLikes(loggedInUser: User) {
 }
 
 describe('PostDetailsPage', () => {
-  it('should render a loading message immediately after rendering', () => {
+  it('should render a loading skeleton immediately after rendering', () => {
     mockFetch('Failed to fetch', false);
     renderPostDetailsPage();
 
-    const loadingMessage = screen.getByRole('heading', {
-      name: /loading post/i,
+    const skeletonPostTitle = screen.getByRole('heading', {
+      name: /fancy post title/i,
     });
 
-    expect(loadingMessage).toBeInTheDocument();
+    expect(skeletonPostTitle).toBeInTheDocument();
+    expect(skeletonPostTitle).toHaveClass('skeleton');
   });
 
   it('should render an error message if fetching the post fails', async () => {
@@ -175,26 +176,31 @@ describe('PostDetailsPage', () => {
     mockFetch(detailedPost1, true);
     renderPostDetailsPage();
 
-    const newCommentHeading = await screen.findByRole('heading', {
-      name: /new comment/i,
-    });
-    const submitButton = screen.getByRole('button', { name: /submit/i });
+    // Prevent skeleton from influencing the result
+    await waitFor(async () => {
+      const newCommentHeading = await screen.findByRole('heading', {
+        name: /new comment/i,
+      });
+      const submitButton = screen.getByRole('button', { name: /submit/i });
 
-    expect(newCommentHeading).toBeInTheDocument();
-    expect(submitButton).toBeInTheDocument();
+      expect(newCommentHeading).toBeInTheDocument();
+      expect(submitButton).toBeInTheDocument();
+    });
   });
 
   it('should render a Comments section with all comments', async () => {
     mockFetch(detailedPost1, true);
     renderPostDetailsPage();
 
-    const commentsHeading = await screen.findByRole('heading', {
-      name: /comments/i,
-    });
-    const allComments = await screen.findAllByText(/comment content/i);
+    await waitFor(async () => {
+      const commentsHeading = await screen.findByRole('heading', {
+        name: /comments/i,
+      });
+      const allComments = await screen.findAllByText(/comment content/i);
 
-    expect(commentsHeading).toBeInTheDocument();
-    expect(allComments).toHaveLength(detailedPost1.comments.length);
+      expect(commentsHeading).toBeInTheDocument();
+      expect(allComments).toHaveLength(detailedPost1.comments.length);
+    });
   });
 
   it('should render a return icon', async () => {

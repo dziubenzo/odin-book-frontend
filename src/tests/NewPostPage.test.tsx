@@ -60,18 +60,7 @@ function renderPublishPostSection(error: string, inProgress: boolean) {
   return { user };
 }
 
-describe('Loading and Error', () => {
-  it('should show a loading message immediately after rendering', () => {
-    mockFetch('Failed to fetch', false);
-    renderNewPostPage();
-
-    const loadingMessage = screen.getByRole('heading', {
-      name: /loading../i,
-    });
-
-    expect(loadingMessage).toBeInTheDocument();
-  });
-
+describe('Error', () => {
   it('should show an error message if fetching users fails', async () => {
     mockFetch('Failed to fetch', false);
     renderNewPostPage();
@@ -184,81 +173,90 @@ describe('CategoryPicker', () => {
     mockFetch(categories, true);
   });
 
-  it('should render a category picker', async () => {
+  it('should render a loading skeleton immediately on render', () => {
     renderNewPostPage();
 
-    const categoryPicker = await screen.findByRole('combobox', {
+    const categoryPicker = screen.getByRole('combobox', {
       name: /category/i,
     });
 
-    expect(categoryPicker).toBeInTheDocument();
+    expect(categoryPicker).toHaveClass('skeleton');
   });
 
   it('should render a category picker that has an empty option and all fetched categories', async () => {
     renderNewPostPage();
 
-    const categoryPicker = await screen.findByRole('combobox', {
-      name: /category/i,
-    });
-    const categoryOptions =
-      await within(categoryPicker).findAllByRole<HTMLOptionElement>('option');
+    // Prevent skeleton from influencing the result
+    await waitFor(async () => {
+      const categoryPicker = await screen.findByRole('combobox', {
+        name: /category/i,
+      });
+      const categoryOptions =
+        await within(categoryPicker).findAllByRole<HTMLOptionElement>('option');
 
-    expect(categoryOptions.length).toBe(categories.length + 1);
+      expect(categoryOptions.length).toBe(categories.length + 1);
+    });
   });
 
   it('should render a category picker that has an empty option selected by default', async () => {
     renderNewPostPage();
 
-    const defaultCategoryOption = await screen.findByRole<HTMLOptionElement>(
-      'option',
-      {
-        name: /choose category/i,
-      },
-    );
+    await waitFor(async () => {
+      const defaultCategoryOption = await screen.findByRole<HTMLOptionElement>(
+        'option',
+        {
+          name: /choose category/i,
+        },
+      );
 
-    expect(defaultCategoryOption.value).toBeFalsy();
-    expect(defaultCategoryOption.selected).toBe(true);
+      expect(defaultCategoryOption.value).toBeFalsy();
+      expect(defaultCategoryOption.selected).toBe(true);
+    });
   });
 
   it('should render a category picker that has selectable options', async () => {
     const { user } = renderNewPostPage();
 
-    const categoryPicker = await screen.findByRole('combobox', {
-      name: /category/i,
+    await waitFor(async () => {
+      const categoryPicker = await screen.findByRole('combobox', {
+        name: /category/i,
+      });
+      const category1Option = await screen.findByRole<HTMLOptionElement>(
+        'option',
+        {
+          name: new RegExp(category1.name, 'i'),
+        },
+      );
+      await user.selectOptions(categoryPicker, category1Option);
+
+      expect(category1Option.selected).toBe(true);
+
+      const category2Option = await screen.findByRole<HTMLOptionElement>(
+        'option',
+        {
+          name: new RegExp(category2.name, 'i'),
+        },
+      );
+      await user.selectOptions(categoryPicker, category2Option);
+
+      expect(category1Option.selected).toBe(false);
+      expect(category2Option.selected).toBe(true);
     });
-    const category1Option = await screen.findByRole<HTMLOptionElement>(
-      'option',
-      {
-        name: new RegExp(category1.name, 'i'),
-      },
-    );
-    await user.selectOptions(categoryPicker, category1Option);
-
-    expect(category1Option.selected).toBe(true);
-
-    const category2Option = await screen.findByRole<HTMLOptionElement>(
-      'option',
-      {
-        name: new RegExp(category2.name, 'i'),
-      },
-    );
-    await user.selectOptions(categoryPicker, category2Option);
-
-    expect(category1Option.selected).toBe(false);
-    expect(category2Option.selected).toBe(true);
   });
 
   it('should render a category picker whose options have category IDs as values', async () => {
     renderNewPostPage();
 
-    const category1Option = await screen.findByRole<HTMLOptionElement>(
-      'option',
-      {
-        name: new RegExp(category1.name, 'i'),
-      },
-    );
+    await waitFor(async () => {
+      const category1Option = await screen.findByRole<HTMLOptionElement>(
+        'option',
+        {
+          name: new RegExp(category1.name, 'i'),
+        },
+      );
 
-    expect(category1Option.value).toBe(category1._id);
+      expect(category1Option.value).toBe(category1._id);
+    });
   });
 
   it('should render a Followed Categories Only checkbox that is unchecked by default', async () => {
@@ -781,31 +779,34 @@ describe('PublishPostSection - Errors', () => {
   it('should render an error message if the post title is too short', async () => {
     const { user } = renderNewPostPage();
 
-    const textPostTypeButton = await screen.findByRole('button', {
-      name: /text/i,
-    });
-    await user.click(textPostTypeButton);
+    // Prevent skeleton from influencing the result
+    await waitFor(async () => {
+      const textPostTypeButton = await screen.findByRole('button', {
+        name: /text/i,
+      });
+      await user.click(textPostTypeButton);
 
-    const postTitleInput = await screen.findByRole('textbox', {
-      name: /post title/i,
-    });
-    const categoryPicker = await screen.findByRole('combobox', {
-      name: /category/i,
-    });
-    const category1Option = await screen.findByRole('option', {
-      name: new RegExp(category1.name, 'i'),
-    });
-    const textEditor = await screen.findByTestId('text-editor');
-    const publishButton = screen.getByRole('button', {
-      name: /publish/i,
-    });
+      const postTitleInput = await screen.findByRole('textbox', {
+        name: /post title/i,
+      });
+      const categoryPicker = await screen.findByRole('combobox', {
+        name: /category/i,
+      });
+      const category1Option = await screen.findByRole('option', {
+        name: new RegExp(category1.name, 'i'),
+      });
+      const textEditor = await screen.findByTestId('text-editor');
+      const publishButton = screen.getByRole('button', {
+        name: /publish/i,
+      });
 
-    await user.clear(postTitleInput);
-    await user.clear(textEditor);
-    await user.type(postTitleInput, ':)');
-    await user.selectOptions(categoryPicker, category1Option);
-    await user.type(textEditor, 'Some very fancy post content');
-    await user.click(publishButton);
+      await user.clear(postTitleInput);
+      await user.clear(textEditor);
+      await user.type(postTitleInput, ':)');
+      await user.selectOptions(categoryPicker, category1Option);
+      await user.type(textEditor, 'Some very fancy post content');
+      await user.click(publishButton);
+    });
 
     const errorMessage = await screen.findByText(/post title is/i);
 
@@ -815,23 +816,25 @@ describe('PublishPostSection - Errors', () => {
   it('should render an error message if the category is not selected', async () => {
     const { user } = renderNewPostPage();
 
-    const postTitleInput = await screen.findByRole('textbox', {
-      name: /post title/i,
-    });
-    const categoryPicker = await screen.findByRole('combobox', {
-      name: /category/i,
-    });
-    const emptyCategoryOption = await screen.findByRole('option', {
-      name: /choose category/i,
-    });
-    const publishButton = screen.getByRole('button', {
-      name: /publish/i,
-    });
+    await waitFor(async () => {
+      const postTitleInput = await screen.findByRole('textbox', {
+        name: /post title/i,
+      });
+      const categoryPicker = await screen.findByRole('combobox', {
+        name: /category/i,
+      });
+      const emptyCategoryOption = await screen.findByRole('option', {
+        name: /choose category/i,
+      });
+      const publishButton = screen.getByRole('button', {
+        name: /publish/i,
+      });
 
-    await user.clear(postTitleInput);
-    await user.type(postTitleInput, 'Normal title, yay!');
-    await user.selectOptions(categoryPicker, emptyCategoryOption);
-    await user.click(publishButton);
+      await user.clear(postTitleInput);
+      await user.type(postTitleInput, 'Normal title, yay!');
+      await user.selectOptions(categoryPicker, emptyCategoryOption);
+      await user.click(publishButton);
+    });
 
     const errorMessage = await screen.findByText(/category is/i);
 
@@ -841,20 +844,26 @@ describe('PublishPostSection - Errors', () => {
   it('should render an error message if the post content is too short (text post type)', async () => {
     const { user } = renderNewPostPage();
 
-    const categoryPicker = await screen.findByRole('combobox', {
-      name: /category/i,
-    });
-    const category1Option = await screen.findByRole('option', {
-      name: new RegExp(category1.name, 'i'),
-    });
-    const textEditor = await screen.findByTestId('text-editor');
-    const publishButton = screen.getByRole('button', {
-      name: /publish/i,
-    });
+    await waitFor(async () => {
+      const postTitleInput = await screen.findByRole('textbox', {
+        name: /post title/i,
+      });
+      const categoryPicker = await screen.findByRole('combobox', {
+        name: /category/i,
+      });
+      const category1Option = await screen.findByRole('option', {
+        name: new RegExp(category1.name, 'i'),
+      });
+      const textEditor = await screen.findByTestId('text-editor');
+      const publishButton = screen.getByRole('button', {
+        name: /publish/i,
+      });
 
-    await user.clear(textEditor);
-    await user.selectOptions(categoryPicker, category1Option);
-    await user.click(publishButton);
+      await user.clear(textEditor);
+      await user.type(postTitleInput, 'Normal title, yay!');
+      await user.selectOptions(categoryPicker, category1Option);
+      await user.click(publishButton);
+    });
 
     const errorMessage = await screen.findByText(/post content is/i);
 
@@ -864,21 +873,36 @@ describe('PublishPostSection - Errors', () => {
   it('should render an error message if the image URL is incorrect (image post type)', async () => {
     const { user } = renderNewPostPage();
 
-    const imagePostTypeButton = await screen.findByRole('button', {
-      name: /image/i,
-    });
-    await user.click(imagePostTypeButton);
+    await waitFor(async () => {
+      const postTitleInput = await screen.findByRole('textbox', {
+        name: /post title/i,
+      });
+      await user.type(postTitleInput, 'Normal title, yay!');
 
-    const imageURLInput = await screen.findByRole('textbox', {
-      name: /image url/i,
-    });
-    const publishButton = screen.getByRole('button', {
-      name: /publish/i,
-    });
+      const categoryPicker = await screen.findByRole('combobox', {
+        name: /category/i,
+      });
+      const category1Option = await screen.findByRole('option', {
+        name: new RegExp(category1.name, 'i'),
+      });
+      await user.selectOptions(categoryPicker, category1Option);
 
-    await user.clear(imageURLInput);
-    await user.type(imageURLInput, 'Can I be a valid link, please?');
-    await user.click(publishButton);
+      const imagePostTypeButton = await screen.findByRole('button', {
+        name: /image/i,
+      });
+      await user.click(imagePostTypeButton);
+
+      const imageURLInput = await screen.findByRole('textbox', {
+        name: /image url/i,
+      });
+      const publishButton = screen.getByRole('button', {
+        name: /publish/i,
+      });
+
+      await user.clear(imageURLInput);
+      await user.type(imageURLInput, 'Can I be a valid link, please?');
+      await user.click(publishButton);
+    });
 
     const errorMessage = await screen.findByText(/invalid image/i);
 
@@ -888,21 +912,36 @@ describe('PublishPostSection - Errors', () => {
   it('should render an error message if the YouTube URL is incorrect (video post type)', async () => {
     const { user } = renderNewPostPage();
 
-    const videoPostTypeButton = await screen.findByRole('button', {
-      name: /video/i,
-    });
-    await user.click(videoPostTypeButton);
+    await waitFor(async () => {
+      const postTitleInput = await screen.findByRole('textbox', {
+        name: /post title/i,
+      });
+      await user.type(postTitleInput, 'Normal title, yay!');
 
-    const youTubeURLInput = await screen.findByRole('textbox', {
-      name: /youtube url/i,
-    });
-    const publishButton = screen.getByRole('button', {
-      name: /publish/i,
-    });
+      const categoryPicker = await screen.findByRole('combobox', {
+        name: /category/i,
+      });
+      const category1Option = await screen.findByRole('option', {
+        name: new RegExp(category1.name, 'i'),
+      });
+      await user.selectOptions(categoryPicker, category1Option);
 
-    await user.clear(youTubeURLInput);
-    await user.type(youTubeURLInput, 'I am a YT link, for real!');
-    await user.click(publishButton);
+      const videoPostTypeButton = await screen.findByRole('button', {
+        name: /video/i,
+      });
+      await user.click(videoPostTypeButton);
+
+      const youTubeURLInput = await screen.findByRole('textbox', {
+        name: /youtube url/i,
+      });
+      const publishButton = screen.getByRole('button', {
+        name: /publish/i,
+      });
+
+      await user.clear(youTubeURLInput);
+      await user.type(youTubeURLInput, 'I am a YT link, for real!');
+      await user.click(publishButton);
+    });
 
     const errorMessage = await screen.findByText(/invalid youtube/i);
 

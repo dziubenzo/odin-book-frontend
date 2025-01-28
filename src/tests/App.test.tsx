@@ -323,7 +323,7 @@ describe('Popover', () => {
     mockFetch('Failed to fetch', false);
     renderPopover('user', superUser);
 
-    const usernameSkeleton = screen.getByText(/loading.../i);
+    const usernameSkeleton = screen.getByText(/username/i);
 
     expect(usernameSkeleton).toBeInTheDocument();
   });

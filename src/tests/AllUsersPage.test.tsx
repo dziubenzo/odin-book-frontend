@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect } from 'vitest';
@@ -74,15 +74,13 @@ function renderFollowUserButton(
 }
 
 describe('AllUsersPage', () => {
-  it('should show a loading message immediately after rendering', () => {
+  it('should show a loading skeleton immediately after rendering', () => {
     mockFetch('Failed to fetch', false);
     renderAllUsersPage();
 
-    const loadingMessage = screen.getByRole('heading', {
-      name: /loading all users/i,
-    });
+    const usernameLinks = screen.getAllByText(/username/i);
 
-    expect(loadingMessage).toBeInTheDocument();
+    expect(usernameLinks[0]).toHaveClass('skeleton');
   });
 
   it('should show an error message if fetching users fails', async () => {
@@ -98,11 +96,14 @@ describe('AllUsersPage', () => {
     mockFetch(users, true);
     renderAllUsersPage();
 
-    const allUsersHeading = await screen.findByRole('heading', {
-      name: /all users \(/i,
-    });
+    // Prevent skeleton from influencing the result
+    await waitFor(async () => {
+      const allUsersHeading = await screen.findByRole('heading', {
+        name: /all users/i,
+      });
 
-    expect(allUsersHeading.textContent).toContain(users.length);
+      expect(allUsersHeading.textContent).toContain(users.length);
+    });
   });
 
   it('should render all users', async () => {

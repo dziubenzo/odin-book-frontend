@@ -74,9 +74,8 @@ function renderPostBody(post: Post) {
   );
 }
 
-function renderCategoryDetails(loadingPosts = false) {
-  const setResourceErrorMock = vi.fn();
-  const setLoadingResourceMock = vi.fn();
+function renderCategoryDetails() {
+  const setPageErrorMock = vi.fn();
   // Mock useParams
   vi.mock('react-router-dom', async (importOriginal) => {
     const actual = (await importOriginal()) as object;
@@ -94,21 +93,16 @@ function renderCategoryDetails(loadingPosts = false) {
   render(
     <BrowserRouter>
       <Theme>
-        <CategoryDetails
-          loadingPosts={loadingPosts}
-          setResourceError={setResourceErrorMock}
-          setLoadingResource={setLoadingResourceMock}
-        />
+        <CategoryDetails setPageError={setPageErrorMock} />
       </Theme>
     </BrowserRouter>,
   );
 
-  return { setResourceErrorMock, setLoadingResourceMock };
+  return { setPageErrorMock };
 }
 
-function renderUserDetails(loadingPosts = false) {
-  const setResourceErrorMock = vi.fn();
-  const setLoadingResourceMock = vi.fn();
+function renderUserDetails() {
+  const setPageErrorMock = vi.fn();
   // Mock useParams
   vi.mock('react-router-dom', async (importOriginal) => {
     const actual = (await importOriginal()) as object;
@@ -126,16 +120,12 @@ function renderUserDetails(loadingPosts = false) {
   render(
     <BrowserRouter>
       <Theme>
-        <UserDetails
-          loadingPosts={loadingPosts}
-          setResourceError={setResourceErrorMock}
-          setLoadingResource={setLoadingResourceMock}
-        />
+        <UserDetails setPageError={setPageErrorMock} />
       </Theme>
     </BrowserRouter>,
   );
 
-  return { setResourceErrorMock, setLoadingResourceMock };
+  return { setPageErrorMock };
 }
 
 function renderStat() {
@@ -152,15 +142,13 @@ function renderStat() {
 }
 
 describe('PostsPage', () => {
-  it('should render a loading message immediately after rendering', () => {
+  it('should show a loading skeleton immediately after rendering', () => {
     mockFetch('Failed to fetch', false);
     renderPostsPage('All Posts');
 
-    const loadingMessage = screen.getByRole('heading', {
-      name: /loading/i,
-    });
+    const postsTitles = screen.getAllByText(/Some fancy title, yay!/i);
 
-    expect(loadingMessage).toBeInTheDocument();
+    expect(postsTitles[0]).toBeInTheDocument();
   });
 
   it('should render an error message if fetching posts fails', async () => {
@@ -234,11 +222,13 @@ describe('MonthIndicator', () => {
     mockFetch([post1, post2, post3], true);
     renderPostsPage('Posts');
 
-    const thisMonthIndicator = await screen.findByRole('heading', {
-      name: /this month/i,
-    });
+    await waitFor(async () => {
+      const thisMonthIndicator = await screen.findByRole('heading', {
+        name: /this month/i,
+      });
 
-    expect(thisMonthIndicator).toBeInTheDocument();
+      expect(thisMonthIndicator).toBeInTheDocument();
+    });
   });
 
   it('should render a month indicator for the first post if posts are sorted by oldest', async () => {
@@ -273,79 +263,87 @@ describe('MonthIndicator', () => {
 });
 
 describe('PostsSorter', () => {
-  beforeAll(async () => {
-    const user = userEvent.setup();
-    mockFetch([post1], true);
-    renderPostsPage('All Posts');
-
-    // Sort post back by newest
-    const newestButton = await screen.findByRole('button', { name: /newest/i });
-    await user.click(newestButton);
-  });
-
   it("should render a 'Sort By' paragraph", async () => {
     mockFetch([post1], true);
     renderPostsPage('All Posts');
 
-    const sortByPara = await screen.findByText(/sort by/i);
+    await waitFor(async () => {
+      const sortByPara = await screen.findByText(/sort by/i);
 
-    expect(sortByPara).toBeInTheDocument();
+      expect(sortByPara).toBeInTheDocument();
+    });
   });
 
   it('should render a Newest sort button, which is selected by default', async () => {
     mockFetch([post1], true);
     renderPostsPage('All Posts');
 
-    const newestButton = await screen.findByRole('button', { name: /newest/i });
+    await waitFor(async () => {
+      const newestButton = await screen.findByRole('button', {
+        name: /newest/i,
+      });
 
-    expect(newestButton).toBeInTheDocument();
-    expect(newestButton).toHaveClass('selected');
+      expect(newestButton).toBeInTheDocument();
+      expect(newestButton).toHaveClass('selected');
+    });
   });
 
   it('should render an Oldest sort button, which is not selected', async () => {
     mockFetch([post1], true);
     renderPostsPage('All Posts');
 
-    const oldestButton = await screen.findByRole('button', { name: /oldest/i });
+    await waitFor(async () => {
+      const oldestButton = await screen.findByRole('button', {
+        name: /oldest/i,
+      });
 
-    expect(oldestButton).toBeInTheDocument();
-    expect(oldestButton).not.toHaveClass('selected');
+      expect(oldestButton).toBeInTheDocument();
+      expect(oldestButton).not.toHaveClass('selected');
+    });
   });
 
   it('should render a Likes sort button, which is not selected', async () => {
     mockFetch([post1], true);
     renderPostsPage('All Posts');
 
-    const likesButton = await screen.findByRole('button', { name: /likes/i });
+    await waitFor(async () => {
+      const likesButton = await screen.findByRole('button', { name: /likes/i });
 
-    expect(likesButton).toBeInTheDocument();
-    expect(likesButton).not.toHaveClass('selected');
+      expect(likesButton).toBeInTheDocument();
+      expect(likesButton).not.toHaveClass('selected');
+    });
   });
 
   it('should render a Comments sort button, which is not selected', async () => {
     mockFetch([post1], true);
     renderPostsPage('All Posts');
 
-    const commentsButton = await screen.findByRole('button', {
-      name: /comments/i,
-    });
+    await waitFor(async () => {
+      const commentsButton = await screen.findByRole('button', {
+        name: /comments/i,
+      });
 
-    expect(commentsButton).toBeInTheDocument();
-    expect(commentsButton).not.toHaveClass('selected');
+      expect(commentsButton).toBeInTheDocument();
+      expect(commentsButton).not.toHaveClass('selected');
+    });
   });
 
   it('should render a Comments sort button, which, if clicked, should become selected and should make the previous sort button deselected', async () => {
     mockFetch([post1], true);
     const user = renderPostsPage('All Posts');
 
-    const newestButton = await screen.findByRole('button', { name: /newest/i });
-    const commentsButton = await screen.findByRole('button', {
-      name: /comments/i,
-    });
-    await user.click(commentsButton);
+    await waitFor(async () => {
+      const newestButton = await screen.findByRole('button', {
+        name: /newest/i,
+      });
+      const commentsButton = await screen.findByRole('button', {
+        name: /comments/i,
+      });
+      await user.click(commentsButton);
 
-    expect(commentsButton).toHaveClass('selected');
-    expect(newestButton).not.toHaveClass('selected');
+      expect(commentsButton).toHaveClass('selected');
+      expect(newestButton).not.toHaveClass('selected');
+    });
   });
 });
 
@@ -475,51 +473,31 @@ describe('PostBody', () => {
 });
 
 describe('CategoryDetails', () => {
-  it('should not render and should call the resourceError setter function with the error as the argument if fetching a category fails', async () => {
+  it('should not render and should call the setPageError setter function with the error as the argument if fetching a category fails', async () => {
     const error = 'Error while fetching a category';
     mockFetch(error, false);
-    const { setResourceErrorMock } = renderCategoryDetails();
+    const { setPageErrorMock } = renderCategoryDetails();
 
     // Wait for mockFetch to complete
     await waitFor(() => {
-      expect(setResourceErrorMock).toHaveBeenCalledWith(error);
+      expect(setPageErrorMock).toHaveBeenCalledWith(error);
     });
 
     const iconImg = screen.queryByRole('img', { name: /icon for the/i });
     expect(iconImg).not.toBeInTheDocument();
   });
 
-  it('should not render anything while fetching', async () => {
-    mockFetch({}, true);
+  it('should render a loading skeleton while fetching', async () => {
+    mockFetch(category1, true);
     renderCategoryDetails();
 
-    const loadingMessage = screen.queryByRole('heading', {
-      name: /loading/i,
-    });
+    const categoryDescription = screen.getByText(
+      /Some fancy category description, yay!/i,
+    );
 
-    expect(loadingMessage).not.toBeInTheDocument();
-  });
+    screen.debug();
 
-  it('should not render anything while posts are still being fetched', async () => {
-    mockFetch({}, true);
-    renderCategoryDetails(true);
-
-    await waitFor(() => {}, { timeout: 0 });
-    const loadingMessage = screen.queryByRole('heading', {
-      name: /loading/i,
-    });
-
-    expect(loadingMessage).not.toBeInTheDocument();
-  });
-
-  it('should call the loadingResource setter function with false as the argument if fetching a category is successful', async () => {
-    mockFetch(category1, true);
-    const { setLoadingResourceMock } = renderCategoryDetails();
-
-    // Wait for mockFetch to complete
-    await waitFor(() => {
-      expect(setLoadingResourceMock).toHaveBeenLastCalledWith(false);
-    });
+    expect(categoryDescription).toBeInTheDocument();
   });
 
   it('should render a category icon', async () => {
@@ -535,21 +513,25 @@ describe('CategoryDetails', () => {
     mockFetch(category1, true);
     renderCategoryDetails();
 
-    const categoryNameHeading = await screen.findByRole('heading');
+    await waitFor(async () => {
+      const categoryNameHeading = await screen.findByRole('heading');
 
-    expect(categoryNameHeading).toBeInTheDocument();
-    expect(categoryNameHeading.textContent).toMatch(
-      new RegExp(category1.name, 'i'),
-    );
+      expect(categoryNameHeading).toBeInTheDocument();
+      expect(categoryNameHeading.textContent).toMatch(
+        new RegExp(category1.name, 'i'),
+      );
+    });
   });
 
   it("should render a 'created' paragraph", async () => {
     mockFetch(category1, true);
     renderCategoryDetails();
 
-    const createdPara = await screen.findByText(/created/i);
+    await waitFor(async () => {
+      const createdPara = await screen.findByText(/created/i);
 
-    expect(createdPara).toBeInTheDocument();
+      expect(createdPara).toBeInTheDocument();
+    });
   });
 
   it('should render a category description', async () => {
@@ -583,51 +565,27 @@ describe('CategoryDetails', () => {
 });
 
 describe('UserDetails', () => {
-  it('should not render and should call the resourceError setter function with the error as the argument if fetching a user fails', async () => {
+  it('should not render and should call the setPageError setter function with the error as the argument if fetching a user fails', async () => {
     const error = 'Error while fetching a user';
     mockFetch(error, false);
-    const { setResourceErrorMock } = renderUserDetails();
+    const { setPageErrorMock } = renderUserDetails();
 
     // Wait for mockFetch to complete
     await waitFor(() => {
-      expect(setResourceErrorMock).toHaveBeenCalledWith(error);
+      expect(setPageErrorMock).toHaveBeenCalledWith(error);
     });
 
-    const iconImg = screen.queryByRole('img', { name: /icon for the/i });
-    expect(iconImg).not.toBeInTheDocument();
+    const avatarImg = screen.queryByRole('img', { name: /avatar/i });
+    expect(avatarImg).not.toBeInTheDocument();
   });
 
-  it('should not render anything while fetching', async () => {
-    mockFetch({}, true);
+  it('should render a loading skeleton while fetching', async () => {
+    mockFetch(detailedUser2, true);
     renderUserDetails();
 
-    const loadingMessage = screen.queryByRole('heading', {
-      name: /loading/i,
-    });
+    const userBio = screen.getByText(/Some fancy user bio, yay!/i);
 
-    expect(loadingMessage).not.toBeInTheDocument();
-  });
-
-  it('should not render anything while posts are still being fetched', async () => {
-    mockFetch({}, true);
-    renderUserDetails(true);
-
-    await waitFor(() => {}, { timeout: 0 });
-    const loadingMessage = screen.queryByRole('heading', {
-      name: /loading/i,
-    });
-
-    expect(loadingMessage).not.toBeInTheDocument();
-  });
-
-  it('should call the loadingResource setter function with false as the argument if fetching a user is successful', async () => {
-    mockFetch(detailedUser2, true);
-    const { setLoadingResourceMock } = renderUserDetails();
-
-    // Wait for mockFetch to complete
-    await waitFor(() => {
-      expect(setLoadingResourceMock).toHaveBeenLastCalledWith(false);
-    });
+    expect(userBio).toBeInTheDocument();
   });
 
   it("should render a user's avatar", async () => {
@@ -643,21 +601,25 @@ describe('UserDetails', () => {
     mockFetch(detailedUser2, true);
     renderUserDetails();
 
-    const usernameHeading = await screen.findByRole('heading');
+    await waitFor(async () => {
+      const usernameHeading = await screen.findByRole('heading');
 
-    expect(usernameHeading).toBeInTheDocument();
-    expect(usernameHeading.textContent).toMatch(
-      new RegExp(detailedUser2.username, 'i'),
-    );
+      expect(usernameHeading).toBeInTheDocument();
+      expect(usernameHeading.textContent).toMatch(
+        new RegExp(detailedUser2.username, 'i'),
+      );
+    });
   });
 
   it("should render a 'member since' paragraph", async () => {
     mockFetch(detailedUser2, true);
     renderUserDetails();
 
-    const memberSincePara = await screen.findByText(/member since/i);
+    await waitFor(async () => {
+      const memberSincePara = await screen.findByText(/member since/i);
 
-    expect(memberSincePara).toBeInTheDocument();
+      expect(memberSincePara).toBeInTheDocument();
+    });
   });
 
   it("should render a user's bio if the user has set their bio", async () => {
