@@ -14,6 +14,8 @@ export const StyledProfilePage = styled.main`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
+    gap: 48px;
+
     .theme-switch {
       width: 60px;
     }
@@ -45,6 +47,7 @@ export const StyledUserInfo = styled.div`
 
   span {
     font-weight: 700;
+    color: ${(props) => props.theme.colours.secondary};
   }
 
   .previous-page-link {
@@ -73,11 +76,21 @@ export const StyledUserInfo = styled.div`
     }
 
     .top-line {
+      flex-direction: column;
+      text-align: center;
+
       .user-link {
         text-decoration: revert;
         text-underline-offset: 0.2em;
         text-decoration-color: ${(props) => props.theme.colours.primary};
+        word-break: break-all;
+        font-size: ${(props) => props.theme.fontSizes.large};
       }
+    }
+
+    h2 {
+      margin-top: 0.5em;
+      text-align: center;
     }
   }
 `;
@@ -87,6 +100,10 @@ export const StyledDefaultAvatars = styled.div`
   flex-direction: column;
   gap: 16px;
   width: 100%;
+
+  h2 {
+    color: ${(props) => props.theme.colours.secondary};
+  }
 
   .default-avatars-images {
     display: grid;
@@ -237,6 +254,7 @@ export const StyledBioInput = styled.div`
   width: 100%;
 
   label {
+    color: ${(props) => props.theme.colours.secondary};
     font-size: ${(props) => props.theme.fontSizes.large};
     cursor: pointer;
   }

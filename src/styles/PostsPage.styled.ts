@@ -380,6 +380,7 @@ export const StyledResourceDetailsTop = styled.div`
     color: ${(props) => props.theme.colours.secondary};
     font-weight: 700;
     text-align: center;
+    word-break: break-all;
   }
 
   .date-wrapper {
@@ -395,12 +396,8 @@ export const StyledResourceDetailsTop = styled.div`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
+    flex-direction: column;
     gap: 16px;
-
-    img {
-      height: 50px;
-      width: 50px;
-    }
 
     .name {
       font-size: ${(props) => props.theme.fontSizes.medium};
@@ -408,6 +405,7 @@ export const StyledResourceDetailsTop = styled.div`
 
     .date-wrapper {
       gap: 0;
+      margin-left: revert;
     }
   }
 `;
@@ -457,6 +455,7 @@ export const StyledStat = styled.div`
 
   .count {
     font-size: ${(props) => props.theme.fontSizes.extraLarge};
+    color: ${(props) => props.theme.colours.secondary};
   }
 
   svg {
@@ -528,8 +527,9 @@ export const StyledPostSorter = styled.div`
       cursor: pointer;
 
       &.selected {
-        background-color: ${(props) => props.theme.colours.background};
-        color: ${(props) => props.theme.colours.primary};
+        background-color: ${(props) => props.theme.colours.secondary};
+        color: ${(props) => props.theme.colours.background};
+        transform: scale(1.1);
       }
     }
   }

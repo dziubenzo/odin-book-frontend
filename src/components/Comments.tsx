@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { StyledComments } from '../styles/PostDetailsPage.styled';
 import type { Comment as CommentType } from '../types';
 import Comment from './Comment';
@@ -19,13 +20,15 @@ function Comments({
   function renderComments() {
     return comments.map((comment) => {
       return (
-        <Comment
-          key={comment._id}
-          comment={comment}
-          handleCommentLikeClick={handleCommentLikeClick}
-          handleCommentDislikeClick={handleCommentDislikeClick}
-          inProgress={inProgress}
-        />
+        <Fragment key={comment._id}>
+          <Comment
+            comment={comment}
+            handleCommentLikeClick={handleCommentLikeClick}
+            handleCommentDislikeClick={handleCommentDislikeClick}
+            inProgress={inProgress}
+          />
+          <hr />
+        </Fragment>
       );
     });
   }

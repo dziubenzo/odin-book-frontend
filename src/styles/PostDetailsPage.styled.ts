@@ -125,6 +125,11 @@ export const StyledComments = styled.div`
   flex-direction: column;
   gap: 8px;
 
+  hr {
+    margin: 0;
+    opacity: 0.2;
+  }
+
   h2 {
     color: ${(props) => props.theme.colours.secondary};
     margin-bottom: 0.5em;
@@ -276,6 +281,10 @@ export const StyledCommentInputTop = styled.div<StyledCommentInputTopProps>`
     resize: vertical;
     background-color: inherit;
     font-size: ${(props) => props.theme.fontSizes.standard};
+
+    &::placeholder {
+      color: ${(props) => props.theme.colours.secondary};
+    }
 
     &:focus-visible {
       outline: 2px solid ${(props) => props.theme.colours.primary};

@@ -71,14 +71,14 @@ export const StyledHeaderTopBar = styled.nav`
     text-align: center;
     padding: 0.5em;
     font-size: ${(props) => props.theme.fontSizes.medium};
-    text-decoration: none transparent;
+    text-decoration: none;
     cursor: pointer;
 
     &.active {
-      text-decoration: underline wavy
-        ${(props) => props.theme.colours.secondary};
-      text-underline-offset: 6px;
-      transition: text-decoration-color 0.3s ease-in-out;
+      p {
+        text-decoration: underline;
+        text-underline-offset: 8px;
+      }
     }
   }
 
@@ -107,7 +107,16 @@ export const StyledHeaderTopBar = styled.nav`
 
     .link {
       font-size: ${(props) => props.theme.fontSizes.small};
-      padding: 0;
+      padding: 0.25em;
+      border-radius: 50%;
+      transition:
+        background-color 0.3s ease-in-out,
+        transform 0.3s ease-in-out;
+
+      &.active {
+        background-color: ${(props) => props.theme.colours.tertiary};
+        transform: scale(1.1);
+      }
     }
   }
 `;

@@ -34,6 +34,12 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  hr {
+    height: 1px;
+    background-color: ${(props) => props.theme.colours.secondary};
+    border: none;
+  }
+
   body {
     display: flex;
     justify-content: center;
@@ -63,9 +69,12 @@ const GlobalStyle = createGlobalStyle`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     #root {
-      header,
-      footer {
+      header {
         padding: 0.5em 0em;
+      }
+
+      footer {
+        padding: 0.25em 0em;
       }
 
       main {

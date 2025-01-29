@@ -78,8 +78,8 @@ export const StyledPostTypeSelector = styled.div`
     }
 
     &.selected {
-      background-color: ${(props) => props.theme.colours.background};
-      color: ${(props) => props.theme.colours.primary};
+      background-color: ${(props) => props.theme.colours.secondary};
+      color: ${(props) => props.theme.colours.background};
       transform: scale(1.2);
     }
   }
