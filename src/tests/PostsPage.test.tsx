@@ -164,11 +164,14 @@ describe('PostsPage', () => {
     mockFetch([post1, post2, post3], true);
     renderPostsPage('All Posts');
 
-    const feedHeading = await screen.findByRole('heading', { name: /feed/i });
-    const postContents = await screen.findAllByText(/content/i);
+    // Prevent skeleton from influencing the result
+    await waitFor(async () => {
+      const feedHeading = await screen.findByRole('heading', { name: /feed/i });
+      const postContents = await screen.findAllByText(/content/i);
 
-    expect(feedHeading).toBeInTheDocument();
-    expect(postContents).toHaveLength(3);
+      expect(feedHeading).toBeInTheDocument();
+      expect(postContents).toHaveLength(3);
+    });
   });
 
   it('should render a feed heading based on the pageDescription prop is provided', async () => {

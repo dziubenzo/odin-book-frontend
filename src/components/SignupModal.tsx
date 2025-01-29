@@ -13,6 +13,7 @@ type SignupModalProps = {
   loginModalRef: React.RefObject<HTMLDialogElement | null>;
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
+  setLogInAutomatically: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function SignupModal({
@@ -20,6 +21,7 @@ function SignupModal({
   loginModalRef,
   setUsername,
   setPassword,
+  setLogInAutomatically,
 }: SignupModalProps) {
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [error, setError] = useState('');
@@ -51,9 +53,10 @@ function SignupModal({
     // Show Log In modal and pass Sign Up username and password to Log In modal
     setIsSigningUp(false);
     closeModal();
-    showLoginModal();
     setUsername(username);
     setPassword(password);
+    setLogInAutomatically(true);
+    showLoginModal();
     // Clear Sign Up modal form
     (event.target as HTMLFormElement).reset();
     return;

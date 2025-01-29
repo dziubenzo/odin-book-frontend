@@ -411,3 +411,15 @@ export const useChangeTitle = (title: string) => {
     document.title = `Aurora - ${title}`;
   }, [title]);
 };
+
+// Log in the user automatically by simulating a submit button click when they have just signed up
+export const useLogInAutomatically = (
+  logInAutomatically: boolean,
+  submitBtnRef: React.RefObject<HTMLButtonElement | null>,
+) => {
+  useEffect(() => {
+    if (logInAutomatically && submitBtnRef.current) {
+      submitBtnRef.current.click();
+    }
+  }, [logInAutomatically, submitBtnRef]);
+};

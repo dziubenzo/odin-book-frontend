@@ -779,7 +779,6 @@ describe('PublishPostSection - Errors', () => {
   it('should render an error message if the post title is too short', async () => {
     const { user } = renderNewPostPage();
 
-    // Prevent skeleton from influencing the result
     await waitFor(async () => {
       const textPostTypeButton = await screen.findByRole('button', {
         name: /text/i,

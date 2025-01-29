@@ -1,9 +1,10 @@
 import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import API_URL from '../API';
 import { setTimedMessage } from '../helpers';
+import { useLogInAutomatically } from '../hooks';
 import {
   StyledInput,
   StyledModal,
@@ -16,6 +17,7 @@ type LoginModalProps = {
   setUsername: React.Dispatch<React.SetStateAction<string>>;
   password: string;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
+  logInAutomatically: boolean;
 };
 
 function LoginModal({
@@ -24,10 +26,14 @@ function LoginModal({
   setUsername,
   password,
   setPassword,
+  logInAutomatically,
 }: LoginModalProps) {
   const navigate = useNavigate();
+
   const [error, setError] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
 
   async function logIn(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -71,6 +77,8 @@ function LoginModal({
     return event.target === loginModalRef.current ? closeModal() : undefined;
   }
 
+  useLogInAutomatically(logInAutomatically, submitBtnRef);
+
   return (
     <StyledModal ref={loginModalRef} onMouseDown={closeModalOnOutsideClick}>
       <div className="modal-wrapper">
@@ -107,6 +115,7 @@ function LoginModal({
           />
         </form>
         <StyledSubmitButton
+          ref={submitBtnRef}
           style={error ? { visibility: 'hidden' } : undefined}
           type="submit"
           form="login-form"

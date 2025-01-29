@@ -49,6 +49,7 @@ function renderLoginModal() {
           setUsername={vi.fn()}
           password=""
           setPassword={vi.fn()}
+          logInAutomatically={false}
         />
       </Theme>
     </BrowserRouter>,
@@ -75,6 +76,7 @@ function renderSignupModal() {
         loginModalRef={logInRefMock}
         setUsername={vi.fn()}
         setPassword={vi.fn()}
+        setLogInAutomatically={vi.fn()}
       />
     </Theme>,
   );

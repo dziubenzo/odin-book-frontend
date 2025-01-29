@@ -18,6 +18,7 @@ function WelcomePage() {
   const [password, setPassword] = useState('');
   const [showLoading, setShowLoading] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [logInAutomatically, setLogInAutomatically] = useState(false);
 
   useChangeTitle('Welcome');
   const showPage = useCheckAuth();
@@ -72,12 +73,14 @@ function WelcomePage() {
               setUsername={setUsername}
               password={password}
               setPassword={setPassword}
+              logInAutomatically={logInAutomatically}
             />
             <SignupModal
               signupModalRef={signupModalRef}
               loginModalRef={loginModalRef}
               setUsername={setUsername}
               setPassword={setPassword}
+              setLogInAutomatically={setLogInAutomatically}
             />
           </>
         )}
