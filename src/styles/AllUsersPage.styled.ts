@@ -43,6 +43,11 @@ export const StyledUser = styled.div`
     text-decoration: none;
     width: 100%;
     font-size: ${(props) => props.theme.fontSizes.medium};
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .follow-button {

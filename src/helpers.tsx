@@ -516,7 +516,9 @@ export const createNewCategory = async (
   }
   setCategoryCreated(true);
   setTimeout(() => {
-    navigate(`/categories/${slugify(name, { lower: true })}`);
+    navigate(
+      `/categories/${slugify(replaceQuestionMarks(name), { lower: true })}`,
+    );
   }, 2000);
   return setInProgress(false);
 };
@@ -835,4 +837,9 @@ const calculatePopoverPosition = (
   setPositionY(
     event.currentTarget.offsetTop + event.currentTarget.offsetHeight,
   );
+};
+
+// Replace question marks in a category name with 'qm'
+const replaceQuestionMarks = (name: string) => {
+  return name.replaceAll('?', 'qm');
 };
