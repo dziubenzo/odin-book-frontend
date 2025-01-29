@@ -73,7 +73,8 @@ export const StyledCategory = styled.div`
   }
 
   .follow-button {
-    width: 150px;
+    min-width: 125px;
+    width: 125px;
     height: fit-content;
     font-size: ${(props) => props.theme.fontSizes.standard};
     padding: 0.75em;
@@ -83,12 +84,8 @@ export const StyledCategory = styled.div`
   @media (max-width: ${(props) => props.theme.mobile}) {
     gap: 12px;
 
-    img {
-      width: 32px;
-      height: 32px;
-    }
-
     .follow-button {
+      width: revert;
       min-width: 80px;
       font-size: ${(props) => props.theme.fontSizes.small};
       padding: 0.5em;
@@ -126,10 +123,15 @@ export const StyledCategoryBody = styled.div`
   @media (max-width: ${(props) => props.theme.mobile}) {
     .category-link {
       text-decoration: revert;
-      text-underline-offset: 0.3em;
-      text-decoration-color: ${(props) => props.theme.colours.secondary};
+      text-underline-offset: 4px;
       font-size: ${(props) => props.theme.fontSizes.medium};
       color: ${(props) => props.theme.colours.secondary};
+      max-width: 16ch !important;
+      word-break: break-all;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .description {

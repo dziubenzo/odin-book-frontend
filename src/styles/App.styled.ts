@@ -167,6 +167,11 @@ export const StyledPopover = styled.div`
     p {
       font-size: ${(props) => props.theme.fontSizes.medium};
       color: ${(props) => props.theme.colours.secondary};
+      text-align: center;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 

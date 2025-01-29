@@ -95,6 +95,7 @@ export const StyledCategoryPicker = styled.div`
   gap: 16px;
 
   select {
+    width: 36ch;
     background-color: ${(props) => props.theme.colours.background};
     border: none;
     outline: 2px solid ${(props) => props.theme.colours.tertiary};
@@ -129,6 +130,10 @@ export const StyledCategoryPicker = styled.div`
   @media (max-width: ${(props) => props.theme.mobile}) {
     flex-direction: column;
     align-items: revert;
+
+    select {
+      width: 100%;
+    }
 
     label[for='followed-categories'] {
       margin-left: revert;

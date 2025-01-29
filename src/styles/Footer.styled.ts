@@ -55,8 +55,19 @@ export const StyledFooterLeft = styled.div`
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
+    gap: 8px;
+
     a {
       font-size: ${(props) => props.theme.fontSizes.standard};
+
+      p {
+        display: none;
+      }
+
+      svg {
+        height: 36px;
+        width: 36px;
+      }
     }
   }
 `;
@@ -104,7 +115,7 @@ export const StyledFooterRight = styled.div`
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     .username {
-      font-size: ${(props) => props.theme.fontSizes.standard};
+      display: none;
     }
   }
 `;
