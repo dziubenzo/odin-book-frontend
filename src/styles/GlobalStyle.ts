@@ -61,6 +61,19 @@ const GlobalStyle = createGlobalStyle`
       }
   }
 
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    #root {
+      header,
+      footer {
+        padding: 0.5em 0em;
+      }
+
+      main {
+        padding: 2em 0.5em;
+      }
+    }
+  }
+
   // Helper classes for skeletons
   .skeleton,
   .checkbox-skeleton {
@@ -99,7 +112,6 @@ const GlobalStyle = createGlobalStyle`
   .justify-center {
     justify-self: center;
   }
-  
 `;
 
 export default GlobalStyle;

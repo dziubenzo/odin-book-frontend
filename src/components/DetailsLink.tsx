@@ -26,6 +26,7 @@ function DetailsLink(props: DetailsLinkProps) {
 
   return (
     <div
+      className={`${props.type}-link-wrapper`}
       onMouseEnter={(event) => {
         handlePopoverShowing(
           event,
@@ -41,7 +42,7 @@ function DetailsLink(props: DetailsLinkProps) {
       }}
     >
       <Link
-        className={props.type === 'user' ? 'user-link' : 'category-link'}
+        className={`${props.type}-link`}
         to={
           props.type === 'user'
             ? `/users/${props.username}`

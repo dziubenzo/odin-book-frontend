@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow } from 'date-fns';
+import { format, formatDistanceToNowStrict } from 'date-fns';
 import { FaRegCommentAlt } from 'react-icons/fa';
 import { LuDot } from 'react-icons/lu';
 import { StyledPostInfoPostDetails } from '../styles/PostDetailsPage.styled';
@@ -26,7 +26,7 @@ function PostInfo({ post, isPostInfoPostDetails }: PostInfoProps) {
         className="post-date"
         title={format(created_at, 'HH:mm, dd/MM/yyyy')}
       >
-        {formatDistanceToNow(created_at, { addSuffix: true })}{' '}
+        {formatDistanceToNowStrict(created_at, { addSuffix: true })}
       </span>
       <LuDot />
       <DetailsLink type="category" name={category.name} slug={category.slug} />

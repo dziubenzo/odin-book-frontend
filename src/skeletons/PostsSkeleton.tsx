@@ -9,6 +9,7 @@ import {
   StyledPostSorter,
 } from '../styles/PostsPage.styled';
 import { StyledAvatarSkeleton } from '../styles/Skeletons.styled';
+import { Fragment } from 'react/jsx-runtime';
 
 type PostsSkeletonProps = {
   length: number;
@@ -38,8 +39,8 @@ function PostsSkeleton({ length }: PostsSkeletonProps) {
             .fill(null)
             .map((_v, index) => {
               return (
-                <>
-                  <StyledPost key={index}>
+                <Fragment key={index}>
+                  <StyledPost>
                     <StyledPostLikes>
                       <button className="like-icon no-hover">
                         <FaArrowUp />
@@ -82,7 +83,7 @@ function PostsSkeleton({ length }: PostsSkeletonProps) {
                       </StyledPostInfo>
                     </StyledPostBody>
                   </StyledPost>
-                </>
+                </Fragment>
               );
             })}
         </div>

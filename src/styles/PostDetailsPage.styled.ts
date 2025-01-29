@@ -44,6 +44,7 @@ export const StyledPostDetails = styled.div`
         color: ${(props) => props.theme.colours.secondary};
         margin-right: auto;
         font-weight: 700;
+        word-break: break-all;
       }
     }
 
@@ -108,23 +109,14 @@ export const StyledPostInfoPostDetails = styled(StyledPostInfo)`
 
   .post-author {
     gap: 8px;
-
-    div {
-      a {
-        width: 16px;
-        height: 16px;
-
-        img {
-          height: 16px;
-          width: 16px;
-        }
-      }
-    }
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
     width: 100%;
-    justify-content: space-around;
+
+    .post-author {
+      min-width: 60px !important;
+    }
   }
 `;
 
@@ -134,11 +126,8 @@ export const StyledComments = styled.div`
   gap: 8px;
 
   h2 {
+    color: ${(props) => props.theme.colours.secondary};
     margin-bottom: 0.5em;
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    gap: 4px;
   }
 `;
 
@@ -150,10 +139,6 @@ export const StyledComment = styled.div`
 
   a {
     text-decoration: none;
-  }
-
-  @media (max-width: ${(props) => props.theme.mobile}) {
-    gap: 12px;
   }
 `;
 
@@ -247,6 +232,10 @@ export const StyledCommentInput = styled.div`
   flex-direction: column;
   gap: 24px;
 
+  h2 {
+    color: ${(props) => props.theme.colours.secondary};
+  }
+
   hr {
     margin-top: 0.25em;
   }
@@ -286,7 +275,7 @@ export const StyledCommentInputTop = styled.div<StyledCommentInputTopProps>`
         : 'inherit'};
     resize: vertical;
     background-color: inherit;
-    font-size: ${props => props.theme.fontSizes.standard};
+    font-size: ${(props) => props.theme.fontSizes.standard};
 
     &:focus-visible {
       outline: 2px solid ${(props) => props.theme.colours.primary};

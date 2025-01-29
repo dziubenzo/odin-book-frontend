@@ -185,6 +185,11 @@ export const StyledPostBody = styled.div`
 
     .post-title {
       font-size: ${(props) => props.theme.fontSizes.medium};
+      word-break: break-all;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .post-content {
@@ -238,19 +243,30 @@ export const StyledPostInfo = styled.div`
     justify-content: space-between;
 
     .post-author {
-      gap: 4px;
+      gap: 6px;
+      min-width: 50px !important;
     }
 
     .category-link,
     .user-link {
       text-decoration: revert;
+      text-underline-offset: 3px;
       color: ${(props) => props.theme.colours.secondary};
-      text-underline-offset: 4px;
-      font-size: 0.9em;
+      font-size: 1em;
+      word-break: break-all;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .post-date {
-      font-size: 0.9em;
+      display: none;
+    }
+
+    // Hide the dot before the date
+    & > svg:nth-of-type(1) {
+      display: none;
     }
   }
 `;
