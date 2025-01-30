@@ -10,11 +10,11 @@ export const darkTheme = {
     primaryDarker: '#d46300',
     secondary: '#E2DFD0',
     tertiary: '#524C42',
-    lightRed: '#f84242',
+    red: '#f84242',
     gitHubLogo: 'white',
     boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
     popoverBoxShadow:
-      'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
+      'rgba(161, 161, 161, 0.05) 0px 6px 24px 0px, rgba(185, 185, 185, 0.08) 0px 0px 0px 1px;',
   },
   fontSizes: {
     small: '0.8rem',
@@ -34,16 +34,16 @@ export const darkTheme = {
 export const lightTheme = {
   ...darkTheme,
   colours: {
-    background: '#EEEEEE',
-    backgroundGradient: 'linear-gradient(9deg, #EEEEEE 51%, #686D76 100%)',
-    primary: '#686D76',
-    primaryLighter: '#a0a6b2',
-    primaryDarker: '#645d5d',
+    background: '#d0b8ac',
+    backgroundGradient: 'linear-gradient(9deg, #d0b8ac 51%, #ffba49 100%)',
+    primary: '#373A40',
+    primaryLighter: '#656565',
+    primaryDarker: '#1c1e21',
     secondary: '#373A40',
-    tertiary: '#b7b7b7',
-    lightRed: '#f84242',
+    tertiary: '#f3d8c7',
+    red: '#ac2020',
     gitHubLogo: 'black',
-    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;',
+    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 8px 24px;',
     popoverBoxShadow:
       'rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;',
   },

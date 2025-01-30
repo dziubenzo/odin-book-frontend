@@ -8,11 +8,6 @@ export const StyledProfilePage = styled.main`
   width: 100%;
   gap: 64px;
 
-  *:focus-visible {
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.secondary};
-  }
-
   @media (max-width: ${(props) => props.theme.mobile}) {
     gap: 48px;
 
@@ -165,11 +160,6 @@ export const StyledAvatarUploader = styled.div`
     border-radius: 16px;
     font-weight: 600;
     cursor: pointer;
-
-    &:focus-visible {
-      border: none;
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
-    }
   }
 
   input {
@@ -209,10 +199,6 @@ export const StyledAvatarUploader = styled.div`
         height: max-content;
         font-size: ${(props) => props.theme.fontSizes.standard};
         align-self: center;
-
-        &:focus-visible {
-          border: 2px solid ${(props) => props.theme.colours.secondary};
-        }
       }
     }
   }
@@ -268,10 +254,6 @@ export const StyledBioInput = styled.div`
     padding: 0.75em;
     font-size: ${(props) => props.theme.fontSizes.medium};
 
-    &:focus-visible {
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
-    }
-
     &::placeholder {
       color: ${(props) => props.theme.colours.secondary};
       opacity: 75%;
@@ -288,11 +270,6 @@ export const StyledBioInput = styled.div`
       height: max-content;
       width: max-content;
       font-size: ${(props) => props.theme.fontSizes.standard};
-      outline: none;
-
-      &:focus-visible {
-        border: 2px solid ${(props) => props.theme.colours.secondary};
-      }
     }
   }
 

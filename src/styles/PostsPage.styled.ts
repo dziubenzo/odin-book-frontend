@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darkTheme, lightTheme } from '../constants';
 import { breathing, walkingCrab } from './animations';
 
 export const StyledPostsPage = styled.main`
@@ -9,11 +10,6 @@ export const StyledPostsPage = styled.main`
   flex-direction: column;
   justify-content: flex-start;
   gap: 16px;
-
-  *:focus-visible {
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.secondary};
-  }
 
   .posts-wrapper {
     display: flex;
@@ -65,6 +61,10 @@ export const StyledPostLikes = styled.div`
     svg {
       width: 100%;
       height: 100%;
+      fill: ${(props) =>
+        props.theme.colours.primary === lightTheme.colours.primary
+          ? props.theme.colours.primaryLighter
+          : undefined};
 
       &.liked,
       &.disliked {
@@ -215,7 +215,10 @@ export const StyledPostInfo = styled.div`
   }
 
   .post-date {
-    color: ${(props) => props.theme.colours.primaryDarker};
+    color: ${(props) =>
+      props.theme.colours.primaryDarker === darkTheme.colours.primaryDarker
+        ? props.theme.colours.primaryDarker
+        : props.theme.colours.primaryLighter};
   }
 
   .post-comments {
@@ -233,7 +236,10 @@ export const StyledPostInfo = styled.div`
   @media (hover: hover) {
     .category-link:hover,
     .user-link:hover {
-      color: ${(props) => props.theme.colours.secondary};
+      color: ${(props) =>
+        props.theme.colours.secondary === darkTheme.colours.secondary
+          ? props.theme.colours.secondary
+          : props.theme.colours.primaryDarker};
     }
   }
 
@@ -336,8 +342,8 @@ export const StyledResourceDetails = styled.div`
 
     p,
     svg {
-      fill: ${(props) => props.theme.colours.lightRed};
-      color: ${(props) => props.theme.colours.lightRed};
+      fill: ${(props) => props.theme.colours.red};
+      color: ${(props) => props.theme.colours.red};
     }
   }
 
@@ -391,7 +397,10 @@ export const StyledResourceDetailsTop = styled.div`
     margin-left: auto;
 
     span {
-      color: ${(props) => props.theme.colours.secondary};
+      color: ${(props) =>
+        props.theme.colours.secondary === darkTheme.colours.secondary
+          ? props.theme.colours.secondary
+          : props.theme.colours.primaryDarker};
     }
   }
 

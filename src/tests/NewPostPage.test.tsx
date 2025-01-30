@@ -393,7 +393,7 @@ describe('TextEditor', () => {
     const textEditor = await screen.findByTestId('text-editor');
     await user.type(textEditor, text);
 
-    expect(textEditor).toHaveStyle({ color: darkTheme.colours.lightRed });
+    expect(textEditor).toHaveStyle({ color: darkTheme.colours.red });
     await user.clear(textEditor);
   });
 
@@ -404,7 +404,7 @@ describe('TextEditor', () => {
     const textEditor = await screen.findByTestId('text-editor');
     await user.type(textEditor, text);
 
-    expect(textEditor).not.toHaveStyle({ color: darkTheme.colours.lightRed });
+    expect(textEditor).not.toHaveStyle({ color: darkTheme.colours.red });
   });
 });
 

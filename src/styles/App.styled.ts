@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { lightTheme } from '../constants';
 import { hidePopover, showPopover } from './animations';
 
 export const POPOVER_WIDTH = 300;
@@ -72,6 +73,14 @@ export const StyledAvatar = styled.div<StyledAvatarProps>`
     img {
       height: ${(props) => props.$size || 50}px !important;
       width: ${(props) => props.$size || 50}px !important;
+      box-shadow: ${(props) =>
+        props.theme.colours.background === lightTheme.colours.background
+          ? props.theme.colours.popoverBoxShadow
+          : undefined};
+      border-radius: ${(props) =>
+        props.theme.colours.background === lightTheme.colours.background
+          ? '50%'
+          : undefined};
     }
   }
 
@@ -101,11 +110,6 @@ export const StyledStickyIcon = styled.button`
   border-radius: 50%;
   background: transparent;
   border: none;
-
-  *:focus-visible {
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.secondary};
-  }
 
   svg {
     width: 100%;

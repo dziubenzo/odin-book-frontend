@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { lightTheme } from '../constants';
 
 export const StyledNewCategoryPage = styled.main`
   display: flex;
@@ -21,6 +22,14 @@ export const StyledNewCategoryPage = styled.main`
       img {
         align-self: center;
         width: 100px;
+        box-shadow: ${(props) =>
+          props.theme.colours.background === lightTheme.colours.background
+            ? props.theme.colours.popoverBoxShadow
+            : undefined};
+        border-radius: ${(props) =>
+          props.theme.colours.background === lightTheme.colours.background
+            ? '50%'
+            : undefined};
       }
     }
 
@@ -33,12 +42,7 @@ export const StyledNewCategoryPage = styled.main`
     height: max-content;
     width: max-content;
     font-size: ${(props) => props.theme.fontSizes.standard};
-    outline: none;
     margin-top: 1em;
-
-    &:focus-visible {
-      border: 2px solid ${(props) => props.theme.colours.secondary};
-    }
   }
 
   .error-message-wrapper {
@@ -48,8 +52,8 @@ export const StyledNewCategoryPage = styled.main`
 
     p,
     svg {
-      fill: ${(props) => props.theme.colours.lightRed};
-      color: ${(props) => props.theme.colours.lightRed};
+      fill: ${(props) => props.theme.colours.red};
+      color: ${(props) => props.theme.colours.red};
     }
   }
 
@@ -112,11 +116,7 @@ export const StyledNewCategoryForm = styled.form`
     font-size: ${(props) => props.theme.fontSizes.medium};
 
     &.short-warning {
-      color: ${(props) => props.theme.colours.lightRed};
-    }
-
-    &:focus-visible {
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
+      color: ${(props) => props.theme.colours.red};
     }
 
     &::placeholder {

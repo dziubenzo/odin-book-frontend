@@ -43,7 +43,8 @@ export const StyledButton = styled.button`
   font-size: ${(props) => props.theme.fontSizes.large};
   font-weight: 600;
   background-color: ${(props) => props.theme.colours.background};
-  border: 2px solid ${(props) => props.theme.colours.primary};
+  outline: 2px solid ${(props) => props.theme.colours.primary};
+  border: none;
   border-radius: 32px;
   cursor: pointer;
 
@@ -126,11 +127,6 @@ export const StyledModal = styled.dialog`
     background: transparent;
     border: none;
 
-    &:focus-visible {
-      border: none;
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
-    }
-
     svg {
       height: 100%;
       width: 100%;
@@ -167,7 +163,7 @@ export const StyledInput = styled.input`
   width: 80%;
   background-color: ${(props) => props.theme.colours.tertiary};
   font-size: ${(props) => props.theme.fontSizes.medium};
-  border: 2px solid ${(props) => props.theme.colours.background};
+  border: none;
   border-radius: 32px;
   padding: 0.25em 0.5em;
 `;

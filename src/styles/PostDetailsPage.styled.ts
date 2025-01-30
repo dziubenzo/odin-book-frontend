@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MIN_COMMENT_LENGTH } from '../constants';
+import { lightTheme, MIN_COMMENT_LENGTH } from '../constants';
 import { StyledPostInfo } from './PostsPage.styled';
 import { StyledButton } from './WelcomePage.styled';
 
@@ -13,11 +13,6 @@ export const StyledPostDetailsPage = styled.main`
   align-content: start;
   height: 100%;
   width: 100%;
-
-  *:focus-visible {
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.secondary};
-  }
 
   hr {
     margin: 1.5em 0;
@@ -192,6 +187,10 @@ export const StyledCommentLikes = styled.div`
     svg {
       width: 100%;
       height: 100%;
+      fill: ${(props) =>
+        props.theme.colours.primary === lightTheme.colours.primary
+          ? props.theme.colours.primaryLighter
+          : undefined};
 
       &.liked,
       &.disliked {
@@ -276,7 +275,7 @@ export const StyledCommentInputTop = styled.div<StyledCommentInputTopProps>`
     word-break: break-all;
     color: ${(props) =>
       props.$contentLength < MIN_COMMENT_LENGTH
-        ? props.theme.colours.lightRed
+        ? props.theme.colours.red
         : 'inherit'};
     resize: vertical;
     background-color: inherit;
@@ -285,10 +284,6 @@ export const StyledCommentInputTop = styled.div<StyledCommentInputTopProps>`
     &::placeholder {
       color: ${(props) => props.theme.colours.secondary};
     }
-
-    &:focus-visible {
-      outline: 2px solid ${(props) => props.theme.colours.primary};
-    }
   }
 
   .comment-length {
@@ -296,7 +291,7 @@ export const StyledCommentInputTop = styled.div<StyledCommentInputTopProps>`
     text-align: center;
 
     &.warning {
-      color: ${(props) => props.theme.colours.lightRed};
+      color: ${(props) => props.theme.colours.red};
     }
   }
 `;
@@ -310,13 +305,13 @@ export const StyledCommentInputBottom = styled.div`
     display: flex;
     gap: 4px;
     align-items: center;
-    color: ${(props) => props.theme.colours.lightRed};
+    color: ${(props) => props.theme.colours.red};
     text-align: center;
 
     svg,
     .error-message {
-      color: ${(props) => props.theme.colours.lightRed};
-      fill: ${(props) => props.theme.colours.lightRed};
+      color: ${(props) => props.theme.colours.red};
+      fill: ${(props) => props.theme.colours.red};
     }
   }
 `;

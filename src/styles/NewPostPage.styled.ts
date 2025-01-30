@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MIN_POST_CONTENT_LENGTH } from '../constants';
+import { darkTheme, MIN_POST_CONTENT_LENGTH } from '../constants';
 
 type StyledTextEditorProps = {
   $contentLength: number;
@@ -12,11 +12,6 @@ export const StyledNewPostPage = styled.main`
   height: 100%;
   width: 100%;
   gap: 16px;
-
-  *:focus-visible {
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.secondary};
-  }
 
   .top-header {
     color: ${(props) => props.theme.colours.secondary};
@@ -43,7 +38,7 @@ export const StyledPostTitleInput = styled.div`
     font-size: ${(props) => props.theme.fontSizes.medium};
 
     &.short-title {
-      color: ${(props) => props.theme.colours.lightRed};
+      color: ${(props) => props.theme.colours.red};
     }
   }
 
@@ -96,13 +91,21 @@ export const StyledCategoryPicker = styled.div`
 
   select {
     width: 36ch;
-    background-color: ${(props) => props.theme.colours.background};
+    background-color: transparent;
     border: none;
-    outline: 2px solid ${(props) => props.theme.colours.tertiary};
+    outline: 2px solid
+      ${(props) =>
+        props.theme.colours.primary === darkTheme.colours.primary
+          ? props.theme.colours.primary
+          : props.theme.colours.secondary};
     border-radius: 4px;
     font-size: ${(props) => props.theme.fontSizes.standard};
     padding: 0.5em;
     cursor: pointer;
+
+    option {
+      background-color: ${(props) => props.theme.colours.background};
+    }
   }
 
   label {
@@ -117,14 +120,12 @@ export const StyledCategoryPicker = styled.div`
   input[type='checkbox'] {
     width: 24px;
     height: 24px;
-    accent-color: ${(props) => props.theme.colours.primary};
+    accent-color: ${(props) =>
+      props.theme.colours.primary === darkTheme.colours.primary
+        ? props.theme.colours.primary
+        : props.theme.colours.background};
     outline: none;
     cursor: pointer;
-
-    &:focus-visible {
-      border: none;
-      outline: 2px solid ${(props) => props.theme.colours.secondary};
-    }
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
@@ -147,17 +148,25 @@ export const StyledTextEditor = styled.div<StyledTextEditorProps>`
   .rsw-editor {
     border: none;
     outline: 2px solid ${(props) => props.theme.colours.primary};
+
+    &:focus-within {
+      outline: 2px solid
+        ${(props) =>
+          props.theme.colours.secondary === darkTheme.colours.secondary
+            ? props.theme.colours.secondary
+            : props.theme.colours.primaryLighter} !important;
+    }
   }
 
   .rsw-ce {
     min-height: 150px;
     border: none;
-    outline: 2px solid ${(props) => props.theme.colours.primary};
+    outline: 2px solid ${(props) => props.theme.colours.primary} !important;
     word-break: break-all;
     line-height: 1.75;
     color: ${(props) =>
       props.$contentLength < MIN_POST_CONTENT_LENGTH
-        ? props.theme.colours.lightRed
+        ? props.theme.colours.red
         : 'inherit'};
 
     b {
@@ -190,7 +199,7 @@ export const StyledTextEditor = styled.div<StyledTextEditorProps>`
   }
 
   .rsw-toolbar {
-    background-color: ${(props) => props.theme.colours.background};
+    background-color: transparent !important;
 
     .rsw-btn {
       color: ${(props) => props.theme.colours.primary};
@@ -234,7 +243,7 @@ export const StyledTextEditor = styled.div<StyledTextEditorProps>`
     }
 
     .rsw-dd {
-      background-color: ${(props) => props.theme.colours.background};
+      background-color: transparent !important;
       border: none;
       border-radius: 4px;
       font-size: ${(props) => props.theme.fontSizes.standard};
@@ -322,7 +331,7 @@ export const StyledLinkInput = styled.div`
     font-size: ${(props) => props.theme.fontSizes.standard};
 
     &.invalid-link {
-      color: ${(props) => props.theme.colours.lightRed};
+      color: ${(props) => props.theme.colours.red};
     }
   }
 
@@ -343,11 +352,6 @@ export const StyledImageUploader = styled.div`
       border-radius: 16px;
       font-weight: 600;
       cursor: pointer;
-
-      &:focus-visible {
-        border: none;
-        outline: 2px solid ${(props) => props.theme.colours.secondary};
-      }
     }
 
     input {
@@ -365,10 +369,6 @@ export const StyledImageUploader = styled.div`
       width: max-content;
       font-size: ${(props) => props.theme.fontSizes.standard};
       align-self: center;
-
-      &:focus-visible {
-        border: 2px solid ${(props) => props.theme.colours.secondary};
-      }
     }
   }
 
@@ -433,8 +433,8 @@ export const StyledPublishPostSection = styled.div`
 
     p,
     svg {
-      fill: ${(props) => props.theme.colours.lightRed};
-      color: ${(props) => props.theme.colours.lightRed};
+      fill: ${(props) => props.theme.colours.red};
+      color: ${(props) => props.theme.colours.red};
     }
   }
 

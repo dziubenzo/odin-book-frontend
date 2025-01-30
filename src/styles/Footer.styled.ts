@@ -11,11 +11,6 @@ export const StyledFooter = styled.footer`
   background: ${(props) => props.theme.colours.background};
   z-index: 1;
 
-  *:focus-visible {
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.secondary};
-  }
-
   @media (max-width: ${(props) => props.theme.mobile}) {
     column-gap: 8px;
   }

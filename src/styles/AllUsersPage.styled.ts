@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darkTheme } from '../constants';
 import { StyledAllCategoriesPage } from './AllCategoriesPage.styled';
 
 export const StyledAllUsersPage = styled(StyledAllCategoriesPage)`
@@ -65,7 +66,10 @@ export const StyledUser = styled.div`
     }
 
     .user-link:hover {
-      color: ${(props) => props.theme.colours.secondary};
+      color: ${(props) =>
+        props.theme.colours.secondary === darkTheme.colours.secondary
+          ? props.theme.colours.secondary
+          : props.theme.colours.primaryDarker};
     }
   }
 

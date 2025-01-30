@@ -25,11 +25,6 @@ export const StyledHeader = styled.header`
     color: ${(props) => props.theme.colours.secondary};
   }
 
-  *:focus-visible {
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.secondary};
-  }
-
   hr {
     margin: 0.5em 0;
     transition: 0.15s ease-in;

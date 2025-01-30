@@ -9,11 +9,6 @@ export const StyledAllCategoriesPage = styled.main`
   width: 100%;
   gap: 16px;
 
-  *:focus-visible {
-    border: none;
-    outline: 2px solid ${(props) => props.theme.colours.secondary};
-  }
-
   .top-header {
     color: ${(props) => props.theme.colours.secondary};
     margin-bottom: 0.5em;

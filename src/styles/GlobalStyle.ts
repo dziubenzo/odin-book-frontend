@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { darkTheme } from '../constants';
 import { flicker } from './animations';
 
 const GlobalStyle = createGlobalStyle`
@@ -13,8 +14,8 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
 
     &:focus-visible {
-      outline: none;
-      border: 2px solid ${(props) => props.theme.colours.secondary};
+      border: none !important;
+      outline: 2px solid ${(props) => (props.theme.colours.secondary === darkTheme.colours.secondary ? props.theme.colours.secondary : props.theme.colours.primaryLighter)} !important;
     }
 
     // Use different scrollbar-related properties depending on browser support
@@ -26,11 +27,11 @@ const GlobalStyle = createGlobalStyle`
     @supports selector(::-webkit-scrollbar) {
       &::-webkit-scrollbar-thumb {
         background: ${(props) => props.theme.colours.primary}
-    }
+      }
 
     &::-webkit-scrollbar-track {
         background: ${(props) => props.theme.colours.background}
-    }
+      }
     }
   }
 
