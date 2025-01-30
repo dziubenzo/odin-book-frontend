@@ -278,13 +278,20 @@ export const usePreserveState = (loading: boolean) => {
 
 // Shrink the header on reaching the specified scroll value
 // Restore to default if the scroll value is smaller than the specified value
+// Prevent restoring to default if the scroll value is larger than SHRINK_HEADER_SCROLL_VALUE - THRESHOLD to prevent flickering
 export const useShrinkHeader = () => {
   const [isSmaller, setIsSmaller] = useState(false);
 
   useEffect(() => {
     const adjustHeader = () => {
-      if (document.documentElement.scrollTop > SHRINK_HEADER_SCROLL_VALUE) {
+      const THRESHOLD = 20;
+      const scrollValue = Math.round(document.documentElement.scrollTop);
+
+      if (scrollValue > SHRINK_HEADER_SCROLL_VALUE) {
         return setIsSmaller(true);
+      }
+      if (isSmaller && scrollValue > SHRINK_HEADER_SCROLL_VALUE - THRESHOLD) {
+        return;
       }
       setIsSmaller(false);
     };
@@ -292,7 +299,7 @@ export const useShrinkHeader = () => {
     return () => {
       window.removeEventListener('scroll', adjustHeader);
     };
-  }, []);
+  }, [isSmaller]);
 
   return isSmaller;
 };

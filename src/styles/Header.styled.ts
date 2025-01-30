@@ -6,7 +6,6 @@ export const StyledHeader = styled.header`
   top: 0;
   background: inherit;
   z-index: 1;
-  transition: 0.3s;
 
   &.smaller {
     hr {
@@ -33,7 +32,7 @@ export const StyledHeader = styled.header`
 
   hr {
     margin: 0.5em 0;
-    transition: 0.3s;
+    transition: 0.15s ease-in;
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
@@ -62,7 +61,6 @@ export const StyledHeaderTopBar = styled.nav`
   grid-template-columns: repeat(5, 1fr);
   justify-items: center;
   gap: 32px;
-  transition: 0.3s;
 
   .link {
     display: flex;
