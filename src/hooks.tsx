@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { type Updater, useImmer } from 'use-immer';
 import API_URL from './API';
 import { SHRINK_HEADER_SCROLL_VALUE } from './constants';
@@ -422,4 +422,15 @@ export const useLogInAutomatically = (
       submitBtnRef.current.click();
     }
   }, [logInAutomatically, submitBtnRef]);
+};
+
+// Scroll to top whenever the user visits a page
+export const useSmoothScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    });
+  }, [pathname]);
 };
