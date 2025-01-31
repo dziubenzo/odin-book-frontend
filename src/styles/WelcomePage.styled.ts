@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darkTheme, lightTheme } from '../constants';
 import { hideModal, showModal } from './animations';
 
 export const StyledWelcomePage = styled.main`
@@ -18,7 +19,10 @@ export const StyledWelcomePage = styled.main`
       font-size: 4rem;
 
       .app-name {
-        color: ${(props) => props.theme.colours.secondary};
+        color: ${(props) =>
+          props.theme.colours.secondary === darkTheme.colours.secondary
+            ? props.theme.colours.secondary
+            : props.theme.colours.primaryLighter};
       }
     }
   }
@@ -82,7 +86,11 @@ export const StyledModal = styled.dialog`
   height: 350px;
   background-color: ${(props) => props.theme.colours.background};
   border: none;
-  outline: 2px solid ${(props) => props.theme.colours.tertiary};
+  outline: 2px solid
+    ${(props) =>
+      props.theme.colours.tertiary === darkTheme.colours.tertiary
+        ? props.theme.colours.tertiary
+        : props.theme.colours.primaryLighter};
   border-radius: 32px;
   animation: ${hideModal} 0.2s ease-in;
 
@@ -163,9 +171,20 @@ export const StyledInput = styled.input`
   width: 80%;
   background-color: ${(props) => props.theme.colours.tertiary};
   font-size: ${(props) => props.theme.fontSizes.medium};
+  outline: ${(props) =>
+    props.theme.colours.primary === lightTheme.colours.primary
+      ? `2px solid ${props.theme.colours.primaryLighter}`
+      : null};
   border: none;
   border-radius: 32px;
   padding: 0.25em 0.5em;
+
+  &:focus-within {
+    outline: ${(props) =>
+      props.theme.colours.primary === lightTheme.colours.primary
+        ? `2px solid ${props.theme.colours.primary}`
+        : undefined} !important;
+  }
 `;
 
 export const StyledSignupModal = styled(StyledModal)`

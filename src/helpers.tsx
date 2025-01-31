@@ -17,6 +17,7 @@ import type {
   DetailedCategory,
   DetailedPost,
   Post,
+  ThemeValue,
   User,
 } from './types';
 
@@ -842,4 +843,17 @@ const calculatePopoverPosition = (
 // Replace question marks in a category name with 'qm'
 const replaceQuestionMarks = (name: string) => {
   return name.replaceAll('?', 'qm');
+};
+
+// Get theme value from local storage or use the initial value on the Welcome page
+export const getThemeFromLocalStorage = (initialValue: ThemeValue) => {
+  const localStorageValue = localStorage.getItem('theme');
+  if (
+    localStorageValue &&
+    (localStorageValue === 'light' || localStorageValue === 'dark')
+  ) {
+    return localStorageValue as ThemeValue;
+  } else {
+    return initialValue;
+  }
 };

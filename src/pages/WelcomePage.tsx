@@ -4,7 +4,8 @@ import Loading from '../components/Loading';
 import LoginModal from '../components/LoginModal';
 import SignupModal from '../components/SignupModal';
 import Theme from '../components/Theme';
-import { logInAsGuest } from '../helpers';
+import { THEME_INITIAL_VALUE } from '../constants';
+import { getThemeFromLocalStorage, logInAsGuest } from '../helpers';
 import { useChangeTitle, useCheckAuth } from '../hooks';
 import GlobalStyle from '../styles/GlobalStyle';
 import { StyledButton, StyledWelcomePage } from '../styles/WelcomePage.styled';
@@ -13,6 +14,8 @@ function WelcomePage() {
   const loginModalRef = useRef<HTMLDialogElement>(null);
   const signupModalRef = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
+
+  const theme = getThemeFromLocalStorage(THEME_INITIAL_VALUE);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +46,7 @@ function WelcomePage() {
   }
 
   return (
-    <Theme>
+    <Theme theme={theme}>
       <StyledWelcomePage>
         <GlobalStyle />
         {showPage && (
