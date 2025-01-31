@@ -2,7 +2,6 @@ import { useState } from 'react';
 import AvatarUploader from '../components/AvatarUploader';
 import BioInput from '../components/BioInput';
 import DefaultAvatars from '../components/DefaultAvatars';
-import ThemeSwitch from '../components/ThemeSwitch';
 import UserInfo from '../components/UserInfo';
 import { MAX_BIO_LENGTH } from '../constants';
 import { updateUserProfile } from '../helpers';
@@ -62,7 +61,6 @@ export default function ProfilePage() {
         setBioLength={setBioLength}
         handleUpdateProfileClick={handleUpdateProfileClick}
       />
-      <ThemeSwitch />
     </StyledProfilePage>
   );
 }

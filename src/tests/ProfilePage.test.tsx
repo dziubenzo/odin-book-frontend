@@ -3,12 +3,11 @@ import { userEvent } from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect } from 'vitest';
 import Theme from '../components/Theme';
-import ThemeSwitch from '../components/ThemeSwitch';
 import { defaultAvatars, MAX_BIO_LENGTH } from '../constants';
 import ProfilePage from '../pages/ProfilePage';
 import { mockFetch } from './fetchMock';
-import { longBio, user2 } from './mocks';
 import { mockUseUserAndTheme } from './hookMocks';
+import { longBio, user2 } from './mocks';
 
 function renderProfilePage() {
   mockUseUserAndTheme(user2);
@@ -23,22 +22,6 @@ function renderProfilePage() {
   );
 
   return user;
-}
-
-function renderThemeSwitch() {
-  const mockSetTheme = vi.fn();
-  mockUseUserAndTheme(user2, 'dark', mockSetTheme);
-  const user = userEvent.setup();
-
-  render(
-    <BrowserRouter>
-      <Theme>
-        <ThemeSwitch />
-      </Theme>
-    </BrowserRouter>,
-  );
-
-  return { user, mockSetTheme };
 }
 
 describe('UserInfo', () => {
@@ -323,38 +306,5 @@ describe('BioInput', () => {
     const errorMessage = screen.getByText(/successfully/i);
 
     expect(errorMessage).toBeInTheDocument();
-  });
-});
-
-describe('ThemeSwitch', () => {
-  it('should render a theme switch icon', () => {
-    renderThemeSwitch();
-
-    const themeSwitchIcon = screen.getByRole('button', {
-      name: /theme switch/i,
-    });
-
-    expect(themeSwitchIcon).toBeInTheDocument();
-  });
-
-  it("should render a theme switch icon that has a 'Switch to Light Mode' title if the current theme is the dark theme", () => {
-    renderThemeSwitch();
-
-    const themeSwitchIcon = screen.getByRole('button', {
-      name: /theme switch/i,
-    });
-
-    expect(themeSwitchIcon.title).toMatch(/switch to light mode/i);
-  });
-
-  it('should render a theme switch icon that calls a function to change the theme on click', async () => {
-    const { user, mockSetTheme } = renderThemeSwitch();
-
-    const themeSwitchIcon = screen.getByRole('button', {
-      name: /theme switch/i,
-    });
-    await user.click(themeSwitchIcon);
-
-    expect(mockSetTheme).toHaveBeenCalledOnce();
   });
 });

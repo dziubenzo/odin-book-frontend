@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, expect } from 'vitest';
 import Avatar from '../components/Avatar';
@@ -9,7 +10,7 @@ import HeaderBottomBar from '../components/HeaderBottomBar';
 import HeaderTopBar from '../components/HeaderTopBar';
 import Popover from '../components/Popover';
 import Theme from '../components/Theme';
-import type { User } from '../types';
+import type { ThemeValue, User } from '../types';
 import { mockFetch } from './fetchMock';
 import { mockUseUserAndTheme } from './hookMocks';
 import {
@@ -20,6 +21,7 @@ import {
   superUser,
   user2,
 } from './mocks';
+import ThemeSwitch from '../components/ThemeSwitch';
 
 function renderAvatar(size: number) {
   render(
@@ -82,13 +84,35 @@ function renderFooterCentre() {
 }
 
 function renderFooterRight() {
+  const mockTheme = 'dark';
+  const mockSetTheme = vi.fn();
+
   render(
     <BrowserRouter>
       <Theme>
-        <FooterRight user={superUser} />
+        <FooterRight
+          user={superUser}
+          theme={mockTheme}
+          setTheme={mockSetTheme}
+        />
       </Theme>
     </BrowserRouter>,
   );
+}
+
+function renderThemeSwitch(theme: ThemeValue) {
+  const mockSetTheme = vi.fn();
+  const user = userEvent.setup();
+
+  render(
+    <BrowserRouter>
+      <Theme>
+        <ThemeSwitch theme={theme} setTheme={mockSetTheme} />
+      </Theme>
+    </BrowserRouter>,
+  );
+
+  return { user, mockSetTheme };
 }
 
 function renderPopover(type: 'user' | 'category', loggedInUser: User) {
@@ -315,6 +339,49 @@ describe('FooterRight', () => {
     const usernamePara = screen.getByRole('paragraph');
 
     expect(usernamePara.textContent).toBe(superUser.username);
+  });
+});
+
+describe('ThemeSwitch', () => {
+  it('should render a theme switch icon', () => {
+    renderThemeSwitch('dark');
+
+    const themeSwitchIcon = screen.getByRole('button', {
+      name: /theme switch/i,
+    });
+
+    expect(themeSwitchIcon).toBeInTheDocument();
+  });
+
+  it("should render a theme switch icon that has a 'Switch to Light Mode' title if the current theme is the dark theme", () => {
+    renderThemeSwitch('dark');
+
+    const themeSwitchIcon = screen.getByRole('button', {
+      name: /theme switch/i,
+    });
+
+    expect(themeSwitchIcon.title).toMatch(/switch to light mode/i);
+  });
+
+  it("should render a theme switch icon that has a 'Switch to Dark Mode' title if the current theme is the light theme", () => {
+    renderThemeSwitch('light');
+
+    const themeSwitchIcon = screen.getByRole('button', {
+      name: /theme switch/i,
+    });
+
+    expect(themeSwitchIcon.title).toMatch(/switch to dark mode/i);
+  });
+
+  it('should render a theme switch icon that calls a function to change the theme on click', async () => {
+    const { user, mockSetTheme } = renderThemeSwitch('dark');
+
+    const themeSwitchIcon = screen.getByRole('button', {
+      name: /theme switch/i,
+    });
+    await user.click(themeSwitchIcon);
+
+    expect(mockSetTheme).toHaveBeenCalledOnce();
   });
 });
 

@@ -1,10 +1,13 @@
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
-import { useUserAndTheme } from '../hooks';
-import { StyledStickyIcon } from '../styles/App.styled';
+import { StyledThemeSwitch } from '../styles/Footer.styled';
+import type { ThemeValue } from '../types';
 
-function ThemeSwitch() {
-  const { theme, setTheme } = useUserAndTheme();
+type ThemeSwitchProps = {
+  theme: ThemeValue;
+  setTheme: React.Dispatch<React.SetStateAction<ThemeValue>>;
+};
 
+function ThemeSwitch({ theme, setTheme }: ThemeSwitchProps) {
   function handleThemeSwitchClick() {
     if (localStorage.getItem('theme') === 'dark') {
       setTheme('light');
@@ -15,14 +18,14 @@ function ThemeSwitch() {
   }
 
   return (
-    <StyledStickyIcon
+    <StyledThemeSwitch
       onClick={handleThemeSwitchClick}
       aria-label="Theme Switch"
       title={theme !== 'light' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       className="theme-switch"
     >
       {theme !== 'light' ? <MdLightMode /> : <MdDarkMode />}
-    </StyledStickyIcon>
+    </StyledThemeSwitch>
   );
 }
 export default ThemeSwitch;

@@ -26,7 +26,7 @@ function App({ children }: AppProps) {
           <Header />
           <Outlet context={{ user, setUser, theme, setTheme }} />
           {children}
-          <Footer user={user} />
+          <Footer user={user} theme={theme} setTheme={setTheme} />
         </>
       )}
     </Theme>

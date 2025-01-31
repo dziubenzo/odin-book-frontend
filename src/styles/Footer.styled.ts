@@ -12,7 +12,7 @@ export const StyledFooter = styled.footer`
   z-index: 1;
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    column-gap: 8px;
+    column-gap: 4px;
   }
 `;
 
@@ -98,19 +98,61 @@ export const StyledFooterCentre = styled.div`
 
 export const StyledFooterRight = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 16px;
 
-  .username {
-    font-size: ${(props) => props.theme.fontSizes.medium};
-    font-weight: 600;
+  .user-info-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    .username {
+      font-size: ${(props) => props.theme.fontSizes.medium};
+      font-weight: 600;
+    }
   }
 
   @media (max-width: ${(props) => props.theme.mobile}) {
-    .username {
-      display: none;
+    gap: 12px;
+
+    .user-info-footer {
+      .username {
+        display: none;
+      }
     }
+  }
+`;
+
+export const StyledThemeSwitch = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  padding: 0.5em;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (hover: hover) {
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: ${(props) => props.theme.colours.tertiary};
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.mobile}) {
+    width: 40px;
+    padding: 0;
   }
 `;
