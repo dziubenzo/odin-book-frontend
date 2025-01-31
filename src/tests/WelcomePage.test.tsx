@@ -131,6 +131,11 @@ describe('WelcomePage', () => {
 });
 
 describe('LoginModal', () => {
+  // Reset mocked fetch
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   test('clicking on the close modal icon should call a function that closes the Log In modal', async () => {
     const user = renderLoginModal();
 
@@ -220,6 +225,11 @@ describe('LoginModal', () => {
 });
 
 describe('SignupModal', () => {
+  // Reset mocked fetch
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   test('clicking on the close modal icon should call a function that closes the Sign Up modal', async () => {
     const user = renderSignupModal();
 
